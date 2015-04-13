@@ -204,6 +204,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		7C54C2B31ADBFCE9002A32E2 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 		7C5A37681ADB9D6A00CFA176 = {
 			isa = PBXGroup;
 			children = (
@@ -461,6 +468,7 @@
 		7C5A37DD1ADB9E3000CFA176 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7C54C2B31ADBFCE9002A32E2 /* SignUp */,
 				7C5A37DE1ADB9E3000CFA176 /* UserController.h */,
 				7C5A37DF1ADB9E3000CFA176 /* UserController.m */,
 			);

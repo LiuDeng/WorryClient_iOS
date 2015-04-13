@@ -6,9 +6,9 @@ enum PBSignUpAndLoginType{
 }
 
 message PBUser{
-	required string userId = 1;  //  用户ID
+	//required string userId = 1;  //  用户ID
 	optional string nick = 2;   //  用户昵称
-    optional string avatar = 3;
+    //optional string avatar = 3;
     optional bool gender = 4;   //  性别
 
     optional string phone = 5;

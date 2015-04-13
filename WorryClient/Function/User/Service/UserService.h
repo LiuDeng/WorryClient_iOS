@@ -15,6 +15,11 @@ typedef void (^UserServiceCallBackBlock) (PBUser* pbUser, NSError* error);
 
 - (void)signUpByValue:(NSString*)value
              WithType:(PBSignUpAndLoginType)signUpLoginType
+             userName:(NSString*)userName
               password:(NSString*)password
               callback:(UserServiceCallBackBlock)callback;
+- (void)quickSignUpByValue:(NSString*)value
+                  password:(NSString*)password
+                  userName:(NSString*)userName
+                  callback:(UserServiceCallBackBlock)callback;
 @end

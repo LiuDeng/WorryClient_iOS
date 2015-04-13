@@ -49,6 +49,7 @@
     //统计应用启动情况
     [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+    
     return YES;
 }
 
