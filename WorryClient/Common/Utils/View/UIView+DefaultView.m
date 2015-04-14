@@ -1,24 +1,16 @@
 //
-//  UIViewUtils.m
+//  UIView+DefaultView.m
 //  WorryClient
 //
-//  Created by 蔡少武 on 15/2/19.
+//  Created by 蔡少武 on 15/4/13.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "UIViewUtils.h"
-#import "ViewInfo.h"
-#import "Masonry.h"
+#import "UIView+DefaultView.h"
+#import "ViewDefault.h"
 
-@implementation UIView(UIViewUtils)
+@implementation UIView (DefaultView)
 
-
-+ (void)setAsRound:(UIView *)view
-{
-    [view.layer setCornerRadius:CGRectGetWidth(view.frame)/2.0f];
-    [view.layer setMasksToBounds:YES];
-    view.clipsToBounds = YES;
-}
 #pragma mark - Line
 //  普通横线
 +(UIView*)creatSingleLineWithColor:(UIColor *)color
@@ -61,6 +53,34 @@
         make.bottom.equalTo(superView);
     }];
 }
+/*
+ *  生成默认textField。
+ *  调用的时候记得得设置垂直方向的坐标
+ */
 
++(UITextField*)defaultTextField:(NSString*)placeholder
+                      superView:(UIView*)superView
+{
+    UITextField *textField = [[UITextField alloc]init];
+    textField.font = kTextFieldPlaceholderFont;
+    textField.textColor = kTextFieldTextColor;
+    textField.backgroundColor = [UIColor whiteColor];   //  背景颜色：白色
+    textField.placeholder = placeholder;
+    textField.textAlignment = NSTextAlignmentCenter;
+    //  边框颜色及大小
+//    textField.layer.borderWidth = COMMON_LAYER_BORDER_WIDTH;
+//    textField.layer.borderColor = [BARRAGE_TEXTFIELD_LAYER_COLOR CGColor];
+    
+    textField.clearButtonMode = UITextFieldViewModeAlways;     //  清除按钮
+    
+    [textField becomeFirstResponder];   //  第一响应者
+    [superView addSubview:textField];
+    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(superView);
+        make.width.equalTo(superView);
+        make.height.equalTo(@(kTextFieldHeight));
+    }];
+    return textField;
+}
 
 @end

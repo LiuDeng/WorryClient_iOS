@@ -15,4 +15,6 @@
 
 #define LABEL_SMALL_FONT              ([UIFont systemFontOfSize:12])
 
+#define kTextFieldPlaceholderFont             ([UIFont systemFontOfSize:15])
+
 #endif

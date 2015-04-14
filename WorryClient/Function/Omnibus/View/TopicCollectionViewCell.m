@@ -7,9 +7,8 @@
 //
 
 #import "TopicCollectionViewCell.h"
-#import "Masonry.h"
-#import "UIViewUtils.h"
-#import "ViewInfo.h"
+#import "ViewDefault.h"
+#import "UIView+Utils.h"
 
 @implementation TopicCollectionViewCell
 {
@@ -93,7 +92,7 @@
     self.tittleLabel = [[UILabel alloc]init];
     [contentHolderView addSubview:self.tittleLabel];
     [self.tittleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconBackgroundView.mas_bottom).with.offset(+COMMON_PADDING_OFFSET_Y);
+        make.top.equalTo(self.iconBackgroundView.mas_bottom).with.offset(+kVerticalPadding);
         make.centerX.equalTo(contentHolderView);
     }];
 //    NSLog(@"%f",self.tittleLabel.frame.size.height);

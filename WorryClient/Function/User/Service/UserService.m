@@ -12,6 +12,8 @@
 
 @implementation UserService
 
+IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
+
 #pragma mark - Public methods
 
 - (void)signUpByValue:(NSString*)value
@@ -31,7 +33,6 @@
             //  TODO
         }
     }];
-    
     
     
 //    switch (signUpLoginType) {

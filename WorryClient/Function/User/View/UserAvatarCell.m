@@ -37,7 +37,7 @@
         [self loadData];
         [self.contentView addSubview:_avatarView];
         [_avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).with.offset(+COMMON_LEFT_PADDING);
+            make.left.equalTo(self.contentView).with.offset(+kLeftPadding);
             make.centerY.equalTo(self.contentView);
             make.height.equalTo(@(AVTARVIEW_HEIGHT_WIDTH));
             make.width.equalTo(@(AVTARVIEW_HEIGHT_WIDTH));
@@ -45,7 +45,7 @@
         
         [self.contentView addSubview:_nickNameLabel];
         [_nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_avatarView.mas_right).with.offset(+COMMON_LEFT_PADDING);
+            make.left.equalTo(_avatarView.mas_right).with.offset(+kLeftPadding);
             make.bottom.equalTo(self.contentView.mas_centerY);
         }];
 
@@ -155,7 +155,7 @@
     [self.contentView addSubview:followingHoldView];
     [followingHoldView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_centerY);
-        make.right.equalTo(self.contentView).with.offset(-COMMON_RIGHT_PADDING);
+        make.right.equalTo(self.contentView).with.offset(-kRightPadding);
         make.height.equalTo(self.contentView).with.dividedBy(3);
         make.width.equalTo(self.contentView).with.dividedBy(4);
     }];
@@ -172,7 +172,7 @@
     [self.contentView addSubview:followersHoldView];
     [followersHoldView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_centerY);
-        make.right.equalTo(self.contentView).with.offset(-COMMON_RIGHT_PADDING);
+        make.right.equalTo(self.contentView).with.offset(-kRightPadding);
         make.height.equalTo(self.contentView).with.dividedBy(3);
         make.width.equalTo(self.contentView).with.dividedBy(4);
     }];

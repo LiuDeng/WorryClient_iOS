@@ -17,6 +17,12 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "WorryConfigManager.h"
 
+//#ifdef DEBUG
+
+#import "QuickSignUpController.h"
+
+//#endif
+
 @interface AppDelegate ()
 
 @end
@@ -101,7 +107,8 @@
 #pragma mark - Tab Bar Controller Methods
 
 - (void)setupViewControllers {
-    UIViewController *firstViewController = [[UserController alloc] init];
+//    UIViewController *firstViewController = [[UserController alloc] init];
+    UIViewController *firstViewController = [[QuickSignUpController alloc]init];
     firstViewController.title = @"心事";
     
     UIViewController *firstNavigationController = [[UINavigationController alloc]

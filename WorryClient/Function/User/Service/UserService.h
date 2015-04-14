@@ -8,10 +8,13 @@
 
 #import "CommonService.h"
 #import "User.pb.h"
+#import "SynthesizeSingleton.h"
 
 typedef void (^UserServiceCallBackBlock) (PBUser* pbUser, NSError* error);
 
 @interface UserService : CommonService
+
+DEFINE_SINGLETON_FOR_CLASS(UserService)
 
 - (void)signUpByValue:(NSString*)value
              WithType:(PBSignUpAndLoginType)signUpLoginType

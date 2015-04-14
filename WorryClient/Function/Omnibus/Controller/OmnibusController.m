@@ -102,7 +102,7 @@
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活"];
-    kCollectionViewHeight = CGRectGetHeight(self.view.frame) - kScrollViewHeight - kNavigationBarHeight -  kStatusBarHeight - kTabBarHeight;
+//    kCollectionViewHeight = CGRectGetHeight(self.view.frame) - kScrollViewHeight - kNavigationBarHeight -  kStatusBarHeight - kTabBarHeight;
     countOfTopicCollectionRow = 3;
     countOfTopicCollectionCol = 3;
     topicCollectionEdgePadding = 3.0f;
@@ -148,7 +148,7 @@
     self.recommendScrollViewPageControl.numberOfPages =  self.recommendScrollImageArray.count;
 
     [self.recommendScrollViewPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.recommendScrollView).with.offset(-COMMON_PADDING_OFFSET_Y);
+        make.bottom.equalTo(self.recommendScrollView).with.offset(-kVerticalPadding);
         make.centerX.equalTo(self.view);
     }];
 }
@@ -159,7 +159,7 @@
     self.topicCollectionPageControl.numberOfPages =  self.topicCollectionTittleArray.count/(countOfTopicCollectionRow * countOfTopicCollectionCol);
     
     [self.topicCollectionPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.topicCollectionView).with.offset(-COMMON_PADDING_OFFSET_Y);
+        make.bottom.equalTo(self.topicCollectionView).with.offset(-kVerticalPadding);
         make.centerX.equalTo(self.view);
     }];
 }

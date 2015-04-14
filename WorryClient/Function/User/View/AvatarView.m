@@ -7,8 +7,8 @@
 //
 
 #import "AvatarView.h"
-#import "UIViewUtils.h"
 #import "Masonry.h"
+#import "UIView+Utils.h"
 
 @implementation AvatarView
 
