@@ -18,13 +18,13 @@
   #endif
 #endif
 
-typedef NS_ENUM(SInt32, PBSignUpAndLoginType) {
-  PBSignUpAndLoginTypePhone = 1,
-  PBSignUpAndLoginTypeEmail = 2,
+typedef NS_ENUM(SInt32, PBSignUpAndLogInType) {
+  PBSignUpAndLogInTypePhone = 1,
+  PBSignUpAndLogInTypeEmail = 2,
 };
 
-BOOL PBSignUpAndLoginTypeIsValidValue(PBSignUpAndLoginType value);
-NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value);
+BOOL PBSignUpAndLogInTypeIsValidValue(PBSignUpAndLogInType value);
+NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 
 
 @interface UserRoot : NSObject {
@@ -36,18 +36,26 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value);
 @interface PBUser : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasGender_:1;
+  BOOL hasUserName_:1;
+  BOOL hasPassword_:1;
   BOOL hasNick_:1;
   BOOL hasPhone_:1;
   BOOL hasEmail_:1;
   BOOL gender_:1;
+  NSString* userName;
+  NSString* password;
   NSString* nick;
   NSString* phone;
   NSString* email;
 }
+- (BOOL) hasUserName;
+- (BOOL) hasPassword;
 - (BOOL) hasNick;
 - (BOOL) hasGender;
 - (BOOL) hasPhone;
 - (BOOL) hasEmail;
+@property (readonly, strong) NSString* userName;
+@property (readonly, strong) NSString* password;
 @property (readonly, strong) NSString* nick;
 - (BOOL) gender;
 @property (readonly, strong) NSString* phone;
@@ -87,6 +95,16 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value);
 - (PBUserBuilder*) mergeFrom:(PBUser*) other;
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserName;
+- (NSString*) userName;
+- (PBUserBuilder*) setUserName:(NSString*) value;
+- (PBUserBuilder*) clearUserName;
+
+- (BOOL) hasPassword;
+- (NSString*) password;
+- (PBUserBuilder*) setPassword:(NSString*) value;
+- (PBUserBuilder*) clearPassword;
 
 - (BOOL) hasNick;
 - (NSString*) nick;

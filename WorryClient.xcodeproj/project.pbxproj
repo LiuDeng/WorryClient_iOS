@@ -46,6 +46,7 @@
 		7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37F41ADB9E3000CFA176 /* User.pb.m */; };
 		7C5A38181ADB9E3000CFA176 /* User.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37F61ADB9E3000CFA176 /* User.proto */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
+		7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3B45A1ADE7F4B004463C4 /* LogInController.m */; };
 		7CC591BE1ADCE2590023194D /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC591BD1ADCE2590023194D /* DefaultViewController.m */; };
 		F1211672596F162C207D4764 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E540DBFE380832CBDAC4C27 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -131,6 +132,8 @@
 		7C5A37F61ADB9E3000CFA176 /* User.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.proto; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		7CBF03DF1ADE560C0001C31A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		7CC3B4591ADE7F4B004463C4 /* LogInController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInController.h; sourceTree = "<group>"; };
+		7CC3B45A1ADE7F4B004463C4 /* LogInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInController.m; sourceTree = "<group>"; };
 		7CC591BC1ADCE2590023194D /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		7CC591BD1ADCE2590023194D /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -593,6 +596,8 @@
 		7CC3B4571ADE79ED004463C4 /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
+				7CC3B4591ADE7F4B004463C4 /* LogInController.h */,
+				7CC3B45A1ADE7F4B004463C4 /* LogInController.m */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -761,6 +766,7 @@
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
 				7C5A38001ADB9E3000CFA176 /* AppDelegate.m in Sources */,
 				7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */,
+				7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */,
 				7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */,
 				7C5A38101ADB9E3000CFA176 /* UserManager.m in Sources */,
 				7C5A38111ADB9E3000CFA176 /* UserService.m in Sources */,

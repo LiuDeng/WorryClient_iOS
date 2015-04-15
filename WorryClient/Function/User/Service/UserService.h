@@ -20,18 +20,13 @@ typedef AVUserResultBlock UserServiceResultBlock;
 
 DEFINE_SINGLETON_FOR_CLASS(UserService)
 
-- (void)signUpByValue:(NSString *)value
-             WithType:(PBSignUpAndLoginType)signUpLoginType
-             userName:(NSString *)userName
-              password:(NSString *)password
-              callback:(UserServiceCallBackBlock)callback;
-- (void)quickSignUpWithAVUser:(AVUser *)avUser password:(NSString *)password withBlock:(UserServiceCallBackBlock)block;
-
-//- (void)verifyPhone:(NSString *)phone withBlock:(UserServiceBooleanResultBlock)block;
 - (void)requestSmsCodeWithPhone:(NSString *)phone
                       callback:(UserServiceBooleanResultBlock)block;
 - (void)requestEmailVerify:(NSString*)email
                  withBlock:(UserServiceBooleanResultBlock)block;
 
-- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceSignUpBooleanBolck)block;
+- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone
+                                   smsCode:(NSString *)code
+                                     block:(UserServiceSignUpBooleanBolck)block;
+- (void)signUpByEmail:(NSString *)email password:(NSString *)password block:(UserServiceBooleanResultBlock)block;
 @end
