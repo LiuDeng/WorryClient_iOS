@@ -26,7 +26,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 - (void)requestEmailVerify:(NSString*)email
                  withBlock:(UserServiceBooleanResultBlock)block
 {
-    [AVUser requestEmailVerify:email withBlock:block];
+//    AVUser *avUser = [AVUser currentUser];
+
+//    [AVUser requestEmailVerify:email withBlock:block];
 }
 
 - (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceSignUpBooleanBolck)block
@@ -56,10 +58,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [pbUserBuilder setPassword:avUser.password];
     [pbUserBuilder setEmail:email];
     
-//    NSData *pbUserData
+    PBUser *pbUser = [pbUserBuilder build];
     
-//    [avUser signUpInBackgroundWithBlock:block];
+    NSData *pbUserData = [pbUser data];
+    
+    [avUser setObject:pbUserData forKey:@"pbUser"];
+    [avUser signUpInBackgroundWithBlock:block];
 
-    
 }
 @end

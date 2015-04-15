@@ -55,12 +55,10 @@
     
     [self.phoneTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view).with.dividedBy(4);
+        make.centerY.equalTo(self.view).with.multipliedBy(0.3);
         make.height.equalTo(self.view).with.dividedBy(9);
         make.width.equalTo(self.view);
     }];
-    
-//    self.view addSubview:d
 }
 
 - (void)loadSubmitButton
@@ -75,7 +73,7 @@
         make.centerX.equalTo(self.view);
         make.height.equalTo(self.view).with.dividedBy(9);
         make.width.equalTo(self.view).with.multipliedBy(0.9);
-        make.centerY.equalTo(self.view).with.dividedBy(2);
+        make.centerY.equalTo(self.view).with.multipliedBy(0.5);
     }];
 }
 

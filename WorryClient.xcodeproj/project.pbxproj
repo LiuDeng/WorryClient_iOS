@@ -47,6 +47,7 @@
 		7C5A38181ADB9E3000CFA176 /* User.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37F61ADB9E3000CFA176 /* User.proto */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
 		7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3B45A1ADE7F4B004463C4 /* LogInController.m */; };
+		7CC3B45E1ADE9481004463C4 /* SignUpByEmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3B45D1ADE9481004463C4 /* SignUpByEmailController.m */; };
 		7CC591BE1ADCE2590023194D /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC591BD1ADCE2590023194D /* DefaultViewController.m */; };
 		F1211672596F162C207D4764 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E540DBFE380832CBDAC4C27 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,8 @@
 		7CBF03DF1ADE560C0001C31A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		7CC3B4591ADE7F4B004463C4 /* LogInController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInController.h; sourceTree = "<group>"; };
 		7CC3B45A1ADE7F4B004463C4 /* LogInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInController.m; sourceTree = "<group>"; };
+		7CC3B45C1ADE9481004463C4 /* SignUpByEmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpByEmailController.h; sourceTree = "<group>"; };
+		7CC3B45D1ADE9481004463C4 /* SignUpByEmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpByEmailController.m; sourceTree = "<group>"; };
 		7CC591BC1ADCE2590023194D /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		7CC591BD1ADCE2590023194D /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 			children = (
 				7C54C2B41ADBFD63002A32E2 /* QuickSignUpController.h */,
 				7C54C2B51ADBFD63002A32E2 /* QuickSignUpController.m */,
+				7CC3B45C1ADE9481004463C4 /* SignUpByEmailController.h */,
+				7CC3B45D1ADE9481004463C4 /* SignUpByEmailController.m */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -777,6 +782,7 @@
 				7C5A380F1ADB9E3000CFA176 /* UserController.m in Sources */,
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,
 				7C54C2BD1ADC091E002A32E2 /* UIView+Utils.m in Sources */,
+				7CC3B45E1ADE9481004463C4 /* SignUpByEmailController.m in Sources */,
 				7C5A37FC1ADB9E3000CFA176 /* UIColor+UIColorExt.m in Sources */,
 				7C54C2BA1ADBFE7C002A32E2 /* SignUpAndLogInView.m in Sources */,
 				7C54C2B61ADBFD63002A32E2 /* QuickSignUpController.m in Sources */,

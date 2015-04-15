@@ -20,6 +20,7 @@
 #ifdef DEBUG
 
 #import "QuickSignUpController.h"
+#import "SignUpByEmailController.h"
 
 #endif
 
@@ -108,7 +109,7 @@
 
 - (void)setupViewControllers {
 //    UIViewController *firstViewController = [[UserController alloc] init];
-    UIViewController *firstViewController = [[QuickSignUpController alloc]init];
+    UIViewController *firstViewController = [[SignUpByEmailController alloc]init];
     firstViewController.title = @"心事";
     
     UIViewController *firstNavigationController = [[UINavigationController alloc]
