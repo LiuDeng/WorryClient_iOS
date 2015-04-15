@@ -77,7 +77,7 @@
 {
 //    NSData *data = [UserManager sharedInstance]
     PBUserBuilder *pbUserBuilder = [PBUser builder];
-    [pbUserBuilder setUserId:@"id test"];
+//    [pbUserBuilder setUserId:@"id test"];
     [pbUserBuilder setNick:@"nick"];
     
     PBUser *pbUser = [pbUserBuilder build];
@@ -100,7 +100,7 @@
         if (object) {
             NSData *showData = (NSData*)[object objectForKey:@"myDate"];
             PBUser *showUser = [PBUser parseFromData:showData];
-            JDDebug(@"id = %@ ,nick = %@",showUser.userId,showUser.nick);
+//            JDDebug(@"id = %@ ,nick = %@",showUser.,showUser.nick);
         }
     }];
     

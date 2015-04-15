@@ -1,5 +1,5 @@
 //
-//  SignUpAndLoginView.h
+//  SignUpAndLogInView.h
 //  WorryClient
 //
 //  Created by 蔡少武 on 15/4/13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SignUpAndLoginView : UIView
+@interface SignUpAndLogInView : UIView
 
 @property (nonatomic,strong)UITextField *accountTextField;
 @property (nonatomic,strong)UITextField *passwordTextField;

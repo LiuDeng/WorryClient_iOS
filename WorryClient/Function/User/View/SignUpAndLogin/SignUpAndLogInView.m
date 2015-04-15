@@ -1,19 +1,19 @@
 //
-//  SignUpAndLoginView.m
+//  SignUpAndLogInView.m
 //  WorryClient
 //
 //  Created by 蔡少武 on 15/4/13.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "SignUpAndLoginView.h"
+#import "SignUpAndLogInView.h"
 #import "Masonry.h"
 #import "UIView+DefaultView.h"
 
 const float kButtonPadding = 16.0f;  //  按钮间距
 const float kButtonVerticalPadding = 5.0f;   // 垂直方向间距
 
-@implementation SignUpAndLoginView
+@implementation SignUpAndLogInView
 
 #pragma mark - Public methods
 -(id)initWithAccountPlaceholder:(NSString*)accountPlaceholder

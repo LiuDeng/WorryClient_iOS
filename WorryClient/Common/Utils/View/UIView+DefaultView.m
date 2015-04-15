@@ -67,12 +67,9 @@
     textField.backgroundColor = [UIColor whiteColor];   //  背景颜色：白色
     textField.placeholder = placeholder;
     textField.textAlignment = NSTextAlignmentCenter;
-    //  边框颜色及大小
-//    textField.layer.borderWidth = COMMON_LAYER_BORDER_WIDTH;
-//    textField.layer.borderColor = [BARRAGE_TEXTFIELD_LAYER_COLOR CGColor];
-    
+    textField.layer.borderWidth = kLayerBorderWidth;
+    textField.layer.borderColor = [kLayerColor CGColor];
     textField.clearButtonMode = UITextFieldViewModeAlways;     //  清除按钮
-    
     [textField becomeFirstResponder];   //  第一响应者
     [superView addSubview:textField];
     [textField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,4 +80,26 @@
     return textField;
 }
 
++(UITextField*)textFieldWithPlaceholder:(NSString *)placeholder
+{
+    UITextField *textField = [[UITextField alloc]init];
+    textField.font = kTextFieldPlaceholderFont;
+    textField.textColor = kTextFieldTextColor;
+    textField.backgroundColor = [UIColor whiteColor];   //  背景颜色：白色
+    textField.placeholder = placeholder;
+    textField.textAlignment = NSTextAlignmentCenter;
+    textField.layer.borderWidth = kLayerBorderWidth;
+    textField.layer.borderColor = [kLayerColor CGColor];
+    textField.clearButtonMode = UITextFieldViewModeAlways;     //  清除按钮
+    [textField becomeFirstResponder];   //  第一响应者
+    return textField;
+}
++ (UIButton *)buttonWithNormalTitle:(NSString *)title
+{
+    UIButton *button = [[UIButton alloc]init];
+    [button setTitle:title forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor redColor];
+    [UIView setRoundCorner:button];
+    return button;
+}
 @end

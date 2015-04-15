@@ -1,9 +1,7 @@
 
 echo create Objective-C codes
 
-protoc --proto_path=./MindClient/Protocol/ --objc_out=./MindClient/Protocol/Gen ./MindClient/Protocol/User.proto
-protoc --proto_path=./MindClient/Protocol/ --objc_out=./MindClient/Protocol/Gen ./MindClient/Protocol/Message.proto
-
+protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/User.proto
 
 #echo build C codes
 

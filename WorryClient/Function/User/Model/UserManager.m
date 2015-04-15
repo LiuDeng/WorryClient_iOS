@@ -24,7 +24,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
 
 - (NSString *)userId
 {
-    return [[self pbUser] userId];
+//    return [[self pbUser] userId];
+    return @"user id";
 }
 
 #pragma mark - Utils

@@ -9,20 +9,6 @@
 #ifndef WorryClient_ViewInfo_h
 #define WorryClient_ViewInfo_h
 
-//const CGFloat kNavigationBarHeight = 44.0f;
-//const CGFloat kToolBarHeight = 44.0f;
-//const CGFloat kTabBarHeight = 60.0f;
-//const CGFloat kStatusBarHeight = 20.0f;
-//const CGFloat kSearchBarHeight = 50.0f;
-//const CGFloat kKeyboardHeight = 216.0f;
-//
-//const CGFloat kLayerBorderWidth = 0.5f;
-//const CGFloat kTextFieldHeight = 52.0f;
-//const CGFloat kLeftPadding = 20.0f;
-//const CGFloat kRightPadding =20.0f;
-//const CGFloat kHorizontalPadding = 14.0f;
-//const CGFloat kVerticalPadding = 12.0f;
-
 #define kNavigationBarHeight 44;
 #define kToolBarHeight 44
 #define kTabBarHeight 60

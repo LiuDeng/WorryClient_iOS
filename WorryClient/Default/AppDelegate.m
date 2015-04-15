@@ -17,11 +17,11 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "WorryConfigManager.h"
 
-//#ifdef DEBUG
+#ifdef DEBUG
 
 #import "QuickSignUpController.h"
 
-//#endif
+#endif
 
 @interface AppDelegate ()
 

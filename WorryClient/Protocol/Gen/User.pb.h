@@ -36,27 +36,19 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value);
 @interface PBUser : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasGender_:1;
-  BOOL hasUserId_:1;
   BOOL hasNick_:1;
-  BOOL hasAvatar_:1;
   BOOL hasPhone_:1;
   BOOL hasEmail_:1;
   BOOL gender_:1;
-  NSString* userId;
   NSString* nick;
-  NSString* avatar;
   NSString* phone;
   NSString* email;
 }
-- (BOOL) hasUserId;
 - (BOOL) hasNick;
-- (BOOL) hasAvatar;
 - (BOOL) hasGender;
 - (BOOL) hasPhone;
 - (BOOL) hasEmail;
-@property (readonly, strong) NSString* userId;
 @property (readonly, strong) NSString* nick;
-@property (readonly, strong) NSString* avatar;
 - (BOOL) gender;
 @property (readonly, strong) NSString* phone;
 @property (readonly, strong) NSString* email;
@@ -96,20 +88,10 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value);
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (NSString*) userId;
-- (PBUserBuilder*) setUserId:(NSString*) value;
-- (PBUserBuilder*) clearUserId;
-
 - (BOOL) hasNick;
 - (NSString*) nick;
 - (PBUserBuilder*) setNick:(NSString*) value;
 - (PBUserBuilder*) clearNick;
-
-- (BOOL) hasAvatar;
-- (NSString*) avatar;
-- (PBUserBuilder*) setAvatar:(NSString*) value;
-- (PBUserBuilder*) clearAvatar;
 
 - (BOOL) hasGender;
 - (BOOL) gender;

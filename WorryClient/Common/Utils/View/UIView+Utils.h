@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIView (Utils)
++ (void)setRoundCorner:(UIView *)view;
++ (void)setRoundCorner:(UIView *)view radius:(CGFloat)radius;
 + (void)setAsRound:(UIView *)view;
 @end

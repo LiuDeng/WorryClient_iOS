@@ -41,9 +41,7 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value) {
 }
 
 @interface PBUser ()
-@property (strong) NSString* userId;
 @property (strong) NSString* nick;
-@property (strong) NSString* avatar;
 @property BOOL gender;
 @property (strong) NSString* phone;
 @property (strong) NSString* email;
@@ -51,13 +49,6 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value) {
 
 @implementation PBUser
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
-}
-- (void) setHasUserId:(BOOL) _value_ {
-  hasUserId_ = !!_value_;
-}
-@synthesize userId;
 - (BOOL) hasNick {
   return !!hasNick_;
 }
@@ -65,13 +56,6 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value) {
   hasNick_ = !!_value_;
 }
 @synthesize nick;
-- (BOOL) hasAvatar {
-  return !!hasAvatar_;
-}
-- (void) setHasAvatar:(BOOL) _value_ {
-  hasAvatar_ = !!_value_;
-}
-@synthesize avatar;
 - (BOOL) hasGender {
   return !!hasGender_;
 }
@@ -100,9 +84,7 @@ NSString *NSStringFromPBSignUpAndLoginType(PBSignUpAndLoginType value) {
 @synthesize email;
 - (instancetype) init {
   if ((self = [super init])) {
-    self.userId = @"";
     self.nick = @"";
-    self.avatar = @"";
     self.gender = NO;
     self.phone = @"";
     self.email = @"";
@@ -122,20 +104,11 @@ static PBUser* defaultPBUserInstance = nil;
   return defaultPBUserInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasUserId) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeString:1 value:self.userId];
-  }
   if (self.hasNick) {
     [output writeString:2 value:self.nick];
-  }
-  if (self.hasAvatar) {
-    [output writeString:3 value:self.avatar];
   }
   if (self.hasGender) {
     [output writeBool:4 value:self.gender];
@@ -155,14 +128,8 @@ static PBUser* defaultPBUserInstance = nil;
   }
 
   size_ = 0;
-  if (self.hasUserId) {
-    size_ += computeStringSize(1, self.userId);
-  }
   if (self.hasNick) {
     size_ += computeStringSize(2, self.nick);
-  }
-  if (self.hasAvatar) {
-    size_ += computeStringSize(3, self.avatar);
   }
   if (self.hasGender) {
     size_ += computeBoolSize(4, self.gender);
@@ -208,14 +175,8 @@ static PBUser* defaultPBUserInstance = nil;
   return [PBUser builderWithPrototype:self];
 }
 - (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
-  if (self.hasUserId) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userId", self.userId];
-  }
   if (self.hasNick) {
     [output appendFormat:@"%@%@: %@\n", indent, @"nick", self.nick];
-  }
-  if (self.hasAvatar) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"avatar", self.avatar];
   }
   if (self.hasGender) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gender", [NSNumber numberWithBool:self.gender]];
@@ -237,12 +198,8 @@ static PBUser* defaultPBUserInstance = nil;
   }
   PBUser *otherMessage = other;
   return
-      self.hasUserId == otherMessage.hasUserId &&
-      (!self.hasUserId || [self.userId isEqual:otherMessage.userId]) &&
       self.hasNick == otherMessage.hasNick &&
       (!self.hasNick || [self.nick isEqual:otherMessage.nick]) &&
-      self.hasAvatar == otherMessage.hasAvatar &&
-      (!self.hasAvatar || [self.avatar isEqual:otherMessage.avatar]) &&
       self.hasGender == otherMessage.hasGender &&
       (!self.hasGender || self.gender == otherMessage.gender) &&
       self.hasPhone == otherMessage.hasPhone &&
@@ -253,14 +210,8 @@ static PBUser* defaultPBUserInstance = nil;
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
-  if (self.hasUserId) {
-    hashCode = hashCode * 31 + [self.userId hash];
-  }
   if (self.hasNick) {
     hashCode = hashCode * 31 + [self.nick hash];
-  }
-  if (self.hasAvatar) {
-    hashCode = hashCode * 31 + [self.avatar hash];
   }
   if (self.hasGender) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.gender] hash];
@@ -314,14 +265,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (other == [PBUser defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
-  }
   if (other.hasNick) {
     [self setNick:other.nick];
-  }
-  if (other.hasAvatar) {
-    [self setAvatar:other.avatar];
   }
   if (other.hasGender) {
     [self setGender:other.gender];
@@ -353,16 +298,8 @@ static PBUser* defaultPBUserInstance = nil;
         }
         break;
       }
-      case 10: {
-        [self setUserId:[input readString]];
-        break;
-      }
       case 18: {
         [self setNick:[input readString]];
-        break;
-      }
-      case 26: {
-        [self setAvatar:[input readString]];
         break;
       }
       case 32: {
@@ -380,22 +317,6 @@ static PBUser* defaultPBUserInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return resultPbuser.hasUserId;
-}
-- (NSString*) userId {
-  return resultPbuser.userId;
-}
-- (PBUserBuilder*) setUserId:(NSString*) value {
-  resultPbuser.hasUserId = YES;
-  resultPbuser.userId = value;
-  return self;
-}
-- (PBUserBuilder*) clearUserId {
-  resultPbuser.hasUserId = NO;
-  resultPbuser.userId = @"";
-  return self;
-}
 - (BOOL) hasNick {
   return resultPbuser.hasNick;
 }
@@ -410,22 +331,6 @@ static PBUser* defaultPBUserInstance = nil;
 - (PBUserBuilder*) clearNick {
   resultPbuser.hasNick = NO;
   resultPbuser.nick = @"";
-  return self;
-}
-- (BOOL) hasAvatar {
-  return resultPbuser.hasAvatar;
-}
-- (NSString*) avatar {
-  return resultPbuser.avatar;
-}
-- (PBUserBuilder*) setAvatar:(NSString*) value {
-  resultPbuser.hasAvatar = YES;
-  resultPbuser.avatar = value;
-  return self;
-}
-- (PBUserBuilder*) clearAvatar {
-  resultPbuser.hasAvatar = NO;
-  resultPbuser.avatar = @"";
   return self;
 }
 - (BOOL) hasGender {

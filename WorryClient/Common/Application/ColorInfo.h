@@ -14,4 +14,5 @@
 #define TABBAR_SELECTED_COLOR           OPAQUE_COLOR(0xA4, 0xA6, 0xB4)
 
 #define kTextFieldTextColor             OPAQUE_COLOR(33,33,33)
+#define kLayerColor                     OPAQUE_COLOR(0Xdf,0Xdf,0Xdf)
 #endif

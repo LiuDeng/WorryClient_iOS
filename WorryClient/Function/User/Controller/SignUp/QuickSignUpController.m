@@ -7,16 +7,18 @@
 //
 
 #import "QuickSignUpController.h"
-#import "SignUpAndLoginView.h"
+#import "SignUpAndLogInView.h"
 #import "UserService.h"
+#import "UIView+DefaultView.h"
 
 @interface QuickSignUpController ()<UITextFieldDelegate>
 
-@property (nonatomic,strong)UITextField *phoneTextField;
-@property (nonatomic,strong)UITextField *passwordTextField;
-@property (nonatomic,strong)UIButton *signUpButton;
+@property (nonatomic,strong) UITextField *phoneTextField;
+@property (nonatomic,strong) UITextField *smsCodeTextField;
+@property (nonatomic,strong) UIButton *submitButton;
+@property (nonatomic,strong) UIButton *signUpButton;
+@property (nonatomic,strong) NSString *phoneString;
 
-@property (nonatomic,strong)SignUpAndLoginView *signUpAndLoginView;
 
 @end
 
@@ -27,8 +29,10 @@
 - (void)loadView
 {
     [super loadView];
-    [self loadSignUpAndLoginView];
-    
+//    [self loadPhoneTextField];
+//    [self loadSubmitButton];
+    [self loadSmsCodeTextField];
+    [self loadSignUpButton];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,62 +46,111 @@
 
 #pragma mark - Private methods
 
-- (void)loadSignUpAndLoginView
+- (void)loadPhoneTextField
 {
-    NSString *phonePlaceholer = @"请输入手机" ;
-    NSString *passwordPlaceholer = @"请输入密码";
-    NSString *buttonTitle = @"注册";
-    self.signUpAndLoginView = [[SignUpAndLoginView alloc]initWithAccountPlaceholder:phonePlaceholer
-                                                                passwordPlaceholder:passwordPlaceholer
-                                                                        buttonTitle:buttonTitle];
-    [self.view addSubview:self.signUpAndLoginView];
-    [self.signUpAndLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.height.equalTo(self.view).with.dividedBy(3);
+    NSString *placeholder = @"请输入手机号码";
+    self.phoneTextField = [UITextField textFieldWithPlaceholder:placeholder];
+    [self.view addSubview:self.phoneTextField];
+    self.phoneTextField.delegate = self;
+    
+    [self.phoneTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view).with.dividedBy(4);
+        make.height.equalTo(self.view).with.dividedBy(9);
         make.width.equalTo(self.view);
     }];
     
-    self.phoneTextField = self.signUpAndLoginView.accountTextField;
-    self.passwordTextField = self.signUpAndLoginView.passwordTextField;
-    self.signUpButton = self.signUpAndLoginView.button;
+//    self.view addSubview:d
+}
+
+- (void)loadSubmitButton
+{
+    self.submitButton = [UIButton buttonWithNormalTitle:@"获取验证码"];
+    [self.view addSubview:self.submitButton];
+    [self.submitButton addTarget:self
+                          action:@selector(clickSubmitButton)
+                forControlEvents:UIControlEventTouchUpInside];
     
-    self.phoneTextField.delegate = self;
-    self.passwordTextField.delegate = self;
+    [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.height.equalTo(self.view).with.dividedBy(9);
+        make.width.equalTo(self.view).with.multipliedBy(0.9);
+        make.centerY.equalTo(self.view).with.dividedBy(2);
+    }];
+}
+
+- (void)loadSmsCodeTextField
+{
+    self.smsCodeTextField = [UITextField textFieldWithPlaceholder:@"验证码"];
+    [self.view addSubview:self.smsCodeTextField];
+    self.smsCodeTextField.delegate = self;
+    [self.smsCodeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_centerY);
+        make.centerX.equalTo(self.view);
+        make.height.equalTo(self.view).with.dividedBy(9);
+        make.width.equalTo(self.view);//.with.multipliedBy(0.9);
+    }];
     
-    [self.phoneTextField becomeFirstResponder];
-    
+}
+
+- (void)loadSignUpButton
+{
+    self.signUpButton = [UIButton buttonWithNormalTitle:@"注册"];
+    [self.view addSubview:self.signUpButton];
     [self.signUpButton addTarget:self
                           action:@selector(clickSignUpButton)
                 forControlEvents:UIControlEventTouchUpInside];
     
+    [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view).with.multipliedBy(1.2);
+        make.height.equalTo(self.view).with.dividedBy(9);
+        make.width.equalTo(self.view).with.multipliedBy(0.9);
+    }];
 }
 
 #pragma mark - Utils
 
-- (void)clickSignUpButton
+- (void)clickSubmitButton
 {
     //  TODO
-    NSString *phoneString = self.phoneTextField.text;
-    NSString *passwordString = self.passwordTextField.text;
+    self.phoneString = self.phoneTextField.text;
     
-    if (phoneString.length == 0 || passwordString == 0) {
+    if (self.phoneString.length == 0 ) {
         //  TODO add tips
     }else{
-        [UserService sharedInstance]quickSignUpByValue:phoneString password:passwordString userName:<#(NSString *)#> callback:<#^(PBUser *pbUser, NSError *error)callback#>
+        [[UserService sharedInstance]requestSmsCodeWithPhone:self.phoneString callback:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                //
+                [self loadSmsCodeTextField];
+                [self loadSignUpButton];
+            }else{
+//                JDDebug(@"error: %@",error);
+            }
+        }];
 
     }
-
 }
 
+- (void)clickSignUpButton
+{
+    NSString *smsCode = self.smsCodeTextField.text;
+    NSString *testPhoneString = @"15625987607";
+    if (smsCode.length != 0) {
+        [[UserService sharedInstance]signUpOrLogInWithPhoneInBackground:testPhoneString smsCode:smsCode block:^(BOOL succeeded) {
+            if (succeeded) {
+                //  TODO
+            }
+        }];
+    }
+}
 #pragma mark - UITextFieldDelegate
 
 //  点击“return”或者“Done”执行的事件
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.phoneTextField) {
-        return [textField becomeFirstResponder];
-    }else if(textField == self.passwordTextField){
-        [self clickSignUpButton];
+        [self clickSubmitButton];
         return [textField resignFirstResponder];
     }else{
         return YES;
@@ -108,9 +161,9 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField == self.phoneTextField) {
-        [textField becomeFirstResponder];
-    }else if (textField == self.passwordTextField){
         [textField resignFirstResponder];
+    }else{
+        
     }
 }
 @end

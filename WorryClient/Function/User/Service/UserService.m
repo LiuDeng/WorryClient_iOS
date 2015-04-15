@@ -7,8 +7,9 @@
 //
 
 #import "UserService.h"
-#import "AVOSCloud/AVOSCloud.h"
+#import "UserManager.h"
 #import "WorryConfigManager.h"
+#import "Utils.h"
 
 @implementation UserService
 
@@ -28,12 +29,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     avUser.mobilePhoneNumber = value;
     NSError *error = nil;
     [avUser signUp:&error];
-    [AVUser verifyMobilePhone:value withBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            //  TODO
-        }
-    }];
-    
+//    [AVUser verifyMobilePhone:value withBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            //  TODO
+//        }
+//    }];
+
     
 //    switch (signUpLoginType) {
 //        case PBSignUpAndLoginTypeEmail:
@@ -58,11 +59,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 //    PBUserBuilder *pbUserBuilder = [PBUser builder];
 //    [pbUserBuilder setNick:a];
 //    PBUser *pbUser = [pbUserBuilder build];
-    
-
-
-    
-    
 //    NSData *pbUserData = [pbUser data];
     
 
@@ -85,14 +81,50 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     //  store the pbUser
 }
 
-- (void)quickSignUpByValue:(NSString*)value
-                  password:(NSString*)password
-                  userName:(NSString*)userName
-                  callback:(UserServiceCallBackBlock)callback
+- (void)quickSignUpWithAVUser:(AVUser *)avUser password:(NSString *)password withBlock:(UserServiceCallBackBlock)block
 {
-    [self signUpByValue:value WithType:PBSignUpAndLoginTypePhone userName:userName password:password callback:callback];
+//    avUser.username = avUser.mobilePhoneNumber;
+//    avUser.password = password;
+//    [AVUser signUpOrLoginWithMobilePhoneNumber:<#(NSString *)#> smsCode:<#(NSString *)#> error:<#(NSError *__autoreleasing *)#>]
+}
+//
+//- (void)verifyPhone:(NSString *)phone withBlock:(UserServiceVerifyBlock)block
+//{
+//    AVUser *avUser = [[AVUser alloc]init];
+//    avUser.mobilePhoneNumber = phone;
+//    NSError *error = nil;
+//    [avUser signUp:&error];
+//
+//}
+
+
+
+- (void)requestSmsCodeWithPhone:(NSString *)phone
+                       callback:(UserServiceBooleanResultBlock)block
+{
+    [AVOSCloud requestSmsCodeWithPhoneNumber:phone callback:block];
 }
 
+- (void)requestEmailVerify:(NSString*)email
+                 withBlock:(UserServiceBooleanResultBlock)block
+{
+    [AVUser requestEmailVerify:email withBlock:block];
+}
 
+- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceSignUpBooleanBolck)block
+{
+    [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
+        if (error == nil) {
+            PBUserBuilder *pbUserBuilder = [PBUser builder];
+            [pbUserBuilder setPhone:phone];
+            PBUser *pbUser = [pbUserBuilder build];
+        
+            NSData *pbUserData = [pbUser data];
+            [user setObject:pbUserData forKey:@"pbUser"];
+            [user saveEventually];
+            EXECUTE_BLOCK(block,YES);
+        }
+    }];
+}
 
 @end

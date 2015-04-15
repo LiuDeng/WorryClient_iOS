@@ -1,6 +1,6 @@
 package worry;
 
-enum PBSignUpAndLoginType{
+enum PBSignUpAndLogInType{
     phone = 1;
     email = 2;
 }
