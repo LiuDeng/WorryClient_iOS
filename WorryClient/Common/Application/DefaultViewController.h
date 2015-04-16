@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "Utils.h"
 #import "LogUtils.h"
+#import "MessageCenter.h"
 
 @interface DefaultViewController : UIViewController
 

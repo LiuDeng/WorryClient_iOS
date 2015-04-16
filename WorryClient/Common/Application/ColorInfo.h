@@ -15,4 +15,6 @@
 
 #define kTextFieldTextColor             OPAQUE_COLOR(33,33,33)
 #define kLayerColor                     OPAQUE_COLOR(0Xdf,0Xdf,0Xdf)
+#define kMessageCenterBackgroundColor   ALPHA_COLOR(0,0,0,0.6)
+//[UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.4]
 #endif

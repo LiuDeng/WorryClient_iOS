@@ -82,7 +82,7 @@
         [[UserService sharedInstance]logInByValue:account password:password block:^(NSError *error) {
             if (error == nil) {
                 //
-                JDDebug(@"success");
+                POST_SUCCESS_MSG(@"登录成功");
             }
         }];
     }
