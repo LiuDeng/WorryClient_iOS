@@ -8,6 +8,7 @@
 
 #import "LogInController.h"
 #import "SignUpAndLogInView.h"
+#import "UserService.h"
 
 @interface LogInController()
 
@@ -42,10 +43,15 @@
     [self.view addSubview:self.signUpAndLogInView];
     
     [self.signUpAndLogInView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view).with.multipliedBy(0.5);
         make.height.equalTo(self.view).with.dividedBy(3);
         make.width.equalTo(self.view);
     }];
+    
+    [self loadAccountTextField];
+    [self loadPasswordTextField];
+    [self loadLogInButton];
 }
 
 - (void)loadAccountTextField
@@ -68,6 +74,17 @@
 #pragma mark - Utils
 - (void)clickLogInButton
 {
-    //  TODO    
+    NSString *account = self.accountTextField.text;
+    NSString *password = self.passwordTextField.text;
+    if (account.length == 0 || password.length == 0) {
+        
+    }else{
+        [[UserService sharedInstance]logInByValue:account password:password block:^(NSError *error) {
+            if (error == nil) {
+                //
+                JDDebug(@"success");
+            }
+        }];
+    }
 }
 @end

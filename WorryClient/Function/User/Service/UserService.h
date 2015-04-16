@@ -12,7 +12,7 @@
 #import "AVOSCloud/AVOSCloud.h"
 
 typedef void (^UserServiceCallBackBlock) (PBUser* pbUser, NSError* error);
-typedef void (^UserServiceSignUpBooleanBolck) (BOOL succeeded);
+typedef void (^UserServiceErrorResultBlock) (NSError *error);
 typedef AVBooleanResultBlock UserServiceBooleanResultBlock;
 typedef AVUserResultBlock UserServiceResultBlock;
 
@@ -23,10 +23,13 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)requestSmsCodeWithPhone:(NSString *)phone
                       callback:(UserServiceBooleanResultBlock)block;
 - (void)requestEmailVerify:(NSString*)email
-                 withBlock:(UserServiceBooleanResultBlock)block;
+                 withBlock:(UserServiceErrorResultBlock)block;
 
 - (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone
                                    smsCode:(NSString *)code
-                                     block:(UserServiceSignUpBooleanBolck)block;
-- (void)signUpByEmail:(NSString *)email password:(NSString *)password block:(UserServiceBooleanResultBlock)block;
+                                     block:(UserServiceErrorResultBlock)block;
+- (void)signUpByEmail:(NSString *)email
+             password:(NSString *)password
+                block:(UserServiceBooleanResultBlock)block;
+- (void)logInByValue:(NSString *)value password:(NSString *)password block:(UserServiceErrorResultBlock)block;
 @end

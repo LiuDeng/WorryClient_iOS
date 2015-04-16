@@ -74,7 +74,7 @@
     }else{
         [[UserService sharedInstance]signUpByEmail:email password:password block:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                // 
+                //
             }
         }];
     }

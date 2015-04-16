@@ -11,6 +11,8 @@
 #import "WorryConfigManager.h"
 #import "Utils.h"
 
+#define kPBUserKey @"kPBUserKey"
+
 @implementation UserService
 
 IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
@@ -24,14 +26,14 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 }
 
 - (void)requestEmailVerify:(NSString*)email
-                 withBlock:(UserServiceBooleanResultBlock)block
+                 withBlock:(UserServiceErrorResultBlock)block
 {
 //    AVUser *avUser = [AVUser currentUser];
 
 //    [AVUser requestEmailVerify:email withBlock:block];
 }
 
-- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceSignUpBooleanBolck)block
+- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceErrorResultBlock)block
 {
     [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
         if (error == nil) {
@@ -40,9 +42,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
             PBUser *pbUser = [pbUserBuilder build];
         
             NSData *pbUserData = [pbUser data];
-            [user setObject:pbUserData forKey:@"pbUser"];
+            [user setObject:pbUserData forKey:kPBUserKey];
             [user saveEventually];
-            EXECUTE_BLOCK(block,YES);
+            EXECUTE_BLOCK(block,error);
         }
     }];
 }
@@ -62,8 +64,17 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     
     NSData *pbUserData = [pbUser data];
     
-    [avUser setObject:pbUserData forKey:@"pbUser"];
+    [avUser setObject:pbUserData forKey:kPBUserKey];
     [avUser signUpInBackgroundWithBlock:block];
-
+}
+- (void)logInByValue:(NSString *)value password:(NSString *)password block:(UserServiceErrorResultBlock)block
+{
+    [AVUser logInWithUsernameInBackground:value password:password block:^(AVUser *user, NSError *error) {
+        if (error == nil) {
+            NSData *pbUserData = [user objectForKey:kPBUserKey];
+            [[UserManager sharedInstance]storeUser:pbUserData];
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
 }
 @end

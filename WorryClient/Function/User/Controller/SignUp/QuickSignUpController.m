@@ -133,11 +133,12 @@
 - (void)clickSignUpButton
 {
     NSString *smsCode = self.smsCodeTextField.text;
-    NSString *testPhoneString = @"15625987607";
+
+//    NSString *testPhoneString = @"15625987607";
     if (smsCode.length != 0) {
-        [[UserService sharedInstance]signUpOrLogInWithPhoneInBackground:testPhoneString smsCode:smsCode block:^(BOOL succeeded) {
-            if (succeeded) {
-                //  TODO
+        [[UserService sharedInstance]signUpOrLogInWithPhoneInBackground:self.phoneString smsCode:smsCode block:^(NSError *error) {
+            if (error == nil) {
+                //
             }
         }];
     }

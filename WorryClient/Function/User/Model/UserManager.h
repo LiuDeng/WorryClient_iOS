@@ -7,7 +7,7 @@
 //
 
 #import "CommonManager.h"
-@class PBUser;
+#import "User.pb.h"
 
 @interface UserManager : CommonManager
 {
@@ -15,8 +15,6 @@
 }
 
 DEFINE_SINGLETON_FOR_CLASS(UserManager)
-
-//- (void)storeUser:(PBUser*)pbUser;
-- (NSString *)userNick;
-- (NSString *)userId;
+- (PBUser*)pbUser;
+- (void)storeUser:(NSData *)pbUserData;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "UserManager.h"
-#import "User.pb.h"
+#import "DataUtils.h"
 
 #define kUserDataKey @"kUserDataKey"
 
@@ -17,19 +17,14 @@
 
 IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
 
-- (NSString *)userNick
+- (void)storeUser:(NSData *)pbUserData
 {
-    return  [[self pbUser] nick];
-}
-
-- (NSString *)userId
-{
-//    return [[self pbUser] userId];
-    return @"user id";
+    USER_DEFAULTS_SET(kUserDataKey, pbUserData);
 }
 
 #pragma mark - Utils
-- (PBUser*) pbUser
+
+- (PBUser*)pbUser
 {
     if (_pbUser == nil) {
         _pbUser = [self readUserFromStorage];

@@ -38,6 +38,7 @@
 @property (nonatomic,assign)int sectionMisc;
 @property (nonatomic,assign)int sectionSetting;
 
+@property (nonatomic,strong)PBUser *pbUser;
 @end
 
 @implementation UserController
@@ -137,7 +138,9 @@
     
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
-        userAvatarCell.nickNameLabel.text = [[UserManager sharedInstance] userNick];
+        self.pbUser = [[UserManager sharedInstance]pbUser];
+        userAvatarCell.nickNameLabel.text = self.pbUser.email;  // TODO
+//        userAvatarCell.nickNameLabel.text = [[UserManager sharedInstance] userNick];
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1

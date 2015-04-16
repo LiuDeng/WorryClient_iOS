@@ -37,8 +37,6 @@ const float kButtonVerticalPadding = 5.0f;   // 垂直方向间距
         //  提交按钮
         self.button = [UIButton buttonWithNormalTitle:buttonTitle];
         [self addSubview:self.button];
-
-        self.button.backgroundColor = [UIColor redColor];
     }
     return self;
 }
