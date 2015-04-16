@@ -22,7 +22,7 @@
 #import "QuickSignUpController.h"
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
-
+#import "CreatFeedController.h"
 #endif
 
 @interface AppDelegate ()
@@ -110,7 +110,7 @@
 
 - (void)setupViewControllers {
 //    UIViewController *firstViewController = [[UserController alloc] init];
-    UIViewController *firstViewController = [[LogInController alloc]init];
+    UIViewController *firstViewController = [[CreatFeedController alloc]init];
     firstViewController.title = @"心事";
     
     UIViewController *firstNavigationController = [[UINavigationController alloc]

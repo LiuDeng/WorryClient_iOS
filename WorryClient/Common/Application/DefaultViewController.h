@@ -14,4 +14,8 @@
 
 @interface DefaultViewController : UIViewController
 
+- (void)addRightButtonWithTitle:(NSString*)title
+                         target:(id)target
+                         action:(SEL)action;
+
 @end

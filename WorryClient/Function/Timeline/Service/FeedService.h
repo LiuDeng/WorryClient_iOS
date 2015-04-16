@@ -17,5 +17,10 @@ typedef void (^FeedServiceErrorResultBlock) (NSError *error);
 
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
-- (void)creatFeedWithTitle:(NSString *)title text:(NSString *)text createUser:(PBUser *)createUser isAnonymous:(BOOL)isAnonymous topic:(NSArray *)topicArray block:(FeedServiceErrorResultBlock)block;
+- (void)creatFeedWithTitle:(NSString *)title
+                      text:(NSString *)text
+                createUser:(PBUser *)createUser
+               isAnonymous:(BOOL)isAnonymous
+                     topic:(NSArray *)topicArray
+                     block:(FeedServiceErrorResultBlock)block;
 @end

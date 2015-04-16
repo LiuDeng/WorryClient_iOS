@@ -18,6 +18,6 @@ DEFINE_SINGLETON_FOR_CLASS(MessageCenter)
 - (void)postErrorMessage:(NSString *)message duration:(CGFloat)duration;
 
 #define POST_SUCCESS_MSG(msg)   [[MessageCenter sharedInstance]postSuccessMessage:msg duration:1.5]
-#define POST_ERROR_MSG(msg)     [[MessageCenter sharedInstance]postErrorMessage:msg duration:1.5]]
+#define POST_ERROR_MSG(msg)     [[MessageCenter sharedInstance]postErrorMessage:msg duration:1.5]
 
 @end

@@ -44,20 +44,24 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 
 - (void)storeFeed:(PBFeed *)pbFeed
 {
-//    USER_DEFAULTS_SET(kFeedDatakey, pbFeedData);
-//    NSString *sql = [NSString stringWithFormat:@"insert into %@ (%@) values ('%@');",kFeedTable,];
+//    SELECT typeof(t), typeof(nu), typeof(i), typeof(r), typeof(no) FROM t1;
+//    newItem.picData = [rs dataForColumn:@"photo"];
+    
+//    USER_DEFAULTS_SET(kFeedDatakey, pbFeedData);INSERT INTO myTable VALUES (%d)
+    NSString *sql = [NSString stringWithFormat:@"insert into %@ (id,feed) values ('%@','%@');",kFeedTable,pbFeed.feedId,pbFeed];
 //    if ([_db open]) {
-        [_db executeUpdateWithFormat:@"insert into %@ values ('%@','%@');",kFeedTable,pbFeed.feedId,pbFeed];
+//        [_db executeUpdateWithFormat:@"insert into %@ values ('%@',%@);",kFeedTable,pbFeed.feedId,pbFeed];
+    [_db executeUpdate:sql];
 //    }
 }
 
 - (NSArray *)readFeedListFromCache
 {
 //    NSArray *feedArray = [_db re];
-
-    FMResultSet *rs = [_db executeQueryWithFormat:@"select count(*) from %@",kFeedTable];
+    NSString *sql = [NSString stringWithFormat:@"select count(*) from %@",kFeedTable];
+    FMResultSet *rs = [_db executeQuery:sql];
     if (rs.next) {
-        JDDebug(@"%@",[rs intForColumnIndex:0]);
+        NSLog(@"%d",[rs intForColumnIndex:0]);
     }
     return nil;
 }
