@@ -5,6 +5,6 @@ pod "Masonry"
 pod 'RDVTabBarController'
 pod 'ProtocolBuffers', '1.9.7'
 pod 'TAPageControl'
-
+pod 'FMDB'
 pod 'AVOSCloud'
 pod 'MBProgressHUD', '~> 0.9.1'

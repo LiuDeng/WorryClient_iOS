@@ -1,5 +1,10 @@
 PODS:
   - AVOSCloud (3.0.2)
+  - FMDB (2.5):
+    - FMDB/standard (= 2.5)
+  - FMDB/common (2.5)
+  - FMDB/standard (2.5):
+    - FMDB/common
   - Masonry (0.6.1)
   - MBProgressHUD (0.9.1)
   - ProtocolBuffers (1.9.7)
@@ -8,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - AVOSCloud
+  - FMDB
   - Masonry
   - MBProgressHUD (~> 0.9.1)
   - ProtocolBuffers (= 1.9.7)
@@ -16,6 +22,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AVOSCloud: eeacd471d18b3e24c3cb0d089110453261084489
+  FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
