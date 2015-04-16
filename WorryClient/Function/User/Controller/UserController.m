@@ -102,9 +102,7 @@
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
         self.pbUser = [[UserManager sharedInstance]pbUser];
-        userAvatarCell.nickNameLabel.text = self.pbUser.nick;  // TODO
-//        userAvatarCell.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
-
+        userAvatarCell.nickNameLabel.text = @"nick ";  // TODO
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1

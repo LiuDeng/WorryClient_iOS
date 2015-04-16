@@ -21,6 +21,7 @@
 @interface AvatarView : UIView
 
 - (id)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth;
+- (id)initWithBorderWidth:(CGFloat)borderWidth;
 
 @property (nonatomic,strong)UIImageView *imageView;
 @property (nonatomic,assign)id<AvatarViewDelegate> delegate;

@@ -13,14 +13,6 @@
 
 @property (nonatomic,strong) AvatarView *avatarView;
 @property (nonatomic,strong) UILabel *nickNameLabel;
-@property (nonatomic,strong) UILabel *userIdLabel;
-@property (nonatomic,strong) UILabel *followersNumLabel;
-@property (nonatomic,strong) UILabel *followersTittleLabel;
-@property (nonatomic,strong) UILabel *followingNumLabel;
-@property (nonatomic,strong) UILabel *followingTittleLabel;
-@property (nonatomic,strong) UIImageView *followersImageView;
-@property (nonatomic,strong) UIImageView *followingImageView;
-
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier pbUser:(PBUser *)pbUser;
+@property (nonatomic,strong) UIImageView *backgroundImageView;
 
 @end

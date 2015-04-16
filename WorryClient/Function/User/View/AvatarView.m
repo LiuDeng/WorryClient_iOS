@@ -12,6 +12,19 @@
 
 @implementation AvatarView
 
+- (id)initWithBorderWidth:(CGFloat)borderWidth
+{
+    self = [super init];
+    if (self) {
+        self.imageView = [[UIImageView alloc]init];
+        [self addSubview:self.imageView];
+        if (borderWidth > 0.0f) {
+            self.layer.borderWidth = borderWidth;
+            self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
+        }
+    }
+    return self;
+}
 - (id)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth
 {
 
@@ -26,7 +39,7 @@
             make.height.equalTo(self);
         }];
 
-        if (borderWidth < 0.0f) {
+        if (borderWidth > 0.0f) {
             self.layer.borderWidth = borderWidth;
             self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
         }
@@ -34,7 +47,7 @@
     return self;
 }
 
-
+#pragma mark - Utils
 - (void)addTapGuesture
 {
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clickOnAvatar:)];
@@ -53,6 +66,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
+    self.imageView.frame = self.bounds;
     [UIView setAsRound:self];
     [UIView setAsRound:self.imageView];
 }
