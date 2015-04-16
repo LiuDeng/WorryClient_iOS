@@ -30,8 +30,6 @@
             self.layer.borderWidth = borderWidth;
             self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
         }
-        [UIView setAsRound:self];
-        [UIView setAsRound:self.imageView];
     }
     return self;
 }
@@ -51,5 +49,11 @@
         //  TODO
     }
 }
-
+#pragma mark - Default methods
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    [UIView setAsRound:self];
+    [UIView setAsRound:self.imageView];
+}
 @end

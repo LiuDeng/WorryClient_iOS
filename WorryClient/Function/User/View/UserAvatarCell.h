@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class AvatarView;
-//@class PBUser;
 
 @interface UserAvatarCell : UITableViewCell
 

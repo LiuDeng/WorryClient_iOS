@@ -11,7 +11,6 @@
 #import "FontInfo.h"
 #import "ViewInfo.h"
 #import "AvatarView.h"
-//#import "User.pb.h"
 
 #define AVTARVIEW_HEIGHT_WIDTH 80
 #define FOLLOWING_VIEW_HEIGHT_WIDTH 30
@@ -23,11 +22,12 @@
     UIView *followersHoldView;
     UIImageView *followingShadowImageView;
     UIImageView *followersShadowImageView;
-//    PBUser *_pbUser;
-}
 
-//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier pbUser:(PBUser *)pbUser
+}
+#pragma mark - Public methods
+//- (instancetype)init
 //{
+//    [super init];
 //    
 //}
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -61,13 +61,14 @@
         followingShadowImageView = [[UIImageView alloc]initWithImage:nil];
         followingShadowImageView.backgroundColor = [UIColor grayColor];
         
-        [self loadFollowingHoldView];
-        [self loadFollowersHoldView];
+//        [self loadFollowingHoldView];
+//        [self loadFollowersHoldView];
 
-        
     }
     return self;
 }
+#pragma mark - Default methods
+
 
 -(void)loadData
 {
