@@ -8,7 +8,11 @@
 
 #import "FeedManager.h"
 
+#import "UserManager.h"
+
 #define kFeedDatakey @"kFeedDatakey"
+#define kFeedDBKey      @"kFeedDBKey"
+#define kFeedTable  @"kFeedTable"
 
 @implementation FeedManager
 
@@ -16,34 +20,45 @@
 
 IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 
-- (void)storeFeed:(NSData *)pbFeedData
+- (id)init
 {
-    USER_DEFAULTS_SET(kFeedDatakey, pbFeedData);
-}
-
-- (PBFeed *)pbFeed
-{
-    if (_pbFeed == nil) {
-        _pbFeed = [self readFeedFromStorage];
-    }
-    return _pbFeed;
-}
-
-- (PBFeed *)readFeedFromStorage
-{
-        NSData* data = USER_DEFAULTS_GET(kFeedDatakey);
-        if (data == nil){
-            return nil;
-        }
+    self = [super init];
+    if (self) {
+        NSString *userName = [[UserManager sharedInstance]pbUser].userName;
+        NSString *dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kFeedDatakey,userName];
         
-        @try {
-            PBFeed* newFeed = [PBFeed parseFromData:data];
-            return newFeed;
-        }
-        @catch (NSException *exception) {
-            NSLog(@"catch exception while parse user data, exception=%@", [exception description]);
-            return nil;
+        // delete the old db.
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtPath:dbPath error:nil];
+        
+        _db = [FMDatabase databaseWithPath:dbPath];
+        if ([_db open]) {
+            NSString *sql = [NSString stringWithFormat:@"create table %@ (id text primary key,feed blob);",kFeedTable];
+            BOOL *isSeccess = [_db executeStatements:sql];  //  TODO
         }
 
+    
+    }
+    return self;
+}
+
+- (void)storeFeed:(PBFeed *)pbFeed
+{
+//    USER_DEFAULTS_SET(kFeedDatakey, pbFeedData);
+//    NSString *sql = [NSString stringWithFormat:@"insert into %@ (%@) values ('%@');",kFeedTable,];
+//    if ([_db open]) {
+        [_db executeUpdateWithFormat:@"insert into %@ values ('%@','%@');",kFeedTable,pbFeed.feedId,pbFeed];
+//    }
+}
+
+- (NSArray *)readFeedListFromCache
+{
+//    NSArray *feedArray = [_db re];
+
+    FMResultSet *rs = [_db executeQueryWithFormat:@"select count(*) from %@",kFeedTable];
+    if (rs.next) {
+        JDDebug(@"%@",[rs intForColumnIndex:0]);
+    }
+    return nil;
 }
 @end

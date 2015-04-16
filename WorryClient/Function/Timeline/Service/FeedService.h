@@ -12,9 +12,10 @@
 #import "Feed.pb.h"
 
 typedef AVBooleanResultBlock FeedServiceBooleanResultBlock;
+typedef void (^FeedServiceErrorResultBlock) (NSError *error);
 @interface FeedService : NSObject
 
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
-- (void)creatFeedWithTitle:(NSString *)title text:(NSString *)text createUser:(PBUser *)createUser isAnonymous:(BOOL)isAnonymous topic:(NSArray *)topicArray block:(FeedServiceBooleanResultBlock)block;
+- (void)creatFeedWithTitle:(NSString *)title text:(NSString *)text createUser:(PBUser *)createUser isAnonymous:(BOOL)isAnonymous topic:(NSArray *)topicArray block:(FeedServiceErrorResultBlock)block;
 @end

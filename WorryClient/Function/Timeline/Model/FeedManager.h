@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "SynthesizeSingleton.h"
 #import "Feed.pb.h"
+#import "FMDB.h"
 
-@interface FeedManager : NSObject
+@interface FeedManager : CommonManager
 {
-    PBFeed *_pbFeed;
+    FMDatabase *_db;
 }
 
 DEFINE_SINGLETON_FOR_CLASS(FeedManager)
-- (void)storeFeed:(NSData *)pbFeedData;
+- (void)storeFeed:(PBFeed *)pbFeed;
 - (PBFeed *)pbFeed; // change to be array
 
 @end

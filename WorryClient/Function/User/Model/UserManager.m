@@ -7,7 +7,7 @@
 //
 
 #import "UserManager.h"
-#import "DataUtils.h"
+//#import "DataUtils.h"
 
 #define kUserDataKey @"kUserDataKey"
 
@@ -27,11 +27,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
 - (PBUser*)pbUser
 {
     if (_pbUser == nil) {
-        _pbUser = [self readUserFromStorage];
+        _pbUser = [self readUserFromCache];
     }
     return _pbUser;
 }
-- (PBUser*)readUserFromStorage
+- (PBUser*)readUserFromCache
 {
     NSData* data = USER_DEFAULTS_GET(kUserDataKey);
     if (data == nil){
