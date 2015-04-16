@@ -1,0 +1,30 @@
+import "User.proto";
+
+package worry;
+
+enum PBFeedType{
+
+    feed_type_worry = 0;
+    feed_type_story = 1;
+}
+
+message PBTopic{
+optional string topic_id = 1;
+optional string title = 2;
+}
+
+message PBFeed{
+optional PBFeedType type = 1;
+optional string feed_id = 2;
+optional PBUser create_user =3;
+optional bool is_anonymous = 5 [default=false];
+repeated PBUser comment_user = 6;
+repeated PBUser blessing_user = 7;
+
+optional string title = 40;
+optional string text = 41;
+optional int32 date =42;
+
+repeated PBTopic topic = 50;
+
+}

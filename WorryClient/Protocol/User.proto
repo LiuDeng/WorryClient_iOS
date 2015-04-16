@@ -14,4 +14,5 @@ message PBUser{
 
     optional string phone = 10;
     optional string email = 11;
+    optional int32 date = 12;
 }

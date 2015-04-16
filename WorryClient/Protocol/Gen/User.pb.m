@@ -47,6 +47,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property BOOL gender;
 @property (strong) NSString* phone;
 @property (strong) NSString* email;
+@property SInt32 date;
 @end
 
 @implementation PBUser
@@ -98,6 +99,13 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasEmail_ = !!_value_;
 }
 @synthesize email;
+- (BOOL) hasDate {
+  return !!hasDate_;
+}
+- (void) setHasDate:(BOOL) _value_ {
+  hasDate_ = !!_value_;
+}
+@synthesize date;
 - (instancetype) init {
   if ((self = [super init])) {
     self.userName = @"";
@@ -106,6 +114,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
     self.gender = NO;
     self.phone = @"";
     self.email = @"";
+    self.date = 0;
   }
   return self;
 }
@@ -146,6 +155,9 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     [output writeString:11 value:self.email];
   }
+  if (self.hasDate) {
+    [output writeInt32:12 value:self.date];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -172,6 +184,9 @@ static PBUser* defaultPBUserInstance = nil;
   }
   if (self.hasEmail) {
     size_ += computeStringSize(11, self.email);
+  }
+  if (self.hasDate) {
+    size_ += computeInt32Size(12, self.date);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -226,6 +241,9 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     [output appendFormat:@"%@%@: %@\n", indent, @"email", self.email];
   }
+  if (self.hasDate) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"date", [NSNumber numberWithInteger:self.date]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -249,6 +267,8 @@ static PBUser* defaultPBUserInstance = nil;
       (!self.hasPhone || [self.phone isEqual:otherMessage.phone]) &&
       self.hasEmail == otherMessage.hasEmail &&
       (!self.hasEmail || [self.email isEqual:otherMessage.email]) &&
+      self.hasDate == otherMessage.hasDate &&
+      (!self.hasDate || self.date == otherMessage.date) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -270,6 +290,9 @@ static PBUser* defaultPBUserInstance = nil;
   }
   if (self.hasEmail) {
     hashCode = hashCode * 31 + [self.email hash];
+  }
+  if (self.hasDate) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.date] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -332,6 +355,9 @@ static PBUser* defaultPBUserInstance = nil;
   if (other.hasEmail) {
     [self setEmail:other.email];
   }
+  if (other.hasDate) {
+    [self setDate:other.date];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -375,6 +401,10 @@ static PBUser* defaultPBUserInstance = nil;
       }
       case 90: {
         [self setEmail:[input readString]];
+        break;
+      }
+      case 96: {
+        [self setDate:[input readInt32]];
         break;
       }
     }
@@ -474,6 +504,22 @@ static PBUser* defaultPBUserInstance = nil;
 - (PBUserBuilder*) clearEmail {
   resultPbuser.hasEmail = NO;
   resultPbuser.email = @"";
+  return self;
+}
+- (BOOL) hasDate {
+  return resultPbuser.hasDate;
+}
+- (SInt32) date {
+  return resultPbuser.date;
+}
+- (PBUserBuilder*) setDate:(SInt32) value {
+  resultPbuser.hasDate = YES;
+  resultPbuser.date = value;
+  return self;
+}
+- (PBUserBuilder*) clearDate {
+  resultPbuser.hasDate = NO;
+  resultPbuser.date = 0;
   return self;
 }
 @end

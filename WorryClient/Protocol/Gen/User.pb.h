@@ -36,12 +36,14 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 @interface PBUser : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasGender_:1;
+  BOOL hasDate_:1;
   BOOL hasUserName_:1;
   BOOL hasPassword_:1;
   BOOL hasNick_:1;
   BOOL hasPhone_:1;
   BOOL hasEmail_:1;
   BOOL gender_:1;
+  SInt32 date;
   NSString* userName;
   NSString* password;
   NSString* nick;
@@ -54,12 +56,14 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 - (BOOL) hasGender;
 - (BOOL) hasPhone;
 - (BOOL) hasEmail;
+- (BOOL) hasDate;
 @property (readonly, strong) NSString* userName;
 @property (readonly, strong) NSString* password;
 @property (readonly, strong) NSString* nick;
 - (BOOL) gender;
 @property (readonly, strong) NSString* phone;
 @property (readonly, strong) NSString* email;
+@property (readonly) SInt32 date;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -125,6 +129,11 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 - (NSString*) email;
 - (PBUserBuilder*) setEmail:(NSString*) value;
 - (PBUserBuilder*) clearEmail;
+
+- (BOOL) hasDate;
+- (SInt32) date;
+- (PBUserBuilder*) setDate:(SInt32) value;
+- (PBUserBuilder*) clearDate;
 @end
 
 
