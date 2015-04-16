@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5FE6B2DC7241CCD7244C61DA"
-               BuildableName = "libPods-AVOSCloud.a"
-               BlueprintName = "Pods-AVOSCloud"
+               BlueprintIdentifier = "1E1EB243D6AC476F5EFEFEBB"
+               BuildableName = "libPods-FMDB.a"
+               BlueprintName = "Pods-FMDB"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
