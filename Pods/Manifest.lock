@@ -1,0 +1,25 @@
+PODS:
+  - AVOSCloud (3.0.2)
+  - Masonry (0.6.1)
+  - MBProgressHUD (0.9.1)
+  - ProtocolBuffers (1.9.7)
+  - RDVTabBarController (1.1.9)
+  - TAPageControl (0.2.0)
+
+DEPENDENCIES:
+  - AVOSCloud
+  - Masonry
+  - MBProgressHUD (~> 0.9.1)
+  - ProtocolBuffers (= 1.9.7)
+  - RDVTabBarController
+  - TAPageControl
+
+SPEC CHECKSUMS:
+  AVOSCloud: eeacd471d18b3e24c3cb0d089110453261084489
+  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
+  RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
+  TAPageControl: fd11d779bbb5c2464ca2f55dde9e288213ea8a9b
+
+COCOAPODS: 0.35.0

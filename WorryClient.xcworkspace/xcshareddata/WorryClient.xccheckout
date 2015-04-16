@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>68E2940E-C86D-4FEE-88BA-1F215A5B99B4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WorryClient</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D2292BA7F39ED960A33E080606EF712D0DF9C36A</key>
+		<string>github.com:JiandanDream/WorryClient_iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>WorryClient.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D2292BA7F39ED960A33E080606EF712D0DF9C36A</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:JiandanDream/WorryClient_iOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D2292BA7F39ED960A33E080606EF712D0DF9C36A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D2292BA7F39ED960A33E080606EF712D0DF9C36A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>WorryClient_iOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>

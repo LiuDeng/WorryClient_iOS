@@ -7,4 +7,4 @@ pod 'ProtocolBuffers', '1.9.7'
 pod 'TAPageControl'
 
 pod 'AVOSCloud'
-pod 'MBProgressHUD', '~> 0.9.1
+pod 'MBProgressHUD', '~> 0.9.1'
