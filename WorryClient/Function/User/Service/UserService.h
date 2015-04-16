@@ -5,8 +5,6 @@
 //  Created by 蔡少武 on 15/4/12.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
-
-#import "CommonService.h"
 #import "User.pb.h"
 #import "SynthesizeSingleton.h"
 #import "AVOSCloud/AVOSCloud.h"
@@ -16,7 +14,7 @@ typedef void (^UserServiceErrorResultBlock) (NSError *error);
 typedef AVBooleanResultBlock UserServiceBooleanResultBlock;
 typedef AVUserResultBlock UserServiceResultBlock;
 
-@interface UserService : CommonService
+@interface UserService : NSObject
 
 DEFINE_SINGLETON_FOR_CLASS(UserService)
 
