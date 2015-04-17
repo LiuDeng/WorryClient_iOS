@@ -14,10 +14,11 @@
 @interface FeedManager : CommonManager
 {
     FMDatabase *_db;
+    NSArray *_pbFeedArray;
 }
 
 DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 - (void)storeFeed:(PBFeed *)pbFeed;
-- (PBFeed *)pbFeed; // change to be array
+- (NSArray *)pbFeedArray; // change to be array
 
 @end

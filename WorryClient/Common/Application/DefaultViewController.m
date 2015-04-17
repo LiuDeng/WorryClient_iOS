@@ -61,4 +61,16 @@
     self.navigationItem.rightBarButtonItem = rightButton;
 }
 
+- (void)addRightButtonWithImageName:(NSString*)imageName
+                             target:(id)target
+                             action:(SEL)action
+{
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:imageName]
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:target
+                                                                   action:action];
+    [rightButton setTintColor:[UIColor whiteColor]];
+    self.navigationItem.rightBarButtonItem = rightButton;
+}
+
 @end

@@ -5,6 +5,8 @@
 #import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class PBComment;
+@class PBCommentBuilder;
 @class PBFeed;
 @class PBFeedBuilder;
 @class PBTopic;
@@ -96,6 +98,75 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBTopicBuilder*) clearTitle;
 @end
 
+@interface PBComment : PBGeneratedMessage<GeneratedMessageProtocol> {
+@private
+  BOOL hasCommentId_:1;
+  BOOL hasText_:1;
+  BOOL hasCreateUser_:1;
+  NSString* commentId;
+  NSString* text;
+  PBUser* createUser;
+}
+- (BOOL) hasCommentId;
+- (BOOL) hasCreateUser;
+- (BOOL) hasText;
+@property (readonly, strong) NSString* commentId;
+@property (readonly, strong) PBUser* createUser;
+@property (readonly, strong) NSString* text;
+
++ (instancetype) defaultInstance;
+- (instancetype) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PBCommentBuilder*) builder;
++ (PBCommentBuilder*) builder;
++ (PBCommentBuilder*) builderWithPrototype:(PBComment*) prototype;
+- (PBCommentBuilder*) toBuilder;
+
++ (PBComment*) parseFromData:(NSData*) data;
++ (PBComment*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBComment*) parseFromInputStream:(NSInputStream*) input;
++ (PBComment*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBComment*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PBComment*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PBCommentBuilder : PBGeneratedMessageBuilder {
+@private
+  PBComment* resultPbcomment;
+}
+
+- (PBComment*) defaultInstance;
+
+- (PBCommentBuilder*) clear;
+- (PBCommentBuilder*) clone;
+
+- (PBComment*) build;
+- (PBComment*) buildPartial;
+
+- (PBCommentBuilder*) mergeFrom:(PBComment*) other;
+- (PBCommentBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PBCommentBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCommentId;
+- (NSString*) commentId;
+- (PBCommentBuilder*) setCommentId:(NSString*) value;
+- (PBCommentBuilder*) clearCommentId;
+
+- (BOOL) hasCreateUser;
+- (PBUser*) createUser;
+- (PBCommentBuilder*) setCreateUser:(PBUser*) value;
+- (PBCommentBuilder*) setCreateUserBuilder:(PBUserBuilder*) builderForValue;
+- (PBCommentBuilder*) mergeCreateUser:(PBUser*) value;
+- (PBCommentBuilder*) clearCreateUser;
+
+- (BOOL) hasText;
+- (NSString*) text;
+- (PBCommentBuilder*) setText:(NSString*) value;
+- (PBCommentBuilder*) clearText;
+@end
+
 @interface PBFeed : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasIsAnonymous_:1;
@@ -112,9 +183,9 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
   NSString* text;
   PBUser* createUser;
   PBFeedType type;
-  NSMutableArray * commentUserArray;
   NSMutableArray * blessingUserArray;
   NSMutableArray * topicArray;
+  NSMutableArray * commentArray;
 }
 - (BOOL) hasType;
 - (BOOL) hasFeedId;
@@ -127,15 +198,15 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 @property (readonly, strong) NSString* feedId;
 @property (readonly, strong) PBUser* createUser;
 - (BOOL) isAnonymous;
-@property (readonly, strong) NSArray * commentUser;
 @property (readonly, strong) NSArray * blessingUser;
 @property (readonly, strong) NSString* title;
 @property (readonly, strong) NSString* text;
 @property (readonly) SInt32 date;
 @property (readonly, strong) NSArray * topic;
-- (PBUser*)commentUserAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * comment;
 - (PBUser*)blessingUserAtIndex:(NSUInteger)index;
 - (PBTopic*)topicAtIndex:(NSUInteger)index;
+- (PBComment*)commentAtIndex:(NSUInteger)index;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -194,12 +265,6 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBFeedBuilder*) setIsAnonymous:(BOOL) value;
 - (PBFeedBuilder*) clearIsAnonymous;
 
-- (NSMutableArray *)commentUser;
-- (PBUser*)commentUserAtIndex:(NSUInteger)index;
-- (PBFeedBuilder *)addCommentUser:(PBUser*)value;
-- (PBFeedBuilder *)setCommentUserArray:(NSArray *)array;
-- (PBFeedBuilder *)clearCommentUser;
-
 - (NSMutableArray *)blessingUser;
 - (PBUser*)blessingUserAtIndex:(NSUInteger)index;
 - (PBFeedBuilder *)addBlessingUser:(PBUser*)value;
@@ -226,6 +291,12 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBFeedBuilder *)addTopic:(PBTopic*)value;
 - (PBFeedBuilder *)setTopicArray:(NSArray *)array;
 - (PBFeedBuilder *)clearTopic;
+
+- (NSMutableArray *)comment;
+- (PBComment*)commentAtIndex:(NSUInteger)index;
+- (PBFeedBuilder *)addComment:(PBComment*)value;
+- (PBFeedBuilder *)setCommentArray:(NSArray *)array;
+- (PBFeedBuilder *)clearComment;
 @end
 
 

@@ -23,12 +23,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     
-    
+    [feed saveEventually];
 //    NSData *pbFeedData = [pbFeed data];
 //    [feed setObject:pbFeedData forKey:kFeedKey];
 //    [feed saveInBackgroundWithBlock:block];
-    [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
+//    [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
             PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
             [pbFeedBuilder setCreateUser:createUser];
             [pbFeedBuilder setTitle:title];
@@ -47,7 +47,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
                     EXECUTE_BLOCK(block,error);
                 }
             }];
-        }
-    }];
+//        }
+//    }];
 }
 @end

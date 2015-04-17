@@ -18,4 +18,7 @@
                          target:(id)target
                          action:(SEL)action;
 
+- (void)addRightButtonWithImageName:(NSString*)imageName
+                             target:(id)target
+                             action:(SEL)action;
 @end

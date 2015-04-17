@@ -37,7 +37,9 @@
 - (void)loadView
 {
     [super loadView];
-    [self addRightButtonWithTitle:@"提交" target:self action:@selector(clickRightButton)];
+//    [self addRightButtonWithTitle:@"提交" target:self action:@selector(clickRightButton)];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(clickRightButton)];
+    self.navigationItem.rightBarButtonItem = buttonItem;
     [self loadTitleTextField];
     [self loadPlaceholderTextView];
 }

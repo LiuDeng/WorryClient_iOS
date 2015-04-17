@@ -287,17 +287,339 @@ static PBTopic* defaultPBTopicInstance = nil;
 }
 @end
 
+@interface PBComment ()
+@property (strong) NSString* commentId;
+@property (strong) PBUser* createUser;
+@property (strong) NSString* text;
+@end
+
+@implementation PBComment
+
+- (BOOL) hasCommentId {
+  return !!hasCommentId_;
+}
+- (void) setHasCommentId:(BOOL) _value_ {
+  hasCommentId_ = !!_value_;
+}
+@synthesize commentId;
+- (BOOL) hasCreateUser {
+  return !!hasCreateUser_;
+}
+- (void) setHasCreateUser:(BOOL) _value_ {
+  hasCreateUser_ = !!_value_;
+}
+@synthesize createUser;
+- (BOOL) hasText {
+  return !!hasText_;
+}
+- (void) setHasText:(BOOL) _value_ {
+  hasText_ = !!_value_;
+}
+@synthesize text;
+- (instancetype) init {
+  if ((self = [super init])) {
+    self.commentId = @"";
+    self.createUser = [PBUser defaultInstance];
+    self.text = @"";
+  }
+  return self;
+}
+static PBComment* defaultPBCommentInstance = nil;
++ (void) initialize {
+  if (self == [PBComment class]) {
+    defaultPBCommentInstance = [[PBComment alloc] init];
+  }
+}
++ (instancetype) defaultInstance {
+  return defaultPBCommentInstance;
+}
+- (instancetype) defaultInstance {
+  return defaultPBCommentInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasCommentId) {
+    return NO;
+  }
+  if (self.hasCreateUser) {
+    if (!self.createUser.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCommentId) {
+    [output writeString:1 value:self.commentId];
+  }
+  if (self.hasCreateUser) {
+    [output writeMessage:2 value:self.createUser];
+  }
+  if (self.hasText) {
+    [output writeString:5 value:self.text];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasCommentId) {
+    size_ += computeStringSize(1, self.commentId);
+  }
+  if (self.hasCreateUser) {
+    size_ += computeMessageSize(2, self.createUser);
+  }
+  if (self.hasText) {
+    size_ += computeStringSize(5, self.text);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (PBComment*) parseFromData:(NSData*) data {
+  return (PBComment*)[[[PBComment builder] mergeFromData:data] build];
+}
++ (PBComment*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBComment*)[[[PBComment builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PBComment*) parseFromInputStream:(NSInputStream*) input {
+  return (PBComment*)[[[PBComment builder] mergeFromInputStream:input] build];
+}
++ (PBComment*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBComment*)[[[PBComment builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PBComment*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PBComment*)[[[PBComment builder] mergeFromCodedInputStream:input] build];
+}
++ (PBComment*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBComment*)[[[PBComment builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PBCommentBuilder*) builder {
+  return [[PBCommentBuilder alloc] init];
+}
++ (PBCommentBuilder*) builderWithPrototype:(PBComment*) prototype {
+  return [[PBComment builder] mergeFrom:prototype];
+}
+- (PBCommentBuilder*) builder {
+  return [PBComment builder];
+}
+- (PBCommentBuilder*) toBuilder {
+  return [PBComment builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasCommentId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"commentId", self.commentId];
+  }
+  if (self.hasCreateUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"createUser"];
+    [self.createUser writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasText) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"text", self.text];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[PBComment class]]) {
+    return NO;
+  }
+  PBComment *otherMessage = other;
+  return
+      self.hasCommentId == otherMessage.hasCommentId &&
+      (!self.hasCommentId || [self.commentId isEqual:otherMessage.commentId]) &&
+      self.hasCreateUser == otherMessage.hasCreateUser &&
+      (!self.hasCreateUser || [self.createUser isEqual:otherMessage.createUser]) &&
+      self.hasText == otherMessage.hasText &&
+      (!self.hasText || [self.text isEqual:otherMessage.text]) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasCommentId) {
+    hashCode = hashCode * 31 + [self.commentId hash];
+  }
+  if (self.hasCreateUser) {
+    hashCode = hashCode * 31 + [self.createUser hash];
+  }
+  if (self.hasText) {
+    hashCode = hashCode * 31 + [self.text hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface PBCommentBuilder()
+@property (strong) PBComment* resultPbcomment;
+@end
+
+@implementation PBCommentBuilder
+@synthesize resultPbcomment;
+- (instancetype) init {
+  if ((self = [super init])) {
+    self.resultPbcomment = [[PBComment alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return resultPbcomment;
+}
+- (PBCommentBuilder*) clear {
+  self.resultPbcomment = [[PBComment alloc] init];
+  return self;
+}
+- (PBCommentBuilder*) clone {
+  return [PBComment builderWithPrototype:resultPbcomment];
+}
+- (PBComment*) defaultInstance {
+  return [PBComment defaultInstance];
+}
+- (PBComment*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PBComment*) buildPartial {
+  PBComment* returnMe = resultPbcomment;
+  self.resultPbcomment = nil;
+  return returnMe;
+}
+- (PBCommentBuilder*) mergeFrom:(PBComment*) other {
+  if (other == [PBComment defaultInstance]) {
+    return self;
+  }
+  if (other.hasCommentId) {
+    [self setCommentId:other.commentId];
+  }
+  if (other.hasCreateUser) {
+    [self mergeCreateUser:other.createUser];
+  }
+  if (other.hasText) {
+    [self setText:other.text];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PBCommentBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PBCommentBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setCommentId:[input readString]];
+        break;
+      }
+      case 18: {
+        PBUserBuilder* subBuilder = [PBUser builder];
+        if (self.hasCreateUser) {
+          [subBuilder mergeFrom:self.createUser];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCreateUser:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        [self setText:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCommentId {
+  return resultPbcomment.hasCommentId;
+}
+- (NSString*) commentId {
+  return resultPbcomment.commentId;
+}
+- (PBCommentBuilder*) setCommentId:(NSString*) value {
+  resultPbcomment.hasCommentId = YES;
+  resultPbcomment.commentId = value;
+  return self;
+}
+- (PBCommentBuilder*) clearCommentId {
+  resultPbcomment.hasCommentId = NO;
+  resultPbcomment.commentId = @"";
+  return self;
+}
+- (BOOL) hasCreateUser {
+  return resultPbcomment.hasCreateUser;
+}
+- (PBUser*) createUser {
+  return resultPbcomment.createUser;
+}
+- (PBCommentBuilder*) setCreateUser:(PBUser*) value {
+  resultPbcomment.hasCreateUser = YES;
+  resultPbcomment.createUser = value;
+  return self;
+}
+- (PBCommentBuilder*) setCreateUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setCreateUser:[builderForValue build]];
+}
+- (PBCommentBuilder*) mergeCreateUser:(PBUser*) value {
+  if (resultPbcomment.hasCreateUser &&
+      resultPbcomment.createUser != [PBUser defaultInstance]) {
+    resultPbcomment.createUser =
+      [[[PBUser builderWithPrototype:resultPbcomment.createUser] mergeFrom:value] buildPartial];
+  } else {
+    resultPbcomment.createUser = value;
+  }
+  resultPbcomment.hasCreateUser = YES;
+  return self;
+}
+- (PBCommentBuilder*) clearCreateUser {
+  resultPbcomment.hasCreateUser = NO;
+  resultPbcomment.createUser = [PBUser defaultInstance];
+  return self;
+}
+- (BOOL) hasText {
+  return resultPbcomment.hasText;
+}
+- (NSString*) text {
+  return resultPbcomment.text;
+}
+- (PBCommentBuilder*) setText:(NSString*) value {
+  resultPbcomment.hasText = YES;
+  resultPbcomment.text = value;
+  return self;
+}
+- (PBCommentBuilder*) clearText {
+  resultPbcomment.hasText = NO;
+  resultPbcomment.text = @"";
+  return self;
+}
+@end
+
 @interface PBFeed ()
 @property PBFeedType type;
 @property (strong) NSString* feedId;
 @property (strong) PBUser* createUser;
 @property BOOL isAnonymous;
-@property (strong) NSMutableArray * commentUserArray;
 @property (strong) NSMutableArray * blessingUserArray;
 @property (strong) NSString* title;
 @property (strong) NSString* text;
 @property SInt32 date;
 @property (strong) NSMutableArray * topicArray;
+@property (strong) NSMutableArray * commentArray;
 @end
 
 @implementation PBFeed
@@ -335,8 +657,6 @@ static PBTopic* defaultPBTopicInstance = nil;
 - (void) setIsAnonymous:(BOOL) _value_ {
   isAnonymous_ = !!_value_;
 }
-@synthesize commentUserArray;
-@dynamic commentUser;
 @synthesize blessingUserArray;
 @dynamic blessingUser;
 - (BOOL) hasTitle {
@@ -362,6 +682,8 @@ static PBTopic* defaultPBTopicInstance = nil;
 @synthesize date;
 @synthesize topicArray;
 @dynamic topic;
+@synthesize commentArray;
+@dynamic comment;
 - (instancetype) init {
   if ((self = [super init])) {
     self.type = PBFeedTypeFeedTypeWorry;
@@ -386,12 +708,6 @@ static PBFeed* defaultPBFeedInstance = nil;
 - (instancetype) defaultInstance {
   return defaultPBFeedInstance;
 }
-- (NSArray *)commentUser {
-  return commentUserArray;
-}
-- (PBUser*)commentUserAtIndex:(NSUInteger)index {
-  return [commentUserArray objectAtIndex:index];
-}
 - (NSArray *)blessingUser {
   return blessingUserArray;
 }
@@ -404,20 +720,18 @@ static PBFeed* defaultPBFeedInstance = nil;
 - (PBTopic*)topicAtIndex:(NSUInteger)index {
   return [topicArray objectAtIndex:index];
 }
+- (NSArray *)comment {
+  return commentArray;
+}
+- (PBComment*)commentAtIndex:(NSUInteger)index {
+  return [commentArray objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   if (self.hasCreateUser) {
     if (!self.createUser.isInitialized) {
       return NO;
     }
   }
-  __block BOOL isInitcommentUser = YES;
-   [self.commentUser enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    if (!element.isInitialized) {
-      isInitcommentUser = NO;
-      *stop = YES;
-    }
-  }];
-  if (!isInitcommentUser) return isInitcommentUser;
   __block BOOL isInitblessingUser = YES;
    [self.blessingUser enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     if (!element.isInitialized) {
@@ -426,6 +740,14 @@ static PBFeed* defaultPBFeedInstance = nil;
     }
   }];
   if (!isInitblessingUser) return isInitblessingUser;
+  __block BOOL isInitcomment = YES;
+   [self.comment enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
+    if (!element.isInitialized) {
+      isInitcomment = NO;
+      *stop = YES;
+    }
+  }];
+  if (!isInitcomment) return isInitcomment;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -441,9 +763,6 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasIsAnonymous) {
     [output writeBool:5 value:self.isAnonymous];
   }
-  [self.commentUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:6 value:element];
-  }];
   [self.blessingUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:7 value:element];
   }];
@@ -458,6 +777,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:50 value:element];
+  }];
+  [self.commentArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:60 value:element];
   }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -480,9 +802,6 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasIsAnonymous) {
     size_ += computeBoolSize(5, self.isAnonymous);
   }
-  [self.commentUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(6, element);
-  }];
   [self.blessingUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(7, element);
   }];
@@ -497,6 +816,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(50, element);
+  }];
+  [self.commentArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(60, element);
   }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -548,12 +870,6 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasIsAnonymous) {
     [output appendFormat:@"%@%@: %@\n", indent, @"isAnonymous", [NSNumber numberWithBool:self.isAnonymous]];
   }
-  [self.commentUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"commentUser"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
-  }];
   [self.blessingUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"blessingUser"];
     [element writeDescriptionTo:output
@@ -571,6 +887,12 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"topic"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
+  [self.commentArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"comment"];
     [element writeDescriptionTo:output
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
@@ -594,7 +916,6 @@ static PBFeed* defaultPBFeedInstance = nil;
       (!self.hasCreateUser || [self.createUser isEqual:otherMessage.createUser]) &&
       self.hasIsAnonymous == otherMessage.hasIsAnonymous &&
       (!self.hasIsAnonymous || self.isAnonymous == otherMessage.isAnonymous) &&
-      [self.commentUserArray isEqualToArray:otherMessage.commentUserArray] &&
       [self.blessingUserArray isEqualToArray:otherMessage.blessingUserArray] &&
       self.hasTitle == otherMessage.hasTitle &&
       (!self.hasTitle || [self.title isEqual:otherMessage.title]) &&
@@ -603,6 +924,7 @@ static PBFeed* defaultPBFeedInstance = nil;
       self.hasDate == otherMessage.hasDate &&
       (!self.hasDate || self.date == otherMessage.date) &&
       [self.topicArray isEqualToArray:otherMessage.topicArray] &&
+      [self.commentArray isEqualToArray:otherMessage.commentArray] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -619,9 +941,6 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasIsAnonymous) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isAnonymous] hash];
   }
-  [self.commentUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    hashCode = hashCode * 31 + [element hash];
-  }];
   [self.blessingUserArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
@@ -635,6 +954,9 @@ static PBFeed* defaultPBFeedInstance = nil;
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.date] hash];
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.commentArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
@@ -692,13 +1014,6 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (other.hasIsAnonymous) {
     [self setIsAnonymous:other.isAnonymous];
   }
-  if (other.commentUserArray.count > 0) {
-    if (resultPbfeed.commentUserArray == nil) {
-      resultPbfeed.commentUserArray = [[NSMutableArray alloc] initWithArray:other.commentUserArray];
-    } else {
-      [resultPbfeed.commentUserArray addObjectsFromArray:other.commentUserArray];
-    }
-  }
   if (other.blessingUserArray.count > 0) {
     if (resultPbfeed.blessingUserArray == nil) {
       resultPbfeed.blessingUserArray = [[NSMutableArray alloc] initWithArray:other.blessingUserArray];
@@ -720,6 +1035,13 @@ static PBFeed* defaultPBFeedInstance = nil;
       resultPbfeed.topicArray = [[NSMutableArray alloc] initWithArray:other.topicArray];
     } else {
       [resultPbfeed.topicArray addObjectsFromArray:other.topicArray];
+    }
+  }
+  if (other.commentArray.count > 0) {
+    if (resultPbfeed.commentArray == nil) {
+      resultPbfeed.commentArray = [[NSMutableArray alloc] initWithArray:other.commentArray];
+    } else {
+      [resultPbfeed.commentArray addObjectsFromArray:other.commentArray];
     }
   }
   [self mergeUnknownFields:other.unknownFields];
@@ -769,12 +1091,6 @@ static PBFeed* defaultPBFeedInstance = nil;
         [self setIsAnonymous:[input readBool]];
         break;
       }
-      case 50: {
-        PBUserBuilder* subBuilder = [PBUser builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addCommentUser:[subBuilder buildPartial]];
-        break;
-      }
       case 58: {
         PBUserBuilder* subBuilder = [PBUser builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
@@ -797,6 +1113,12 @@ static PBFeed* defaultPBFeedInstance = nil;
         PBTopicBuilder* subBuilder = [PBTopic builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addTopic:[subBuilder buildPartial]];
+        break;
+      }
+      case 482: {
+        PBCommentBuilder* subBuilder = [PBComment builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addComment:[subBuilder buildPartial]];
         break;
       }
     }
@@ -878,27 +1200,6 @@ static PBFeed* defaultPBFeedInstance = nil;
 - (PBFeedBuilder*) clearIsAnonymous {
   resultPbfeed.hasIsAnonymous = NO;
   resultPbfeed.isAnonymous = NO;
-  return self;
-}
-- (NSMutableArray *)commentUser {
-  return resultPbfeed.commentUserArray;
-}
-- (PBUser*)commentUserAtIndex:(NSUInteger)index {
-  return [resultPbfeed commentUserAtIndex:index];
-}
-- (PBFeedBuilder *)addCommentUser:(PBUser*)value {
-  if (resultPbfeed.commentUserArray == nil) {
-    resultPbfeed.commentUserArray = [[NSMutableArray alloc]init];
-  }
-  [resultPbfeed.commentUserArray addObject:value];
-  return self;
-}
-- (PBFeedBuilder *)setCommentUserArray:(NSArray *)array {
-  resultPbfeed.commentUserArray = [[NSMutableArray alloc]initWithArray:array];
-  return self;
-}
-- (PBFeedBuilder *)clearCommentUser {
-  resultPbfeed.commentUserArray = nil;
   return self;
 }
 - (NSMutableArray *)blessingUser {
@@ -989,6 +1290,27 @@ static PBFeed* defaultPBFeedInstance = nil;
 }
 - (PBFeedBuilder *)clearTopic {
   resultPbfeed.topicArray = nil;
+  return self;
+}
+- (NSMutableArray *)comment {
+  return resultPbfeed.commentArray;
+}
+- (PBComment*)commentAtIndex:(NSUInteger)index {
+  return [resultPbfeed commentAtIndex:index];
+}
+- (PBFeedBuilder *)addComment:(PBComment*)value {
+  if (resultPbfeed.commentArray == nil) {
+    resultPbfeed.commentArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbfeed.commentArray addObject:value];
+  return self;
+}
+- (PBFeedBuilder *)setCommentArray:(NSArray *)array {
+  resultPbfeed.commentArray = [[NSMutableArray alloc]initWithArray:array];
+  return self;
+}
+- (PBFeedBuilder *)clearComment {
+  resultPbfeed.commentArray = nil;
   return self;
 }
 @end

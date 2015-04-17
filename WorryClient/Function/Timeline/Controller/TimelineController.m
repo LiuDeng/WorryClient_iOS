@@ -9,12 +9,15 @@
 #import "TimelineController.h"
 #import "TimelineCell.h"
 #import "Feed.pb.h"
+#import "CreatFeedController.h"
+#import "FeedManager.h"
 
 #define kTimelineCell @"kTimelineCell"
 
 @interface TimelineController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) NSArray *pbFeedArray;
 
 @end
 
@@ -34,6 +37,8 @@
 - (void)loadView
 {
     [super loadView];
+    [self loadData];
+    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
     [self loadTableView];
 }
 #pragma mark - Private methods
@@ -48,6 +53,10 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
+- (void)loadData
+{
+    self.pbFeedArray = [[FeedManager sharedInstance]pbFeedArray];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -57,7 +66,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 5;
+    return self.pbFeedArray.count;
 }
 
 #pragma mark - UITableViewDelegate
@@ -71,7 +80,8 @@
     NSArray *topicArray = @[@"大学",@"生活"];
     [pbFeedBuilder setTopicArray:topicArray];
     
-    PBFeed *pbFeed = [pbFeedBuilder build];
+//    PBFeed *pbFeed = [pbFeedBuilder build];
+    PBFeed *pbFeed = [self.pbFeedArray objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[TimelineCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTimelineCell pbFeed:pbFeed];
     }
@@ -84,6 +94,13 @@
     return CGRectGetHeight(self.view.bounds)*0.24;
 }
 
+#pragma mark - Utils
+
+- (void)clickPlusButton
+{
+    CreatFeedController *vc = [[CreatFeedController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

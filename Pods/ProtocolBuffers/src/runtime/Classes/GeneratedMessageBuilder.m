@@ -1,4 +1,4 @@
-// Protocol Buffers for Objective C
+ // Protocol Buffers for Objective C
 //
 // Copyright 2010 Booyah Inc.
 // Copyright 2008 Cyrus Najmabadi

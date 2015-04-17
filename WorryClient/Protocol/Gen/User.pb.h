@@ -37,30 +37,34 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 @private
   BOOL hasGender_:1;
   BOOL hasDate_:1;
-  BOOL hasUserName_:1;
+  BOOL hasUserId_:1;
   BOOL hasPassword_:1;
   BOOL hasNick_:1;
+  BOOL hasUserName_:1;
   BOOL hasPhone_:1;
   BOOL hasEmail_:1;
   BOOL gender_:1;
   SInt32 date;
-  NSString* userName;
+  NSString* userId;
   NSString* password;
   NSString* nick;
+  NSString* userName;
   NSString* phone;
   NSString* email;
 }
-- (BOOL) hasUserName;
+- (BOOL) hasUserId;
 - (BOOL) hasPassword;
 - (BOOL) hasNick;
 - (BOOL) hasGender;
+- (BOOL) hasUserName;
 - (BOOL) hasPhone;
 - (BOOL) hasEmail;
 - (BOOL) hasDate;
-@property (readonly, strong) NSString* userName;
+@property (readonly, strong) NSString* userId;
 @property (readonly, strong) NSString* password;
 @property (readonly, strong) NSString* nick;
 - (BOOL) gender;
+@property (readonly, strong) NSString* userName;
 @property (readonly, strong) NSString* phone;
 @property (readonly, strong) NSString* email;
 @property (readonly) SInt32 date;
@@ -100,10 +104,10 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PBUserBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserName;
-- (NSString*) userName;
-- (PBUserBuilder*) setUserName:(NSString*) value;
-- (PBUserBuilder*) clearUserName;
+- (BOOL) hasUserId;
+- (NSString*) userId;
+- (PBUserBuilder*) setUserId:(NSString*) value;
+- (PBUserBuilder*) clearUserId;
 
 - (BOOL) hasPassword;
 - (NSString*) password;
@@ -119,6 +123,11 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value);
 - (BOOL) gender;
 - (PBUserBuilder*) setGender:(BOOL) value;
 - (PBUserBuilder*) clearGender;
+
+- (BOOL) hasUserName;
+- (NSString*) userName;
+- (PBUserBuilder*) setUserName:(NSString*) value;
+- (PBUserBuilder*) clearUserName;
 
 - (BOOL) hasPhone;
 - (NSString*) phone;

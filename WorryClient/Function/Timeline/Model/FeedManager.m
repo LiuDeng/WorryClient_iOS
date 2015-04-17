@@ -42,6 +42,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     return self;
 }
 
+- (NSArray *)pbFeedArray
+{
+    if (_pbFeedArray == nil) {
+        _pbFeedArray = [self readFeedListFromCache];
+    }
+    return _pbFeedArray;
+}
 - (void)storeFeed:(PBFeed *)pbFeed
 {
 //    SELECT typeof(t), typeof(nu), typeof(i), typeof(r), typeof(no) FROM t1;
@@ -57,12 +64,14 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 
 - (NSArray *)readFeedListFromCache
 {
-//    NSArray *feedArray = [_db re];
-    NSString *sql = [NSString stringWithFormat:@"select count(*) from %@",kFeedTable];
+    NSMutableArray *feedArray = [[NSMutableArray alloc]init];
+    NSString *sql = [NSString stringWithFormat:@"select * from %@",kFeedTable];
     FMResultSet *rs = [_db executeQuery:sql];
     if (rs.next) {
-        NSLog(@"%d",[rs intForColumnIndex:0]);
+        for (int i = 0; i<rs.columnCount; i++) {
+            [feedArray addObject:[rs dataForColumnIndex:i]];
+        }
     }
-    return nil;
+    return feedArray;
 }
 @end
