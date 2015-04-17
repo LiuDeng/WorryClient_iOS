@@ -47,7 +47,7 @@ const float kPlaceHolderTopPadding = 5.0f;
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    CGRect frame = self.frame;
+    CGRect frame = self.bounds;
     frame.origin.x += kPlaceHolderLeftPadding;
 //    frame.origin.y += kPlaceHolderTopPadding;
     frame.size.height = kPlaceHolderHeight;

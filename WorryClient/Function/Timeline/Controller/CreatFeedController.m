@@ -10,6 +10,9 @@
 #import "PlaceholderTextView.h"
 #import "FeedService.h"
 #import "UserManager.h"
+#import "UIView+DefaultView.h"
+#import "ViewInfo.h"
+#import "ColorInfo.h"
 
 @interface CreatFeedController ()
 @property (nonatomic,strong)PlaceholderTextView *placeholderTextView;
@@ -45,6 +48,10 @@
     self.titleTextField = [[UITextField alloc]init];
     [self.view addSubview:self.titleTextField];
     self.titleTextField.placeholder = @"标题";
+    UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleTextField.mas_bottom);
+    }];
     
     [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -64,7 +71,12 @@
         make.centerX.equalTo(self.view);
         make.width.equalTo(self.view).with.multipliedBy(0.9);
         make.height.equalTo(self.view).with.multipliedBy(0.3);
-        make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+1);
+        make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+2);
+    }];
+    
+    UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.placeholderTextView.mas_bottom);//.with.offset(+2);
     }];
 }
 #pragma mark - Utils
