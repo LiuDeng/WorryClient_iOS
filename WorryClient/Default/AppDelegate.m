@@ -16,6 +16,7 @@
 
 #import <AVOSCloud/AVOSCloud.h>
 #import "WorryConfigManager.h"
+#import "TimelineController.h"
 
 #ifdef DEBUG
 
@@ -109,8 +110,7 @@
 #pragma mark - Tab Bar Controller Methods
 
 - (void)setupViewControllers {
-//    UIViewController *firstViewController = [[UserController alloc] init];
-    UIViewController *firstViewController = [[CreatFeedController alloc]init];
+    UIViewController *firstViewController = [[TimelineController alloc]init];
     firstViewController.title = @"心事";
     
     UIViewController *firstNavigationController = [[UINavigationController alloc]

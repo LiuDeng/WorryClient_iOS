@@ -13,7 +13,8 @@
 // 按钮通用字体
 #define USER_ID_LABEL_FONT            ([UIFont systemFontOfSize:13])
 
-#define LABEL_SMALL_FONT              ([UIFont systemFontOfSize:12])
+#define kSmallLabelFont              ([UIFont systemFontOfSize:11])
+#define kMiddldLabelFont            ([UIFont systemFontOfSize:15])
 
 #define kTextFieldPlaceholderFont             ([UIFont systemFontOfSize:15])
 

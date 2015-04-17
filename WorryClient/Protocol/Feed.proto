@@ -13,12 +13,19 @@ optional string topic_id = 1;
 optional string title = 2;
 }
 
+message PBComment{
+required string comment_id = 1;
+optional PBUser create_user = 2;
+optional string text = 5;
+
+}
+
 message PBFeed{
 optional PBFeedType type = 1;
 optional string feed_id = 2;
 optional PBUser create_user =3;
 optional bool is_anonymous = 5 [default=false];
-repeated PBUser comment_user = 6;
+//repeated PBUser comment_user = 6;
 repeated PBUser blessing_user = 7;
 
 optional string title = 40;
@@ -26,5 +33,8 @@ optional string text = 41;
 optional int32 date =42;
 
 repeated PBTopic topic = 50;
+
+    //  the comment
+repeated PBComment comment = 60;
 
 }
