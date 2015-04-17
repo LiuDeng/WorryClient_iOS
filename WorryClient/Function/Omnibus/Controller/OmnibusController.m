@@ -105,7 +105,8 @@
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活"];
 //    kCollectionViewHeight = CGRectGetHeight(self.view.frame) - kScrollViewHeight - kNavigationBarHeight -  kStatusBarHeight - kTabBarHeight;
-    kCollectionViewHeight = CGRectGetHeight(self.view.bounds)*0.75;
+//    kCollectionViewHeight = CGRectGetHeight(self.view.bounds)*0.75;
+    kCollectionViewHeight = CGRectGetWidth(self.view.frame);
     countOfTopicCollectionRow = 3;
     countOfTopicCollectionCol = 3;
     topicCollectionEdgePadding = 3.0f;
@@ -123,7 +124,9 @@
 //    CGFloat itemSizeHeight = (kCollectionViewHeight - topicCollectionEdgePadding * (countOfTopicCollectionCol + 1))/countOfTopicCollectionCol;
     topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidthHeight, itemSizeWidthHeight);
     topicCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-
+    
+    
+//    kCollectionViewHeight = itemSizeWidthHeight * countOfTopicCollectionRow;
     
     self.topicCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:topicCollectionViewFlowLayout];
     [self.view addSubview:self.topicCollectionView];
@@ -135,6 +138,9 @@
 //    self.topicCollectionView.bounces = NO;
     self.topicCollectionView.showsHorizontalScrollIndicator = NO;
     self.topicCollectionView.showsVerticalScrollIndicator = NO;
+//    self.topicCollectionView.pagingEnabled = YES;
+//    NSInteger rows = self.topicCollectionImageNameArray.count/countOfTopicCollectionRow;
+//    self.topicCollectionView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), itemSizeWidthHeight*rows);
     
     [self.topicCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
