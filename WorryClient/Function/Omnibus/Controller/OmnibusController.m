@@ -16,12 +16,12 @@
 
 @interface OmnibusController ()<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
-    float kScrollViewHeight;
-    float kScrollViewWidth;
-    float kCollectionViewHeight;
-    int countOfTopicCollectionRow;
-    int countOfTopicCollectionCol;
-    float topicCollectionEdgePadding;
+    CGFloat kScrollViewHeight;
+    CGFloat kScrollViewWidth;
+    CGFloat kCollectionViewHeight;
+    NSUInteger countOfTopicCollectionRow;
+    NSUInteger countOfTopicCollectionCol;
+    CGFloat topicCollectionEdgePadding;
 }
 @property (nonatomic,strong)TAPageControl *recommendScrollViewPageControl;
 @property (nonatomic,strong)TAPageControl *topicCollectionPageControl;
@@ -57,6 +57,8 @@
     [self.view addSubview:self.recommendScrollView];
     self.recommendScrollView.delegate = self;
     self.recommendScrollView.pagingEnabled = YES;
+    self.recommendScrollView.showsVerticalScrollIndicator = NO;
+    self.recommendScrollView.showsHorizontalScrollIndicator = NO;
     self.recommendScrollView.bounces = NO;
     self.recommendScrollView.contentSize = CGSizeMake(kScrollViewWidth * scrollViewImageDataCount, kScrollViewHeight);
     [self setupScrollViewImages];
@@ -64,8 +66,8 @@
     [self.recommendScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
-        make.width.equalTo(@(kScrollViewWidth));
-        make.height.equalTo(@(kScrollViewHeight));
+        make.width.equalTo(self.view);
+        make.height.equalTo(self.view).with.multipliedBy(0.25);
     }];
     
     [self loadRecommendPageControl];
@@ -103,6 +105,7 @@
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活"];
 //    kCollectionViewHeight = CGRectGetHeight(self.view.frame) - kScrollViewHeight - kNavigationBarHeight -  kStatusBarHeight - kTabBarHeight;
+    kCollectionViewHeight = CGRectGetHeight(self.view.bounds)*0.75;
     countOfTopicCollectionRow = 3;
     countOfTopicCollectionCol = 3;
     topicCollectionEdgePadding = 3.0f;
@@ -112,15 +115,14 @@
 {
 
     UICollectionViewFlowLayout *topicCollectionViewFlowLayout = [[UICollectionViewFlowLayout alloc]init];
-
     topicCollectionViewFlowLayout.sectionInset = UIEdgeInsetsMake(topicCollectionEdgePadding, topicCollectionEdgePadding, topicCollectionEdgePadding, topicCollectionEdgePadding);
     topicCollectionViewFlowLayout.minimumLineSpacing = topicCollectionEdgePadding;
     topicCollectionViewFlowLayout.minimumInteritemSpacing = 0;
 
-    CGFloat itemSizeWidth = (CGRectGetWidth(self.view.frame) - topicCollectionEdgePadding * (countOfTopicCollectionRow + 1))/countOfTopicCollectionRow;
-    CGFloat itemSizeHeight = (kCollectionViewHeight - topicCollectionEdgePadding * (countOfTopicCollectionCol + 1))/countOfTopicCollectionCol;
-    topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidth, itemSizeHeight);
-    topicCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    CGFloat itemSizeWidthHeight = (CGRectGetWidth(self.view.frame) - topicCollectionEdgePadding * (countOfTopicCollectionRow + 1))/countOfTopicCollectionRow;
+//    CGFloat itemSizeHeight = (kCollectionViewHeight - topicCollectionEdgePadding * (countOfTopicCollectionCol + 1))/countOfTopicCollectionCol;
+    topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidthHeight, itemSizeWidthHeight);
+    topicCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     
     self.topicCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:topicCollectionViewFlowLayout];
@@ -130,7 +132,9 @@
     [self.topicCollectionView registerClass:[TopicCollectionViewCell class]
                  forCellWithReuseIdentifier:kTopicCollectionViewCellId];
     self.topicCollectionView.backgroundColor = [UIColor clearColor];
-    self.topicCollectionView.bounces = NO;
+//    self.topicCollectionView.bounces = NO;
+    self.topicCollectionView.showsHorizontalScrollIndicator = NO;
+    self.topicCollectionView.showsVerticalScrollIndicator = NO;
     
     [self.topicCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
@@ -139,7 +143,7 @@
         make.height.equalTo(@(kCollectionViewHeight));
     }];
 
-    [self loadTopicCollectionPageControl];
+//    [self loadTopicCollectionPageControl];
 }
 - (void)loadRecommendPageControl
 {
