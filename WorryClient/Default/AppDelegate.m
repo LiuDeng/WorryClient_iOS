@@ -143,10 +143,10 @@
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];
 }
 
-#define TABBAR_IMAGE_TOP_INSETS 5
-#define TABBAR_TITLE_FONT   ([UIFont systemFontOfSize:7])
+#define TABBAR_IMAGE_TOP_INSETS 1
+#define TABBAR_TITLE_FONT   ([UIFont systemFontOfSize:10])
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
-    NSArray *tabBarItemImages = @[@"test_first_page", @"omnibus", @"test_first_page"];
+    NSArray *tabBarItemImages = @[@"timeline", @"omnibus", @"me"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
 
@@ -156,8 +156,8 @@
                                                         [tabBarItemImages objectAtIndex:index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         
-        item.selectedTitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:TABBAR_NORMAL_COLOR, NSForegroundColorAttributeName, TABBAR_TITLE_FONT, NSFontAttributeName, nil];
-        item.unselectedTitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:TABBAR_SELECTED_COLOR, NSForegroundColorAttributeName, TABBAR_TITLE_FONT, NSFontAttributeName, nil];
+        item.selectedTitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:kTabbarNormalColor, NSForegroundColorAttributeName, TABBAR_TITLE_FONT, NSFontAttributeName, nil];
+        item.unselectedTitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:kTabbarSelectedColor, NSForegroundColorAttributeName, TABBAR_TITLE_FONT, NSFontAttributeName, nil];
         
         item.itemHeight = kTabBarHeight;
         
