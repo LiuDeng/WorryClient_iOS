@@ -7,12 +7,10 @@
 //
 
 #import "FeedManager.h"
-
 #import "UserManager.h"
+#import "WorryConfigManager.h"
 
-#define kFeedDatakey @"kFeedDatakey"
-//#define kFeedDBKey      @"kFeedDBKey"
-#define kFeedTable  @"kFeedTable"
+#define kFeedTable              @"kFeedTable"
 #define kFeedTableFieldId       @"id"
 #define kFeedTableFieldFeed     @"feed"
 
@@ -27,7 +25,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     self = [super init];
     if (self) {
         NSString *userName = [[UserManager sharedInstance]pbUser].userName;
-        _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kFeedDatakey,userName];
+        if (userName.length>0) {
+            _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,userName];   //  /tmp不能缺少
+        }else{
+            _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,@"temp"];
+        }
+
         _db = [FMDatabase databaseWithPath:_dbPath];
         [_db open];
         if (![_db tableExists:kFeedTable]) {

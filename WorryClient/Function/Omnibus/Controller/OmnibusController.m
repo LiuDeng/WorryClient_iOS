@@ -67,7 +67,8 @@
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.equalTo(self.view).with.multipliedBy(0.25);
+//        make.height.equalTo(self.view).with.multipliedBy(0.25);
+        make.height.equalTo(self.view).with.offset(-kCollectionViewHeight);
     }];
     
     [self loadRecommendPageControl];
@@ -145,6 +146,7 @@
     [self.topicCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.top.equalTo(self.recommendScrollView.mas_bottom);
+//        make.centerY.equalTo(self.view).with.multipliedBy(1.25);
         make.width.equalTo(self.view);
         make.height.equalTo(@(kCollectionViewHeight));
     }];
