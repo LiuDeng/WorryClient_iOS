@@ -84,8 +84,8 @@ const CGFloat kWidthScale = 0.9;
     
     [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.commentNumLabel.mas_left);
-        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.04);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.04);
+        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.042);
+        make.width.equalTo(self.contentView).with.multipliedBy(0.042);
         make.centerY.equalTo(self.topicLabel);
     }];
     
@@ -98,8 +98,8 @@ const CGFloat kWidthScale = 0.9;
     
     [self.blessingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.blessingNumLabel.mas_left);
-        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.04);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.04);
+        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.042);
+        make.width.equalTo(self.contentView).with.multipliedBy(0.042);
         make.centerY.equalTo(self.topicLabel);
     }];
 }

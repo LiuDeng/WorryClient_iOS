@@ -29,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView.header beginRefreshing];  
+//    [self.tableView.header beginRefreshing];  
 }
 
 - (void)viewWillAppear:(BOOL)animated
