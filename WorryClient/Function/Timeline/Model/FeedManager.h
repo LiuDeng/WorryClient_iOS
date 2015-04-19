@@ -15,9 +15,11 @@
 {
     FMDatabase *_db;
     NSArray *_pbFeedArray;
+    NSString *_dbPath;
 }
 
 DEFINE_SINGLETON_FOR_CLASS(FeedManager)
+- (void)deleteOldDatabase;
 - (void)storeFeed:(PBFeed *)pbFeed;
 - (NSArray *)pbFeedArray; // change to be array
 

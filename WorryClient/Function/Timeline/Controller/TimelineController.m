@@ -27,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,7 +82,10 @@
     [pbFeedBuilder setTopicArray:topicArray];
     
 //    PBFeed *pbFeed = [pbFeedBuilder build];
-    PBFeed *pbFeed = [self.pbFeedArray objectAtIndex:indexPath.row];
+
+    NSData *pbFeedData = [self.pbFeedArray objectAtIndex:indexPath.row];
+    PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
+    JDDebug(@"id : %@,title : %@",pbFeed.feedId,pbFeed.title);
     if (cell == nil) {
         cell = [[TimelineCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTimelineCell pbFeed:pbFeed];
     }

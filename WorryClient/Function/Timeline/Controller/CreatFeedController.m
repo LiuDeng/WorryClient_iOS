@@ -86,6 +86,7 @@
 {
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
+    NSArray *topicArray = @[@"daxue",@"seh"];
     BOOL isAnonymous = NO;
     if (title.length == 0) {
         POST_ERROR_MSG(@"请输入标题");
@@ -97,7 +98,7 @@
                                                    text:text
                                              createUser:pbUser
                                             isAnonymous:isAnonymous
-                                                  topic:nil
+                                                  topic:topicArray
                                                   block:^(NSError *error) {
             if (error == nil) {
                 POST_SUCCESS_MSG(@"发表成功");

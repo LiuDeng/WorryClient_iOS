@@ -84,17 +84,19 @@ const CGFloat kWidthScale = 0.9;
     self = [self initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _pbFeed = pbFeed;
-        self.titleLabel.text = _pbFeed.title;
-        self.shortTextLabel.text = _pbFeed.text;
+        self.titleLabel.text = _pbFeed.title ? _pbFeed.title : @"2";
+        self.shortTextLabel.text = _pbFeed.text ? _pbFeed.text : @"1";
         
         NSMutableString *topicString = [[NSMutableString alloc]init];
-        for (int i = 0; i<_pbFeed.topic.count; i++) {
-            NSString *topic = [_pbFeed.topic objectAtIndex:i];
-            if (i == _pbFeed.topic.count-1) {
-
-                [topicString appendFormat:@"%@",topic];
-            }else{
-                [topicString appendFormat:@"%@，",topic];
+        if (_pbFeed.topic) {
+            for (int i = 0; i<_pbFeed.topic.count; i++) {
+                NSString *topic = [_pbFeed.topic objectAtIndex:i];
+                if (i == _pbFeed.topic.count-1) {
+                    
+                    [topicString appendFormat:@"%@",topic];
+                }else{
+                    [topicString appendFormat:@"%@，",topic];
+                }
             }
         }
         self.topicLabel.text = topicString;

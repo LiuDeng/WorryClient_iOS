@@ -50,6 +50,7 @@
 		7CBBB61A1ADFF7EC00AD2CA6 /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */; };
 		7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
+		7CC3021C1AE281800059B80F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC3021B1AE281800059B80F /* libsqlite3.dylib */; };
 		7CC336931ADF6A430084D891 /* MessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC336921ADF6A430084D891 /* MessageCenter.m */; };
 		7CC336951ADF9EE90084D891 /* Feed.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CC336941ADF9EE90084D891 /* Feed.proto */; };
 		7CC336981ADFA5910084D891 /* Feed.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC336971ADFA5910084D891 /* Feed.pb.m */; };
@@ -62,7 +63,6 @@
 		7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCAC0371AE0EFE9007F4326 /* TimelineCell.m */; };
 		7CCAC03B1AE129B4007F4326 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCAC0391AE129B4007F4326 /* plus@2x.png */; };
 		7CCAC03C1AE129B4007F4326 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCAC03A1AE129B4007F4326 /* plus@3x.png */; };
-		F1211672596F162C207D4764 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E540DBFE380832CBDAC4C27 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4E540DBFE380832CBDAC4C27 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C54C2B41ADBFD63002A32E2 /* QuickSignUpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickSignUpController.h; sourceTree = "<group>"; };
 		7C54C2B51ADBFD63002A32E2 /* QuickSignUpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSignUpController.m; sourceTree = "<group>"; };
 		7C54C2B81ADBFE7C002A32E2 /* SignUpAndLogInView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpAndLogInView.h; sourceTree = "<group>"; };
@@ -152,6 +151,7 @@
 		7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@3x.png"; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		7CBF03DF1ADE560C0001C31A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		7CC3021B1AE281800059B80F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7CC336911ADF6A430084D891 /* MessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenter.h; sourceTree = "<group>"; };
 		7CC336921ADF6A430084D891 /* MessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenter.m; sourceTree = "<group>"; };
 		7CC336941ADF9EE90084D891 /* Feed.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Feed.proto; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1211672596F162C207D4764 /* libPods.a in Frameworks */,
+				7CC3021C1AE281800059B80F /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +208,7 @@
 		5835BA1B425BFA67373EE6E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4E540DBFE380832CBDAC4C27 /* libPods.a */,
+				7CC3021B1AE281800059B80F /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
