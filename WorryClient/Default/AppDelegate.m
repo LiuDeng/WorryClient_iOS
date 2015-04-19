@@ -144,7 +144,7 @@
 }
 
 #define TABBAR_IMAGE_TOP_INSETS 5
-#define TABBAR_TITLE_FONT   ([UIFont systemFontOfSize:10])
+#define TABBAR_TITLE_FONT   ([UIFont systemFontOfSize:7])
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     NSArray *tabBarItemImages = @[@"test_first_page", @"omnibus", @"test_first_page"];
     NSInteger index = 0;

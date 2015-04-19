@@ -11,7 +11,7 @@
 
 #define kNavigationBarHeight 44;
 #define kToolBarHeight 44
-#define kTabBarHeight 60
+#define kTabBarHeight 50    // iphone6 plus should change
 #define kStatusBarHeight 20
 #define kSearchBarHeight 50
 #define kKeyboardHeight 216

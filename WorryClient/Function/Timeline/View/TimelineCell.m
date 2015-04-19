@@ -9,6 +9,7 @@
 #import "TimelineCell.h"
 #import "Feed.pb.h"
 #import "ViewDefault.h"
+#import "UIColor+UIColorExt.h"
 
 const CGFloat kWidthScale = 0.9;
 @implementation TimelineCell
@@ -21,7 +22,7 @@ const CGFloat kWidthScale = 0.9;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -71,37 +72,36 @@ const CGFloat kWidthScale = 0.9;
         make.width.equalTo(self.contentView).with.multipliedBy(0.6);
         make.height.equalTo(self.contentView).with.multipliedBy(0.2);
     }];
-//    self.topicLabel.backgroundColor  = [UIColor greenColor];
+    //    self.topicLabel.backgroundColor  = [UIColor greenColor];
     
-    [self.blessingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.mas_centerX).with.multipliedBy(1.6);
-        make.height.equalTo(self.topicLabel);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.06);
-        make.bottom.equalTo(self.topicLabel);
-    }];
     
-    [self.blessingNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.blessingImageView);
+    [self.commentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shortTextLabel);
         make.bottom.equalTo(self.topicLabel);
         make.width.equalTo(self.contentView).with.multipliedBy(0.05);//  TODO
-        make.height.equalTo(self.topicLabel);
+        make.centerY.equalTo(self.topicLabel);
     }];
     
     [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.commentNumLabel.mas_leading);
-        make.height.equalTo(self.topicLabel);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.06);
-        make.bottom.equalTo(self.topicLabel);
+        make.right.equalTo(self.commentNumLabel.mas_left);
+        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.04);
+        make.width.equalTo(self.contentView).with.multipliedBy(0.04);
+        make.centerY.equalTo(self.topicLabel);
     }];
     
-    [self.commentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.titleLabel);
-        make.bottom.equalTo(self.topicLabel);
+    [self.blessingNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.commentImageView.mas_left);
+        make.centerY.equalTo(self.topicLabel);
         make.width.equalTo(self.contentView).with.multipliedBy(0.05);//  TODO
         make.height.equalTo(self.topicLabel);
     }];
     
-    
+    [self.blessingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.blessingNumLabel.mas_left);
+        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.04);
+        make.width.equalTo(self.contentView).with.multipliedBy(0.04);
+        make.centerY.equalTo(self.topicLabel);
+    }];
 }
 
 #pragma mark - Public methods
@@ -120,6 +120,8 @@ const CGFloat kWidthScale = 0.9;
 {
     self.titleLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.titleLabel];
+    self.titleLabel.textColor = OPAQUE_COLOR(0x69, 0x69, 0x69);
+    self.titleLabel.font = kLargeLabelFont;
 }
 
 - (void)loadShortTextLabel
@@ -128,39 +130,45 @@ const CGFloat kWidthScale = 0.9;
     [self.contentView addSubview:self.shortTextLabel];
     self.shortTextLabel.numberOfLines = 0;
     self.shortTextLabel.font = kSmallLabelFont;
+    self.shortTextLabel.textColor = OPAQUE_COLOR(0x7C, 0x86, 0x92);
 }
 
 - (void)loadTopicLabel
 {
     self.topicLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.topicLabel];
-    self.topicLabel.font = kMiddldLabelFont;
+    self.topicLabel.font = kMiddleLabelFont;
+    self.topicLabel.textColor = OPAQUE_COLOR(0x00, 0xAE, 0xE9);
 }
 
 - (void)loadCommentNumLabel
 {
     self.commentNumLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.commentNumLabel];
-    self.commentNumLabel.font = kSmallLabelFont;
+    self.commentNumLabel.font = kLargeLabelFont;
+    self.commentNumLabel.textAlignment = NSTextAlignmentCenter;
+    self.commentNumLabel.textColor = OPAQUE_COLOR(0x8E, 0xA0, 0x9A);
 }
 
 - (void)loadBlessingNumLabel
 {
     self.blessingNumLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.blessingNumLabel];
-    self.blessingNumLabel.font = kSmallLabelFont;
+    self.blessingNumLabel.font = kLargeLabelFont;
+    self.blessingNumLabel.textAlignment = NSTextAlignmentCenter;
+    self.blessingNumLabel.textColor = OPAQUE_COLOR(0x8E, 0xA0, 0x9A);
 }
 
 - (void)loadBlessingImageView
 {
-    UIImage *image = [UIImage imageNamed:@""];
+    UIImage *image = [UIImage imageNamed:@"blessing"];
     self.blessingImageView = [[UIImageView alloc]initWithImage:image];
     [self.contentView addSubview:self.blessingImageView];
 }
 
 - (void)loadCommentImageView
 {
-    UIImage *image = [UIImage imageNamed:@""];
+    UIImage *image = [UIImage imageNamed:@"comment"];
     self.commentImageView = [[UIImageView alloc]initWithImage:image];
     [self.contentView addSubview:self.commentImageView];
 }

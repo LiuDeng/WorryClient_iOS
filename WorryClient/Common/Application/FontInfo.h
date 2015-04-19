@@ -14,7 +14,8 @@
 #define USER_ID_LABEL_FONT            ([UIFont systemFontOfSize:13])
 
 #define kSmallLabelFont              ([UIFont systemFontOfSize:11])
-#define kMiddldLabelFont            ([UIFont systemFontOfSize:15])
+#define kMiddleLabelFont            ([UIFont systemFontOfSize:15])
+#define kLargeLabelFont            ([UIFont systemFontOfSize:17])
 
 #define kTextFieldPlaceholderFont             ([UIFont systemFontOfSize:15])
 
