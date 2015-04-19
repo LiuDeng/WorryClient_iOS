@@ -78,8 +78,8 @@
 		7CCBCAD81AE3E469006410BD /* timeline_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCACC1AE3E469006410BD /* timeline_selected@3x.png */; };
 		7CCBCADB1AE3E4C8006410BD /* blessing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAD91AE3E4C8006410BD /* blessing@3x.png */; };
 		7CCBCADC1AE3E4C8006410BD /* comment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCADA1AE3E4C8006410BD /* comment@3x.png */; };
-		7CCBCADF1AE3E56C006410BD /* blessing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCADD1AE3E56C006410BD /* blessing@2x.png */; };
-		7CCBCAE01AE3E56C006410BD /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCADE1AE3E56C006410BD /* comment@2x.png */; };
+		7CCBCAE31AE3EAE6006410BD /* blessing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAE11AE3EAE6006410BD /* blessing@2x.png */; };
+		7CCBCAE41AE3EAE6006410BD /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAE21AE3EAE6006410BD /* comment@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,8 +205,8 @@
 		7CCBCACC1AE3E469006410BD /* timeline_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_selected@3x.png"; sourceTree = "<group>"; };
 		7CCBCAD91AE3E4C8006410BD /* blessing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blessing@3x.png"; sourceTree = "<group>"; };
 		7CCBCADA1AE3E4C8006410BD /* comment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@3x.png"; sourceTree = "<group>"; };
-		7CCBCADD1AE3E56C006410BD /* blessing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blessing@2x.png"; sourceTree = "<group>"; };
-		7CCBCADE1AE3E56C006410BD /* comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@2x.png"; sourceTree = "<group>"; };
+		7CCBCAE11AE3EAE6006410BD /* blessing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blessing@2x.png"; sourceTree = "<group>"; };
+		7CCBCAE21AE3EAE6006410BD /* comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@2x.png"; sourceTree = "<group>"; };
 		B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FE462C863722ADF4DD13A144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -294,6 +294,8 @@
 			children = (
 				7CCBCAD91AE3E4C8006410BD /* blessing@3x.png */,
 				7CCBCADA1AE3E4C8006410BD /* comment@3x.png */,
+				7CCBCAE11AE3EAE6006410BD /* blessing@2x.png */,
+				7CCBCAE21AE3EAE6006410BD /* comment@2x.png */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -507,8 +509,6 @@
 				7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */,
 				7CCBCAB91AE3E210006410BD /* barbg64@2x.png */,
 				7CCBCABA1AE3E210006410BD /* barbg64@3x.png */,
-				7CCBCADD1AE3E56C006410BD /* blessing@2x.png */,
-				7CCBCADE1AE3E56C006410BD /* comment@2x.png */,
 				7CCBCAC11AE3E469006410BD /* me_normal@2x.png */,
 				7CCBCAC21AE3E469006410BD /* me_normal@3x.png */,
 				7CCBCAC31AE3E469006410BD /* me_selected@2x.png */,
@@ -820,7 +820,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CCBCADB1AE3E4C8006410BD /* blessing@3x.png in Resources */,
-				7CCBCAE01AE3E56C006410BD /* comment@2x.png in Resources */,
+				7CCBCAE41AE3EAE6006410BD /* comment@2x.png in Resources */,
 				7C5A38081ADB9E3000CFA176 /* test_tabbar_selected_background@2x.png in Resources */,
 				7CCBCACF1AE3E469006410BD /* me_selected@2x.png in Resources */,
 				7C5A37831ADB9D6A00CFA176 /* Main.storyboard in Resources */,
@@ -855,7 +855,7 @@
 				7C5A38071ADB9E3000CFA176 /* test_tabbar_normal_background@2x.png in Resources */,
 				7CCBCABD1AE3E210006410BD /* barbg64@2x.png in Resources */,
 				7CCBCAC01AE3E210006410BD /* tabbar_bg@3x.png in Resources */,
-				7CCBCADF1AE3E56C006410BD /* blessing@2x.png in Resources */,
+				7CCBCAE31AE3EAE6006410BD /* blessing@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -138,8 +138,14 @@
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     UIImage* backgroundImage = [UIImage imageNamed:@"barbg64.png"];
     
+    NSDictionary *textAttributes = @{
+                       NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+                       NSForegroundColorAttributeName: [UIColor whiteColor],
+                       };
+    
     [navigationBarAppearance setBackgroundImage:backgroundImage
                                   forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setTitleTextAttributes:textAttributes];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];
 }
 
