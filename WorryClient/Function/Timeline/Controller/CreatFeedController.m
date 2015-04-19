@@ -38,7 +38,7 @@
 {
     [super loadView];
 //    [self addRightButtonWithTitle:@"提交" target:self action:@selector(clickRightButton)];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(clickRightButton)];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(clickRightButton)];
     self.navigationItem.rightBarButtonItem = buttonItem;
     [self loadTitleTextField];
     [self loadPlaceholderTextView];
@@ -50,6 +50,7 @@
     self.titleTextField = [[UITextField alloc]init];
     [self.view addSubview:self.titleTextField];
     self.titleTextField.placeholder = @"标题";
+    self.titleTextField.clearButtonMode = UITextFieldViewModeAlways;
     UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleTextField.mas_bottom);
@@ -102,6 +103,7 @@
                                                   block:^(NSError *error) {
             if (error == nil) {
                 POST_SUCCESS_MSG(@"发表成功");
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
     }

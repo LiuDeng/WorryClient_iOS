@@ -54,7 +54,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     }];
 }
 
-- (void)requireFeedsFromService
+- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
     AVUser *avCurrentUser = [AVUser currentUser];
     AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
@@ -71,6 +71,28 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
                 _requiredFeedsCount++;
             }
             [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
+}
+
+- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
+{
+    AVUser *avCurrentUser = [AVUser currentUser];
+    AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
+    [avQuery whereKey:kCreateUserIdKey equalTo:avCurrentUser.objectId];
+    
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error == nil) {
+            NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
+            NSUInteger dataCount = objects.count > kDataCount ? kDataCount : objects.count;
+            for (NSUInteger i = 0; i<dataCount; i++) {
+                AVObject *avObject = [objects objectAtIndex:i];
+                NSData *pbFeedData = [avObject objectForKey:kFeedKey];
+                [pbFeedDataArray addObject:pbFeedData];
+            }
+            [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+            EXECUTE_BLOCK(block,error);
         }
     }];
 }

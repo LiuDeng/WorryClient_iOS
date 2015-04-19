@@ -25,5 +25,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
                      block:(FeedServiceErrorResultBlock)block;
-- (void)requireFeedsFromService;
+- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 @end

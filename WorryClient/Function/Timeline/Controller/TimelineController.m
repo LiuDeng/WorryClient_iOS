@@ -29,12 +29,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [[FeedService sharedInstance]requireFeedsFromService];
-        [weakSelf loadData];
-    }];
-    [self.tableView.header beginRefreshing];
+    [self.tableView.header beginRefreshing];  
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,21 +60,47 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [[FeedService sharedInstance]requireNewFeedsWithBlock:^(NSError *error) {
+            if (error == nil) {
+                [weakSelf loadData];
+                [weakSelf.tableView reloadData];
+                [weakSelf.tableView.header endRefreshing];
+            }
+        }];
+        
+    }];
+    
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
+        [[FeedService sharedInstance]requireMoreFeedsWithBlock:^(NSError *error) {
+            if (error == nil) {
+                [weakSelf loadData];
+                [weakSelf.tableView reloadData];
+                [weakSelf.tableView.footer endRefreshing];
+            }
+        }];
+    }];
 }
 
 - (void)loadData
 {
     self.pbFeedArray = [[FeedManager sharedInstance]pbFeedArray];
 
-    CGFloat duration = 2.0f;
-    // 2.模拟2秒后刷新表格UI（真实开发中，可以移除这段gcd代码）
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // 刷新表格
-        [self.tableView reloadData];
-        
-        // 拿到当前的下拉刷新控件，结束刷新状态
-        [self.tableView.header endRefreshing];
-    });
+//    CGFloat duration = 2.0f;
+//    // 2.模拟2秒后刷新表格UI（真实开发中，可以移除这段gcd代码）换在读取成功那里
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        // 刷新表格
+//        [self.tableView reloadData];
+//        
+//        // 拿到当前的下拉刷新控件，结束刷新状态
+//        if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+//            [self.tableView.header endRefreshing];
+//        }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
+//            [self.tableView.footer endRefreshing];
+//        }
+//    });
 }
 #pragma mark - Table view data source
 
@@ -117,6 +143,10 @@
     return CGRectGetHeight(self.view.bounds)*0.24;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGRectGetHeight(self.view.bounds)*0.012;
+}
 #pragma mark - Utils
 
 - (void)clickPlusButton
