@@ -12,21 +12,22 @@
 //#import "UserService.h"
 //#import "UserManager.h"
 
-#define kFeedKey @"kFeedKey"
+#define kFeedKey @"pbFeed"
 #define kFeedClassName @"Feed"
+#define kCreateUserIdKey @"createUserId"
+
+const NSInteger kDataCount = 50;
 
 @implementation FeedService
+
+#pragma mark - Public methods
 
 IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)creatFeedWithTitle:(NSString *)title text:(NSString *)text createUser:(PBUser *)createUser isAnonymous:(BOOL)isAnonymous topic:(NSArray *)topicArray block:(FeedServiceErrorResultBlock)block
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
-    
-//    [feed saveEventually];
-//    NSData *pbFeedData = [pbFeed data];
-//    [feed setObject:pbFeedData forKey:kFeedKey];
-//    [feed saveInBackgroundWithBlock:block];
+    AVUser *avCurrentUser = [AVUser currentUser];
     [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
@@ -41,12 +42,36 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
             NSData *pbFeedData = [pbFeed data];
             [feed setObject:pbFeedData forKey:kFeedKey];
 
+            [feed setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
+            
             [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
 //                    [[FeedManager sharedInstance]storeFeed:pbFeed]; 不应该有这段代码
                     EXECUTE_BLOCK(block,error);
                 }
             }];
+        }
+    }];
+}
+
+- (void)requireFeedsFromService
+{
+    AVUser *avCurrentUser = [AVUser currentUser];
+    AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
+    [avQuery whereKey:kCreateUserIdKey equalTo:avCurrentUser.objectId];
+    
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error == nil) {
+            NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
+            NSUInteger dataCount = objects.count > kDataCount ? kDataCount : objects.count;
+            NSUInteger firstIndex = _requireFeedsTimes * dataCount;
+            for (NSUInteger i = firstIndex; i<dataCount; i++) {
+                AVObject *avObject = [objects objectAtIndex:i];
+                NSData *pbFeedData = [avObject objectForKey:kFeedKey];
+                [pbFeedDataArray addObject:pbFeedData];
+            }
+            [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+            _requireFeedsTimes ++;
         }
     }];
 }

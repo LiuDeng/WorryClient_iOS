@@ -7,6 +7,7 @@ PODS:
     - FMDB/common
   - Masonry (0.6.1)
   - MBProgressHUD (0.9.1)
+  - MJRefresh (1.4.5)
   - ProtocolBuffers (1.9.7)
   - RDVTabBarController (1.1.9)
   - TAPageControl (0.2.0)
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - FMDB
   - Masonry
   - MBProgressHUD (~> 0.9.1)
+  - MJRefresh
   - ProtocolBuffers (= 1.9.7)
   - RDVTabBarController
   - TAPageControl
@@ -25,6 +27,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MJRefresh: 4b24394e577ea399fbc926e5b6072317aae2c152
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   TAPageControl: fd11d779bbb5c2464ca2f55dde9e288213ea8a9b

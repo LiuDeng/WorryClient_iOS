@@ -81,8 +81,8 @@
     }else{
         [[UserService sharedInstance]logInByValue:account password:password block:^(NSError *error) {
             if (error == nil) {
-                //
                 POST_SUCCESS_MSG(@"登录成功");
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
     }

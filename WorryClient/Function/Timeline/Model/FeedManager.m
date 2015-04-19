@@ -55,6 +55,19 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     [_db executeUpdate:sql, pbFeed.feedId,pbFeedData];
 }
 
+- (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray
+{
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
+     NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
+    
+    [queue inDatabase:^(FMDatabase *db) {
+        for (NSData *pbFeedData in pbFeedDataArray) {
+            PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
+            [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+        }
+    }];
+}
+
 - (NSArray *)readFeedListFromCache
 {
     NSMutableArray *feedArray = [[NSMutableArray alloc]init];

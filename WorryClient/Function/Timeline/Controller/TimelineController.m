@@ -12,6 +12,7 @@
 #import "CreatFeedController.h"
 #import "FeedManager.h"
 #import "MJRefresh.h"
+#import "FeedService.h"
 
 #define kTimelineCell @"kTimelineCell"
 
@@ -30,6 +31,7 @@
     [super viewDidLoad];
     __weak typeof(self) weakSelf = self;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [[FeedService sharedInstance]requireFeedsFromService];
         [weakSelf loadData];
     }];
     [self.tableView.header beginRefreshing];
