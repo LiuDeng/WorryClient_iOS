@@ -94,7 +94,21 @@
     PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
     cell.titleLabel.text = pbFeed.title;
     cell.shortTextLabel.text = pbFeed.text;
-    cell.commentNumLabel.text = @"23";
+    cell.commentNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
+    NSMutableString *topicString = [[NSMutableString alloc]init];
+    if (pbFeed.topic) {
+        for (int i = 0; i<pbFeed.topic.count; i++) {
+            NSString *topic = [pbFeed.topic objectAtIndex:i];
+            if (i == pbFeed.topic.count-1) {
+                [topicString appendFormat:@"%@",topic];
+            }else{
+                [topicString appendFormat:@"%@，",topic];
+            }
+        }
+    }
+    cell.topicLabel.text = topicString;
+    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessingUser.count];
+    
     return cell;
 }
 

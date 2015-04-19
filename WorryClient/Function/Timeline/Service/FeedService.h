@@ -15,7 +15,7 @@ typedef AVBooleanResultBlock FeedServiceBooleanResultBlock;
 typedef void (^FeedServiceErrorResultBlock) (NSError *error);
 @interface FeedService : NSObject
 {
-    NSUInteger _requireFeedsTimes;
+    NSUInteger _requiredFeedsCount;
 }
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 

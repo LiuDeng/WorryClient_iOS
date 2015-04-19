@@ -7,20 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PBFeed;
 
 @interface TimelineCell : UITableViewCell
-{
-    PBFeed *_pbFeed;
-}
-
-//@property (nonatomic,strong) PBFeed *pbFeed;
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) UILabel *shortTextLabel;
 @property (nonatomic,strong) UILabel *topicLabel;
 @property (nonatomic,strong) UIImageView *commentImageView;
 @property (nonatomic,strong) UILabel *commentNumLabel;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier pbFeed:(PBFeed *)pbFeed;
-
+@property (nonatomic,strong) UIImageView *blessingImageView;
+@property (nonatomic,strong) UILabel *blessingNumLabel;
 @end

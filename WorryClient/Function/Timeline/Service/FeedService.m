@@ -64,14 +64,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
         if (error == nil) {
             NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
             NSUInteger dataCount = objects.count > kDataCount ? kDataCount : objects.count;
-            NSUInteger firstIndex = _requireFeedsTimes * dataCount;
-            for (NSUInteger i = firstIndex; i<dataCount; i++) {
+            for (NSUInteger i = _requiredFeedsCount; i<dataCount; i++) {
                 AVObject *avObject = [objects objectAtIndex:i];
                 NSData *pbFeedData = [avObject objectForKey:kFeedKey];
                 [pbFeedDataArray addObject:pbFeedData];
+                _requiredFeedsCount++;
             }
             [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
-            _requireFeedsTimes ++;
         }
     }];
 }

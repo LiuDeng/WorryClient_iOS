@@ -12,6 +12,7 @@
 #import "UserManager.h"
 #import "AVOSCloud/AVOSCloud.h"
 #import "User.pb.h"
+#import "LogInController.h"
 
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
@@ -21,24 +22,15 @@
 #define kContributionTitle      @"贡献"
 #define kFavoritesTitle         @"收藏"
 //#define TITLE_SETTING           @"设置"
-//#define kAvatarCellHeight       self.view.frame.size.width
 
-@interface UserController ()
+@interface UserController ()<UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSArray *itemsOfBasic;
-//@property (nonatomic,strong)NSArray *itemsOfBlessing;
-//@property (nonatomic,strong)NSArray *itemsOfTrouble;
-//@property (nonatomic,strong)NSArray *itemsOfMisc;
-//@property (nonatomic,strong)NSArray *itemsOfSetting;
 
 @property (nonatomic,assign)int indexOfSection;
 @property (nonatomic,assign)int sectionAvatar;
 @property (nonatomic,assign)int sectionBasic;
-//@property (nonatomic,assign)int sectionBlessing;
-//@property (nonatomic,assign)int sectionTrouble;
-//@property (nonatomic,assign)int sectionMisc;
-//@property (nonatomic,assign)int sectionSetting;
-
 @property (nonatomic,assign)CGFloat avatarCellHeight;
 @property (nonatomic,assign)CGFloat cellHeight;
 @property (nonatomic,strong)PBUser *pbUser;
@@ -49,30 +41,32 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadData];
 }
 
 - (void)loadView
 {
     [super loadView];
-    self.tableView.tableFooterView = [[UIView alloc]init];
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self loadData];
+    [self addRightButtonWithTitle:@"logIn" target:self action:@selector(clickRightButton)];
+    [self loadTableView];
 }
 #pragma mark - Private methods
+
+- (void)loadTableView
+{
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [self.view addSubview:self.tableView];
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+}
 - (void)loadData
 {
     self.itemsOfBasic = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
-//    self.itemsOfBlessing = @[TITLE_BLESSING,TITLE_THANKS];
-//    self.itemsOfTrouble = @[TITLE_KNOT,TITLE_WORRY];
-//    self.itemsOfMisc = @[TITLE_CONTRIBUTTION];
-//    self.itemsOfSetting = @[TITLE_SETTING];
-    
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
-//    self.sectionBlessing = self.indexOfSection++;
-//    self.sectionTrouble = self.indexOfSection++;
-//    self.sectionMisc = self.indexOfSection++;
-//    self.sectionSetting = self.indexOfSection++;
     self.cellHeight = self.view.frame.size.height*0.08;
     self.avatarCellHeight = self.view.frame.size.height*0.2;
 }
@@ -102,7 +96,7 @@
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
         self.pbUser = [[UserManager sharedInstance]pbUser];
-        userAvatarCell.nickNameLabel.text = @"nick ";  // TODO
+        userAvatarCell.nickNameLabel.text = self.pbUser.nick;  // TODO
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1
@@ -129,6 +123,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
+}
+
+#pragma mark - Utils
+
+- (void)clickRightButton
+{
+    LogInController *vc = [[LogInController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /*
