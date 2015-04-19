@@ -43,7 +43,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
             [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
-                    [[FeedManager sharedInstance]storeFeed:pbFeed];
+//                    [[FeedManager sharedInstance]storeFeed:pbFeed]; 不应该有这段代码
                     EXECUTE_BLOCK(block,error);
                 }
             }];

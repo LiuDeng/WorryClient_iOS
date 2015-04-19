@@ -43,9 +43,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 
 - (NSArray *)pbFeedArray
 {
-    if (_pbFeedArray == nil) {
+//    if (_pbFeedArray == nil) {
         _pbFeedArray = [self readFeedListFromCache];
-    }
+//    }
     return _pbFeedArray;
 }
 - (void)storeFeed:(PBFeed *)pbFeed
@@ -61,7 +61,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@",kFeedTable];
     FMResultSet *rs = [_db executeQuery:sql];
     while (rs.next) {
-        [feedArray addObject:[rs dataForColumn:kFeedTableFieldFeed]];
+        [feedArray insertObject:[rs dataForColumn:kFeedTableFieldFeed] atIndex:0];
     }
     return feedArray;
 }
