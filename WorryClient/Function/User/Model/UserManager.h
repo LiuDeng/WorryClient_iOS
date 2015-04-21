@@ -15,6 +15,7 @@
 }
 
 DEFINE_SINGLETON_FOR_CLASS(UserManager)
+- (BOOL)hasUser;
 - (PBUser*)pbUser;
 - (void)storeUser:(NSData *)pbUserData;
 @end

@@ -29,5 +29,7 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)signUpByEmail:(NSString *)email
              password:(NSString *)password
                 block:(UserServiceBooleanResultBlock)block;
-- (void)logInByValue:(NSString *)value password:(NSString *)password block:(UserServiceErrorResultBlock)block;
+- (void)logInByValue:(NSString *)value
+            password:(NSString *)password
+               block:(UserServiceErrorResultBlock)block;
 @end

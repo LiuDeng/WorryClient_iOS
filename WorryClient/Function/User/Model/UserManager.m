@@ -22,8 +22,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
     USER_DEFAULTS_SET(kUserDataKey, pbUserData);
 }
 
-#pragma mark - Utils
-
+- (BOOL)hasUser
+{
+    return ([self pbUser] != nil);
+}
 - (PBUser*)pbUser
 {
     if (_pbUser == nil) {
@@ -31,6 +33,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
     }
     return _pbUser;
 }
+
+#pragma mark - Utils
+
 - (PBUser*)readUserFromCache
 {
     NSData* data = USER_DEFAULTS_GET(kUserDataKey);

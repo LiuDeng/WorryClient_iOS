@@ -1,0 +1,14 @@
+package worry;
+
+enum PBError{
+	// system
+	unknown	= -1000;
+	service_catch_exception = -1001;
+	
+	// user
+	user_log_in_info_empty = -2000;
+	user_register_info_empty = -2001;
+	user_not_found = -2002;
+	
+	// 
+}
