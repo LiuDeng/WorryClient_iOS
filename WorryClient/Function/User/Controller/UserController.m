@@ -13,6 +13,7 @@
 #import "AVOSCloud/AVOSCloud.h"
 #import "User.pb.h"
 #import "LogInController.h"
+#import "SettingController.h"
 
 
 #define kTopicTitle             @"话题"
@@ -49,25 +50,24 @@
 - (void)loadView
 {
     [super loadView];
-
-    [self loadData];
     [self addRightButtonWithTitle:@"logIn" target:self action:@selector(clickRightButton)];
-    [self loadTableView];
+//    [self loadTableView];
 }
 #pragma mark - Private methods
 
-- (void)loadTableView
-{
-    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.view addSubview:self.tableView];
-    
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-}
+//- (void)loadTableView
+//{
+//    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+//    [self.view addSubview:self.tableView];
+//    
+//    self.tableView.dataSource = self;
+//    self.tableView.delegate = self;
+//    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//
+//}
 - (void)loadData
 {
+    [super loadData];
     self.itemsOfBasic = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
@@ -125,19 +125,6 @@
     return cell;
 }
 
-#pragma mark - Table view delegate
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.1;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.1;
-}
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
@@ -147,7 +134,7 @@
 
 - (void)clickRightButton
 {
-    LogInController *vc = [[LogInController alloc]init];
+    SettingController *vc = [[SettingController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

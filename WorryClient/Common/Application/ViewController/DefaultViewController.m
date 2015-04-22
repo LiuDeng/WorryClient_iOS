@@ -38,6 +38,7 @@
 {
     [super loadView];
     [self loadBackButton];
+    [self loadData];
 }
 
 
@@ -61,6 +62,4 @@
         
     }
 }
-
-
 @end

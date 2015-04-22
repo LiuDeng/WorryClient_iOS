@@ -32,18 +32,9 @@
 - (void)loadView
 {
     [super loadView];
-    [self loadData];
 }
 
 #pragma mark Private methods
-
-- (void)loadTableView
-{
-    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.view addSubview:self.tableView];
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-}
 
 - (void)loadData
 {

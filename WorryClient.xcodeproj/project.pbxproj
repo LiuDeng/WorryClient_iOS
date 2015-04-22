@@ -58,6 +58,7 @@
 		7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC8767C1AE7831D00963450 /* DefaultViewController.m */; };
 		7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876851AE787BD00963450 /* UIViewController+Utils.m */; };
 		7CC8768A1AE78FFB00963450 /* SettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876891AE78FFB00963450 /* SettingController.m */; };
+		7CC8768D1AE7939A00963450 /* DefaultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC8768C1AE7939A00963450 /* DefaultTableViewController.m */; };
 		7CCAC0351AE0EE1F007F4326 /* TimelineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCAC0341AE0EE1F007F4326 /* TimelineController.m */; };
 		7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCAC0371AE0EFE9007F4326 /* TimelineCell.m */; };
 		7CCAC03B1AE129B4007F4326 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCAC0391AE129B4007F4326 /* plus@2x.png */; };
@@ -187,6 +188,8 @@
 		7CC876851AE787BD00963450 /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		7CC876881AE78FFB00963450 /* SettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingController.h; sourceTree = "<group>"; };
 		7CC876891AE78FFB00963450 /* SettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingController.m; sourceTree = "<group>"; };
+		7CC8768B1AE7939A00963450 /* DefaultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultTableViewController.h; sourceTree = "<group>"; };
+		7CC8768C1AE7939A00963450 /* DefaultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultTableViewController.m; sourceTree = "<group>"; };
 		7CCAC0331AE0EE1F007F4326 /* TimelineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineController.h; sourceTree = "<group>"; };
 		7CCAC0341AE0EE1F007F4326 /* TimelineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineController.m; sourceTree = "<group>"; };
 		7CCAC0361AE0EFE9007F4326 /* TimelineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineCell.h; sourceTree = "<group>"; };
@@ -750,6 +753,8 @@
 				7CC8767C1AE7831D00963450 /* DefaultViewController.m */,
 				7CC876841AE787BD00963450 /* UIViewController+Utils.h */,
 				7CC876851AE787BD00963450 /* UIViewController+Utils.m */,
+				7CC8768B1AE7939A00963450 /* DefaultTableViewController.h */,
+				7CC8768C1AE7939A00963450 /* DefaultTableViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -935,6 +940,7 @@
 				7C5A37FE1ADB9E3000CFA176 /* LogUtils.m in Sources */,
 				7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */,
 				7C5A37FA1ADB9E3000CFA176 /* CommonService.m in Sources */,
+				7CC8768D1AE7939A00963450 /* DefaultTableViewController.m in Sources */,
 				7CBF03E01ADE560C0001C31A /* Utils.m in Sources */,
 				7C5A37FD1ADB9E3000CFA176 /* DataUtils.m in Sources */,
 				7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */,

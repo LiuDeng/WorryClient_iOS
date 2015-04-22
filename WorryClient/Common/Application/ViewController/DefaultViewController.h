@@ -17,5 +17,5 @@
 @interface DefaultViewController : UIViewController
 
 - (void)loadLogInAlertView;
-
+- (void)loadData;
 @end
