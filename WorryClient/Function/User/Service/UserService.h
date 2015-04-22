@@ -32,4 +32,5 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)logInByValue:(NSString *)value
             password:(NSString *)password
                block:(UserServiceErrorResultBlock)block;
+- (void)logOut;
 @end
