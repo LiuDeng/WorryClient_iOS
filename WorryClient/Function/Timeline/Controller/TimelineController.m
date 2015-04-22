@@ -16,9 +16,9 @@
 
 #define kTimelineCell @"kTimelineCell"
 
-@interface TimelineController ()<UITableViewDataSource,UITableViewDelegate>
+@interface TimelineController ()//<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong) UITableView *tableView;
+//@property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSArray *pbFeedArray;
 
 @end
@@ -32,11 +32,6 @@
 //    [self.tableView.header beginRefreshing];  
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -45,20 +40,15 @@
 - (void)loadView
 {
     [super loadView];
-    [self loadData];
     [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
-    [self loadTableView];
 }
 
 #pragma mark - Private methods
 
 - (void)loadTableView
 {
-    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.view addSubview:self.tableView];
+    [super loadTableView];
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     __weak typeof(self) weakSelf = self;

@@ -41,6 +41,10 @@
     [self loadData];
 }
 
+- (void)loadData
+{
+    
+}
 
 #pragma mark - Private methods
 

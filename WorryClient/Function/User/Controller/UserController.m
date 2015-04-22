@@ -51,20 +51,14 @@
 {
     [super loadView];
     [self addRightButtonWithTitle:@"logIn" target:self action:@selector(clickRightButton)];
-//    [self loadTableView];
+}
+
+- (void)loadTableView
+{
+    [super loadTableView];
 }
 #pragma mark - Private methods
 
-//- (void)loadTableView
-//{
-//    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-//    [self.view addSubview:self.tableView];
-//    
-//    self.tableView.dataSource = self;
-//    self.tableView.delegate = self;
-//    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//
-//}
 - (void)loadData
 {
     [super loadData];

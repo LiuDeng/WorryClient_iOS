@@ -6,8 +6,9 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+//#import "DefaultViewController.h"
+#import "DefaultTableViewController.h"
 
-@interface TimelineController : DefaultViewController
+@interface TimelineController : DefaultTableViewController
 
 @end
