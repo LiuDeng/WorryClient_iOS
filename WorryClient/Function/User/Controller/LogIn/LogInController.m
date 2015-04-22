@@ -9,6 +9,7 @@
 #import "LogInController.h"
 #import "SignUpAndLogInView.h"
 #import "UserService.h"
+#import "UIViewController+Utils.h"
 
 @interface LogInController()
 
@@ -27,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self loadBackButton];
 }
 - (void)loadView
 {

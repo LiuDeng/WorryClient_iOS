@@ -14,6 +14,7 @@
 #import "User.pb.h"
 #import "LogInController.h"
 
+
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
 #define kThanksTitle            @"感谢"
@@ -34,6 +35,7 @@
 @property (nonatomic,assign)CGFloat avatarCellHeight;
 @property (nonatomic,assign)CGFloat cellHeight;
 @property (nonatomic,strong)PBUser *pbUser;
+
 @end
 
 @implementation UserController
@@ -41,11 +43,13 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadLogInAlertViewIfNeeded];
 }
 
 - (void)loadView
 {
     [super loadView];
+
     [self loadData];
     [self addRightButtonWithTitle:@"logIn" target:self action:@selector(clickRightButton)];
     [self loadTableView];
@@ -69,6 +73,13 @@
     self.sectionBasic = self.indexOfSection++;
     self.cellHeight = self.view.frame.size.height*0.08;
     self.avatarCellHeight = self.view.frame.size.height*0.2;
+}
+
+- (void)loadLogInAlertViewIfNeeded
+{
+    if ([[UserManager sharedInstance]hasUser] == NO) {
+        [self loadLogInAlertView];
+    }
 }
 
 #pragma mark - Table view data source

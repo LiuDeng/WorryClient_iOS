@@ -27,4 +27,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
                      block:(FeedServiceErrorResultBlock)block;
 - (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+
+//- (void)requireMyFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 @end
