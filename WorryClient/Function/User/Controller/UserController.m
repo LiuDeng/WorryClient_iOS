@@ -27,15 +27,15 @@
 
 @interface UserController ()<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,strong)NSArray *itemsOfBasic;
-
-@property (nonatomic,assign)int indexOfSection;
-@property (nonatomic,assign)int sectionAvatar;
-@property (nonatomic,assign)int sectionBasic;
-@property (nonatomic,assign)CGFloat avatarCellHeight;
-@property (nonatomic,assign)CGFloat cellHeight;
-@property (nonatomic,strong)PBUser *pbUser;
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) NSArray *sectionBasicItems;
+@property (nonatomic,strong) NSArray *sectionBasicImageNames;
+@property (nonatomic,assign) int indexOfSection;
+@property (nonatomic,assign) int sectionAvatar;
+@property (nonatomic,assign) int sectionBasic;
+@property (nonatomic,assign) CGFloat avatarCellHeight;
+@property (nonatomic,assign) CGFloat cellHeight;
+@property (nonatomic,strong) PBUser *pbUser;
 
 @end
 
@@ -50,30 +50,38 @@
 - (void)loadView
 {
     [super loadView];
-    [self addRightButtonWithTitle:@"logIn" target:self action:@selector(clickRightButton)];
+    [self addRightButtonWithImageName:@"setting" target:self action:@selector(clickRightButton)];
 }
 
 - (void)loadTableView
 {
     [super loadTableView];
 }
-#pragma mark - Private methods
 
 - (void)loadData
 {
     [super loadData];
-    self.itemsOfBasic = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+    self.sectionBasicItems = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+    self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"test_first_page_selected",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
-    self.cellHeight = self.view.frame.size.height*0.08;
-    self.avatarCellHeight = self.view.frame.size.height*0.2;
+    self.cellHeight = self.view.frame.size.height*0.075;
+    self.avatarCellHeight = self.view.frame.size.height*0.25;
 }
+
+#pragma mark - Private methods
 
 - (void)loadLogInAlertViewIfNeeded
 {
     if ([[UserManager sharedInstance]hasUser] == NO) {
         [self loadLogInAlertView];
     }
+}
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
 }
 
 #pragma mark - Table view data source
@@ -87,7 +95,7 @@
     if (section == self.sectionAvatar) {
         num = 1;
     }else if(section == self.sectionBasic){
-        num = (int)self.itemsOfBasic.count;
+        num = (int)self.sectionBasicItems.count;
     }{
         //  TODO
     }
@@ -106,10 +114,9 @@
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1
                                                            reuseIdentifier:nil];
-        basicCell.imageView.image = [UIImage imageNamed:@"test_first_page_selected"];
         if (indexPath.section == self.sectionBasic){
-            
-            basicCell.textLabel.text = self.itemsOfBasic[indexPath.row];
+            basicCell.imageView.image = [UIImage imageNamed:self.sectionBasicImageNames[indexPath.row]];
+            basicCell.textLabel.text = self.sectionBasicItems[indexPath.row];
         }else{
             //  TODO
         }
@@ -119,10 +126,6 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
-}
 
 #pragma mark - Utils
 
