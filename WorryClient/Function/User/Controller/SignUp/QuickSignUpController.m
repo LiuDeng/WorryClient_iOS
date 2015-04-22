@@ -17,7 +17,7 @@
 @property (nonatomic,strong) UITextField *smsCodeTextField;
 @property (nonatomic,strong) UIButton *submitButton;
 @property (nonatomic,strong) UIButton *signUpButton;
-@property (nonatomic,strong) NSString *phoneString;
+@property (nonatomic,copy) NSString *phoneString;   //  strong -> copy?
 
 
 @end

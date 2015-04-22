@@ -22,6 +22,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
     USER_DEFAULTS_SET(kUserDataKey, pbUserData);
 }
 
+- (void)removeUser
+{
+    USER_DEFAULTS_REMOVE(kUserDataKey);
+    _pbUser = nil;
+}
+
 - (BOOL)hasUser
 {
     return ([self pbUser] != nil);

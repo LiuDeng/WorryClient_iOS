@@ -81,6 +81,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 - (void)logOut
 {
     [AVUser logOut];
-    // may delete the pbUser cache?
+    [[UserManager sharedInstance]removeUser];
 }
 @end

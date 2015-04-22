@@ -37,8 +37,8 @@
 -(void)loadView
 {
     [super loadView];
-    [self loadBackButton];
     [self loadData];
+    [self loadBackButton];
 }
 
 - (void)loadData

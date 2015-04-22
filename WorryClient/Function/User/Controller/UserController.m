@@ -44,9 +44,13 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadLogInAlertViewIfNeeded];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self loadLogInAlertViewIfNeeded];
+}
 - (void)loadView
 {
     [super loadView];
