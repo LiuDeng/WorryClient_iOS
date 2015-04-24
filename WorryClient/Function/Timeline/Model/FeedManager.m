@@ -14,6 +14,8 @@
 #define kFeedTableFieldId       @"id"
 #define kFeedTableFieldFeed     @"feed"
 
+//#define FMDBQuickCheck(SomeBool) { if (!(SomeBool)) { NSLog(@"Failure on line %d", __LINE__); abort(); } }
+
 @implementation FeedManager
 
 #pragma mark - Public methods
@@ -63,7 +65,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     [queue inDatabase:^(FMDatabase *db) {
         for (NSData *pbFeedData in pbFeedDataArray) {
             PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
-            [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+            NSString *querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = %@",kFeedTable,kFeedTableFieldId,pbFeed.feedId];
+            if ([db executeQuery:querySql] == nil) {
+                [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+            }
+//            [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
         }
     }];
 }
@@ -128,6 +134,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 }
 - (void)dropTable
 {
-    
+    NSString *sql = [NSString stringWithFormat:@"DROP TABLE %@",kFeedTable];
+    [_db executeUpdate:sql];
 }
 @end

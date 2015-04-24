@@ -83,6 +83,14 @@
 }
 #pragma mark - UITableViewDelegate
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[UserManager sharedInstance]hasUser] == NO) {
+        [self loadLogInAlertView];
+    }else{
+        // TODO
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
@@ -135,6 +143,7 @@
 
 - (void)clickRightButton
 {
+    [self loadLogInAlertViewIfNeeded];
     SettingController *vc = [[SettingController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }

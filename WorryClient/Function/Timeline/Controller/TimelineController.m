@@ -142,6 +142,7 @@
 
 - (void)clickPlusButton
 {
+    [[FeedManager sharedInstance]dropTable];
     CreatFeedController *vc = [[CreatFeedController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }

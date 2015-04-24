@@ -54,7 +54,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     }];
 }
 
-- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
+- (void)requireMyFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
     AVUser *avCurrentUser = [AVUser currentUser];
     AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
@@ -78,9 +78,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-    AVUser *avCurrentUser = [AVUser currentUser];
     AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
-    [avQuery whereKey:kCreateUserIdKey equalTo:avCurrentUser.objectId];
+    [avQuery whereKey:kCreateUserIdKey notEqualTo:@""]; // TODO may change
     
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error == nil) {
@@ -90,6 +89,27 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
                 AVObject *avObject = [objects objectAtIndex:i];
                 NSData *pbFeedData = [avObject objectForKey:kFeedKey];
                 [pbFeedDataArray addObject:pbFeedData];
+            }
+            [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
+}
+
+- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
+{
+    AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
+    [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
+    
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error == nil) {
+            NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
+            NSUInteger dataCount = objects.count > kDataCount ? kDataCount : objects.count;
+            for (NSUInteger i = _requiredFeedsCount; i<dataCount; i++) {
+                AVObject *avObject = [objects objectAtIndex:i];
+                NSData *pbFeedData = [avObject objectForKey:kFeedKey];
+                [pbFeedDataArray addObject:pbFeedData];
+                _requiredFeedsCount++;
             }
             [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
             EXECUTE_BLOCK(block,error);

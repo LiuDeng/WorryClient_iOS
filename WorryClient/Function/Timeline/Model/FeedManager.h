@@ -23,5 +23,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 - (void)storeFeed:(PBFeed *)pbFeed;
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray;
 - (NSArray *)pbFeedArray;
+- (void)dropTable;
 
 @end
