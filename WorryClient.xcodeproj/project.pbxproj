@@ -46,6 +46,10 @@
 		7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */; };
 		7CBBB61A1ADFF7EC00AD2CA6 /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */; };
 		7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */; };
+		7CBD2D021AEB71D50091EB20 /* Common.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD2D011AEB71D50091EB20 /* Common.proto */; };
+		7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D041AEB75EC0091EB20 /* Common.pb.m */; };
+		7CBD2D0A1AEB75EC0091EB20 /* Error.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D061AEB75EC0091EB20 /* Error.pb.m */; };
+		7CBD2D0B1AEB75EC0091EB20 /* Topic.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */; };
 		7CBD56E81AE7DF5600423D5D /* create_feed_save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */; };
 		7CBD56E91AE7DF5600423D5D /* create_feed_save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
@@ -183,6 +187,13 @@
 		7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderTextView.m; sourceTree = "<group>"; };
 		7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@2x.png"; sourceTree = "<group>"; };
 		7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@3x.png"; sourceTree = "<group>"; };
+		7CBD2D011AEB71D50091EB20 /* Common.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Common.proto; sourceTree = "<group>"; };
+		7CBD2D031AEB75EC0091EB20 /* Common.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.pb.h; sourceTree = "<group>"; };
+		7CBD2D041AEB75EC0091EB20 /* Common.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.pb.m; sourceTree = "<group>"; };
+		7CBD2D051AEB75EC0091EB20 /* Error.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Error.pb.h; sourceTree = "<group>"; };
+		7CBD2D061AEB75EC0091EB20 /* Error.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Error.pb.m; sourceTree = "<group>"; };
+		7CBD2D071AEB75EC0091EB20 /* Topic.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.pb.h; sourceTree = "<group>"; };
+		7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.pb.m; sourceTree = "<group>"; };
 		7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@2x.png"; sourceTree = "<group>"; };
 		7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@3x.png"; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
@@ -750,6 +761,7 @@
 				7CC455FE1AEA691B008B7BB6 /* Error.proto */,
 				7CC455FF1AEA691B008B7BB6 /* Topic.proto */,
 				7CC336941ADF9EE90084D891 /* Feed.proto */,
+				7CBD2D011AEB71D50091EB20 /* Common.proto */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -757,8 +769,14 @@
 		7C5A37F01ADB9E3000CFA176 /* Gen */ = {
 			isa = PBXGroup;
 			children = (
+				7CBD2D031AEB75EC0091EB20 /* Common.pb.h */,
+				7CBD2D041AEB75EC0091EB20 /* Common.pb.m */,
+				7CBD2D051AEB75EC0091EB20 /* Error.pb.h */,
+				7CBD2D061AEB75EC0091EB20 /* Error.pb.m */,
 				7CC336961ADFA5910084D891 /* Feed.pb.h */,
 				7CC336971ADFA5910084D891 /* Feed.pb.m */,
+				7CBD2D071AEB75EC0091EB20 /* Topic.pb.h */,
+				7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */,
 				7C5A37F31ADB9E3000CFA176 /* User.pb.h */,
 				7C5A37F41ADB9E3000CFA176 /* User.pb.m */,
 			);
@@ -931,6 +949,7 @@
 				7C5A380D1ADB9E3000CFA176 /* image3.jpg in Resources */,
 				7CCBCAD11AE3E469006410BD /* omnibus_normal@2x.png in Resources */,
 				7CCBCAD41AE3E469006410BD /* omnibus_selected@3x.png in Resources */,
+				7CBD2D021AEB71D50091EB20 /* Common.proto in Resources */,
 				7CBD56E81AE7DF5600423D5D /* create_feed_save@2x.png in Resources */,
 				7CC336951ADF9EE90084D891 /* Feed.proto in Resources */,
 				7CC876961AE79E3700963450 /* user_blessing@3x.png in Resources */,
@@ -1027,6 +1046,7 @@
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
 				7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */,
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
+				7CBD2D0B1AEB75EC0091EB20 /* Topic.pb.m in Sources */,
 				7C5A38001ADB9E3000CFA176 /* AppDelegate.m in Sources */,
 				7CCAC0351AE0EE1F007F4326 /* TimelineController.m in Sources */,
 				7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */,
@@ -1034,6 +1054,7 @@
 				7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */,
 				7CC336981ADFA5910084D891 /* Feed.pb.m in Sources */,
 				7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */,
+				7CBD2D0A1AEB75EC0091EB20 /* Error.pb.m in Sources */,
 				7C5A38101ADB9E3000CFA176 /* UserManager.m in Sources */,
 				7C5A38111ADB9E3000CFA176 /* UserService.m in Sources */,
 				7C5A37771ADB9D6A00CFA176 /* main.m in Sources */,
@@ -1050,6 +1071,7 @@
 				7C5A37FC1ADB9E3000CFA176 /* UIColor+UIColorExt.m in Sources */,
 				7C54C2BA1ADBFE7C002A32E2 /* SignUpAndLogInView.m in Sources */,
 				7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */,
+				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
 				7CBBB6131ADFF00900AD2CA6 /* CreatFeedController.m in Sources */,
 				7C54C2B61ADBFD63002A32E2 /* QuickSignUpController.m in Sources */,
 				7C5A380A1ADB9E3000CFA176 /* OmnibusController.m in Sources */,

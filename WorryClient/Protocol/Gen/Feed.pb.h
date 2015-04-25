@@ -3,10 +3,17 @@
 #import <ProtocolBuffers/ProtocolBuffers.h>
 
 #import "User.pb.h"
+#import "Topic.pb.h"
 // @@protoc_insertion_point(imports)
 
+@class PBAnswer;
+@class PBAnswerBuilder;
+@class PBBlessing;
+@class PBBlessingBuilder;
 @class PBComment;
 @class PBCommentBuilder;
+@class PBDevice;
+@class PBDeviceBuilder;
 @class PBFeed;
 @class PBFeedBuilder;
 @class PBTopic;
@@ -26,8 +33,8 @@
 #endif
 
 typedef NS_ENUM(SInt32, PBFeedType) {
-  PBFeedTypeFeedTypeWorry = 0,
-  PBFeedTypeFeedTypeStory = 1,
+  PBFeedTypeWorry = 1,
+  PBFeedTypeStory = 2,
 };
 
 BOOL PBFeedTypeIsValidValue(PBFeedType value);
@@ -40,79 +47,36 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface PBTopic : PBGeneratedMessage<GeneratedMessageProtocol> {
-@private
-  BOOL hasTopicId_:1;
-  BOOL hasTitle_:1;
-  NSString* topicId;
-  NSString* title;
-}
-- (BOOL) hasTopicId;
-- (BOOL) hasTitle;
-@property (readonly, strong) NSString* topicId;
-@property (readonly, strong) NSString* title;
-
-+ (instancetype) defaultInstance;
-- (instancetype) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PBTopicBuilder*) builder;
-+ (PBTopicBuilder*) builder;
-+ (PBTopicBuilder*) builderWithPrototype:(PBTopic*) prototype;
-- (PBTopicBuilder*) toBuilder;
-
-+ (PBTopic*) parseFromData:(NSData*) data;
-+ (PBTopic*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PBTopic*) parseFromInputStream:(NSInputStream*) input;
-+ (PBTopic*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PBTopic*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PBTopic*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PBTopicBuilder : PBGeneratedMessageBuilder {
-@private
-  PBTopic* resultPbtopic;
-}
-
-- (PBTopic*) defaultInstance;
-
-- (PBTopicBuilder*) clear;
-- (PBTopicBuilder*) clone;
-
-- (PBTopic*) build;
-- (PBTopic*) buildPartial;
-
-- (PBTopicBuilder*) mergeFrom:(PBTopic*) other;
-- (PBTopicBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PBTopicBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasTopicId;
-- (NSString*) topicId;
-- (PBTopicBuilder*) setTopicId:(NSString*) value;
-- (PBTopicBuilder*) clearTopicId;
-
-- (BOOL) hasTitle;
-- (NSString*) title;
-- (PBTopicBuilder*) setTitle:(NSString*) value;
-- (PBTopicBuilder*) clearTitle;
-@end
-
 @interface PBComment : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
+  BOOL hasIsAnonymous_:1;
+  BOOL hasCreatedAt_:1;
+  BOOL hasUpdatedAt_:1;
   BOOL hasCommentId_:1;
   BOOL hasText_:1;
   BOOL hasCreateUser_:1;
+  BOOL isAnonymous_:1;
+  SInt32 createdAt;
+  SInt32 updatedAt;
   NSString* commentId;
   NSString* text;
   PBUser* createUser;
+  NSMutableArray * replyArray;
 }
 - (BOOL) hasCommentId;
 - (BOOL) hasCreateUser;
 - (BOOL) hasText;
+- (BOOL) hasIsAnonymous;
+- (BOOL) hasCreatedAt;
+- (BOOL) hasUpdatedAt;
 @property (readonly, strong) NSString* commentId;
 @property (readonly, strong) PBUser* createUser;
 @property (readonly, strong) NSString* text;
+- (BOOL) isAnonymous;
+@property (readonly, strong) NSArray * reply;
+@property (readonly) SInt32 createdAt;
+@property (readonly) SInt32 updatedAt;
+- (PBComment*)replyAtIndex:(NSUInteger)index;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -165,48 +129,299 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (NSString*) text;
 - (PBCommentBuilder*) setText:(NSString*) value;
 - (PBCommentBuilder*) clearText;
+
+- (BOOL) hasIsAnonymous;
+- (BOOL) isAnonymous;
+- (PBCommentBuilder*) setIsAnonymous:(BOOL) value;
+- (PBCommentBuilder*) clearIsAnonymous;
+
+- (NSMutableArray *)reply;
+- (PBComment*)replyAtIndex:(NSUInteger)index;
+- (PBCommentBuilder *)addReply:(PBComment*)value;
+- (PBCommentBuilder *)setReplyArray:(NSArray *)array;
+- (PBCommentBuilder *)clearReply;
+
+- (BOOL) hasCreatedAt;
+- (SInt32) createdAt;
+- (PBCommentBuilder*) setCreatedAt:(SInt32) value;
+- (PBCommentBuilder*) clearCreatedAt;
+
+- (BOOL) hasUpdatedAt;
+- (SInt32) updatedAt;
+- (PBCommentBuilder*) setUpdatedAt:(SInt32) value;
+- (PBCommentBuilder*) clearUpdatedAt;
+@end
+
+@interface PBAnswer : PBGeneratedMessage<GeneratedMessageProtocol> {
+@private
+  BOOL hasIsAnonymous_:1;
+  BOOL hasThanksCount_:1;
+  BOOL hasCreatedAt_:1;
+  BOOL hasUpdatedAt_:1;
+  BOOL hasAnswerId_:1;
+  BOOL hasText_:1;
+  BOOL hasCreatUser_:1;
+  BOOL hasComment_:1;
+  BOOL isAnonymous_:1;
+  SInt32 thanksCount;
+  SInt32 createdAt;
+  SInt32 updatedAt;
+  NSString* answerId;
+  NSString* text;
+  PBUser* creatUser;
+  PBComment* comment;
+}
+- (BOOL) hasAnswerId;
+- (BOOL) hasCreatUser;
+- (BOOL) hasIsAnonymous;
+- (BOOL) hasText;
+- (BOOL) hasComment;
+- (BOOL) hasThanksCount;
+- (BOOL) hasCreatedAt;
+- (BOOL) hasUpdatedAt;
+@property (readonly, strong) NSString* answerId;
+@property (readonly, strong) PBUser* creatUser;
+- (BOOL) isAnonymous;
+@property (readonly, strong) NSString* text;
+@property (readonly, strong) PBComment* comment;
+@property (readonly) SInt32 thanksCount;
+@property (readonly) SInt32 createdAt;
+@property (readonly) SInt32 updatedAt;
+
++ (instancetype) defaultInstance;
+- (instancetype) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PBAnswerBuilder*) builder;
++ (PBAnswerBuilder*) builder;
++ (PBAnswerBuilder*) builderWithPrototype:(PBAnswer*) prototype;
+- (PBAnswerBuilder*) toBuilder;
+
++ (PBAnswer*) parseFromData:(NSData*) data;
++ (PBAnswer*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBAnswer*) parseFromInputStream:(NSInputStream*) input;
++ (PBAnswer*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBAnswer*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PBAnswer*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PBAnswerBuilder : PBGeneratedMessageBuilder {
+@private
+  PBAnswer* resultPbanswer;
+}
+
+- (PBAnswer*) defaultInstance;
+
+- (PBAnswerBuilder*) clear;
+- (PBAnswerBuilder*) clone;
+
+- (PBAnswer*) build;
+- (PBAnswer*) buildPartial;
+
+- (PBAnswerBuilder*) mergeFrom:(PBAnswer*) other;
+- (PBAnswerBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PBAnswerBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasAnswerId;
+- (NSString*) answerId;
+- (PBAnswerBuilder*) setAnswerId:(NSString*) value;
+- (PBAnswerBuilder*) clearAnswerId;
+
+- (BOOL) hasCreatUser;
+- (PBUser*) creatUser;
+- (PBAnswerBuilder*) setCreatUser:(PBUser*) value;
+- (PBAnswerBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue;
+- (PBAnswerBuilder*) mergeCreatUser:(PBUser*) value;
+- (PBAnswerBuilder*) clearCreatUser;
+
+- (BOOL) hasIsAnonymous;
+- (BOOL) isAnonymous;
+- (PBAnswerBuilder*) setIsAnonymous:(BOOL) value;
+- (PBAnswerBuilder*) clearIsAnonymous;
+
+- (BOOL) hasText;
+- (NSString*) text;
+- (PBAnswerBuilder*) setText:(NSString*) value;
+- (PBAnswerBuilder*) clearText;
+
+- (BOOL) hasComment;
+- (PBComment*) comment;
+- (PBAnswerBuilder*) setComment:(PBComment*) value;
+- (PBAnswerBuilder*) setCommentBuilder:(PBCommentBuilder*) builderForValue;
+- (PBAnswerBuilder*) mergeComment:(PBComment*) value;
+- (PBAnswerBuilder*) clearComment;
+
+- (BOOL) hasThanksCount;
+- (SInt32) thanksCount;
+- (PBAnswerBuilder*) setThanksCount:(SInt32) value;
+- (PBAnswerBuilder*) clearThanksCount;
+
+- (BOOL) hasCreatedAt;
+- (SInt32) createdAt;
+- (PBAnswerBuilder*) setCreatedAt:(SInt32) value;
+- (PBAnswerBuilder*) clearCreatedAt;
+
+- (BOOL) hasUpdatedAt;
+- (SInt32) updatedAt;
+- (PBAnswerBuilder*) setUpdatedAt:(SInt32) value;
+- (PBAnswerBuilder*) clearUpdatedAt;
+@end
+
+@interface PBBlessing : PBGeneratedMessage<GeneratedMessageProtocol> {
+@private
+  BOOL hasCreatedAt_:1;
+  BOOL hasUpdatedAt_:1;
+  BOOL hasBlessingId_:1;
+  BOOL hasText_:1;
+  BOOL hasCreatUser_:1;
+  BOOL hasToUser_:1;
+  SInt32 createdAt;
+  SInt32 updatedAt;
+  NSString* blessingId;
+  NSString* text;
+  PBUser* creatUser;
+  PBUser* toUser;
+  NSMutableArray * imagesArray;
+}
+- (BOOL) hasBlessingId;
+- (BOOL) hasCreatUser;
+- (BOOL) hasToUser;
+- (BOOL) hasText;
+- (BOOL) hasCreatedAt;
+- (BOOL) hasUpdatedAt;
+@property (readonly, strong) NSString* blessingId;
+@property (readonly, strong) PBUser* creatUser;
+@property (readonly, strong) PBUser* toUser;
+@property (readonly, strong) NSString* text;
+@property (readonly, strong) NSArray * images;
+@property (readonly) SInt32 createdAt;
+@property (readonly) SInt32 updatedAt;
+- (NSString*)imagesAtIndex:(NSUInteger)index;
+
++ (instancetype) defaultInstance;
+- (instancetype) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PBBlessingBuilder*) builder;
++ (PBBlessingBuilder*) builder;
++ (PBBlessingBuilder*) builderWithPrototype:(PBBlessing*) prototype;
+- (PBBlessingBuilder*) toBuilder;
+
++ (PBBlessing*) parseFromData:(NSData*) data;
++ (PBBlessing*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBBlessing*) parseFromInputStream:(NSInputStream*) input;
++ (PBBlessing*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PBBlessing*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PBBlessing*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PBBlessingBuilder : PBGeneratedMessageBuilder {
+@private
+  PBBlessing* resultPbblessing;
+}
+
+- (PBBlessing*) defaultInstance;
+
+- (PBBlessingBuilder*) clear;
+- (PBBlessingBuilder*) clone;
+
+- (PBBlessing*) build;
+- (PBBlessing*) buildPartial;
+
+- (PBBlessingBuilder*) mergeFrom:(PBBlessing*) other;
+- (PBBlessingBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PBBlessingBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBlessingId;
+- (NSString*) blessingId;
+- (PBBlessingBuilder*) setBlessingId:(NSString*) value;
+- (PBBlessingBuilder*) clearBlessingId;
+
+- (BOOL) hasCreatUser;
+- (PBUser*) creatUser;
+- (PBBlessingBuilder*) setCreatUser:(PBUser*) value;
+- (PBBlessingBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue;
+- (PBBlessingBuilder*) mergeCreatUser:(PBUser*) value;
+- (PBBlessingBuilder*) clearCreatUser;
+
+- (BOOL) hasToUser;
+- (PBUser*) toUser;
+- (PBBlessingBuilder*) setToUser:(PBUser*) value;
+- (PBBlessingBuilder*) setToUserBuilder:(PBUserBuilder*) builderForValue;
+- (PBBlessingBuilder*) mergeToUser:(PBUser*) value;
+- (PBBlessingBuilder*) clearToUser;
+
+- (BOOL) hasText;
+- (NSString*) text;
+- (PBBlessingBuilder*) setText:(NSString*) value;
+- (PBBlessingBuilder*) clearText;
+
+- (NSMutableArray *)images;
+- (NSString*)imagesAtIndex:(NSUInteger)index;
+- (PBBlessingBuilder *)addImages:(NSString*)value;
+- (PBBlessingBuilder *)setImagesArray:(NSArray *)array;
+- (PBBlessingBuilder *)clearImages;
+
+- (BOOL) hasCreatedAt;
+- (SInt32) createdAt;
+- (PBBlessingBuilder*) setCreatedAt:(SInt32) value;
+- (PBBlessingBuilder*) clearCreatedAt;
+
+- (BOOL) hasUpdatedAt;
+- (SInt32) updatedAt;
+- (PBBlessingBuilder*) setUpdatedAt:(SInt32) value;
+- (PBBlessingBuilder*) clearUpdatedAt;
 @end
 
 @interface PBFeed : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasIsAnonymous_:1;
-  BOOL hasDate_:1;
+  BOOL hasCreatedAt_:1;
+  BOOL hasUpdatedAt_:1;
   BOOL hasFeedId_:1;
   BOOL hasTitle_:1;
   BOOL hasText_:1;
   BOOL hasCreateUser_:1;
   BOOL hasType_:1;
   BOOL isAnonymous_:1;
-  SInt32 date;
+  SInt32 createdAt;
+  SInt32 updatedAt;
   NSString* feedId;
   NSString* title;
   NSString* text;
   PBUser* createUser;
   PBFeedType type;
-  NSMutableArray * blessingUserArray;
   NSMutableArray * topicArray;
   NSMutableArray * commentArray;
+  NSMutableArray * blessingArray;
+  NSMutableArray * answerArray;
 }
-- (BOOL) hasType;
 - (BOOL) hasFeedId;
+- (BOOL) hasType;
 - (BOOL) hasCreateUser;
-- (BOOL) hasIsAnonymous;
 - (BOOL) hasTitle;
+- (BOOL) hasIsAnonymous;
 - (BOOL) hasText;
-- (BOOL) hasDate;
-@property (readonly) PBFeedType type;
+- (BOOL) hasCreatedAt;
+- (BOOL) hasUpdatedAt;
 @property (readonly, strong) NSString* feedId;
+@property (readonly) PBFeedType type;
 @property (readonly, strong) PBUser* createUser;
-- (BOOL) isAnonymous;
-@property (readonly, strong) NSArray * blessingUser;
 @property (readonly, strong) NSString* title;
+- (BOOL) isAnonymous;
 @property (readonly, strong) NSString* text;
-@property (readonly) SInt32 date;
+@property (readonly) SInt32 createdAt;
+@property (readonly) SInt32 updatedAt;
 @property (readonly, strong) NSArray * topic;
 @property (readonly, strong) NSArray * comment;
-- (PBUser*)blessingUserAtIndex:(NSUInteger)index;
+@property (readonly, strong) NSArray * blessing;
+@property (readonly, strong) NSArray * answer;
 - (PBTopic*)topicAtIndex:(NSUInteger)index;
 - (PBComment*)commentAtIndex:(NSUInteger)index;
+- (PBBlessing*)blessingAtIndex:(NSUInteger)index;
+- (PBAnswer*)answerAtIndex:(NSUInteger)index;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -243,15 +458,15 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBFeedBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PBFeedBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasType;
-- (PBFeedType) type;
-- (PBFeedBuilder*) setType:(PBFeedType) value;
-- (PBFeedBuilder*) clearType;
-
 - (BOOL) hasFeedId;
 - (NSString*) feedId;
 - (PBFeedBuilder*) setFeedId:(NSString*) value;
 - (PBFeedBuilder*) clearFeedId;
+
+- (BOOL) hasType;
+- (PBFeedType) type;
+- (PBFeedBuilder*) setType:(PBFeedType) value;
+- (PBFeedBuilder*) clearType;
 
 - (BOOL) hasCreateUser;
 - (PBUser*) createUser;
@@ -260,31 +475,30 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBFeedBuilder*) mergeCreateUser:(PBUser*) value;
 - (PBFeedBuilder*) clearCreateUser;
 
-- (BOOL) hasIsAnonymous;
-- (BOOL) isAnonymous;
-- (PBFeedBuilder*) setIsAnonymous:(BOOL) value;
-- (PBFeedBuilder*) clearIsAnonymous;
-
-- (NSMutableArray *)blessingUser;
-- (PBUser*)blessingUserAtIndex:(NSUInteger)index;
-- (PBFeedBuilder *)addBlessingUser:(PBUser*)value;
-- (PBFeedBuilder *)setBlessingUserArray:(NSArray *)array;
-- (PBFeedBuilder *)clearBlessingUser;
-
 - (BOOL) hasTitle;
 - (NSString*) title;
 - (PBFeedBuilder*) setTitle:(NSString*) value;
 - (PBFeedBuilder*) clearTitle;
+
+- (BOOL) hasIsAnonymous;
+- (BOOL) isAnonymous;
+- (PBFeedBuilder*) setIsAnonymous:(BOOL) value;
+- (PBFeedBuilder*) clearIsAnonymous;
 
 - (BOOL) hasText;
 - (NSString*) text;
 - (PBFeedBuilder*) setText:(NSString*) value;
 - (PBFeedBuilder*) clearText;
 
-- (BOOL) hasDate;
-- (SInt32) date;
-- (PBFeedBuilder*) setDate:(SInt32) value;
-- (PBFeedBuilder*) clearDate;
+- (BOOL) hasCreatedAt;
+- (SInt32) createdAt;
+- (PBFeedBuilder*) setCreatedAt:(SInt32) value;
+- (PBFeedBuilder*) clearCreatedAt;
+
+- (BOOL) hasUpdatedAt;
+- (SInt32) updatedAt;
+- (PBFeedBuilder*) setUpdatedAt:(SInt32) value;
+- (PBFeedBuilder*) clearUpdatedAt;
 
 - (NSMutableArray *)topic;
 - (PBTopic*)topicAtIndex:(NSUInteger)index;
@@ -297,6 +511,18 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (PBFeedBuilder *)addComment:(PBComment*)value;
 - (PBFeedBuilder *)setCommentArray:(NSArray *)array;
 - (PBFeedBuilder *)clearComment;
+
+- (NSMutableArray *)blessing;
+- (PBBlessing*)blessingAtIndex:(NSUInteger)index;
+- (PBFeedBuilder *)addBlessing:(PBBlessing*)value;
+- (PBFeedBuilder *)setBlessingArray:(NSArray *)array;
+- (PBFeedBuilder *)clearBlessing;
+
+- (NSMutableArray *)answer;
+- (PBAnswer*)answerAtIndex:(NSUInteger)index;
+- (PBFeedBuilder *)addAnswer:(PBAnswer*)value;
+- (PBFeedBuilder *)setAnswerArray:(NSArray *)array;
+- (PBFeedBuilder *)clearAnswer;
 @end
 
 

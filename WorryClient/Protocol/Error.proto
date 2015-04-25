@@ -2,13 +2,23 @@ package worry;
 
 enum PBError{
 	// system
-	unknown	= -1000;
-	service_catch_exception = -1001;
+	unknown	= 1000001;
+	service_catch_exception = 1000002;
+    no_service = 1000003;
 	
 	// user
-	user_log_in_info_empty = -2000;
-	user_register_info_empty = -2001;
-	user_not_found = -2002;
+    user_log_in_info_empty = 2000001;
+	user_register_info_empty = 2000002;
+	user_not_found = 2000003;
+    phone_empty = 2000004;
+    email_empty = 2000005;
+    sns_id_empty = 2000006;
+    password_empty = 2000007;
+    sns_get_user_info_empty = 2000008;
+    user_exist = 2000009;
+
 	
-	// 
+	//  feed
+    feed_not_found = 3000001;
+    feed_id_null = 3000002;
 }

@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [UserRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [CommonRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -24,6 +25,9 @@ BOOL PBSignUpAndLogInTypeIsValidValue(PBSignUpAndLogInType value) {
   switch (value) {
     case PBSignUpAndLogInTypePhone:
     case PBSignUpAndLogInTypeEmail:
+    case PBSignUpAndLogInTypeQq:
+    case PBSignUpAndLogInTypeWeixin:
+    case PBSignUpAndLogInTypeSina:
       return YES;
     default:
       return NO;
@@ -35,6 +39,12 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
       return @"PBSignUpAndLogInTypePhone";
     case PBSignUpAndLogInTypeEmail:
       return @"PBSignUpAndLogInTypeEmail";
+    case PBSignUpAndLogInTypeQq:
+      return @"PBSignUpAndLogInTypeQq";
+    case PBSignUpAndLogInTypeWeixin:
+      return @"PBSignUpAndLogInTypeWeixin";
+    case PBSignUpAndLogInTypeSina:
+      return @"PBSignUpAndLogInTypeSina";
     default:
       return nil;
   }
@@ -44,11 +54,30 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property (strong) NSString* userId;
 @property (strong) NSString* password;
 @property (strong) NSString* nick;
+@property (strong) NSString* avatar;
 @property BOOL gender;
-@property (strong) NSString* userName;
+@property (strong) NSString* bgImage;
+@property (strong) NSString* sinature;
+@property (strong) NSString* location;
 @property (strong) NSString* phone;
 @property (strong) NSString* email;
-@property SInt32 date;
+@property SInt32 createdAt;
+@property SInt32 upatedAt;
+@property (strong) NSString* countryCode;
+@property (strong) NSString* language;
+@property (strong) NSString* emailVerified;
+@property (strong) NSString* phoneVerified;
+@property SInt32 credit;
+@property (strong) NSString* weixinId;
+@property (strong) NSString* qqId;
+@property (strong) NSString* sinaId;
+@property (strong) NSMutableArray * favoriteFeedIdArray;
+@property (strong) NSMutableArray * answerIdArray;
+@property (strong) NSMutableArray * receivedBlessingIdArray;
+@property (strong) NSMutableArray * sentBlessingIdArray;
+@property (strong) NSMutableArray * topicIdArray;
+@property (strong) PBDevice* currentDevice;
+@property (strong) NSMutableArray * devicesArray;
 @end
 
 @implementation PBUser
@@ -74,6 +103,13 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasNick_ = !!_value_;
 }
 @synthesize nick;
+- (BOOL) hasAvatar {
+  return !!hasAvatar_;
+}
+- (void) setHasAvatar:(BOOL) _value_ {
+  hasAvatar_ = !!_value_;
+}
+@synthesize avatar;
 - (BOOL) hasGender {
   return !!hasGender_;
 }
@@ -86,13 +122,27 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 - (void) setGender:(BOOL) _value_ {
   gender_ = !!_value_;
 }
-- (BOOL) hasUserName {
-  return !!hasUserName_;
+- (BOOL) hasBgImage {
+  return !!hasBgImage_;
 }
-- (void) setHasUserName:(BOOL) _value_ {
-  hasUserName_ = !!_value_;
+- (void) setHasBgImage:(BOOL) _value_ {
+  hasBgImage_ = !!_value_;
 }
-@synthesize userName;
+@synthesize bgImage;
+- (BOOL) hasSinature {
+  return !!hasSinature_;
+}
+- (void) setHasSinature:(BOOL) _value_ {
+  hasSinature_ = !!_value_;
+}
+@synthesize sinature;
+- (BOOL) hasLocation {
+  return !!hasLocation_;
+}
+- (void) setHasLocation:(BOOL) _value_ {
+  hasLocation_ = !!_value_;
+}
+@synthesize location;
 - (BOOL) hasPhone {
   return !!hasPhone_;
 }
@@ -107,23 +157,118 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasEmail_ = !!_value_;
 }
 @synthesize email;
-- (BOOL) hasDate {
-  return !!hasDate_;
+- (BOOL) hasCreatedAt {
+  return !!hasCreatedAt_;
 }
-- (void) setHasDate:(BOOL) _value_ {
-  hasDate_ = !!_value_;
+- (void) setHasCreatedAt:(BOOL) _value_ {
+  hasCreatedAt_ = !!_value_;
 }
-@synthesize date;
+@synthesize createdAt;
+- (BOOL) hasUpatedAt {
+  return !!hasUpatedAt_;
+}
+- (void) setHasUpatedAt:(BOOL) _value_ {
+  hasUpatedAt_ = !!_value_;
+}
+@synthesize upatedAt;
+- (BOOL) hasCountryCode {
+  return !!hasCountryCode_;
+}
+- (void) setHasCountryCode:(BOOL) _value_ {
+  hasCountryCode_ = !!_value_;
+}
+@synthesize countryCode;
+- (BOOL) hasLanguage {
+  return !!hasLanguage_;
+}
+- (void) setHasLanguage:(BOOL) _value_ {
+  hasLanguage_ = !!_value_;
+}
+@synthesize language;
+- (BOOL) hasEmailVerified {
+  return !!hasEmailVerified_;
+}
+- (void) setHasEmailVerified:(BOOL) _value_ {
+  hasEmailVerified_ = !!_value_;
+}
+@synthesize emailVerified;
+- (BOOL) hasPhoneVerified {
+  return !!hasPhoneVerified_;
+}
+- (void) setHasPhoneVerified:(BOOL) _value_ {
+  hasPhoneVerified_ = !!_value_;
+}
+@synthesize phoneVerified;
+- (BOOL) hasCredit {
+  return !!hasCredit_;
+}
+- (void) setHasCredit:(BOOL) _value_ {
+  hasCredit_ = !!_value_;
+}
+@synthesize credit;
+- (BOOL) hasWeixinId {
+  return !!hasWeixinId_;
+}
+- (void) setHasWeixinId:(BOOL) _value_ {
+  hasWeixinId_ = !!_value_;
+}
+@synthesize weixinId;
+- (BOOL) hasQqId {
+  return !!hasQqId_;
+}
+- (void) setHasQqId:(BOOL) _value_ {
+  hasQqId_ = !!_value_;
+}
+@synthesize qqId;
+- (BOOL) hasSinaId {
+  return !!hasSinaId_;
+}
+- (void) setHasSinaId:(BOOL) _value_ {
+  hasSinaId_ = !!_value_;
+}
+@synthesize sinaId;
+@synthesize favoriteFeedIdArray;
+@dynamic favoriteFeedId;
+@synthesize answerIdArray;
+@dynamic answerId;
+@synthesize receivedBlessingIdArray;
+@dynamic receivedBlessingId;
+@synthesize sentBlessingIdArray;
+@dynamic sentBlessingId;
+@synthesize topicIdArray;
+@dynamic topicId;
+- (BOOL) hasCurrentDevice {
+  return !!hasCurrentDevice_;
+}
+- (void) setHasCurrentDevice:(BOOL) _value_ {
+  hasCurrentDevice_ = !!_value_;
+}
+@synthesize currentDevice;
+@synthesize devicesArray;
+@dynamic devices;
 - (instancetype) init {
   if ((self = [super init])) {
     self.userId = @"";
     self.password = @"";
     self.nick = @"";
+    self.avatar = @"";
     self.gender = NO;
-    self.userName = @"";
+    self.bgImage = @"";
+    self.sinature = @"";
+    self.location = @"";
     self.phone = @"";
     self.email = @"";
-    self.date = 0;
+    self.createdAt = 0;
+    self.upatedAt = 0;
+    self.countryCode = @"";
+    self.language = @"";
+    self.emailVerified = @"";
+    self.phoneVerified = @"";
+    self.credit = 20;
+    self.weixinId = @"";
+    self.qqId = @"";
+    self.sinaId = @"";
+    self.currentDevice = [PBDevice defaultInstance];
   }
   return self;
 }
@@ -139,10 +284,59 @@ static PBUser* defaultPBUserInstance = nil;
 - (instancetype) defaultInstance {
   return defaultPBUserInstance;
 }
+- (NSArray *)favoriteFeedId {
+  return favoriteFeedIdArray;
+}
+- (NSString*)favoriteFeedIdAtIndex:(NSUInteger)index {
+  return [favoriteFeedIdArray objectAtIndex:index];
+}
+- (NSArray *)answerId {
+  return answerIdArray;
+}
+- (NSString*)answerIdAtIndex:(NSUInteger)index {
+  return [answerIdArray objectAtIndex:index];
+}
+- (NSArray *)receivedBlessingId {
+  return receivedBlessingIdArray;
+}
+- (NSString*)receivedBlessingIdAtIndex:(NSUInteger)index {
+  return [receivedBlessingIdArray objectAtIndex:index];
+}
+- (NSArray *)sentBlessingId {
+  return sentBlessingIdArray;
+}
+- (NSString*)sentBlessingIdAtIndex:(NSUInteger)index {
+  return [sentBlessingIdArray objectAtIndex:index];
+}
+- (NSArray *)topicId {
+  return topicIdArray;
+}
+- (NSString*)topicIdAtIndex:(NSUInteger)index {
+  return [topicIdArray objectAtIndex:index];
+}
+- (NSArray *)devices {
+  return devicesArray;
+}
+- (PBDevice*)devicesAtIndex:(NSUInteger)index {
+  return [devicesArray objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   if (!self.hasUserId) {
     return NO;
   }
+  if (self.hasCurrentDevice) {
+    if (!self.currentDevice.isInitialized) {
+      return NO;
+    }
+  }
+  __block BOOL isInitdevices = YES;
+   [self.devices enumerateObjectsUsingBlock:^(PBDevice *element, NSUInteger idx, BOOL *stop) {
+    if (!element.isInitialized) {
+      isInitdevices = NO;
+      *stop = YES;
+    }
+  }];
+  if (!isInitdevices) return isInitdevices;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -155,11 +349,20 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasNick) {
     [output writeString:3 value:self.nick];
   }
+  if (self.hasAvatar) {
+    [output writeString:4 value:self.avatar];
+  }
   if (self.hasGender) {
     [output writeBool:5 value:self.gender];
   }
-  if (self.hasUserName) {
-    [output writeString:6 value:self.userName];
+  if (self.hasBgImage) {
+    [output writeString:7 value:self.bgImage];
+  }
+  if (self.hasSinature) {
+    [output writeString:8 value:self.sinature];
+  }
+  if (self.hasLocation) {
+    [output writeString:9 value:self.location];
   }
   if (self.hasPhone) {
     [output writeString:10 value:self.phone];
@@ -167,9 +370,57 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     [output writeString:11 value:self.email];
   }
-  if (self.hasDate) {
-    [output writeInt32:12 value:self.date];
+  if (self.hasCreatedAt) {
+    [output writeInt32:12 value:self.createdAt];
   }
+  if (self.hasUpatedAt) {
+    [output writeInt32:13 value:self.upatedAt];
+  }
+  if (self.hasCountryCode) {
+    [output writeString:14 value:self.countryCode];
+  }
+  if (self.hasLanguage) {
+    [output writeString:15 value:self.language];
+  }
+  if (self.hasEmailVerified) {
+    [output writeString:20 value:self.emailVerified];
+  }
+  if (self.hasPhoneVerified) {
+    [output writeString:21 value:self.phoneVerified];
+  }
+  if (self.hasCredit) {
+    [output writeInt32:30 value:self.credit];
+  }
+  if (self.hasWeixinId) {
+    [output writeString:40 value:self.weixinId];
+  }
+  if (self.hasQqId) {
+    [output writeString:41 value:self.qqId];
+  }
+  if (self.hasSinaId) {
+    [output writeString:42 value:self.sinaId];
+  }
+  [self.favoriteFeedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:50 value:element];
+  }];
+  [self.answerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:51 value:element];
+  }];
+  [self.receivedBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:52 value:element];
+  }];
+  [self.sentBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:53 value:element];
+  }];
+  [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:54 value:element];
+  }];
+  if (self.hasCurrentDevice) {
+    [output writeMessage:70 value:self.currentDevice];
+  }
+  [self.devicesArray enumerateObjectsUsingBlock:^(PBDevice *element, NSUInteger idx, BOOL *stop) {
+    [output writeMessage:71 value:element];
+  }];
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -188,11 +439,20 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasNick) {
     size_ += computeStringSize(3, self.nick);
   }
+  if (self.hasAvatar) {
+    size_ += computeStringSize(4, self.avatar);
+  }
   if (self.hasGender) {
     size_ += computeBoolSize(5, self.gender);
   }
-  if (self.hasUserName) {
-    size_ += computeStringSize(6, self.userName);
+  if (self.hasBgImage) {
+    size_ += computeStringSize(7, self.bgImage);
+  }
+  if (self.hasSinature) {
+    size_ += computeStringSize(8, self.sinature);
+  }
+  if (self.hasLocation) {
+    size_ += computeStringSize(9, self.location);
   }
   if (self.hasPhone) {
     size_ += computeStringSize(10, self.phone);
@@ -200,9 +460,87 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     size_ += computeStringSize(11, self.email);
   }
-  if (self.hasDate) {
-    size_ += computeInt32Size(12, self.date);
+  if (self.hasCreatedAt) {
+    size_ += computeInt32Size(12, self.createdAt);
   }
+  if (self.hasUpatedAt) {
+    size_ += computeInt32Size(13, self.upatedAt);
+  }
+  if (self.hasCountryCode) {
+    size_ += computeStringSize(14, self.countryCode);
+  }
+  if (self.hasLanguage) {
+    size_ += computeStringSize(15, self.language);
+  }
+  if (self.hasEmailVerified) {
+    size_ += computeStringSize(20, self.emailVerified);
+  }
+  if (self.hasPhoneVerified) {
+    size_ += computeStringSize(21, self.phoneVerified);
+  }
+  if (self.hasCredit) {
+    size_ += computeInt32Size(30, self.credit);
+  }
+  if (self.hasWeixinId) {
+    size_ += computeStringSize(40, self.weixinId);
+  }
+  if (self.hasQqId) {
+    size_ += computeStringSize(41, self.qqId);
+  }
+  if (self.hasSinaId) {
+    size_ += computeStringSize(42, self.sinaId);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.favoriteFeedIdArray.count;
+    [self.favoriteFeedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.answerIdArray.count;
+    [self.answerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.receivedBlessingIdArray.count;
+    [self.receivedBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.sentBlessingIdArray.count;
+    [self.sentBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.topicIdArray.count;
+    [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  if (self.hasCurrentDevice) {
+    size_ += computeMessageSize(70, self.currentDevice);
+  }
+  [self.devicesArray enumerateObjectsUsingBlock:^(PBDevice *element, NSUInteger idx, BOOL *stop) {
+    size_ += computeMessageSize(71, element);
+  }];
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
   return size_;
@@ -247,11 +585,20 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasNick) {
     [output appendFormat:@"%@%@: %@\n", indent, @"nick", self.nick];
   }
+  if (self.hasAvatar) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"avatar", self.avatar];
+  }
   if (self.hasGender) {
     [output appendFormat:@"%@%@: %@\n", indent, @"gender", [NSNumber numberWithBool:self.gender]];
   }
-  if (self.hasUserName) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"userName", self.userName];
+  if (self.hasBgImage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"bgImage", self.bgImage];
+  }
+  if (self.hasSinature) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"sinature", self.sinature];
+  }
+  if (self.hasLocation) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"location", self.location];
   }
   if (self.hasPhone) {
     [output appendFormat:@"%@%@: %@\n", indent, @"phone", self.phone];
@@ -259,9 +606,63 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     [output appendFormat:@"%@%@: %@\n", indent, @"email", self.email];
   }
-  if (self.hasDate) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"date", [NSNumber numberWithInteger:self.date]];
+  if (self.hasCreatedAt) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"createdAt", [NSNumber numberWithInteger:self.createdAt]];
   }
+  if (self.hasUpatedAt) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"upatedAt", [NSNumber numberWithInteger:self.upatedAt]];
+  }
+  if (self.hasCountryCode) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"countryCode", self.countryCode];
+  }
+  if (self.hasLanguage) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"language", self.language];
+  }
+  if (self.hasEmailVerified) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"emailVerified", self.emailVerified];
+  }
+  if (self.hasPhoneVerified) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"phoneVerified", self.phoneVerified];
+  }
+  if (self.hasCredit) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"credit", [NSNumber numberWithInteger:self.credit]];
+  }
+  if (self.hasWeixinId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"weixinId", self.weixinId];
+  }
+  if (self.hasQqId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"qqId", self.qqId];
+  }
+  if (self.hasSinaId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"sinaId", self.sinaId];
+  }
+  [self.favoriteFeedIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"favoriteFeedId", obj];
+  }];
+  [self.answerIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"answerId", obj];
+  }];
+  [self.receivedBlessingIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"receivedBlessingId", obj];
+  }];
+  [self.sentBlessingIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"sentBlessingId", obj];
+  }];
+  [self.topicIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"topicId", obj];
+  }];
+  if (self.hasCurrentDevice) {
+    [output appendFormat:@"%@%@ {\n", indent, @"currentDevice"];
+    [self.currentDevice writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  [self.devicesArray enumerateObjectsUsingBlock:^(PBDevice *element, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@ {\n", indent, @"devices"];
+    [element writeDescriptionTo:output
+                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }];
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (BOOL) isEqual:(id)other {
@@ -279,16 +680,48 @@ static PBUser* defaultPBUserInstance = nil;
       (!self.hasPassword || [self.password isEqual:otherMessage.password]) &&
       self.hasNick == otherMessage.hasNick &&
       (!self.hasNick || [self.nick isEqual:otherMessage.nick]) &&
+      self.hasAvatar == otherMessage.hasAvatar &&
+      (!self.hasAvatar || [self.avatar isEqual:otherMessage.avatar]) &&
       self.hasGender == otherMessage.hasGender &&
       (!self.hasGender || self.gender == otherMessage.gender) &&
-      self.hasUserName == otherMessage.hasUserName &&
-      (!self.hasUserName || [self.userName isEqual:otherMessage.userName]) &&
+      self.hasBgImage == otherMessage.hasBgImage &&
+      (!self.hasBgImage || [self.bgImage isEqual:otherMessage.bgImage]) &&
+      self.hasSinature == otherMessage.hasSinature &&
+      (!self.hasSinature || [self.sinature isEqual:otherMessage.sinature]) &&
+      self.hasLocation == otherMessage.hasLocation &&
+      (!self.hasLocation || [self.location isEqual:otherMessage.location]) &&
       self.hasPhone == otherMessage.hasPhone &&
       (!self.hasPhone || [self.phone isEqual:otherMessage.phone]) &&
       self.hasEmail == otherMessage.hasEmail &&
       (!self.hasEmail || [self.email isEqual:otherMessage.email]) &&
-      self.hasDate == otherMessage.hasDate &&
-      (!self.hasDate || self.date == otherMessage.date) &&
+      self.hasCreatedAt == otherMessage.hasCreatedAt &&
+      (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
+      self.hasUpatedAt == otherMessage.hasUpatedAt &&
+      (!self.hasUpatedAt || self.upatedAt == otherMessage.upatedAt) &&
+      self.hasCountryCode == otherMessage.hasCountryCode &&
+      (!self.hasCountryCode || [self.countryCode isEqual:otherMessage.countryCode]) &&
+      self.hasLanguage == otherMessage.hasLanguage &&
+      (!self.hasLanguage || [self.language isEqual:otherMessage.language]) &&
+      self.hasEmailVerified == otherMessage.hasEmailVerified &&
+      (!self.hasEmailVerified || [self.emailVerified isEqual:otherMessage.emailVerified]) &&
+      self.hasPhoneVerified == otherMessage.hasPhoneVerified &&
+      (!self.hasPhoneVerified || [self.phoneVerified isEqual:otherMessage.phoneVerified]) &&
+      self.hasCredit == otherMessage.hasCredit &&
+      (!self.hasCredit || self.credit == otherMessage.credit) &&
+      self.hasWeixinId == otherMessage.hasWeixinId &&
+      (!self.hasWeixinId || [self.weixinId isEqual:otherMessage.weixinId]) &&
+      self.hasQqId == otherMessage.hasQqId &&
+      (!self.hasQqId || [self.qqId isEqual:otherMessage.qqId]) &&
+      self.hasSinaId == otherMessage.hasSinaId &&
+      (!self.hasSinaId || [self.sinaId isEqual:otherMessage.sinaId]) &&
+      [self.favoriteFeedIdArray isEqualToArray:otherMessage.favoriteFeedIdArray] &&
+      [self.answerIdArray isEqualToArray:otherMessage.answerIdArray] &&
+      [self.receivedBlessingIdArray isEqualToArray:otherMessage.receivedBlessingIdArray] &&
+      [self.sentBlessingIdArray isEqualToArray:otherMessage.sentBlessingIdArray] &&
+      [self.topicIdArray isEqualToArray:otherMessage.topicIdArray] &&
+      self.hasCurrentDevice == otherMessage.hasCurrentDevice &&
+      (!self.hasCurrentDevice || [self.currentDevice isEqual:otherMessage.currentDevice]) &&
+      [self.devicesArray isEqualToArray:otherMessage.devicesArray] &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
@@ -302,11 +735,20 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasNick) {
     hashCode = hashCode * 31 + [self.nick hash];
   }
+  if (self.hasAvatar) {
+    hashCode = hashCode * 31 + [self.avatar hash];
+  }
   if (self.hasGender) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.gender] hash];
   }
-  if (self.hasUserName) {
-    hashCode = hashCode * 31 + [self.userName hash];
+  if (self.hasBgImage) {
+    hashCode = hashCode * 31 + [self.bgImage hash];
+  }
+  if (self.hasSinature) {
+    hashCode = hashCode * 31 + [self.sinature hash];
+  }
+  if (self.hasLocation) {
+    hashCode = hashCode * 31 + [self.location hash];
   }
   if (self.hasPhone) {
     hashCode = hashCode * 31 + [self.phone hash];
@@ -314,9 +756,57 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasEmail) {
     hashCode = hashCode * 31 + [self.email hash];
   }
-  if (self.hasDate) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.date] hash];
+  if (self.hasCreatedAt) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createdAt] hash];
   }
+  if (self.hasUpatedAt) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.upatedAt] hash];
+  }
+  if (self.hasCountryCode) {
+    hashCode = hashCode * 31 + [self.countryCode hash];
+  }
+  if (self.hasLanguage) {
+    hashCode = hashCode * 31 + [self.language hash];
+  }
+  if (self.hasEmailVerified) {
+    hashCode = hashCode * 31 + [self.emailVerified hash];
+  }
+  if (self.hasPhoneVerified) {
+    hashCode = hashCode * 31 + [self.phoneVerified hash];
+  }
+  if (self.hasCredit) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.credit] hash];
+  }
+  if (self.hasWeixinId) {
+    hashCode = hashCode * 31 + [self.weixinId hash];
+  }
+  if (self.hasQqId) {
+    hashCode = hashCode * 31 + [self.qqId hash];
+  }
+  if (self.hasSinaId) {
+    hashCode = hashCode * 31 + [self.sinaId hash];
+  }
+  [self.favoriteFeedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.answerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.receivedBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.sentBlessingIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  if (self.hasCurrentDevice) {
+    hashCode = hashCode * 31 + [self.currentDevice hash];
+  }
+  [self.devicesArray enumerateObjectsUsingBlock:^(PBDevice *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
@@ -369,11 +859,20 @@ static PBUser* defaultPBUserInstance = nil;
   if (other.hasNick) {
     [self setNick:other.nick];
   }
+  if (other.hasAvatar) {
+    [self setAvatar:other.avatar];
+  }
   if (other.hasGender) {
     [self setGender:other.gender];
   }
-  if (other.hasUserName) {
-    [self setUserName:other.userName];
+  if (other.hasBgImage) {
+    [self setBgImage:other.bgImage];
+  }
+  if (other.hasSinature) {
+    [self setSinature:other.sinature];
+  }
+  if (other.hasLocation) {
+    [self setLocation:other.location];
   }
   if (other.hasPhone) {
     [self setPhone:other.phone];
@@ -381,8 +880,80 @@ static PBUser* defaultPBUserInstance = nil;
   if (other.hasEmail) {
     [self setEmail:other.email];
   }
-  if (other.hasDate) {
-    [self setDate:other.date];
+  if (other.hasCreatedAt) {
+    [self setCreatedAt:other.createdAt];
+  }
+  if (other.hasUpatedAt) {
+    [self setUpatedAt:other.upatedAt];
+  }
+  if (other.hasCountryCode) {
+    [self setCountryCode:other.countryCode];
+  }
+  if (other.hasLanguage) {
+    [self setLanguage:other.language];
+  }
+  if (other.hasEmailVerified) {
+    [self setEmailVerified:other.emailVerified];
+  }
+  if (other.hasPhoneVerified) {
+    [self setPhoneVerified:other.phoneVerified];
+  }
+  if (other.hasCredit) {
+    [self setCredit:other.credit];
+  }
+  if (other.hasWeixinId) {
+    [self setWeixinId:other.weixinId];
+  }
+  if (other.hasQqId) {
+    [self setQqId:other.qqId];
+  }
+  if (other.hasSinaId) {
+    [self setSinaId:other.sinaId];
+  }
+  if (other.favoriteFeedIdArray.count > 0) {
+    if (resultPbuser.favoriteFeedIdArray == nil) {
+      resultPbuser.favoriteFeedIdArray = [[NSMutableArray alloc] initWithArray:other.favoriteFeedIdArray];
+    } else {
+      [resultPbuser.favoriteFeedIdArray addObjectsFromArray:other.favoriteFeedIdArray];
+    }
+  }
+  if (other.answerIdArray.count > 0) {
+    if (resultPbuser.answerIdArray == nil) {
+      resultPbuser.answerIdArray = [[NSMutableArray alloc] initWithArray:other.answerIdArray];
+    } else {
+      [resultPbuser.answerIdArray addObjectsFromArray:other.answerIdArray];
+    }
+  }
+  if (other.receivedBlessingIdArray.count > 0) {
+    if (resultPbuser.receivedBlessingIdArray == nil) {
+      resultPbuser.receivedBlessingIdArray = [[NSMutableArray alloc] initWithArray:other.receivedBlessingIdArray];
+    } else {
+      [resultPbuser.receivedBlessingIdArray addObjectsFromArray:other.receivedBlessingIdArray];
+    }
+  }
+  if (other.sentBlessingIdArray.count > 0) {
+    if (resultPbuser.sentBlessingIdArray == nil) {
+      resultPbuser.sentBlessingIdArray = [[NSMutableArray alloc] initWithArray:other.sentBlessingIdArray];
+    } else {
+      [resultPbuser.sentBlessingIdArray addObjectsFromArray:other.sentBlessingIdArray];
+    }
+  }
+  if (other.topicIdArray.count > 0) {
+    if (resultPbuser.topicIdArray == nil) {
+      resultPbuser.topicIdArray = [[NSMutableArray alloc] initWithArray:other.topicIdArray];
+    } else {
+      [resultPbuser.topicIdArray addObjectsFromArray:other.topicIdArray];
+    }
+  }
+  if (other.hasCurrentDevice) {
+    [self mergeCurrentDevice:other.currentDevice];
+  }
+  if (other.devicesArray.count > 0) {
+    if (resultPbuser.devicesArray == nil) {
+      resultPbuser.devicesArray = [[NSMutableArray alloc] initWithArray:other.devicesArray];
+    } else {
+      [resultPbuser.devicesArray addObjectsFromArray:other.devicesArray];
+    }
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -417,12 +988,24 @@ static PBUser* defaultPBUserInstance = nil;
         [self setNick:[input readString]];
         break;
       }
+      case 34: {
+        [self setAvatar:[input readString]];
+        break;
+      }
       case 40: {
         [self setGender:[input readBool]];
         break;
       }
-      case 50: {
-        [self setUserName:[input readString]];
+      case 58: {
+        [self setBgImage:[input readString]];
+        break;
+      }
+      case 66: {
+        [self setSinature:[input readString]];
+        break;
+      }
+      case 74: {
+        [self setLocation:[input readString]];
         break;
       }
       case 82: {
@@ -434,7 +1017,78 @@ static PBUser* defaultPBUserInstance = nil;
         break;
       }
       case 96: {
-        [self setDate:[input readInt32]];
+        [self setCreatedAt:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setUpatedAt:[input readInt32]];
+        break;
+      }
+      case 114: {
+        [self setCountryCode:[input readString]];
+        break;
+      }
+      case 122: {
+        [self setLanguage:[input readString]];
+        break;
+      }
+      case 162: {
+        [self setEmailVerified:[input readString]];
+        break;
+      }
+      case 170: {
+        [self setPhoneVerified:[input readString]];
+        break;
+      }
+      case 240: {
+        [self setCredit:[input readInt32]];
+        break;
+      }
+      case 322: {
+        [self setWeixinId:[input readString]];
+        break;
+      }
+      case 330: {
+        [self setQqId:[input readString]];
+        break;
+      }
+      case 338: {
+        [self setSinaId:[input readString]];
+        break;
+      }
+      case 402: {
+        [self addFavoriteFeedId:[input readString]];
+        break;
+      }
+      case 410: {
+        [self addAnswerId:[input readString]];
+        break;
+      }
+      case 418: {
+        [self addReceivedBlessingId:[input readString]];
+        break;
+      }
+      case 426: {
+        [self addSentBlessingId:[input readString]];
+        break;
+      }
+      case 434: {
+        [self addTopicId:[input readString]];
+        break;
+      }
+      case 562: {
+        PBDeviceBuilder* subBuilder = [PBDevice builder];
+        if (self.hasCurrentDevice) {
+          [subBuilder mergeFrom:self.currentDevice];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCurrentDevice:[subBuilder buildPartial]];
+        break;
+      }
+      case 570: {
+        PBDeviceBuilder* subBuilder = [PBDevice builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDevices:[subBuilder buildPartial]];
         break;
       }
     }
@@ -488,6 +1142,22 @@ static PBUser* defaultPBUserInstance = nil;
   resultPbuser.nick = @"";
   return self;
 }
+- (BOOL) hasAvatar {
+  return resultPbuser.hasAvatar;
+}
+- (NSString*) avatar {
+  return resultPbuser.avatar;
+}
+- (PBUserBuilder*) setAvatar:(NSString*) value {
+  resultPbuser.hasAvatar = YES;
+  resultPbuser.avatar = value;
+  return self;
+}
+- (PBUserBuilder*) clearAvatar {
+  resultPbuser.hasAvatar = NO;
+  resultPbuser.avatar = @"";
+  return self;
+}
 - (BOOL) hasGender {
   return resultPbuser.hasGender;
 }
@@ -504,20 +1174,52 @@ static PBUser* defaultPBUserInstance = nil;
   resultPbuser.gender = NO;
   return self;
 }
-- (BOOL) hasUserName {
-  return resultPbuser.hasUserName;
+- (BOOL) hasBgImage {
+  return resultPbuser.hasBgImage;
 }
-- (NSString*) userName {
-  return resultPbuser.userName;
+- (NSString*) bgImage {
+  return resultPbuser.bgImage;
 }
-- (PBUserBuilder*) setUserName:(NSString*) value {
-  resultPbuser.hasUserName = YES;
-  resultPbuser.userName = value;
+- (PBUserBuilder*) setBgImage:(NSString*) value {
+  resultPbuser.hasBgImage = YES;
+  resultPbuser.bgImage = value;
   return self;
 }
-- (PBUserBuilder*) clearUserName {
-  resultPbuser.hasUserName = NO;
-  resultPbuser.userName = @"";
+- (PBUserBuilder*) clearBgImage {
+  resultPbuser.hasBgImage = NO;
+  resultPbuser.bgImage = @"";
+  return self;
+}
+- (BOOL) hasSinature {
+  return resultPbuser.hasSinature;
+}
+- (NSString*) sinature {
+  return resultPbuser.sinature;
+}
+- (PBUserBuilder*) setSinature:(NSString*) value {
+  resultPbuser.hasSinature = YES;
+  resultPbuser.sinature = value;
+  return self;
+}
+- (PBUserBuilder*) clearSinature {
+  resultPbuser.hasSinature = NO;
+  resultPbuser.sinature = @"";
+  return self;
+}
+- (BOOL) hasLocation {
+  return resultPbuser.hasLocation;
+}
+- (NSString*) location {
+  return resultPbuser.location;
+}
+- (PBUserBuilder*) setLocation:(NSString*) value {
+  resultPbuser.hasLocation = YES;
+  resultPbuser.location = value;
+  return self;
+}
+- (PBUserBuilder*) clearLocation {
+  resultPbuser.hasLocation = NO;
+  resultPbuser.location = @"";
   return self;
 }
 - (BOOL) hasPhone {
@@ -552,20 +1254,320 @@ static PBUser* defaultPBUserInstance = nil;
   resultPbuser.email = @"";
   return self;
 }
-- (BOOL) hasDate {
-  return resultPbuser.hasDate;
+- (BOOL) hasCreatedAt {
+  return resultPbuser.hasCreatedAt;
 }
-- (SInt32) date {
-  return resultPbuser.date;
+- (SInt32) createdAt {
+  return resultPbuser.createdAt;
 }
-- (PBUserBuilder*) setDate:(SInt32) value {
-  resultPbuser.hasDate = YES;
-  resultPbuser.date = value;
+- (PBUserBuilder*) setCreatedAt:(SInt32) value {
+  resultPbuser.hasCreatedAt = YES;
+  resultPbuser.createdAt = value;
   return self;
 }
-- (PBUserBuilder*) clearDate {
-  resultPbuser.hasDate = NO;
-  resultPbuser.date = 0;
+- (PBUserBuilder*) clearCreatedAt {
+  resultPbuser.hasCreatedAt = NO;
+  resultPbuser.createdAt = 0;
+  return self;
+}
+- (BOOL) hasUpatedAt {
+  return resultPbuser.hasUpatedAt;
+}
+- (SInt32) upatedAt {
+  return resultPbuser.upatedAt;
+}
+- (PBUserBuilder*) setUpatedAt:(SInt32) value {
+  resultPbuser.hasUpatedAt = YES;
+  resultPbuser.upatedAt = value;
+  return self;
+}
+- (PBUserBuilder*) clearUpatedAt {
+  resultPbuser.hasUpatedAt = NO;
+  resultPbuser.upatedAt = 0;
+  return self;
+}
+- (BOOL) hasCountryCode {
+  return resultPbuser.hasCountryCode;
+}
+- (NSString*) countryCode {
+  return resultPbuser.countryCode;
+}
+- (PBUserBuilder*) setCountryCode:(NSString*) value {
+  resultPbuser.hasCountryCode = YES;
+  resultPbuser.countryCode = value;
+  return self;
+}
+- (PBUserBuilder*) clearCountryCode {
+  resultPbuser.hasCountryCode = NO;
+  resultPbuser.countryCode = @"";
+  return self;
+}
+- (BOOL) hasLanguage {
+  return resultPbuser.hasLanguage;
+}
+- (NSString*) language {
+  return resultPbuser.language;
+}
+- (PBUserBuilder*) setLanguage:(NSString*) value {
+  resultPbuser.hasLanguage = YES;
+  resultPbuser.language = value;
+  return self;
+}
+- (PBUserBuilder*) clearLanguage {
+  resultPbuser.hasLanguage = NO;
+  resultPbuser.language = @"";
+  return self;
+}
+- (BOOL) hasEmailVerified {
+  return resultPbuser.hasEmailVerified;
+}
+- (NSString*) emailVerified {
+  return resultPbuser.emailVerified;
+}
+- (PBUserBuilder*) setEmailVerified:(NSString*) value {
+  resultPbuser.hasEmailVerified = YES;
+  resultPbuser.emailVerified = value;
+  return self;
+}
+- (PBUserBuilder*) clearEmailVerified {
+  resultPbuser.hasEmailVerified = NO;
+  resultPbuser.emailVerified = @"";
+  return self;
+}
+- (BOOL) hasPhoneVerified {
+  return resultPbuser.hasPhoneVerified;
+}
+- (NSString*) phoneVerified {
+  return resultPbuser.phoneVerified;
+}
+- (PBUserBuilder*) setPhoneVerified:(NSString*) value {
+  resultPbuser.hasPhoneVerified = YES;
+  resultPbuser.phoneVerified = value;
+  return self;
+}
+- (PBUserBuilder*) clearPhoneVerified {
+  resultPbuser.hasPhoneVerified = NO;
+  resultPbuser.phoneVerified = @"";
+  return self;
+}
+- (BOOL) hasCredit {
+  return resultPbuser.hasCredit;
+}
+- (SInt32) credit {
+  return resultPbuser.credit;
+}
+- (PBUserBuilder*) setCredit:(SInt32) value {
+  resultPbuser.hasCredit = YES;
+  resultPbuser.credit = value;
+  return self;
+}
+- (PBUserBuilder*) clearCredit {
+  resultPbuser.hasCredit = NO;
+  resultPbuser.credit = 20;
+  return self;
+}
+- (BOOL) hasWeixinId {
+  return resultPbuser.hasWeixinId;
+}
+- (NSString*) weixinId {
+  return resultPbuser.weixinId;
+}
+- (PBUserBuilder*) setWeixinId:(NSString*) value {
+  resultPbuser.hasWeixinId = YES;
+  resultPbuser.weixinId = value;
+  return self;
+}
+- (PBUserBuilder*) clearWeixinId {
+  resultPbuser.hasWeixinId = NO;
+  resultPbuser.weixinId = @"";
+  return self;
+}
+- (BOOL) hasQqId {
+  return resultPbuser.hasQqId;
+}
+- (NSString*) qqId {
+  return resultPbuser.qqId;
+}
+- (PBUserBuilder*) setQqId:(NSString*) value {
+  resultPbuser.hasQqId = YES;
+  resultPbuser.qqId = value;
+  return self;
+}
+- (PBUserBuilder*) clearQqId {
+  resultPbuser.hasQqId = NO;
+  resultPbuser.qqId = @"";
+  return self;
+}
+- (BOOL) hasSinaId {
+  return resultPbuser.hasSinaId;
+}
+- (NSString*) sinaId {
+  return resultPbuser.sinaId;
+}
+- (PBUserBuilder*) setSinaId:(NSString*) value {
+  resultPbuser.hasSinaId = YES;
+  resultPbuser.sinaId = value;
+  return self;
+}
+- (PBUserBuilder*) clearSinaId {
+  resultPbuser.hasSinaId = NO;
+  resultPbuser.sinaId = @"";
+  return self;
+}
+- (NSMutableArray *)favoriteFeedId {
+  return resultPbuser.favoriteFeedIdArray;
+}
+- (NSString*)favoriteFeedIdAtIndex:(NSUInteger)index {
+  return [resultPbuser favoriteFeedIdAtIndex:index];
+}
+- (PBUserBuilder *)addFavoriteFeedId:(NSString*)value {
+  if (resultPbuser.favoriteFeedIdArray == nil) {
+    resultPbuser.favoriteFeedIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.favoriteFeedIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setFavoriteFeedIdArray:(NSArray *)array {
+  resultPbuser.favoriteFeedIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearFavoriteFeedId {
+  resultPbuser.favoriteFeedIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)answerId {
+  return resultPbuser.answerIdArray;
+}
+- (NSString*)answerIdAtIndex:(NSUInteger)index {
+  return [resultPbuser answerIdAtIndex:index];
+}
+- (PBUserBuilder *)addAnswerId:(NSString*)value {
+  if (resultPbuser.answerIdArray == nil) {
+    resultPbuser.answerIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.answerIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setAnswerIdArray:(NSArray *)array {
+  resultPbuser.answerIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearAnswerId {
+  resultPbuser.answerIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)receivedBlessingId {
+  return resultPbuser.receivedBlessingIdArray;
+}
+- (NSString*)receivedBlessingIdAtIndex:(NSUInteger)index {
+  return [resultPbuser receivedBlessingIdAtIndex:index];
+}
+- (PBUserBuilder *)addReceivedBlessingId:(NSString*)value {
+  if (resultPbuser.receivedBlessingIdArray == nil) {
+    resultPbuser.receivedBlessingIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.receivedBlessingIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setReceivedBlessingIdArray:(NSArray *)array {
+  resultPbuser.receivedBlessingIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearReceivedBlessingId {
+  resultPbuser.receivedBlessingIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)sentBlessingId {
+  return resultPbuser.sentBlessingIdArray;
+}
+- (NSString*)sentBlessingIdAtIndex:(NSUInteger)index {
+  return [resultPbuser sentBlessingIdAtIndex:index];
+}
+- (PBUserBuilder *)addSentBlessingId:(NSString*)value {
+  if (resultPbuser.sentBlessingIdArray == nil) {
+    resultPbuser.sentBlessingIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.sentBlessingIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setSentBlessingIdArray:(NSArray *)array {
+  resultPbuser.sentBlessingIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearSentBlessingId {
+  resultPbuser.sentBlessingIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)topicId {
+  return resultPbuser.topicIdArray;
+}
+- (NSString*)topicIdAtIndex:(NSUInteger)index {
+  return [resultPbuser topicIdAtIndex:index];
+}
+- (PBUserBuilder *)addTopicId:(NSString*)value {
+  if (resultPbuser.topicIdArray == nil) {
+    resultPbuser.topicIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.topicIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setTopicIdArray:(NSArray *)array {
+  resultPbuser.topicIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearTopicId {
+  resultPbuser.topicIdArray = nil;
+  return self;
+}
+- (BOOL) hasCurrentDevice {
+  return resultPbuser.hasCurrentDevice;
+}
+- (PBDevice*) currentDevice {
+  return resultPbuser.currentDevice;
+}
+- (PBUserBuilder*) setCurrentDevice:(PBDevice*) value {
+  resultPbuser.hasCurrentDevice = YES;
+  resultPbuser.currentDevice = value;
+  return self;
+}
+- (PBUserBuilder*) setCurrentDeviceBuilder:(PBDeviceBuilder*) builderForValue {
+  return [self setCurrentDevice:[builderForValue build]];
+}
+- (PBUserBuilder*) mergeCurrentDevice:(PBDevice*) value {
+  if (resultPbuser.hasCurrentDevice &&
+      resultPbuser.currentDevice != [PBDevice defaultInstance]) {
+    resultPbuser.currentDevice =
+      [[[PBDevice builderWithPrototype:resultPbuser.currentDevice] mergeFrom:value] buildPartial];
+  } else {
+    resultPbuser.currentDevice = value;
+  }
+  resultPbuser.hasCurrentDevice = YES;
+  return self;
+}
+- (PBUserBuilder*) clearCurrentDevice {
+  resultPbuser.hasCurrentDevice = NO;
+  resultPbuser.currentDevice = [PBDevice defaultInstance];
+  return self;
+}
+- (NSMutableArray *)devices {
+  return resultPbuser.devicesArray;
+}
+- (PBDevice*)devicesAtIndex:(NSUInteger)index {
+  return [resultPbuser devicesAtIndex:index];
+}
+- (PBUserBuilder *)addDevices:(PBDevice*)value {
+  if (resultPbuser.devicesArray == nil) {
+    resultPbuser.devicesArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.devicesArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setDevicesArray:(NSArray *)array {
+  resultPbuser.devicesArray = [[NSMutableArray alloc]initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearDevices {
+  resultPbuser.devicesArray = nil;
   return self;
 }
 @end

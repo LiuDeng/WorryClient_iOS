@@ -1,51 +1,62 @@
 import "User.proto";
+import "Topic.proto";
 
 package worry;
 
 enum PBFeedType{
-    worry = 1;  //  心事
-    story = 2;  //  故事
+    worry = 1;                                                                  //  心事
+    story = 2;                                                                  //  故事
 }
 
 message PBComment{
     required string comment_id = 1;
-    optional PBUser create_user = 2;    //  创建者，保存基础信息
-    optional string text = 3;           //  内容，后期如果变为富文本，考虑一下如何存储？
-    optional bool is_anonymous = 4 [default=false]; //  是否匿名，默认是不匿名
-    repeated PBComment reply = 5; //  对评论的回复
+    optional PBUser create_user = 2;                                            //  创建者，保存基础信息
+    optional string text = 3;                                                   //  内容，后期如果变为富文本，考虑一下如何存储？
+    optional bool is_anonymous = 4 [default=false];                             //  是否匿名，默认是不匿名
+    repeated PBComment reply = 5;                                               //  对评论的回复
+
+    optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
+    optional int32 updated_at = 41;                                             //  更新时间，服务器上是date类型
 }
 
 message PBAnswer{
     required string answer_id = 1;
-    optional PBUser creat_user = 2; //  创建用户，保存基础信息
-    optional bool is_anonymous = 5 [default=false]; //  是否匿名，默认是不匿名
-    optional string text = 10;  //  内容，后期如果变为富文本，考虑一下如何存储？
+    optional PBUser creat_user = 2;                                             //  创建用户，保存基础信息
+    optional bool is_anonymous = 5 [default=false];                             //  是否匿名，默认是不匿名
+    optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
     optional PBComment comment = 20;
-    optional int32 thanks_count = 21; //  感谢数
+    optional int32 thanks_count = 21;                                           //  感谢数
+
+    optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
+    optional int32 updated_at = 41;                                             //  更新时间，服务器上是date类型
+
 }
 
 message PBBlessing{
     required string blessing_id = 1;
     optional PBUser creat_user = 2;
-    optional string text = 10;  //  内容，后期如果变为富文本，考虑一下如何存储？
+    optional PBUser to_user = 3;
+    optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
 
-//repeated string image = 11; //  若存储在服务器后，会返回URL，则将URL保存，目前为AVFile，保存在avTopic中
+    repeated string images = 11;                                                //  图片URL？具体是要几张图，待商榷
+    optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
+    optional int32 updated_at = 41;                                             //  更新时间，服务器上是date类型
 }
 
 message PBFeed{
     optional string feed_id = 1;
-    optional PBFeedType type = 2;   //  根据PBFeedType决定
-    optional PBUser create_user =3; //  创建用户，保存基础信息
-    optional string title = 4;      //  标题
-    optional bool is_anonymous = 5 [default=false]; //  是否匿名，默认是不匿名
+    optional PBFeedType type = 2;                                               //  根据PBFeedType决定
+    optional PBUser create_user =3;                                             //  创建用户，保存基础信息
+    optional string title = 4;                                                  //  标题
+    optional bool is_anonymous = 5 [default=false];                             //  是否匿名，默认是不匿名
 
-    optional string text = 41;  //  如果有图片怎么办？
-    optional int32 created_at =42;  //  创建时间，服务器上是date类型
-    optional int32 updated_at = 43; //  更新时间，服务器上是date类型
+    optional string text = 41;                                                  //  如果有图片怎么办？
+    optional int32 created_at =42;                                              //  创建时间，服务器上是date类型
+    optional int32 updated_at = 43;                                             //  更新时间，服务器上是date类型
 
-    repeated PBTopic topic = 50;    //  话题，保存基础信息
+    repeated PBTopic topic = 50;                                                //  话题，保存基础信息
 
-    repeated PBComment comment = 60;    //  评论，当type为story才有。
-    repeated PBBlseeing blessing = 61;  //  祝福
-    repeated PBAnswer answer = 62;      //  回答，当type为worry才有。
+    repeated PBComment comment = 60;                                            //  评论，当type为story才有。
+    repeated PBBlessing blessing = 61;                                          //  祝福
+    repeated PBAnswer answer = 62;                                              //  回答，当type为worry才有。
 }

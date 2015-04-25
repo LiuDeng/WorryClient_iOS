@@ -1,0 +1,19 @@
+
+package worry;
+
+enum PBDeviceType{
+    ios = 1;
+    android = 2;
+    windows_phone = 3;
+}
+
+message PBDevice{
+    required int32 type = 1;            // refer to PBDeviceType
+    optional string model = 2;
+    optional string os = 3;
+
+    // for iPhone,iPad
+    optional string deviceId = 4;
+    optional string deviceToken = 5;
+    optional bool isJailBroken = 6;
+}

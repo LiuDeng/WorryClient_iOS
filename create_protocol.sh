@@ -3,7 +3,9 @@ echo create Objective-C codes
 
 protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/User.proto
 protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Feed.proto
-
+protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Topic.proto
+protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Common.proto
+protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Error.proto
 #echo build C codes
 
 #cd /java/protobuf-c-0.15/bin/
