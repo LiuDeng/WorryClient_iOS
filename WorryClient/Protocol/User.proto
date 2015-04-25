@@ -3,17 +3,38 @@ package worry;
 enum PBSignUpAndLogInType{
     phone = 1;
     email = 2;
+    qq = 3;
+    weixin = 4;
+    sina = 5;
 }
 
 message PBUser{
-	required string user_id = 1;  //  用户ID
-    optional string password = 2;
-	optional string nick = 3;   //  用户昵称
-    //optional string avatar = 4;
-    optional bool gender = 5;   //  性别
-    optional string user_name = 6;
+	required string user_id = 1;
+    optional string password = 2;   //  密码，因AVOSCloud会加密，则本地不加密
+	optional string nick = 3;       //  用户昵称
+    optional string avatar = 4;   //  若存储在服务器后，会返回URL，则将URL保存，目前为AVFile，保存在avUser中
+    optional bool gender = 5;       //  性别，true:女，false:男
+//optional string user_name = 6;  //  用户名，必须唯一，配合avUser使用，
+//optional string BG_image = 7; //  若存储在服务器后，会返回URL，则将URL保存，目前为AVFile，保存在avUser中
+optional string sinature = 8;   //  签名
 
-    optional string phone = 10;
-    optional string email = 11;
-    optional int32 date = 12;
+    optional string phone = 10;     //  手机，11位数字
+    optional string email = 11;     //  邮箱
+    optional int32 created_at = 12;//  创建时间，服务器上是date类型
+    optional int32 upated_at = 13; //  更新时间，服务器上是date类型
+
+    optional string email_verified= 20; //  邮箱是否验证
+    optional string phone_verified = 21;//  手机是否验证
+
+    optional int32 credit = 30 [default = 20];   //  积分，默认是20
+
+    optional string weixin_id = 40;    // 微信号
+    optional string QQ_id = 41;    // QQ号
+    optional string sina_id = 42;  // 新浪微博号
+
+    repeated string favorite_feed_id = 50;  //  收藏，保存基础信息
+    //repeated PBAnswer answer = 51;  //  回答=贡献，保存基础信息
+    //repeated PBBlessing received_blessing = 52;  //  收到的祝福
+    //repeated PBBlessing sent_blessing = 53;  //  送出的祝福
+    repeated string topic_id = 54;    //  关注的话题id
 }

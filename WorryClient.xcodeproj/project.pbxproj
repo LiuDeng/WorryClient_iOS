@@ -57,6 +57,8 @@
 		7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3369E1ADFB0310084D891 /* FeedManager.m */; };
 		7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3B45A1ADE7F4B004463C4 /* LogInController.m */; };
 		7CC3B45E1ADE9481004463C4 /* SignUpByEmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC3B45D1ADE9481004463C4 /* SignUpByEmailController.m */; };
+		7CC456001AEA691B008B7BB6 /* Error.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CC455FE1AEA691B008B7BB6 /* Error.proto */; };
+		7CC456011AEA691B008B7BB6 /* Topic.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CC455FF1AEA691B008B7BB6 /* Topic.proto */; };
 		7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC8767C1AE7831D00963450 /* DefaultViewController.m */; };
 		7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876851AE787BD00963450 /* UIViewController+Utils.m */; };
 		7CC8768A1AE78FFB00963450 /* SettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876891AE78FFB00963450 /* SettingController.m */; };
@@ -199,6 +201,8 @@
 		7CC3B45A1ADE7F4B004463C4 /* LogInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInController.m; sourceTree = "<group>"; };
 		7CC3B45C1ADE9481004463C4 /* SignUpByEmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpByEmailController.h; sourceTree = "<group>"; };
 		7CC3B45D1ADE9481004463C4 /* SignUpByEmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpByEmailController.m; sourceTree = "<group>"; };
+		7CC455FE1AEA691B008B7BB6 /* Error.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Error.proto; sourceTree = "<group>"; };
+		7CC455FF1AEA691B008B7BB6 /* Topic.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Topic.proto; sourceTree = "<group>"; };
 		7CC8767B1AE7831D00963450 /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		7CC8767C1AE7831D00963450 /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		7CC8767E1AE7834E00963450 /* ColorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ColorInfo.h; path = ViewController/ColorInfo.h; sourceTree = "<group>"; };
@@ -743,6 +747,8 @@
 			children = (
 				7C5A37F01ADB9E3000CFA176 /* Gen */,
 				7C5A37F61ADB9E3000CFA176 /* User.proto */,
+				7CC455FE1AEA691B008B7BB6 /* Error.proto */,
+				7CC455FF1AEA691B008B7BB6 /* Topic.proto */,
 				7CC336941ADF9EE90084D891 /* Feed.proto */,
 			);
 			path = Protocol;
@@ -943,12 +949,14 @@
 				7CCBCABF1AE3E210006410BD /* tabbar_bg@2x.png in Resources */,
 				7C5A38051ADB9E3000CFA176 /* test_first_page_normal@2x.png in Resources */,
 				7CCBCAD81AE3E469006410BD /* timeline_selected@3x.png in Resources */,
+				7CC456001AEA691B008B7BB6 /* Error.proto in Resources */,
 				7CC8769D1AE79E3700963450 /* worry@3x.png in Resources */,
 				7CCAC03B1AE129B4007F4326 /* plus@2x.png in Resources */,
 				7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */,
 				7CCBCACD1AE3E469006410BD /* me_normal@2x.png in Resources */,
 				7CCBCABE1AE3E210006410BD /* barbg64@3x.png in Resources */,
 				7CCBCAD61AE3E469006410BD /* timeline_normal@3x.png in Resources */,
+				7CC456011AEA691B008B7BB6 /* Topic.proto in Resources */,
 				7CC8769C1AE79E3700963450 /* topic@3x.png in Resources */,
 				7CCBCAD51AE3E469006410BD /* timeline_normal@2x.png in Resources */,
 				7CC876AB1AE79E3F00963450 /* thanks@2x.png in Resources */,
