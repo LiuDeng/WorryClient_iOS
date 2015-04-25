@@ -40,18 +40,21 @@
     [self.view addSubview:self.tableView];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    CGRect footerViewFrame = self.view.bounds;
+    footerViewFrame.size.height *= 0.1;
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:footerViewFrame];
 }
 
 #pragma mark - UITabelViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1;
+    return kGroupTableViewHeaderHeight;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1;
+    return kGroupTableViewHeaderHeight;
 }
 
 #pragma mark - UITableViewDataSource

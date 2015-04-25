@@ -50,6 +50,9 @@
 		7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D041AEB75EC0091EB20 /* Common.pb.m */; };
 		7CBD2D0A1AEB75EC0091EB20 /* Error.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D061AEB75EC0091EB20 /* Error.pb.m */; };
 		7CBD2D0B1AEB75EC0091EB20 /* Topic.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */; };
+		7CBD2D0E1AEB81460091EB20 /* UserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D0D1AEB81460091EB20 /* UserDetailController.m */; };
+		7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */; };
+		7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */; };
 		7CBD56E81AE7DF5600423D5D /* create_feed_save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */; };
 		7CBD56E91AE7DF5600423D5D /* create_feed_save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
@@ -194,6 +197,12 @@
 		7CBD2D061AEB75EC0091EB20 /* Error.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Error.pb.m; sourceTree = "<group>"; };
 		7CBD2D071AEB75EC0091EB20 /* Topic.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.pb.h; sourceTree = "<group>"; };
 		7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.pb.m; sourceTree = "<group>"; };
+		7CBD2D0C1AEB81460091EB20 /* UserDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailController.h; sourceTree = "<group>"; };
+		7CBD2D0D1AEB81460091EB20 /* UserDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailController.m; sourceTree = "<group>"; };
+		7CBD2D0F1AEB88EB0091EB20 /* UserDetailAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailAvatarCell.h; sourceTree = "<group>"; };
+		7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailAvatarCell.m; sourceTree = "<group>"; };
+		7CBD2D121AEB8B660091EB20 /* UserDetailBGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailBGImageCell.h; sourceTree = "<group>"; };
+		7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailBGImageCell.m; sourceTree = "<group>"; };
 		7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@2x.png"; sourceTree = "<group>"; };
 		7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@3x.png"; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
@@ -673,12 +682,14 @@
 		7C5A37DD1ADB9E3000CFA176 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7C5A37DE1ADB9E3000CFA176 /* UserController.h */,
+				7C5A37DF1ADB9E3000CFA176 /* UserController.m */,
+				7CBD2D0C1AEB81460091EB20 /* UserDetailController.h */,
+				7CBD2D0D1AEB81460091EB20 /* UserDetailController.m */,
 				7CC876871AE78FD800963450 /* Setting */,
 				7CC3B4571ADE79ED004463C4 /* LogIn */,
 				7CC3B4581ADE79ED004463C4 /* LogOut */,
 				7C54C2B31ADBFCE9002A32E2 /* SignUp */,
-				7C5A37DE1ADB9E3000CFA176 /* UserController.h */,
-				7C5A37DF1ADB9E3000CFA176 /* UserController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -741,6 +752,10 @@
 				7C5A37EA1ADB9E3000CFA176 /* AvatarView.m */,
 				7C5A37ED1ADB9E3000CFA176 /* UserAvatarCell.h */,
 				7C5A37EE1ADB9E3000CFA176 /* UserAvatarCell.m */,
+				7CBD2D0F1AEB88EB0091EB20 /* UserDetailAvatarCell.h */,
+				7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */,
+				7CBD2D121AEB8B660091EB20 /* UserDetailBGImageCell.h */,
+				7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1043,6 +1058,7 @@
 				7CBF03E01ADE560C0001C31A /* Utils.m in Sources */,
 				7C5A37FD1ADB9E3000CFA176 /* DataUtils.m in Sources */,
 				7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */,
+				7CBD2D0E1AEB81460091EB20 /* UserDetailController.m in Sources */,
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
 				7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */,
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
@@ -1060,6 +1076,7 @@
 				7C5A37771ADB9D6A00CFA176 /* main.m in Sources */,
 				7CC336931ADF6A430084D891 /* MessageCenter.m in Sources */,
 				7C5A38141ADB9E3000CFA176 /* UserAvatarCell.m in Sources */,
+				7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */,
 				7C54C2C01ADC0A5E002A32E2 /* UIView+DefaultView.m in Sources */,
 				7C5A380F1ADB9E3000CFA176 /* UserController.m in Sources */,
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,
@@ -1072,6 +1089,7 @@
 				7C54C2BA1ADBFE7C002A32E2 /* SignUpAndLogInView.m in Sources */,
 				7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */,
 				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
+				7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */,
 				7CBBB6131ADFF00900AD2CA6 /* CreatFeedController.m in Sources */,
 				7C54C2B61ADBFD63002A32E2 /* QuickSignUpController.m in Sources */,
 				7C5A380A1ADB9E3000CFA176 /* OmnibusController.m in Sources */,

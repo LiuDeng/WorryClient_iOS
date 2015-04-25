@@ -13,6 +13,7 @@
 #import "MessageCenter.h"
 #import "LogInController.h"
 #import "UIViewController+Utils.h"
+#import "ViewDefault.h"
 
 @interface DefaultViewController : UIViewController
 

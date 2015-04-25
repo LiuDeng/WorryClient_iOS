@@ -14,6 +14,7 @@
 #import "User.pb.h"
 #import "LogInController.h"
 #import "SettingController.h"
+#import "UserDetailController.h"
 
 
 #define kTopicTitle             @"话题"
@@ -89,6 +90,9 @@
         [self loadLogInAlertView];
     }else{
         // TODO
+        if (indexPath.section == self.sectionAvatar) {
+            [self didSelectBackgroundImage];
+        }
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,6 +152,11 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)didSelectBackgroundImage
+{
+    UserDetailController *vc = [[UserDetailController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

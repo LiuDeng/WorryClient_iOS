@@ -56,7 +56,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     avUser.email = email;
     avUser.password = password;
     PBUserBuilder *pbUserBuilder = [PBUser builder];
-    [pbUserBuilder setUserName:avUser.username];
+//    [pbUserBuilder setUserName:avUser.username];
     [pbUserBuilder setPassword:avUser.password];
     [pbUserBuilder setEmail:email];
     

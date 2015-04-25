@@ -26,9 +26,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 {
     self = [super init];
     if (self) {
-        NSString *userName = [[UserManager sharedInstance]pbUser].userName;
-        if (userName.length>0) {
-            _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,userName];   //  /tmp不能缺少
+        NSString *userId = [[UserManager sharedInstance]pbUser].userId;
+        if (userId.length>0) {
+            _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,userId];   //  /tmp不能缺少
         }else{
             _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,@"temp"];
         }

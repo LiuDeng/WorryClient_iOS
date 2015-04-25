@@ -124,7 +124,7 @@
     }
 //    cell.topicLabel.text = topicString;
     cell.topicLabel.text = @"大学";
-    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessingUser.count];
+    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     
     return cell;
 }

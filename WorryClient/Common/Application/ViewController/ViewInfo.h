@@ -23,6 +23,7 @@
 #define kHorizontalPadding 20
 #define kVerticalPadding 12
 
+#define kGroupTableViewHeaderHeight 0.1
 
 //#define COMMON_PADDING_OFFSET_X 12
 //#define COMMON_PADDING_OFFSET_Y 14
