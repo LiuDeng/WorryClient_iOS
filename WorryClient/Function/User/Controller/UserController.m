@@ -61,13 +61,14 @@
 - (void)loadTableView
 {
     [super loadTableView];
+    self.tableView.scrollEnabled = NO;
 }
 
 - (void)loadData
 {
     [super loadData];
     self.sectionBasicItems = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
-    self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"test_first_page_selected",@"topic"];
+    self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
     self.cellHeight = self.view.frame.size.height*0.075;

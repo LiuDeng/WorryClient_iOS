@@ -56,12 +56,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     avUser.email = email;
     avUser.password = password;
     PBUserBuilder *pbUserBuilder = [PBUser builder];
-//    [pbUserBuilder setUserName:avUser.username];
     [pbUserBuilder setPassword:avUser.password];
     [pbUserBuilder setEmail:email];
     
     PBUser *pbUser = [pbUserBuilder build];
-    
     NSData *pbUserData = [pbUser data];
     
     [avUser setObject:pbUserData forKey:kPBUserKey];
@@ -83,4 +81,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [AVUser logOut];
     [[UserManager sharedInstance]removeUser];
 }
+
+- (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock) block
+{
+    
+}
+
 @end
