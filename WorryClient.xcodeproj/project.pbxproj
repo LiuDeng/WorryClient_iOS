@@ -53,6 +53,9 @@
 		7CBD2D0E1AEB81460091EB20 /* UserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D0D1AEB81460091EB20 /* UserDetailController.m */; };
 		7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */; };
 		7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */; };
+		7CBD2D181AEBA4060091EB20 /* UpdateImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D171AEBA4060091EB20 /* UpdateImage.m */; };
+		7CBD2D1C1AEBBF180091EB20 /* LocaleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D1B1AEBBF180091EB20 /* LocaleUtils.m */; };
+		7CBD2D201AEBCDCB0091EB20 /* DeviceDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD2D1F1AEBCDCB0091EB20 /* DeviceDetection.m */; };
 		7CBD56E81AE7DF5600423D5D /* create_feed_save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */; };
 		7CBD56E91AE7DF5600423D5D /* create_feed_save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
@@ -203,6 +206,12 @@
 		7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailAvatarCell.m; sourceTree = "<group>"; };
 		7CBD2D121AEB8B660091EB20 /* UserDetailBGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailBGImageCell.h; sourceTree = "<group>"; };
 		7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailBGImageCell.m; sourceTree = "<group>"; };
+		7CBD2D161AEBA4060091EB20 /* UpdateImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateImage.h; sourceTree = "<group>"; };
+		7CBD2D171AEBA4060091EB20 /* UpdateImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateImage.m; sourceTree = "<group>"; };
+		7CBD2D1A1AEBBF180091EB20 /* LocaleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleUtils.h; sourceTree = "<group>"; };
+		7CBD2D1B1AEBBF180091EB20 /* LocaleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocaleUtils.m; sourceTree = "<group>"; };
+		7CBD2D1E1AEBCDCB0091EB20 /* DeviceDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDetection.h; sourceTree = "<group>"; };
+		7CBD2D1F1AEBCDCB0091EB20 /* DeviceDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDetection.m; sourceTree = "<group>"; };
 		7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@2x.png"; sourceTree = "<group>"; };
 		7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_feed_save@3x.png"; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
@@ -505,6 +514,9 @@
 		7C5A37AC1ADB9E3000CFA176 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7CBD2D1D1AEBCDA90091EB20 /* DeviceDetection */,
+				7CBD2D191AEBBEDD0091EB20 /* Locale */,
+				7CBD2D151AEBA3D30091EB20 /* Image */,
 				7C5A37AD1ADB9E3000CFA176 /* Color */,
 				7C5A37B01ADB9E3000CFA176 /* Data */,
 				7C5A37B31ADB9E3000CFA176 /* Log */,
@@ -814,6 +826,33 @@
 			path = PlaceholderTextView;
 			sourceTree = "<group>";
 		};
+		7CBD2D151AEBA3D30091EB20 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				7CBD2D161AEBA4060091EB20 /* UpdateImage.h */,
+				7CBD2D171AEBA4060091EB20 /* UpdateImage.m */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		7CBD2D191AEBBEDD0091EB20 /* Locale */ = {
+			isa = PBXGroup;
+			children = (
+				7CBD2D1A1AEBBF180091EB20 /* LocaleUtils.h */,
+				7CBD2D1B1AEBBF180091EB20 /* LocaleUtils.m */,
+			);
+			path = Locale;
+			sourceTree = "<group>";
+		};
+		7CBD2D1D1AEBCDA90091EB20 /* DeviceDetection */ = {
+			isa = PBXGroup;
+			children = (
+				7CBD2D1E1AEBCDCB0091EB20 /* DeviceDetection.h */,
+				7CBD2D1F1AEBCDCB0091EB20 /* DeviceDetection.m */,
+			);
+			path = DeviceDetection;
+			sourceTree = "<group>";
+		};
 		7CC336991ADFA62C0084D891 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -1057,6 +1096,7 @@
 				7CC8768D1AE7939A00963450 /* DefaultTableViewController.m in Sources */,
 				7CBF03E01ADE560C0001C31A /* Utils.m in Sources */,
 				7C5A37FD1ADB9E3000CFA176 /* DataUtils.m in Sources */,
+				7CBD2D181AEBA4060091EB20 /* UpdateImage.m in Sources */,
 				7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */,
 				7CBD2D0E1AEB81460091EB20 /* UserDetailController.m in Sources */,
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
@@ -1067,6 +1107,7 @@
 				7CCAC0351AE0EE1F007F4326 /* TimelineController.m in Sources */,
 				7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */,
 				7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */,
+				7CBD2D1C1AEBBF180091EB20 /* LocaleUtils.m in Sources */,
 				7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */,
 				7CC336981ADFA5910084D891 /* Feed.pb.m in Sources */,
 				7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */,
@@ -1080,6 +1121,7 @@
 				7C54C2C01ADC0A5E002A32E2 /* UIView+DefaultView.m in Sources */,
 				7C5A380F1ADB9E3000CFA176 /* UserController.m in Sources */,
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,
+				7CBD2D201AEBCDCB0091EB20 /* DeviceDetection.m in Sources */,
 				7CC3369C1ADFA6A20084D891 /* FeedService.m in Sources */,
 				7C54C2BD1ADC091E002A32E2 /* UIView+Utils.m in Sources */,
 				7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */,

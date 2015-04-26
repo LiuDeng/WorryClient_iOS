@@ -11,6 +11,7 @@
 #import "UserManager.h"
 #import "UserDetailAvatarCell.h"
 #import "UserDetailBGImageCell.h"
+#import "UpdateImage.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -39,8 +40,8 @@
 @property (nonatomic, strong) NSArray *sectionBasicItems;
 @property (nonatomic, strong) NSArray *sectionMiscItems;
 @property (nonatomic, strong) NSArray *sectionContactItems;
-@property (nonatomic,strong) PBUser* pbUser;
-//@property (nonatomic,strong) ChangeAvatar* changeAvatar;
+@property (nonatomic,strong) PBUser *pbUser;
+@property (nonatomic,strong) UpdateImage *updateImage;
 //@property (nonatomic,strong) CLLocationManager *locationManager;
 
 @end
@@ -171,5 +172,26 @@
     return (section == self.sectionBasic) ? kGroupTableViewHeaderHeight : 10;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger section = indexPath.section;
+    if (section == self.sectionBasic) {
+        NSString *title = self.sectionBasicItems[indexPath.row];
+        if ([title isEqualToString:kAvatarTitle]) {
+            [self updateAvatar];
+        }
+    }
+}
+
+#pragma mark - Utils
+
+- (void)updateAvatar
+{
+    NSString *actionSheetTitle = @"请选择";
+    self.updateImage = [[UpdateImage alloc]init];
+    [self.updateImage showSelectionWithTitle:actionSheetTitle superViewController:self selectedImageBlock:^(UIImage *image) {
+        //
+    }];
+}
 
 @end

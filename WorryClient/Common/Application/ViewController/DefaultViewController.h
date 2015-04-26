@@ -14,6 +14,7 @@
 #import "LogInController.h"
 #import "UIViewController+Utils.h"
 #import "ViewDefault.h"
+#import "LocaleUtils.h"
 
 @interface DefaultViewController : UIViewController
 
