@@ -20,6 +20,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
 - (void)storeUser:(NSData *)pbUserData
 {
     USER_DEFAULTS_SET(kUserDataKey, pbUserData);
+    [self reloadUserFromCache];
 }
 
 - (void)removeUser
@@ -57,5 +58,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserManager);
         NSLog(@"catch exception while parse user data, exception=%@", [exception description]);
         return nil;
     }
+}
+
+- (void)reloadUserFromCache
+{
+    _pbUser = [self readUserFromCache];
 }
 @end

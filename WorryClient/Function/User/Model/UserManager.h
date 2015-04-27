@@ -19,4 +19,6 @@ DEFINE_SINGLETON_FOR_CLASS(UserManager)
 - (PBUser*)pbUser;
 - (void)storeUser:(NSData *)pbUserData;
 - (void)removeUser;
+
+- (void)reloadUserFromCache;
 @end

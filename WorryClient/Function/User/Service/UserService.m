@@ -12,12 +12,15 @@
 #import "Utils.h"
 
 #define kPBUserKey @"kPBUserKey"
+#define kAvatarKey @"Avatar"
+
+const CGFloat kUpdateImageQuality = 1.0f;
 
 @implementation UserService
 
-IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
-
 #pragma mark - Public methods
+
+IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)requestSmsCodeWithPhone:(NSString *)phone
                        callback:(UserServiceBooleanResultBlock)block
@@ -82,9 +85,52 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [[UserManager sharedInstance]removeUser];
 }
 
-- (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock) block
+#pragma mark - Update
+
+- (void)updateObject:(id)object forKey:(NSString *)key block:(UserServiceErrorResultBlock)block
 {
-    
+    AVUser *avUser = [AVUser currentUser];
+    [avUser setObject:object forKey:key];
+    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
 }
+
+- (void)updatePBUser:(PBUser *)pbUser block:(UserServiceErrorResultBlock)block
+{
+    NSData *pbUserData = [pbUser data];
+    [[UserManager sharedInstance]storeUser:pbUserData];
+    [self updateObject:pbUserData forKey:kPBUserKey block:block];
+}
+
+- (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock)block
+{
+    __block PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    NSData *imageData = UIImageJPEGRepresentation(image, kUpdateImageQuality);
+    AVFile *avFile = [AVFile fileWithName:@"avatar.jpeg" data:imageData];
+    [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self updateObject:avFile forKey:kAvatarKey block:block];
+            PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
+            [pbUserBuilder setAvatar:avFile.url];
+            pbUser = [pbUserBuilder build];
+            [self updatePBUser:pbUser block:block];
+        }else{
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
+}
+
+- (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block
+{
+    __block PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
+    [pbUserBuilder setNick:nick];
+    pbUser = [pbUserBuilder build];
+    [self updatePBUser:pbUser block:block];
+}
+
 
 @end

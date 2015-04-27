@@ -8,10 +8,20 @@
 
 #import "UpdateImage.h"
 #import "DeviceDetection.h"
+#import "Utils.h"
 
 #define kAlbumTitle             @"相册"
 #define kTakePhotoTitle         @"拍照"
 #define kCancelTitle            @"取消"
+
+#define kClippingToolTitle      @"裁剪"
+#define kAdjustmentToolTitle    @"微调"
+#define kFilterToolTitle        @"滤镜"
+#define kEffectToolTitle        @"调色"
+#define kBlurToolTitle          @"模糊"
+#define kRotateToolTitle        @"旋转"
+#define kDrawToolTitle          @"画画"
+#define kToneCureveToolTitle    @"曲线"
 
 @implementation UpdateImage
 
@@ -56,6 +66,16 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     __block UIImage *image = [info objectForKey:self.imageAllowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage];
+    
+    CLImageEditor *imageEditor = [[CLImageEditor alloc]initWithImage:image];
+    imageEditor.delegate = self;
+    [self setImageEditorToolsWithImageEditor:imageEditor];
+//    NSLog(@"%@",imageEditor.toolInfo.toolTreeDescription);
+    [picker pushViewController:imageEditor animated:YES];
+    
+
+    
+    
 //    PPDebug(@"select original image size = %@", NSStringFromCGSize(image.size));
     
     
@@ -78,6 +98,38 @@
 
 #pragma mark - Private methods
 
+- (void)setImageEditorToolsWithImageEditor:(CLImageEditor *)imageEditor
+{
+    CLImageToolInfo *adjustToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLAdjustmentTool" recursive:NO];
+    adjustToolInfo.available = NO;
+    
+    
+    CLImageToolInfo *toneCurveToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLToneCurveTool" recursive:NO];
+    toneCurveToolInfo.title = kToneCureveToolTitle;
+    toneCurveToolInfo.available = NO;
+    
+    CLImageToolInfo *filterToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLFilterTool" recursive:NO];
+    filterToolInfo.title = kFilterToolTitle;
+
+    CLImageToolInfo *effectToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLEffectTool" recursive:NO];
+    effectToolInfo.title = kEffectToolTitle;
+
+    CLImageToolInfo *blurToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLBlurTool" recursive:NO];
+    blurToolInfo.title = kBlurToolTitle;
+
+    CLImageToolInfo *rotateToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLRotateTool" recursive:NO];
+    rotateToolInfo.title = kRotateToolTitle;
+    rotateToolInfo.dockedNumber = 1;
+    
+    CLImageToolInfo *clippingToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLClippingTool" recursive:NO];
+    clippingToolInfo.title = kClippingToolTitle;
+    clippingToolInfo.dockedNumber = -1;
+    
+    CLImageToolInfo *drawToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLDrawTool" recursive:NO];
+    drawToolInfo.title = kDrawToolTitle;
+
+    
+}
 
 #pragma mark - Utils
 
@@ -87,6 +139,7 @@
         [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        self.picker = picker;
         picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;  //  TODO
         picker.allowsEditing = self.imageAllowsEditing;
         picker.delegate = self;
@@ -155,4 +208,17 @@
     }
     
 }
+
+#pragma mark - CLImageEditorDelegate
+
+- (void)imageEditor:(CLImageEditor*)editor didFinishEdittingWithImage:(UIImage*)image
+{
+    if (self.popoverController != nil) {
+        [self.popoverController dismissPopoverAnimated:NO];
+    }else{
+        [self.picker dismissViewControllerAnimated:NO completion:nil];
+    }
+    EXECUTE_BLOCK(self.didSelectedBlock,image);
+}
+
 @end

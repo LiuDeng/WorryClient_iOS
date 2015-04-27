@@ -12,6 +12,7 @@
 #import "UserDetailAvatarCell.h"
 #import "UserDetailBGImageCell.h"
 #import "UpdateImage.h"
+#import "UserService.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -55,9 +56,9 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     self.pbUser = [[UserManager sharedInstance] pbUser];
     [self.tableView reloadData];
 }
@@ -147,6 +148,7 @@
     }else{
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -179,6 +181,10 @@
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
             [self updateAvatar];
+        }else if ([title isEqualToString:kNickTitle]){
+            [self updateNick];
+        }else{
+            //  TODO
         }
     }
 }
@@ -190,7 +196,18 @@
     NSString *actionSheetTitle = @"请选择";
     self.updateImage = [[UpdateImage alloc]init];
     [self.updateImage showSelectionWithTitle:actionSheetTitle superViewController:self selectedImageBlock:^(UIImage *image) {
-        //
+        if (image) {
+            [[UserService sharedInstance]updateAvatar:image block:^(NSError *error) {
+                POST_SUCCESS_MSG(@"success");    //  TODO
+            }];
+        }
+    }];
+}
+
+- (void)updateNick
+{
+    [[UserService sharedInstance]updateNick:@"nickaa" block:^(NSError *error) {
+        //  TODO
     }];
 }
 

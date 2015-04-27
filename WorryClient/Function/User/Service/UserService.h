@@ -33,4 +33,8 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
             password:(NSString *)password
                block:(UserServiceErrorResultBlock)block;
 - (void)logOut;
+
+- (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock) block;
+
+- (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block;
 @end
