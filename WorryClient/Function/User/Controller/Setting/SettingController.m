@@ -101,6 +101,7 @@
     }else{
         
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

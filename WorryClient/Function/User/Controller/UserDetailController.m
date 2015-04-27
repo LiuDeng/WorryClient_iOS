@@ -125,10 +125,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kUserDetailCell];
-    }
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell];
+//    if (!cell) {
+      UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kUserDetailCell];
+//    }
     
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
@@ -226,6 +226,8 @@
             [self updateNick];
         }else if ([title isEqualToString:kBackgroundTitle]){
             [self updateBGImage];
+        }else if ([title isEqualToString:kSignatureTitle]){
+            [self updateSignature];
         }else{
             //  TODO
         }
@@ -242,8 +244,6 @@
         if (image) {
             [[UserService sharedInstance]updateAvatar:image block:^(NSError *error) {
                 if (error == nil) {
-//                    self.pbUser = [[UserManager sharedInstance]pbUser];
-//                    [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
             }];
@@ -259,8 +259,6 @@
         if (image) {
             [[UserService sharedInstance]updateBGImage:image block:^(NSError *error) {
                 if (error == nil) {
-//                    self.pbUser = [[UserManager sharedInstance]pbUser];
-//                    [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
             }];
@@ -270,11 +268,13 @@
 
 - (void)updateNick
 {
-    EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick placeHolderText:@"请输入昵称" tips:@"来吧，取个炫酷的名字吧" isMulti:NO saveActionBlock:^(NSString *text) {
+    EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick
+                                                         placeHolderText:@"请输入昵称"
+                                                                    tips:@"来吧，取个炫酷的名字！"
+                                                                 isMulti:NO
+                                                         saveActionBlock:^(NSString *text) {
         [[UserService sharedInstance]updateNick:text block:^(NSError *error) {
             if (error == nil) {
-//                self.pbUser = [[UserManager sharedInstance]pbUser];
-//                [self.tableView reloadData];
                 POST_SUCCESS_MSG(kUpdateSuccessMSG);
             }
         }];
@@ -282,4 +282,19 @@
     [self.navigationController pushViewController:editController animated:YES];
 }
 
+- (void)updateSignature
+{
+    EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick
+                                                         placeHolderText:@"请输入签名"
+                                                                    tips:@"签名，签的就是我的心事"
+                                                                 isMulti:YES
+                                                         saveActionBlock:^(NSString *text) {
+        [[UserService sharedInstance]updateSignature:text block:^(NSError *error) {
+            if (error == nil) {
+                POST_SUCCESS_MSG(kUpdateSuccessMSG);
+            }
+        }];
+    }];
+    [self.navigationController pushViewController:editController animated:YES];
+}
 @end
