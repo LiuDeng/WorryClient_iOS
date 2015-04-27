@@ -17,13 +17,19 @@
 #define kKeyboardHeight 216
 
 #define kLayerBorderWidth 0.5
-#define kTextFieldHeight 52
+#define kTextFieldHeightScale 0.1   //  refer to self.view
+#define kTextViewHeightScale 0.1    //  refer to self.view
 #define kLeftPadding 20
 #define kRightPadding 20
 #define kHorizontalPadding 20
 #define kVerticalPadding 12
 
 #define kGroupTableViewHeaderHeight 0.1
+#define kWidthScale 0.9
+#define kTopScale 1.1
+#define kCellHeightScale 0.8
+#define kCellRightScale 0.95
+
 
 //#define COMMON_PADDING_OFFSET_X 12
 //#define COMMON_PADDING_OFFSET_Y 14

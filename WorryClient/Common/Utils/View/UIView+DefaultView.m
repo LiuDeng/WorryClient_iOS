@@ -61,26 +61,17 @@
 +(UITextField*)defaultTextField:(NSString*)placeholder
                       superView:(UIView*)superView
 {
-    UITextField *textField = [[UITextField alloc]init];
-    textField.font = kTextFieldPlaceholderFont;
-    textField.textColor = kTextFieldTextColor;
-    textField.backgroundColor = [UIColor whiteColor];   //  背景颜色：白色
-    textField.placeholder = placeholder;
-    textField.textAlignment = NSTextAlignmentCenter;
-    textField.layer.borderWidth = kLayerBorderWidth;
-    textField.layer.borderColor = [kLayerColor CGColor];
-    textField.clearButtonMode = UITextFieldViewModeAlways;     //  清除按钮
-    [textField becomeFirstResponder];   //  第一响应者
+    UITextField *textField = [self textFieldWithPlaceholder:placeholder];
     [superView addSubview:textField];
     [textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(superView);
         make.width.equalTo(superView);
-        make.height.equalTo(@(kTextFieldHeight));
+        make.height.equalTo(superView).multipliedBy(kTextFieldHeightScale);
     }];
     return textField;
 }
 
-+(UITextField*)textFieldWithPlaceholder:(NSString *)placeholder
++ (UITextField*)textFieldWithPlaceholder:(NSString *)placeholder
 {
     UITextField *textField = [[UITextField alloc]init];
     textField.font = kTextFieldPlaceholderFont;

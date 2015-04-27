@@ -13,6 +13,7 @@
 #import "UserDetailBGImageCell.h"
 #import "UpdateImage.h"
 #import "UserService.h"
+#import "EditController.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -28,7 +29,9 @@
 #define kWeixinTitle        @"微信"
 #define kSinaTitle          @"微博"
 #define kEmailTitle         @"邮箱"
-#define kPhoneTitle        @"手机"
+#define kPhoneTitle         @"手机"
+
+#define kUpdateSuccessMSG   @"修改成功"
 
 @interface UserDetailController ()
 {
@@ -130,12 +133,16 @@
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
+            UIImage *image = [[UserService sharedInstance]requireAvatar];
             UserDetailAvatarCell *detailAvatarCell = [[UserDetailAvatarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailAvatarCell.textLabel.text = title;
+            detailAvatarCell.avatarView.imageView.image = image;
             cell = detailAvatarCell;
         }else if([title isEqualToString:kBackgroundTitle]){
             UserDetailBGImageCell *detailBGImageCell = [[UserDetailBGImageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailBGImageCell.textLabel.text = title;
+            UIImage *image = [[UserService sharedInstance]requireBackgroundImage];
+            detailBGImageCell.BGImageView.image = image;
             cell = detailBGImageCell;
         }else{
             cell.textLabel.text = title;
@@ -217,6 +224,8 @@
             [self updateAvatar];
         }else if ([title isEqualToString:kNickTitle]){
             [self updateNick];
+        }else if ([title isEqualToString:kBackgroundTitle]){
+            [self updateBGImage];
         }else{
             //  TODO
         }
@@ -232,7 +241,28 @@
     [self.updateImage showSelectionWithTitle:actionSheetTitle superViewController:self selectedImageBlock:^(UIImage *image) {
         if (image) {
             [[UserService sharedInstance]updateAvatar:image block:^(NSError *error) {
-                POST_SUCCESS_MSG(@"success");    //  TODO
+                if (error == nil) {
+//                    self.pbUser = [[UserManager sharedInstance]pbUser];
+//                    [self.tableView reloadData];
+                    POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
+                }
+            }];
+        }
+    }];
+}
+
+- (void)updateBGImage
+{
+    NSString *actionSheetTitle = @"请选择";
+    self.updateImage = [[UpdateImage alloc]init];
+    [self.updateImage showSelectionWithTitle:actionSheetTitle superViewController:self selectedImageBlock:^(UIImage *image) {
+        if (image) {
+            [[UserService sharedInstance]updateBGImage:image block:^(NSError *error) {
+                if (error == nil) {
+//                    self.pbUser = [[UserManager sharedInstance]pbUser];
+//                    [self.tableView reloadData];
+                    POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
+                }
             }];
         }
     }];
@@ -240,9 +270,16 @@
 
 - (void)updateNick
 {
-    [[UserService sharedInstance]updateNick:@"nickaa" block:^(NSError *error) {
-        //  TODO
+    EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick placeHolderText:@"请输入昵称" tips:@"来吧，取个炫酷的名字吧" isMulti:NO saveActionBlock:^(NSString *text) {
+        [[UserService sharedInstance]updateNick:text block:^(NSError *error) {
+            if (error == nil) {
+//                self.pbUser = [[UserManager sharedInstance]pbUser];
+//                [self.tableView reloadData];
+                POST_SUCCESS_MSG(kUpdateSuccessMSG);
+            }
+        }];
     }];
+    [self.navigationController pushViewController:editController animated:YES];
 }
 
 @end

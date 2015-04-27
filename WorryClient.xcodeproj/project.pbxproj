@@ -44,6 +44,7 @@
 		7C5A38141ADB9E3000CFA176 /* UserAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37EE1ADB9E3000CFA176 /* UserAvatarCell.m */; };
 		7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37F41ADB9E3000CFA176 /* User.pb.m */; };
 		7C5A38181ADB9E3000CFA176 /* User.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37F61ADB9E3000CFA176 /* User.proto */; };
+		7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6FBDE1AEE4DB90028F3AD /* EditController.m */; };
 		7CBBB6131ADFF00900AD2CA6 /* CreatFeedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB6121ADFF00900AD2CA6 /* CreatFeedController.m */; };
 		7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */; };
 		7CBBB61A1ADFF7EC00AD2CA6 /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */; };
@@ -191,6 +192,8 @@
 		7C5A37F31ADB9E3000CFA176 /* User.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.pb.h; sourceTree = "<group>"; };
 		7C5A37F41ADB9E3000CFA176 /* User.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.pb.m; sourceTree = "<group>"; };
 		7C5A37F61ADB9E3000CFA176 /* User.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.proto; sourceTree = "<group>"; };
+		7CA6FBDD1AEE4DB90028F3AD /* EditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditController.h; sourceTree = "<group>"; };
+		7CA6FBDE1AEE4DB90028F3AD /* EditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditController.m; sourceTree = "<group>"; };
 		7CBBB6111ADFF00900AD2CA6 /* CreatFeedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatFeedController.h; sourceTree = "<group>"; };
 		7CBBB6121ADFF00900AD2CA6 /* CreatFeedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreatFeedController.m; sourceTree = "<group>"; };
 		7CBBB6151ADFF0B500AD2CA6 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderTextView.h; sourceTree = "<group>"; };
@@ -893,6 +896,8 @@
 				7CC876851AE787BD00963450 /* UIViewController+Utils.m */,
 				7CC8768B1AE7939A00963450 /* DefaultTableViewController.h */,
 				7CC8768C1AE7939A00963450 /* DefaultTableViewController.m */,
+				7CA6FBDD1AEE4DB90028F3AD /* EditController.h */,
+				7CA6FBDE1AEE4DB90028F3AD /* EditController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1137,6 +1142,7 @@
 				7CC3B45E1ADE9481004463C4 /* SignUpByEmailController.m in Sources */,
 				7C5A37FC1ADB9E3000CFA176 /* UIColor+UIColorExt.m in Sources */,
 				7C54C2BA1ADBFE7C002A32E2 /* SignUpAndLogInView.m in Sources */,
+				7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */,
 				7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */,
 				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
 				7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */,

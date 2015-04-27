@@ -45,4 +45,7 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)updateQQ:(NSString *)QQ block:(UserServiceErrorResultBlock)block;
 - (void)updateWeixinId:(NSString *)WeixinId block:(UserServiceErrorResultBlock)block;
 - (void)updateSinaId:(NSString *)sinaId block:(UserServiceErrorResultBlock)block;
+
+- (UIImage *)requireAvatar;
+- (UIImage *)requireBackgroundImage;
 @end

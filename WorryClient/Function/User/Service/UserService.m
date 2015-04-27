@@ -13,6 +13,7 @@
 
 #define kPBUserKey @"kPBUserKey"
 #define kAvatarKey @"Avatar"
+#define kBGImageKey @"backgroundImage"
 
 const CGFloat kUpdateImageQuality = 1.0f;
 
@@ -87,16 +88,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 #pragma mark - Update
 
-- (void)updateObject:(id)object forKey:(NSString *)key block:(UserServiceErrorResultBlock)block
-{
-    AVUser *avUser = [AVUser currentUser];
-    [avUser setObject:object forKey:key];
-    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            EXECUTE_BLOCK(block,error);
-        }
-    }];
-}
 - (void)updatePBUser:(void(^)(PBUserBuilder *pbUserBuilder))updatePBUserblock block:(UserServiceErrorResultBlock)block
 {
     PBUser *pbUser = [[UserManager sharedInstance]pbUser];
@@ -132,10 +123,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     AVFile *avFile = [AVFile fileWithName:@"BGImage.jpeg" data:imageData];
     [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self updateObject:avFile forKey:kAvatarKey block:block];
+            [self updateObject:avFile forKey:kBGImageKey block:block];
             
             [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-                [pbUserBuilder setAvatar:avFile.url];
+                [pbUserBuilder setBgImage:avFile.url];
             } block:block];
             
         }else{
@@ -205,5 +196,45 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
         [pbUserBuilder setPhone:phone];
     } block:block];
+}
+
+
+
+- (UIImage *)requireAvatar
+{
+    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
+        return [avUser objectForKey:kAvatarKey];
+    }];
+    return image;
+}
+
+- (UIImage *)requireBackgroundImage
+{
+    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
+        return [avUser objectForKey:kBGImageKey];
+    }];
+    return image;
+}
+
+#pragma mark - Uitls
+
+- (void)updateObject:(id)object forKey:(NSString *)key block:(UserServiceErrorResultBlock)block
+{
+    AVUser *avUser = [AVUser currentUser];
+    [avUser setObject:object forKey:key];
+    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
+}
+
+- (UIImage *)image:( AVFile* (^)(AVUser *avUser))block
+{
+    AVUser *avUser = [AVUser currentUser];
+    AVFile *imageFile = block(avUser);
+    NSData *imageData = [imageFile getData];
+    UIImage *image = [UIImage imageWithData:imageData];
+    return image;
 }
 @end

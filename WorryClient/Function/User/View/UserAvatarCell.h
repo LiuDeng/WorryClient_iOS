@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class AvatarView;
+#import "AvatarView.h"
 
 @interface UserAvatarCell : UITableViewCell
 

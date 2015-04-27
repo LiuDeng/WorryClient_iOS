@@ -15,6 +15,7 @@
 #import "LogInController.h"
 #import "SettingController.h"
 #import "UserDetailController.h"
+#import "UserService.h"
 
 
 #define kTopicTitle             @"话题"
@@ -50,6 +51,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.pbUser = [[UserManager sharedInstance]pbUser];
+    [self.tableView reloadData];
     [self loadLogInAlertViewIfNeeded];
 }
 - (void)loadView
@@ -125,8 +128,11 @@
     
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
-        self.pbUser = [[UserManager sharedInstance]pbUser];
-        userAvatarCell.nickNameLabel.text = self.pbUser.nick;  // TODO
+        userAvatarCell.nickNameLabel.text = self.pbUser.nick;
+        UIImage *avatarImage = [[UserService sharedInstance]requireAvatar];
+        userAvatarCell.avatarView.imageView.image = avatarImage;
+        UIImage *BGImage = [[UserService sharedInstance]requireBackgroundImage];
+        userAvatarCell.backgroundImageView.image = BGImage;
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1

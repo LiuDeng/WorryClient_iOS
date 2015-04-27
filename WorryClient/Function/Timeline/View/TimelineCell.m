@@ -11,7 +11,7 @@
 #import "ViewDefault.h"
 #import "UIColor+UIColorExt.h"
 
-const CGFloat kWidthScale = 0.9;
+//const CGFloat kWidthScale = 0.9;
 @implementation TimelineCell
 
 #pragma mark - Default methods

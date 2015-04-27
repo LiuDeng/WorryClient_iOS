@@ -22,11 +22,11 @@
     if (self) {
         self.backgroundImageView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.backgroundImageView];
-        self.backgroundImageView.image = [UIImage imageNamed:@"image1.jpg"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"image1.jpg"];    //  TODO
         
         CGFloat borderWidth = 1.0f;
         self.avatarView = [[AvatarView alloc]initWithBorderWidth:borderWidth];
-        self.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
+        self.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"]; //  TODO
         [self.contentView addSubview:self.avatarView];
         
         self.nickNameLabel = [[UILabel alloc]init];
