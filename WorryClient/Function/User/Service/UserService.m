@@ -97,9 +97,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
         }
     }];
 }
-
-- (void)updatePBUser:(PBUser *)pbUser block:(UserServiceErrorResultBlock)block
+- (void)updatePBUser:(void(^)(PBUserBuilder *pbUserBuilder))updatePBUserblock block:(UserServiceErrorResultBlock)block
 {
+    PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
+    updatePBUserblock(pbUserBuilder);
+    pbUser = [pbUserBuilder build];
     NSData *pbUserData = [pbUser data];
     [[UserManager sharedInstance]storeUser:pbUserData];
     [self updateObject:pbUserData forKey:kPBUserKey block:block];
@@ -107,16 +110,16 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock)block
 {
-    __block PBUser *pbUser = [[UserManager sharedInstance]pbUser];
     NSData *imageData = UIImageJPEGRepresentation(image, kUpdateImageQuality);
     AVFile *avFile = [AVFile fileWithName:@"avatar.jpeg" data:imageData];
     [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [self updateObject:avFile forKey:kAvatarKey block:block];
-            PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
-            [pbUserBuilder setAvatar:avFile.url];
-            pbUser = [pbUserBuilder build];
-            [self updatePBUser:pbUser block:block];
+            
+            [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+                [pbUserBuilder setAvatar:avFile.url];
+            } block:block];
+            
         }else{
             EXECUTE_BLOCK(block,error);
         }
@@ -125,12 +128,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block
 {
-    __block PBUser *pbUser = [[UserManager sharedInstance]pbUser];
-    PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
-    [pbUserBuilder setNick:nick];
-    pbUser = [pbUserBuilder build];
-    [self updatePBUser:pbUser block:block];
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setNick:nick];
+    } block:block];
 }
-
 
 @end
