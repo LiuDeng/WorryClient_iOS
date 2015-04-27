@@ -126,6 +126,24 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
+- (void)updateBGImage:(UIImage *)image block:(UserServiceErrorResultBlock)block
+{
+    NSData *imageData = UIImageJPEGRepresentation(image, kUpdateImageQuality);
+    AVFile *avFile = [AVFile fileWithName:@"BGImage.jpeg" data:imageData];
+    [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self updateObject:avFile forKey:kAvatarKey block:block];
+            
+            [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+                [pbUserBuilder setAvatar:avFile.url];
+            } block:block];
+            
+        }else{
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
+}
+
 - (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block
 {
     [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
@@ -133,4 +151,59 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     } block:block];
 }
 
+- (void)updateSignature:(NSString *)signature block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setSignature:signature];
+    } block:block];
+}
+
+- (void)updateGender:(BOOL)gender block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setGender:gender];
+    } block:block];
+}
+
+- (void)updateLocation:(NSString *)location block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setLocation:location];
+    } block:block];
+}
+
+- (void)updateQQ:(NSString *)QQ block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setQqId:QQ];
+    } block:block];
+}
+
+- (void)updateWeixinId:(NSString *)WeixinId block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setWeixinId:WeixinId];
+    } block:block];
+}
+
+- (void)updateSinaId:(NSString *)sinaId block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setSinaId:sinaId];
+    } block:block];
+}
+
+- (void)updateEmail:(NSString *)email block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setEmail:email];
+    } block:block];
+}
+
+- (void)updatePhone:(NSString *)phone block:(UserServiceErrorResultBlock)block
+{
+    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
+        [pbUserBuilder setPhone:phone];
+    } block:block];
+}
 @end

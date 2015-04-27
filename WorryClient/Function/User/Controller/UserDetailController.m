@@ -18,7 +18,7 @@
 #define kAvatarTitle        @"头像"
 #define kBackgroundTitle    @"背景"
 #define kNickTitle          @"昵称"
-#define kSinatureTitle      @"签名"
+#define kSignatureTitle     @"签名"
 
 #define kGenderTitle        @"性别"
 #define kLocationTitle      @"位置"
@@ -28,7 +28,7 @@
 #define kWeixinTitle        @"微信"
 #define kSinaTitle          @"微博"
 #define kEmailTitle         @"邮箱"
-#define kMobileTitle        @"手机"
+#define kPhoneTitle        @"手机"
 
 @interface UserDetailController ()
 {
@@ -77,7 +77,7 @@
 - (void)loadTableView
 {
     [super loadTableView];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kUserDetailCell];
+    self.tableView.scrollEnabled = NO;
 }
 - (void)loadData
 {
@@ -85,9 +85,9 @@
     self.sectionBasic = self.indexOfSection++;
     self.sectionMisc = self.indexOfSection++;
     self.sectionContact = self.indexOfSection++;
-    self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSinatureTitle];
+    self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSignatureTitle];
     self.sectionMiscItems = @[kGenderTitle,kLocationTitle,kChangePwdTitle];
-    self.sectionContactItems = @[kQQTitle,kWeixinTitle,kSinaTitle,kMobileTitle,kEmailTitle];
+    self.sectionContactItems = @[kQQTitle,kWeixinTitle,kSinaTitle,kPhoneTitle,kEmailTitle];
 }
 
 #pragma mark - Private methods
@@ -122,7 +122,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kUserDetailCell];
+    }
+    
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
@@ -134,21 +138,51 @@
             detailBGImageCell.textLabel.text = title;
             cell = detailBGImageCell;
         }else{
-            cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell forIndexPath:indexPath];
             cell.textLabel.text = title;
+            NSString *text = @"未设置";
+            if ([title isEqualToString:kNickTitle]) {
+                text = self.pbUser.nick.length == 0 ? text : self.pbUser.nick;
+            }else if ([title isEqualToString:kSignatureTitle]){
+                text = self.pbUser.signature.length == 0 ? text : self.pbUser.signature;
+            }else{
+                
+            }
+            cell.detailTextLabel.text = text;
         }
     }else if (indexPath.section == self.sectionMisc){
         NSString *title = self.sectionMiscItems[indexPath.row];
-        cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell forIndexPath:indexPath];
+        NSString *text = @"未设置";
+        if ([title isEqualToString:kGenderTitle]) {
+            text = self.pbUser.gender ? @"男" : @"女";
+        }else if ([title isEqualToString:kLocationTitle]){
+            text = self.pbUser.location.length == 0 ? text : self.pbUser.location;
+        }else if ([title isEqualToString:kChangePwdTitle]){
+            text = @"";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        cell.detailTextLabel.text = text;
         cell.textLabel.text = title;
     }else if (indexPath.section == self.sectionContact){
         NSString *title = self.sectionContactItems[indexPath.row];
-        cell = [tableView dequeueReusableCellWithIdentifier:kUserDetailCell forIndexPath:indexPath];
+        NSString *text = @"未关联";
+        if ([title isEqualToString:kQQTitle]) {
+            text = self.pbUser.qqId.length == 0 ? text : self.pbUser.qqId;
+        }else if ([title isEqualToString:kWeixinTitle]){
+            text = self.pbUser.weixinId.length == 0 ? text : self.pbUser.weixinId;
+        }else if ([title isEqualToString:kSinaTitle]){
+            text = self.pbUser.sinaId.length == 0 ? text : self.pbUser.sinaId;
+        }else if ([title isEqualToString:kEmailTitle]){
+            text = self.pbUser.emailVerified ? @"未验证" : self.pbUser.email;
+        }else if ([title isEqualToString:kPhoneTitle]){
+            text = self.pbUser.phoneVerified ? @"未验证" : self.pbUser.phone;
+        }
+        cell.detailTextLabel.text = text;
         cell.textLabel.text = title;
     }else{
         
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.detailTextLabel.font = kMiddleLabelFont;
     return cell;
 }
 

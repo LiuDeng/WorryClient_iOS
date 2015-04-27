@@ -57,7 +57,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property (strong) NSString* avatar;
 @property BOOL gender;
 @property (strong) NSString* bgImage;
-@property (strong) NSString* sinature;
+@property (strong) NSString* signature;
 @property (strong) NSString* location;
 @property (strong) NSString* phone;
 @property (strong) NSString* email;
@@ -129,13 +129,13 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasBgImage_ = !!_value_;
 }
 @synthesize bgImage;
-- (BOOL) hasSinature {
-  return !!hasSinature_;
+- (BOOL) hasSignature {
+  return !!hasSignature_;
 }
-- (void) setHasSinature:(BOOL) _value_ {
-  hasSinature_ = !!_value_;
+- (void) setHasSignature:(BOOL) _value_ {
+  hasSignature_ = !!_value_;
 }
-@synthesize sinature;
+@synthesize signature;
 - (BOOL) hasLocation {
   return !!hasLocation_;
 }
@@ -254,7 +254,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
     self.avatar = @"";
     self.gender = NO;
     self.bgImage = @"";
-    self.sinature = @"";
+    self.signature = @"";
     self.location = @"";
     self.phone = @"";
     self.email = @"";
@@ -358,8 +358,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasBgImage) {
     [output writeString:7 value:self.bgImage];
   }
-  if (self.hasSinature) {
-    [output writeString:8 value:self.sinature];
+  if (self.hasSignature) {
+    [output writeString:8 value:self.signature];
   }
   if (self.hasLocation) {
     [output writeString:9 value:self.location];
@@ -448,8 +448,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasBgImage) {
     size_ += computeStringSize(7, self.bgImage);
   }
-  if (self.hasSinature) {
-    size_ += computeStringSize(8, self.sinature);
+  if (self.hasSignature) {
+    size_ += computeStringSize(8, self.signature);
   }
   if (self.hasLocation) {
     size_ += computeStringSize(9, self.location);
@@ -594,8 +594,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasBgImage) {
     [output appendFormat:@"%@%@: %@\n", indent, @"bgImage", self.bgImage];
   }
-  if (self.hasSinature) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"sinature", self.sinature];
+  if (self.hasSignature) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"signature", self.signature];
   }
   if (self.hasLocation) {
     [output appendFormat:@"%@%@: %@\n", indent, @"location", self.location];
@@ -686,8 +686,8 @@ static PBUser* defaultPBUserInstance = nil;
       (!self.hasGender || self.gender == otherMessage.gender) &&
       self.hasBgImage == otherMessage.hasBgImage &&
       (!self.hasBgImage || [self.bgImage isEqual:otherMessage.bgImage]) &&
-      self.hasSinature == otherMessage.hasSinature &&
-      (!self.hasSinature || [self.sinature isEqual:otherMessage.sinature]) &&
+      self.hasSignature == otherMessage.hasSignature &&
+      (!self.hasSignature || [self.signature isEqual:otherMessage.signature]) &&
       self.hasLocation == otherMessage.hasLocation &&
       (!self.hasLocation || [self.location isEqual:otherMessage.location]) &&
       self.hasPhone == otherMessage.hasPhone &&
@@ -744,8 +744,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasBgImage) {
     hashCode = hashCode * 31 + [self.bgImage hash];
   }
-  if (self.hasSinature) {
-    hashCode = hashCode * 31 + [self.sinature hash];
+  if (self.hasSignature) {
+    hashCode = hashCode * 31 + [self.signature hash];
   }
   if (self.hasLocation) {
     hashCode = hashCode * 31 + [self.location hash];
@@ -868,8 +868,8 @@ static PBUser* defaultPBUserInstance = nil;
   if (other.hasBgImage) {
     [self setBgImage:other.bgImage];
   }
-  if (other.hasSinature) {
-    [self setSinature:other.sinature];
+  if (other.hasSignature) {
+    [self setSignature:other.signature];
   }
   if (other.hasLocation) {
     [self setLocation:other.location];
@@ -1001,7 +1001,7 @@ static PBUser* defaultPBUserInstance = nil;
         break;
       }
       case 66: {
-        [self setSinature:[input readString]];
+        [self setSignature:[input readString]];
         break;
       }
       case 74: {
@@ -1190,20 +1190,20 @@ static PBUser* defaultPBUserInstance = nil;
   resultPbuser.bgImage = @"";
   return self;
 }
-- (BOOL) hasSinature {
-  return resultPbuser.hasSinature;
+- (BOOL) hasSignature {
+  return resultPbuser.hasSignature;
 }
-- (NSString*) sinature {
-  return resultPbuser.sinature;
+- (NSString*) signature {
+  return resultPbuser.signature;
 }
-- (PBUserBuilder*) setSinature:(NSString*) value {
-  resultPbuser.hasSinature = YES;
-  resultPbuser.sinature = value;
+- (PBUserBuilder*) setSignature:(NSString*) value {
+  resultPbuser.hasSignature = YES;
+  resultPbuser.signature = value;
   return self;
 }
-- (PBUserBuilder*) clearSinature {
-  resultPbuser.hasSinature = NO;
-  resultPbuser.sinature = @"";
+- (PBUserBuilder*) clearSignature {
+  resultPbuser.hasSignature = NO;
+  resultPbuser.signature = @"";
   return self;
 }
 - (BOOL) hasLocation {

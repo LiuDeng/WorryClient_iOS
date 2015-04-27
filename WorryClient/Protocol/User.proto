@@ -18,7 +18,7 @@ message PBUser{
     optional bool gender = 5;                                       //  性别，true:男，false:女
 //optional string user_name = 6;    //  用户名，必须唯一，配合avUser使用，
     optional string BG_image = 7;                                   //  URL，数据存储于服务器
-    optional string sinature = 8;                                   //  签名
+    optional string signature = 8;                                   //  签名
     optional string location = 9;                                   //  位置信息，比如：中图 广东 广州，可由社交资料获得
 
     optional string phone = 10;                                     //  手机，11位数字

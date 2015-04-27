@@ -35,6 +35,14 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)logOut;
 
 - (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock) block;
-
+- (void)updateBGImage:(UIImage *)image block:(UserServiceErrorResultBlock) block;
 - (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block;
+- (void)updateSignature:(NSString *)signature block:(UserServiceErrorResultBlock)block;
+- (void)updateGender:(BOOL)gender block:(UserServiceErrorResultBlock)block;
+- (void)updateLocation:(NSString *)location block:(UserServiceErrorResultBlock)block;
+- (void)updatePhone:(NSString *)phone block:(UserServiceErrorResultBlock)block;
+- (void)updateEmail:(NSString *)email block:(UserServiceErrorResultBlock)block;
+- (void)updateQQ:(NSString *)QQ block:(UserServiceErrorResultBlock)block;
+- (void)updateWeixinId:(NSString *)WeixinId block:(UserServiceErrorResultBlock)block;
+- (void)updateSinaId:(NSString *)sinaId block:(UserServiceErrorResultBlock)block;
 @end
