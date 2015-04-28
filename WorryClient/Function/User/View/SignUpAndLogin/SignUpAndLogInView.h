@@ -14,11 +14,6 @@
 @property (nonatomic,strong)UITextField *passwordTextField;
 @property (nonatomic,strong)UIButton *button;
 
-//-(instancetype)initWithAccount:(NSString*)accountPlaceholder
-//                      password:(NSString*)passwordPlaceholder
-//                        button:(NSString*)buttonTitle
-//                    controller:(id)controller
-//                  buttonAction:(SEL)action;
 -(id)initWithAccountPlaceholder:(NSString*)accountPlaceholder
             passwordPlaceholder:(NSString*)passwordPlaceholder
                     buttonTitle:(NSString*)buttonTitle;

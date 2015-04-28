@@ -13,12 +13,14 @@
 @implementation TopicCollectionViewCell
 {
     UIView *contentHolderView;
-
     float kIconImageViewWidthHeight;
     float kContentHolderViewHeight;
     float kContentHolderViewWidth;
     float kIconBackgroundViewWidthHeight;
 }
+
+#pragma mark -Default methods
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -27,6 +29,9 @@
     }
     return self;
 }
+
+#pragma mark - Private methods
+
 - (void)loadView
 {
     self.contentView.backgroundColor = [UIColor grayColor];
@@ -35,8 +40,6 @@
 }
 - (void)loadData
 {
-
-
     kContentHolderViewHeight = CGRectGetHeight(self.contentView.frame) * 0.8;
     kContentHolderViewWidth = CGRectGetWidth(self.contentView.frame);
     kIconBackgroundViewWidthHeight = CGRectGetHeight(self.contentView.frame) * 0.5;
@@ -95,6 +98,5 @@
         make.top.equalTo(self.iconBackgroundView.mas_bottom).with.offset(+kVerticalPadding);
         make.centerX.equalTo(contentHolderView);
     }];
-//    NSLog(@"%f",self.tittleLabel.frame.size.height);
 }
 @end

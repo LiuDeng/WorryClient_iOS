@@ -103,7 +103,7 @@
         make.centerX.equalTo(self.view);
         make.centerY.equalTo(self.view).with.multipliedBy(1.2);
         make.height.equalTo(self.view).with.dividedBy(9);
-        make.width.equalTo(self.view).with.multipliedBy(0.9);
+        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
     }];
 }
 

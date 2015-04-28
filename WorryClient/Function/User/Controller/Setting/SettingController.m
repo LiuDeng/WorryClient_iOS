@@ -14,7 +14,6 @@
 
 #define kSettingCell    @"kSettingCell"
 
-
 @interface SettingController ()
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -92,9 +91,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-//    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSettingCell];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSettingCell forIndexPath:indexPath];
     if (indexPath.section == self.sectionMisc) {
         cell.textLabel.text = self.sectionMiscItems[indexPath.row];

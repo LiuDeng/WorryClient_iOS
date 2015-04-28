@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "DefaultViewController.h"
 #import "DefaultTableViewController.h"
 
 @interface UserController : DefaultTableViewController

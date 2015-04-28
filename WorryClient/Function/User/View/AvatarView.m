@@ -20,7 +20,7 @@
         [self addSubview:self.imageView];
         if (borderWidth > 0.0f) {
             self.layer.borderWidth = borderWidth;
-            self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
+            self.layer.borderColor = [UIColor whiteColor].CGColor;
         }
     }
     return self;
@@ -33,12 +33,10 @@
         self.imageView = [[UIImageView alloc]init];
         
         [self addSubview:self.imageView];
-        [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self);
-            make.width.equalTo(self);
-            make.height.equalTo(self);
+            make.size.equalTo(self);
         }];
-
         if (borderWidth > 0.0f) {
             self.layer.borderWidth = borderWidth;
             self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
