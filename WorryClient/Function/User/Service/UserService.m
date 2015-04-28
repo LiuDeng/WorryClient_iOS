@@ -229,7 +229,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
-- (UIImage *)image:( AVFile* (^)(AVUser *avUser))block
+- (UIImage *)image:(AVFile* (^)(AVUser *avUser))block
 {
     AVUser *avUser = [AVUser currentUser];
     AVFile *imageFile = block(avUser);

@@ -13,9 +13,11 @@
 
 typedef AVBooleanResultBlock FeedServiceBooleanResultBlock;
 typedef void (^FeedServiceErrorResultBlock) (NSError *error);
+
 @interface FeedService : NSObject
 {
     NSUInteger _requiredFeedsCount;
+    NSUInteger _myRequireFeedCount;
 }
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
@@ -25,8 +27,9 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
                      block:(FeedServiceErrorResultBlock)block;
-- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
-- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 
-- (void)requireMyFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 @end
