@@ -56,6 +56,7 @@ const float kPlaceHolderTopPadding = 5.0f;
 }
 
 #pragma mark - Private methods
+
 //  加载placeholderLabel
 - (void)loadPlaceholderLabel
 {

@@ -58,7 +58,6 @@
     //统计应用启动情况
     [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    
     return YES;
 }
 
@@ -112,14 +111,15 @@
 - (void)setupViewControllers {
     UIViewController *firstViewController = [[TimelineController alloc]init];
     firstViewController.title = @"心事";
-    
     UIViewController *firstNavigationController = [[UINavigationController alloc]
                                                    initWithRootViewController:firstViewController];
+    
     
     UIViewController *secondViewController = [[OmnibusController alloc] init];
     secondViewController.title = @"精华";
     UIViewController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
+    
     
     UIViewController *thirdViewController = [[UserController alloc] init];
     thirdViewController.title = @"我";
@@ -127,8 +127,8 @@
                                                    initWithRootViewController:thirdViewController];
     
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
-
-    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,
+    [tabBarController setViewControllers:@[firstNavigationController,
+                                           secondNavigationController,
                                            thirdNavigationController]];
     self.viewController = tabBarController;
     [self customizeTabBarForController:tabBarController];

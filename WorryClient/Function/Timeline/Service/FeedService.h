@@ -19,6 +19,7 @@ typedef void (^FeedServiceErrorResultBlock) (NSError *error);
     NSUInteger _requiredFeedsCount;
     NSUInteger _myRequireFeedCount;
 }
+
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)creatFeedWithTitle:(NSString *)title
@@ -32,4 +33,5 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 - (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 - (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+
 @end

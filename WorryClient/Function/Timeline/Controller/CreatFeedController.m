@@ -57,7 +57,7 @@
     [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
-        make.width.equalTo(self.view).with.multipliedBy(0.9);
+        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
         make.height.equalTo(self.view).with.multipliedBy(0.08);
     }];
 }
@@ -70,14 +70,14 @@
     
     [self.placeholderTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.width.equalTo(self.view).with.multipliedBy(0.9);
+        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
         make.height.equalTo(self.view).with.multipliedBy(0.3);
         make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+2);
     }];
     
     UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.placeholderTextView.mas_bottom);//.with.offset(+2);
+        make.top.equalTo(self.placeholderTextView.mas_bottom);
     }];
 }
 #pragma mark - Utils

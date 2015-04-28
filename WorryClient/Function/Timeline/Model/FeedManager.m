@@ -14,8 +14,6 @@
 #define kFeedTableFieldId       @"id"
 #define kFeedTableFieldFeed     @"feed"
 
-//#define FMDBQuickCheck(SomeBool) { if (!(SomeBool)) { NSLog(@"Failure on line %d", __LINE__); abort(); } }
-
 @implementation FeedManager
 
 #pragma mark - Public methods
