@@ -9,14 +9,10 @@
 #ifndef WorryClient_FontInfo_h
 #define WorryClient_FontInfo_h
 
-#define NICK_NAME_LABEL_FONT          ([UIFont systemFontOfSize:17])
-// 按钮通用字体
-#define USER_ID_LABEL_FONT            ([UIFont systemFontOfSize:13])
+#define kSmallLabelFont                         ([UIFont systemFontOfSize:11])
+#define kMiddleLabelFont                        ([UIFont systemFontOfSize:15])
+#define kLargeLabelFont                         ([UIFont systemFontOfSize:17])
 
-#define kSmallLabelFont              ([UIFont systemFontOfSize:11])
-#define kMiddleLabelFont            ([UIFont systemFontOfSize:15])
-#define kLargeLabelFont            ([UIFont systemFontOfSize:17])
-
-#define kTextFieldPlaceholderFont             ([UIFont systemFontOfSize:15])
+#define kTextFieldPlaceholderFont               kMiddleLabelFont
 
 #endif

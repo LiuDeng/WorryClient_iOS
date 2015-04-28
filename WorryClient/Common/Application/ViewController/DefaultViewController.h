@@ -20,4 +20,5 @@
 
 - (void)loadLogInAlertView;
 - (void)loadData;
+
 @end

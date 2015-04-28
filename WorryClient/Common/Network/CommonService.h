@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NetworkRequest.h"
+#import "WorryConfigManager.h"
 
 @interface CommonService : NSObject
 

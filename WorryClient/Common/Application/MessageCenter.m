@@ -10,8 +10,9 @@
 #import "AppDelegate.h"
 #import "ColorInfo.h"
 
-
 @implementation MessageCenter
+
+#pragma mark - Public methods
 
 IMPLEMENT_SINGLETON_FOR_CLASS(MessageCenter)
 
@@ -24,10 +25,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(MessageCenter)
     [self postMessage:message duration:duration];
 }
 
+#pragma mark - Private methods
+
 - (void)postMessage:(NSString *)message duration:(CGFloat)duration
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[AppDelegate sharedInstance].window animated:YES];
-    // Configure for text only and offset down
     hud.mode = MBProgressHUDModeText;
     hud.labelText = message;
     hud.margin = 7.0f;

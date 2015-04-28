@@ -26,5 +26,4 @@ typedef void(^UpdateImageDidSelectedBlock)(UIImage* image);
            superViewController:(UIViewController *)superViewController
             selectedImageBlock:(UpdateImageDidSelectedBlock)didSelectedBlock;
 
-
 @end

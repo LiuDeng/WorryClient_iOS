@@ -24,11 +24,8 @@
                      superView:(id)superView;
 
 
-+(UITextField*)defaultTextField:(NSString*)placeholder
-                      superView:(UIView*)superView;
-
++ (UITextField*)defaultTextField:(NSString*)placeholder superView:(UIView*)superView;
 + (UITextField*)textFieldWithPlaceholder:(NSString*)placeholder;
-
 + (UIButton *)buttonWithNormalTitle:(NSString *)title;
 
 @end

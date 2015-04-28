@@ -11,6 +11,7 @@
 #ifdef DEBUG
 
 #define JDDebug(format, ...) ([LogUtils output:__FILE__ lineNumber:__LINE__ input:(format), ## __VA_ARGS__])
+
 #else
 
 #define JDDebug(format, ...)

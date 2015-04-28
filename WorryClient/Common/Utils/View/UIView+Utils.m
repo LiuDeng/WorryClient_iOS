@@ -9,6 +9,7 @@
 #import "UIView+Utils.h"
 
 const CGFloat kRadius = 4;  //  if is ipad,should be 8
+
 @implementation UIView (Utils)
 
 + (void)setRoundCorner:(UIView *)view

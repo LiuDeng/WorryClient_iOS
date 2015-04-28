@@ -20,13 +20,11 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef WorryClient_SynthesizeSingleton_h
-#define WorryClient_SynthesizeSingleton_h
+//#ifndef WorryClient_SynthesizeSingleton_h
+//#define WorryClient_SynthesizeSingleton_h
 
-//#if __has_feature(objc_arc)
+#if __has_feature(objc_arc)
 
-//  TODO maybe is fault.
-//#define DEFINE_SINGLETON_FOR_CLASS(UserService)
 #define DEFINE_SINGLETON_FOR_CLASS(classname)\
 + (id) sharedInstance;
 

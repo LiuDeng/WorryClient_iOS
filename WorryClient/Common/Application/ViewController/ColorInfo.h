@@ -11,7 +11,7 @@
 #define WorryClient_ColorInfo_h
 
 #define kTabbarNormalColor              OPAQUE_COLOR(0xFF, 0xFF, 0xFF)
-#define kTabbarSelectedColor           kTabbarNormalColor
+#define kTabbarSelectedColor            kTabbarNormalColor
 
 #define kTextFieldTextColor             OPAQUE_COLOR(33,33,33)
 #define kLayerColor                     OPAQUE_COLOR(0Xdf,0Xdf,0Xdf)

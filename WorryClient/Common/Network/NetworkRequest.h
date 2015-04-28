@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
+//  暂时不用
 #import <Foundation/Foundation.h>
 
 //typedef void (^ PBResponseResultBlock) (PBDataResponse *response, NSError* error);

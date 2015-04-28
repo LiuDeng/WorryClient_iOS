@@ -54,7 +54,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return kGroupTableViewHeaderHeight;
+    return kGroupTableViewFooterHeight;
 }
 
 #pragma mark - UITableViewDataSource

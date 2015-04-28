@@ -58,7 +58,7 @@
  *  调用的时候记得得设置垂直方向的坐标
  */
 
-+(UITextField*)defaultTextField:(NSString*)placeholder
++ (UITextField*)defaultTextField:(NSString*)placeholder
                       superView:(UIView*)superView
 {
     UITextField *textField = [self textFieldWithPlaceholder:placeholder];

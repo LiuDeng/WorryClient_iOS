@@ -7,8 +7,6 @@
 //
 
 #import "CommonService.h"
-#import "UserManager.h"
-#import "WorryConfigManager.h"
 
 @implementation CommonService
 

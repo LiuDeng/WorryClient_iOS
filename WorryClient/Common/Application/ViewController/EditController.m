@@ -77,9 +77,8 @@
     self.tipsLabel = [[UILabel alloc]init];
     self.tipsLabel.text = self.tips;
     self.tipsLabel.textAlignment =  NSTextAlignmentCenter;
-    self.tipsLabel.font = kMiddleLabelFont;   //  字体
+    self.tipsLabel.font = kMiddleLabelFont;
     [self.view addSubview:self.tipsLabel];
-    
     UIView *preView = (self.isMulti ? self.textView : self.textField);
     [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(preView.mas_bottom).with.multipliedBy(kTopScale);

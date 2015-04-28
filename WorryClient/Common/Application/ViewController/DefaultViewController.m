@@ -29,7 +29,6 @@
                                           cancelButtonTitle:cancelTitle
                                           otherButtonTitles:kLogInTitle,nil];
     [self.logInAlertView show];
-    
 }
 
 #pragma mark -Default methods

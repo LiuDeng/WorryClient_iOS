@@ -72,28 +72,6 @@
     [self setImageEditorToolsWithImageEditor:imageEditor];
 //    NSLog(@"%@",imageEditor.toolInfo.toolTreeDescription);
     [picker pushViewController:imageEditor animated:YES];
-    
-
-    
-    
-//    PPDebug(@"select original image size = %@", NSStringFromCGSize(image.size));
-    
-    
-//    EditImageController *editImageController = [[EditImageController alloc]init];
-//    editImageController.originImage = image;
-//    editImageController.cropSize = self.imageSize;
-////    PPDebug(@"select crop size = %@", NSStringFromCGSize(editImageController.cropSize));
-//    
-//    editImageController.callBack = ^(UIImage *croppedImage){
-//        if (_popoverController != nil) {
-//            [_popoverController dismissPopoverAnimated:NO];
-//        }else{
-//            //            [picker popViewControllerAnimated:YES];
-//            [picker dismissViewControllerAnimated:NO completion:nil];
-//        }
-//        EXECUTE_BLOCK(_selectImageBlock, croppedImage);
-//    };
-//    [picker pushViewController:editImageController animated:YES];
 }
 
 #pragma mark - Private methods
@@ -102,7 +80,6 @@
 {
     CLImageToolInfo *adjustToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLAdjustmentTool" recursive:NO];
     adjustToolInfo.available = NO;
-    
     
     CLImageToolInfo *toneCurveToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLToneCurveTool" recursive:NO];
     toneCurveToolInfo.title = kToneCureveToolTitle;
@@ -127,8 +104,6 @@
     
     CLImageToolInfo *drawToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLDrawTool" recursive:NO];
     drawToolInfo.title = kDrawToolTitle;
-
-    
 }
 
 #pragma mark - Utils
