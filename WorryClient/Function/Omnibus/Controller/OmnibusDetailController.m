@@ -10,17 +10,23 @@
 #import "HMSegmentedControl.h"
 #import "UIColor+UIColorExt.h"
 #import "TimelineCell.h"
+#import "StoryCollectionViewCell.h"
 
 #define kStoryTitle @"故事"
 #define kWorryTitle @"心事"
 
 #define kWorryCell  @"kWorryCell"
+#define kStoryCell  @"kStoryCell"
 
-@interface OmnibusDetailController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UIBarPositioningDelegate>
+@interface OmnibusDetailController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     CGFloat _viewWidth;
     CGFloat _segmentedControlHeihtScale;
     CGFloat _scrollViewHeight;
+    CGFloat _countOfCollectionRow;
+    CGFloat _countOfCollectionCol;
+    CGFloat _collectionEdgePadding;
+    CGFloat _collectionViewHeight;
 }
 @property (nonatomic,strong) HMSegmentedControl *segmentedControl;
 @property (nonatomic,strong) UIScrollView *scrollView;
@@ -29,6 +35,7 @@
 @property (nonatomic,strong) NSArray *segmentedControlTitles;
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UICollectionView *collectionView;
+@property (nonatomic,strong) UIImageView *recommendStoryImageView;
 
 
 @end
@@ -39,7 +46,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,8 +63,11 @@
 {
     [super loadView];
     [self hideTabBar];
+    [self.view layoutIfNeeded];
     [self loadSegmentedControl];
     [self loadScrollView];
+    [self loadWorryHolderView];
+    [self loadStoryHolderView];
 }
 
 - (void)loadData
@@ -68,6 +77,10 @@
     self.segmentedControlTitles = @[kStoryTitle,kWorryTitle];
     _segmentedControlHeihtScale = 0.1;
     _scrollViewHeight = CGRectGetHeight(self.view.frame) * (1-_segmentedControlHeihtScale);
+    _countOfCollectionRow = 2;
+    _countOfCollectionCol = 3;
+    _collectionEdgePadding = 1.0f;
+    _collectionViewHeight = CGRectGetHeight(self.view.bounds)*0.6;
 }
 
 #pragma  mark - Private methods
@@ -82,13 +95,12 @@
     self.segmentedControl.selectionIndicatorHeight = 3.0f;
     self.segmentedControl.selectedTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:OPAQUE_COLOR(0x3A, 0xA7, 0x84), NSForegroundColorAttributeName,nil];
     __weak typeof(self) weakSelf = self;
-    CGFloat viewWidth = _viewWidth;
-    CGFloat scrollViewHight = _scrollViewHeight;
     [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(viewWidth * index, 0, viewWidth, scrollViewHight) animated:YES];
+        CGRect frame = weakSelf.scrollView.frame;
+        frame.origin.x += frame.size.width * index;
+
+        [weakSelf.scrollView scrollRectToVisible:frame animated:YES];
     }];
-    
-    
     
     [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
@@ -100,28 +112,29 @@
 
 - (void)loadScrollView
 {
-    CGFloat viewWidth = _viewWidth;
     self.scrollView = [[UIScrollView alloc]init];
     [self.view addSubview:self.scrollView];
     self.scrollView.pagingEnabled = YES;
     self.scrollView.showsHorizontalScrollIndicator = NO;
-//    self.scrollView.directionalLockEnabled = YES;
-//    self.scrollView.alwaysBounceVertical = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.bounces = NO;
+    self.scrollView.directionalLockEnabled = YES;
+    
+    self.scrollView.backgroundColor = [UIColor greenColor];
     
     NSUInteger arrayCount = self.segmentedControlTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeight);
     self.scrollView.delegate = self;
-    [self.scrollView scrollRectToVisible:CGRectMake(_viewWidth, 0, viewWidth, _scrollViewHeight) animated:NO];
     
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.segmentedControl.mas_top);
         make.centerX.equalTo(self.view);
-        make.height.equalTo(@(_scrollViewHeight));
+        make.height.equalTo(self.view).with.multipliedBy(1-_segmentedControlHeihtScale);
         make.width.equalTo(self.view);
     }];
-    
-    [self loadWorryHolderView];
-    [self loadStoryHolderView];
+
+
+
 }
 
 - (void)loadWorryHolderView
@@ -130,7 +143,6 @@
     
     self.worryHolderView = [[UIView alloc]init];
     [self.scrollView addSubview:self.worryHolderView];
-    self.worryHolderView.backgroundColor = [UIColor greenColor];
    
     
     [self.worryHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,14 +159,15 @@
     NSUInteger index = [self.segmentedControlTitles indexOfObject:kStoryTitle];
     self.storyHolderView = [[UIView alloc]init];
     [self.scrollView addSubview:self.storyHolderView];
-    self.storyHolderView.backgroundColor = [UIColor yellowColor];
-    
     
     [self.storyHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.scrollView);
-        make.centerY.equalTo(self.scrollView);
+        make.top.equalTo(self.scrollView);
         make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
     }];
+    
+    [self loadCollectionView];
+    [self loadRecommendImageView];
 }
 
 #pragma mark Worry holder view
@@ -180,15 +193,60 @@
 
 - (void)loadCollectionView
 {
-//    self.collectionView = 
+    CGFloat padding = _collectionEdgePadding;
+    CGFloat col = _countOfCollectionCol;
+    CGFloat row = _countOfCollectionRow;
+    
+    UICollectionViewFlowLayout *topicCollectionViewFlowLayout = [[UICollectionViewFlowLayout alloc]init];
+    topicCollectionViewFlowLayout.sectionInset = UIEdgeInsetsMake(padding,padding,padding,padding);
+    topicCollectionViewFlowLayout.minimumLineSpacing = 0;
+    topicCollectionViewFlowLayout.minimumInteritemSpacing = 0;
+    
+    CGFloat itemSizeWidth = (CGRectGetWidth(self.view.frame) - padding * (row))/row;
+    CGFloat itemSizeHeight = (_collectionViewHeight - padding * (col + 1))/col;
+    
+    topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidth, itemSizeHeight);
+    
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:topicCollectionViewFlowLayout];
+    [self.view addSubview:self.collectionView];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self.collectionView registerClass:[StoryCollectionViewCell class]
+                 forCellWithReuseIdentifier:kStoryCell];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.showsVerticalScrollIndicator = NO;
+    
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.storyHolderView);
+        make.bottom.equalTo(self.storyHolderView);
+        make.width.equalTo(self.storyHolderView);
+        make.height.equalTo(@(_collectionViewHeight));
+    }];
+}
+
+- (void)loadRecommendImageView
+{
+    self.recommendStoryImageView = [[UIImageView alloc]init];
+    [self.storyHolderView addSubview:self.recommendStoryImageView];
+
+
+    
+    
+    [self.recommendStoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.storyHolderView);
+        make.top.equalTo(self.storyHolderView);
+        make.width.equalTo(self.storyHolderView);
+        make.height.equalTo(self.storyHolderView).with.offset(-_collectionViewHeight);
+    }];
+    
+
+    self.recommendStoryImageView.image = [UIImage imageNamed:@"image3.jpg"];
 }
 
 #pragma mark - Utils
 
-//- (void)segmentedControlValueDidChange
-//{
-//    
-//}
+
 
 
 #pragma mark - UIScrollViewDelegate
@@ -230,6 +288,33 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGRectGetHeight(self.worryHolderView.bounds)*0.012;
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+//    return self.topicCollectionImageNameArray.count;
+    return 10;
+}
+- (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    StoryCollectionViewCell *storyCollectionViewCell = (StoryCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kStoryCell forIndexPath:indexPath];
+    storyCollectionViewCell.titleLabel.text = @"title ";
+    storyCollectionViewCell.authorLabel.text = @"author";
+    storyCollectionViewCell.dateLabel.text = @"xxxxxx";
+    
+    return storyCollectionViewCell;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //  TODO
 }
 
 @end
