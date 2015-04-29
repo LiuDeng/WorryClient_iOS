@@ -36,6 +36,11 @@
 {
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
+
+- (void)showTabBar
+{
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+}
 #pragma mark -Default methods
 
 -(void)loadView

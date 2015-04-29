@@ -9,11 +9,14 @@
 #import "OmnibusDetailController.h"
 #import "HMSegmentedControl.h"
 #import "UIColor+UIColorExt.h"
+#import "TimelineCell.h"
 
 #define kStoryTitle @"故事"
 #define kWorryTitle @"心事"
 
-@interface OmnibusDetailController ()<UIScrollViewDelegate>
+#define kWorryCell  @"kWorryCell"
+
+@interface OmnibusDetailController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UIBarPositioningDelegate>
 {
     CGFloat _viewWidth;
     CGFloat _segmentedControlHeihtScale;
@@ -24,6 +27,9 @@
 @property (nonatomic,strong) UIView *worryHolderView;
 @property (nonatomic,strong) UIView *storyHolderView;
 @property (nonatomic,strong) NSArray *segmentedControlTitles;
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) UICollectionView *collectionView;
+
 
 @end
 
@@ -39,6 +45,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self showTabBar];
 }
 
 - (void)loadView
@@ -93,6 +105,8 @@
     [self.view addSubview:self.scrollView];
     self.scrollView.pagingEnabled = YES;
     self.scrollView.showsHorizontalScrollIndicator = NO;
+//    self.scrollView.directionalLockEnabled = YES;
+//    self.scrollView.alwaysBounceVertical = NO;
     
     NSUInteger arrayCount = self.segmentedControlTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeight);
@@ -124,6 +138,8 @@
         make.centerY.equalTo(self.scrollView);
         make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
     }];
+    
+    [self loadTableView];
 }
 
 - (void)loadStoryHolderView
@@ -139,6 +155,32 @@
         make.centerY.equalTo(self.scrollView);
         make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
     }];
+}
+
+#pragma mark Worry holder view
+
+- (void)loadTableView
+{
+    //  self.view.bounds -> self.worryHolderView.bounds?
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [self.worryHolderView addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kWorryCell];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(self.worryHolderView);
+        make.center.equalTo(self.worryHolderView);
+    }];
+}
+
+
+#pragma mark Story holder view
+
+- (void)loadCollectionView
+{
+//    self.collectionView = 
 }
 
 #pragma mark - Utils
@@ -157,4 +199,37 @@
     
     [self.segmentedControl setSelectedSegmentIndex:page animated:YES];
 }
+
+#pragma mark - UITableViewDatasource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;   //  TODO
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryCell forIndexPath:indexPath];
+    cell.titleLabel.text = @"title";
+    cell.shortTextLabel.text = @"shoret jfladjfga=gasdfkasd";
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGRectGetHeight(self.view.bounds)*0.24;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGRectGetHeight(self.worryHolderView.bounds)*0.012;
+}
+
 @end
