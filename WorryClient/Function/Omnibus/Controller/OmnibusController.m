@@ -11,6 +11,7 @@
 #import "TAPageControl.h"
 #import "ViewInfo.h"
 #import "TopicCollectionViewCell.h"
+#import "OmnibusDetailController.h"
 
 #define kTopicCollectionViewCellId @"kTopicCollectionViewCellId"
 
@@ -221,5 +222,12 @@
     topicCollectionViewCell.tittleLabel.text = self.topicCollectionTittleArray[indexPath.row];
     topicCollectionViewCell.iconImageView.image = [UIImage imageNamed:self.topicCollectionImageNameArray[indexPath.row]];
     return topicCollectionViewCell;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    OmnibusDetailController *vc = [[OmnibusDetailController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

@@ -20,5 +20,6 @@
 
 - (void)loadLogInAlertView;
 - (void)loadData;
+- (void)hideTabBar;
 
 @end
