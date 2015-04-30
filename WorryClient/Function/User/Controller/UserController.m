@@ -51,7 +51,7 @@
     [super viewWillAppear:animated];
     self.pbUser = [[UserManager sharedInstance]pbUser];
     [self.tableView reloadData];
-    [self loadLogInAlertViewIfNeeded];
+    [self ifLogIn];
 }
 - (void)loadView
 {
@@ -78,23 +78,17 @@
 
 #pragma mark - Private methods
 
-- (void)loadLogInAlertViewIfNeeded
-{
-    if ([[UserManager sharedInstance]hasUser] == NO) {
-        [self loadLogInAlertView];
-    }else return;
-}
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[UserManager sharedInstance]hasUser] == NO) {
-        [self loadLogInAlertView];
-    }else{
+    if([self ifLogIn]){
         // TODO
         if (indexPath.section == self.sectionAvatar) {
             [self didSelectBackgroundImage];
         }
+    }else{
+        
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,9 +146,12 @@
 
 - (void)clickRightButton
 {
-    [self loadLogInAlertViewIfNeeded];
-    SettingController *vc = [[SettingController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    if([self ifLogIn]){
+        SettingController *vc = [[SettingController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        
+    }
 }
 
 - (void)didSelectBackgroundImage

@@ -142,8 +142,13 @@
 
 - (void)clickPlusButton
 {
-    CreatFeedController *vc = [[CreatFeedController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([self ifLogIn]) {
+        CreatFeedController *vc = [[CreatFeedController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else {
+        
+    }
+    
 }
 
 

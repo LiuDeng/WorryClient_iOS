@@ -33,28 +33,23 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     AVUser *avCurrentUser = [AVUser currentUser];
+    NSString *uuid = [Utils GetUUID];
+    PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
+    [pbFeedBuilder setFeedId:uuid];
+//    [pbFeedBuilder setCreateUser:createUser];
+    [pbFeedBuilder setTitle:title];
+    [pbFeedBuilder setText:text];
+    [pbFeedBuilder setIsAnonymous:isAnonymous];
+//    [pbFeedBuilder setTopicArray:topicArray]; //  会有问题？？？
+    
+    PBFeed *pbFeed = [pbFeedBuilder build];
+    NSData *pbFeedData = [pbFeed data];
+    [feed setObject:pbFeedData forKey:kFeedKey];
+    [feed setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
+    
     [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            NSString *uuid = [Utils GetUUID];
-            PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
-            [pbFeedBuilder setFeedId:uuid];
-            [pbFeedBuilder setCreateUser:createUser];
-            [pbFeedBuilder setTitle:title];
-            [pbFeedBuilder setText:text];
-            [pbFeedBuilder setIsAnonymous:isAnonymous];
-//            [pbFeedBuilder setTopicArray:topicArray]; //  会有问题？？？
-            [pbFeedBuilder setFeedId:feed.objectId];
-            
-            PBFeed *pbFeed = [pbFeedBuilder build];
-            NSData *pbFeedData = [pbFeed data];
-            [feed setObject:pbFeedData forKey:kFeedKey];
-            [feed setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
-            
-            [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    EXECUTE_BLOCK(block,error);
-                }
-            }];
+            EXECUTE_BLOCK(block,error);
         }
     }];
 }

@@ -15,10 +15,12 @@
 #import "UIViewController+Utils.h"
 #import "ViewDefault.h"
 #import "LocaleUtils.h"
+#import "UserManager.h"
 
 @interface DefaultViewController : UIViewController
 
-- (void)loadLogInAlertView;
+//- (void)loadLogInAlertView;
+- (BOOL)ifLogIn;
 - (void)loadData;
 - (void)hideTabBar;
 - (void)showTabBar;

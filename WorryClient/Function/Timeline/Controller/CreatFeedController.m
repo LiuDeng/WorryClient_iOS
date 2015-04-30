@@ -70,7 +70,8 @@
     
     [self.placeholderTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
+        //  +10是为了让placeholder 与 titleTextField的placeholder对齐
+        make.width.equalTo(self.view).with.multipliedBy(kWidthScale).with.offset(+10);
         make.height.equalTo(self.view).with.multipliedBy(0.3);
         make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+2);
     }];
@@ -85,7 +86,7 @@
 {
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
-    NSArray *topicArray = @[@"daxue",@"seh"];
+    NSArray *topicArray = @[@"人生",@"爱情"];
     BOOL isAnonymous = NO;
     if (title.length == 0) {
         POST_ERROR_MSG(@"请输入标题");

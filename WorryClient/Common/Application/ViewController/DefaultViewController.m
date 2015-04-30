@@ -20,6 +20,16 @@
 
 #pragma mark - Public methods
 
+- (BOOL)ifLogIn
+{
+    if ([[UserManager sharedInstance]hasUser] == NO) {
+        [self loadLogInAlertView];
+        return YES;
+    }else {
+        return NO;
+    }
+}
+
 - (void)loadLogInAlertView
 {
     NSString *message = @"您尚未登录，请先登录";
@@ -68,6 +78,9 @@
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == alertView.cancelButtonIndex) {
         self.logInAlertView.hidden = YES;
+        if (self.navigationController.viewControllers.count > 1) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }else if([buttonTitle isEqualToString:kLogInTitle]){
         LogInController *vc = [[LogInController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
