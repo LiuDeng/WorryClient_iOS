@@ -59,17 +59,25 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 {
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
      NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
-    
+    __block FMResultSet *results;
     [queue inDatabase:^(FMDatabase *db) {
         for (NSData *pbFeedData in pbFeedDataArray) {
             PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
-            NSString *querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = %@",kFeedTable,kFeedTableFieldId,pbFeed.feedId];
-            if ([db executeQuery:querySql] == nil) {
-                [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+            NSString *querySql;
+            if (pbFeed.feedId.length > 0) {
+                querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kFeedTable,kFeedTableFieldId,pbFeed.feedId];
+                results = [db executeQuery:querySql];
+                if ( results == nil) {
+                    [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+                }else{
+                    //  TODO update
+                }
+                    
             }
-//            [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
         }
+        [results close];
     }];
+    
 }
 
 - (NSArray *)readFeedListFromCache
@@ -80,6 +88,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     while (rs.next) {
         [feedArray insertObject:[rs dataForColumn:kFeedTableFieldFeed] atIndex:0];
     }
+    [rs close];
     return feedArray;
 }
 

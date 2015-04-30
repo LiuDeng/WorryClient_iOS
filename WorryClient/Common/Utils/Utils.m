@@ -10,4 +10,13 @@
 
 @implementation Utils
 
++ (NSString *)GetUUID
+{
+    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+    CFRelease(theUUID);
+    NSString* retStr = (__bridge_transfer NSString *)string;
+    return [[retStr stringByReplacingOccurrencesOfString:@"-" withString:@""] lowercaseString];
+}
+
 @end

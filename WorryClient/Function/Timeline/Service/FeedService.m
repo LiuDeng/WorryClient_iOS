@@ -35,7 +35,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     AVUser *avCurrentUser = [AVUser currentUser];
     [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
+            NSString *uuid = [Utils GetUUID];
             PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
+            [pbFeedBuilder setFeedId:uuid];
             [pbFeedBuilder setCreateUser:createUser];
             [pbFeedBuilder setTitle:title];
             [pbFeedBuilder setText:text];
@@ -46,7 +48,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
             PBFeed *pbFeed = [pbFeedBuilder build];
             NSData *pbFeedData = [pbFeed data];
             [feed setObject:pbFeedData forKey:kFeedKey];
-
             [feed setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
             
             [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -62,7 +63,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-    [self requireMyFeedsFrom:0 requireFeedsBlock:nil Block:block];
+//    [self requireMyFeedsFrom:0 requireFeedsBlock:nil Block:block];
+    [self requireMyFeedsFrom:0 requireFeedsBlock:^{
+        
+    } Block:block];
 }
 
 - (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
@@ -74,7 +78,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-    [self requirePublicFeedsWithFrom:0 requireFeedsBlock:nil Block:block];
+//    [self requirePublicFeedsWithFrom:0 requireFeedsBlock:nil Block:block];
+    [self requirePublicFeedsWithFrom:0 requireFeedsBlock:^{
+        
+    } Block:block];
 }
 
 - (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block

@@ -12,4 +12,6 @@
 
 @interface Utils : NSObject
 
++ (NSString *)GetUUID;
+
 @end

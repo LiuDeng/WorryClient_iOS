@@ -8,9 +8,11 @@
 
 #import "SettingController.h"
 #import "UserService.h"
+#import "FeedManager.h"
 
 #define kAboutTitle @"关于"
 #define kLogOut     @"注销"
+#define kClearCache @"清理缓存"
 
 #define kSettingCell    @"kSettingCell"
 
@@ -46,7 +48,7 @@
 {
     [super loadData];
     self.sectionMisc = self.indexOfSection++;
-    self.sectionMiscItems = @[kAboutTitle,kLogOut];
+    self.sectionMiscItems = @[kClearCache,kAboutTitle,kLogOut];
 }
 
 - (void)loadTableView
@@ -63,6 +65,10 @@
     
 }
 
+- (void)clearCache
+{
+    [[FeedManager sharedInstance]dropTable];    //  TODO
+}
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,6 +79,10 @@
             //
         }else if([title isEqualToString:kLogOut]){
             [self logOut];
+        }else if([title isEqual:kClearCache]){
+            [self clearCache];
+        }else{
+            
         }
     }
 }
