@@ -48,4 +48,6 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 
 - (UIImage *)requireAvatar;
 - (UIImage *)requireBackgroundImage;
+
+- (BOOL)ifLogIn;
 @end

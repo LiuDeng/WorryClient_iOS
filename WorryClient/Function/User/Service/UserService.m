@@ -237,4 +237,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     UIImage *image = [UIImage imageWithData:imageData];
     return image;
 }
+
+- (BOOL)ifLogIn
+{
+    return [AVUser currentUser] == nil ? NO : YES;
+}
 @end

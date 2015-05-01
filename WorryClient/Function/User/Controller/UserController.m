@@ -51,7 +51,11 @@
     [super viewWillAppear:animated];
     self.pbUser = [[UserManager sharedInstance]pbUser];
     [self.tableView reloadData];
-    [self ifLogIn];
+    if ([[UserService sharedInstance]ifLogIn]) {
+        //
+    }else{
+        [self loadLogInAlertView];
+    }
 }
 - (void)loadView
 {
@@ -82,13 +86,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self ifLogIn]){
+    if([[UserService sharedInstance]ifLogIn]){
         // TODO
         if (indexPath.section == self.sectionAvatar) {
             [self didSelectBackgroundImage];
         }
     }else{
-        
+        [self loadLogInAlertView];
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -146,11 +150,11 @@
 
 - (void)clickRightButton
 {
-    if([self ifLogIn]){
+    if([[UserService sharedInstance]ifLogIn]){
         SettingController *vc = [[SettingController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        
+        [self loadLogInAlertView];
     }
 }
 

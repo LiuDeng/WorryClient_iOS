@@ -86,7 +86,16 @@
 {
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
-    NSArray *topicArray = @[@"人生",@"爱情"];
+    
+    // 不应该出现在这的
+    NSString *uuid = [Utils getUUID];
+    PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
+    [pbTopicBuilder setTopicId:uuid];
+    [pbTopicBuilder setTitle:@"人生"];
+    PBTopic *pbTopic = [pbTopicBuilder build];
+    
+    NSArray *topicArray = @[pbTopic,pbTopic];
+    
     BOOL isAnonymous = NO;
     if (title.length == 0) {
         POST_ERROR_MSG(@"请输入标题");

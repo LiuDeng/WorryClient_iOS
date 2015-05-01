@@ -12,6 +12,7 @@
 
 @interface Utils : NSObject
 
-+ (NSString *)GetUUID;
++ (NSString *)getUUID;
++ (NSString *)appendArray:(NSArray *)array with:(NSString *)symbol; //  the name should change
 
 @end

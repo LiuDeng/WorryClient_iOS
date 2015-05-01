@@ -85,6 +85,8 @@
             if (error == nil) {
                 POST_SUCCESS_MSG(@"登录成功");
                 [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                POST_ERROR_MSG(@"登录失败");
             }
         }];
     }

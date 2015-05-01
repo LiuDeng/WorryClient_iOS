@@ -9,6 +9,7 @@
 #import "DefaultViewController.h"
 #import "RDVTabBarController.h"
 
+
 @interface DefaultViewController ()<UIAlertViewDelegate>
 @property (nonatomic,strong) NSString* backButtonText;
 @property (nonatomic,strong) UIAlertView *logInAlertView;
@@ -19,16 +20,6 @@
 @implementation DefaultViewController
 
 #pragma mark - Public methods
-
-- (BOOL)ifLogIn
-{
-    if ([[UserManager sharedInstance]hasUser] == NO) {
-        [self loadLogInAlertView];
-        return YES;
-    }else {
-        return NO;
-    }
-}
 
 - (void)loadLogInAlertView
 {

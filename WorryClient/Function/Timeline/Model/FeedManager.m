@@ -58,19 +58,22 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray
 {
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
-     NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
+    
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kFeedTable,kFeedTableFieldFeed,kFeedTableFieldFeed];
+
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
     __block FMResultSet *results;
     [queue inDatabase:^(FMDatabase *db) {
         for (NSData *pbFeedData in pbFeedDataArray) {
             PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
             NSString *querySql;
-            if (pbFeed.feedId.length > 0) {
+            if ([pbFeed hasFeedId]) {
                 querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kFeedTable,kFeedTableFieldId,pbFeed.feedId];
                 results = [db executeQuery:querySql];
-                if ( results == nil) {
-                    [db executeUpdate:sql,pbFeed.feedId,pbFeedData];
+                if ( results.next) {
+                    [db executeUpdate:updateSql,pbFeedData,pbFeed.feedId];
                 }else{
-                    //  TODO update
+                    [_db executeUpdate:insertSql,pbFeed.feedId,pbFeedData];
                 }
                     
             }
@@ -91,6 +94,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     [rs close];
     return feedArray;
 }
+
 
 - (void)deleteOldDatabase
 {

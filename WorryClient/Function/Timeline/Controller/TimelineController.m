@@ -16,9 +16,8 @@
 
 #define kTimelineCell @"kTimelineCell"
 
-@interface TimelineController ()//<UITableViewDataSource,UITableViewDelegate>
+@interface TimelineController ()
 
-//@property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSArray *pbFeedArray;
 
 @end
@@ -30,11 +29,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView.header beginRefreshing];  
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)loadView
@@ -50,48 +44,10 @@
     [super loadTableView];
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [[FeedService sharedInstance]requireNewFeedsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf loadData];
-                [weakSelf.tableView reloadData];
-                [weakSelf.tableView.header endRefreshing];
-            }
-        }];
-        
-    }];
-    
-    [self.tableView addLegendFooterWithRefreshingBlock:^{
-        [[FeedService sharedInstance]requireMoreFeedsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf loadData];
-                [weakSelf.tableView reloadData];
-                [weakSelf.tableView.footer endRefreshing];
-            }
-        }];
-    }];
+    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
+    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
 }
 
-- (void)loadData
-{
-    self.pbFeedArray = [[FeedManager sharedInstance]pbFeedArray];
-
-//    CGFloat duration = 2.0f;
-//    // 2.模拟2秒后刷新表格UI（真实开发中，可以移除这段gcd代码）换在读取成功那里
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        // 刷新表格
-//        [self.tableView reloadData];
-//        
-//        // 拿到当前的下拉刷新控件，结束刷新状态
-//        if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
-//            [self.tableView.header endRefreshing];
-//        }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
-//            [self.tableView.footer endRefreshing];
-//        }
-//    });
-}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -111,21 +67,12 @@
     cell.titleLabel.text = pbFeed.title;
     cell.shortTextLabel.text = pbFeed.text;
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
-    NSMutableString *topicString = [[NSMutableString alloc]init];
-    if (pbFeed.topic) {
-        for (int i = 0; i<pbFeed.topic.count; i++) {
-            NSString *topic = [pbFeed.topic objectAtIndex:i];
-            if (i == pbFeed.topic.count-1) {
-                [topicString appendFormat:@"%@",topic];
-            }else{
-                [topicString appendFormat:@"%@，",topic];
-            }
-        }
-    }
-//    cell.topicLabel.text = topicString;
-    cell.topicLabel.text = @"大学";
+    PBTopic *pbTopic = [pbFeed.topic firstObject];
+    NSString *topicString = pbTopic.title;
+    cell.topicLabel.text = topicString;
     cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -138,18 +85,33 @@
 {
     return CGRectGetHeight(self.view.bounds)*0.012;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
 #pragma mark - Utils
 
 - (void)clickPlusButton
 {
-    if ([self ifLogIn]) {
+    if ([[UserService sharedInstance]ifLogIn]) {
         CreatFeedController *vc = [[CreatFeedController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }else {
-        
+        [self loadLogInAlertView];
     }
     
 }
 
+- (void)afterRefresh
+{
+    self.pbFeedArray = [[FeedManager sharedInstance]pbFeedArray];
+    [self.tableView reloadData];
+    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.tableView.header endRefreshing];
+    }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
+        [self.tableView.footer endRefreshing];
+    }
+}
 
 @end
