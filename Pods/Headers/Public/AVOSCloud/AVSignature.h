@@ -1,1 +1,1 @@
-../../../AVOSCloud/iOS/release-v3.0.3/AVOSCloud.framework/Headers/AVSignature.h
+../../../AVOSCloud/iOS/release-v3.1.0/AVOSCloud.framework/Headers/AVSignature.h

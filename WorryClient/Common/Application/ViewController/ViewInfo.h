@@ -25,6 +25,7 @@
 #define kGroupTableViewHeaderHeight 0.1
 #define kGroupTableViewFooterHeight kGroupTableViewHeaderHeight
 #define kRightScale 0.95
+#define kLeftScale kRightScale
 
 #define kTextFieldHeightScale 0.1   //  refer to self.view
 #define kTextViewHeightScale 0.1    //  refer to self.view

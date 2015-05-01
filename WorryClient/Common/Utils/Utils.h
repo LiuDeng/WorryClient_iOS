@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #define EXECUTE_BLOCK(A,...)            if(A != NULL) {A(__VA_ARGS__);}
 
@@ -14,5 +15,5 @@
 
 + (NSString *)getUUID;
 + (NSString *)appendArray:(NSArray *)array with:(NSString *)symbol; //  the name should change
-
++ (BOOL)isLightColorInImage:(UIImage *)image;
 @end
