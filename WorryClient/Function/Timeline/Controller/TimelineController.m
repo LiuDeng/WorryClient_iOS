@@ -13,6 +13,7 @@
 #import "FeedManager.h"
 #import "MJRefresh.h"
 #import "FeedService.h"
+#import "StoryDetailController.h"
 
 #define kTimelineCell @"kTimelineCell"
 
@@ -74,6 +75,12 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    StoryDetailController *vc = [[StoryDetailController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

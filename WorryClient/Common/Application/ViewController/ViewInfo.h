@@ -5,7 +5,7 @@
 //  Created by 蔡少武 on 15/2/19.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
-
+#import "DeviceDetection.h"
 #ifndef WorryClient_ViewInfo_h
 #define WorryClient_ViewInfo_h
 
@@ -15,6 +15,7 @@
 #define kStatusBarHeight 20
 #define kSearchBarHeight 50
 #define kKeyboardHeight 216
+#define kTableViewCellRowHeight 44  //  iphone4 change
 
 #define kLayerBorderWidth 0.5
 #define kLeftPadding 20
@@ -23,6 +24,7 @@
 #define kVerticalPadding 12
 #define kGroupTableViewHeaderHeight 0.1
 #define kGroupTableViewFooterHeight kGroupTableViewHeaderHeight
+#define kRightScale 0.95
 
 #define kTextFieldHeightScale 0.1   //  refer to self.view
 #define kTextViewHeightScale 0.1    //  refer to self.view
