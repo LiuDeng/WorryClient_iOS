@@ -1,5 +1,5 @@
 PODS:
-  - AVOSCloud (3.0.3)
+  - AVOSCloud (3.1.0)
   - CLImageEditor (0.1.3):
     - CLImageEditor/Core (= 0.1.3)
   - CLImageEditor/Core (0.1.3)
@@ -15,6 +15,7 @@ PODS:
   - ProtocolBuffers (1.9.7)
   - RDVTabBarController (1.1.9)
   - TAPageControl (0.2.0)
+  - THLabel (1.4.6)
 
 DEPENDENCIES:
   - AVOSCloud
@@ -27,9 +28,10 @@ DEPENDENCIES:
   - ProtocolBuffers (= 1.9.7)
   - RDVTabBarController
   - TAPageControl
+  - THLabel (~> 1.4.6)
 
 SPEC CHECKSUMS:
-  AVOSCloud: 48b94343601a582928e560d734caa0c8dc75a612
+  AVOSCloud: fadaba350e8f28c371da50e056991ca774db8310
   CLImageEditor: c54336f80300d47694f7e5e95f6c0a1632ad503d
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   HMSegmentedControl: 35460abdd15c3087368db2d3d956717f088b34d1
@@ -39,5 +41,6 @@ SPEC CHECKSUMS:
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   TAPageControl: fd11d779bbb5c2464ca2f55dde9e288213ea8a9b
+  THLabel: 27890d10123514ffe74b6e023b57b2ece55304af
 
 COCOAPODS: 0.35.0
