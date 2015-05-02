@@ -120,6 +120,8 @@
 		7CCBCAE81AE3F451006410BD /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAE61AE3F451006410BD /* comment@2x.png */; };
 		7CCEF7C91AF4540D00D5BC65 /* WorryDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCEF7C81AF4540D00D5BC65 /* WorryDetailController.m */; };
 		7CCEF7CC1AF4B46600D5BC65 /* WorryAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCEF7CB1AF4B46600D5BC65 /* WorryAnswerCell.m */; };
+		7CCEF7CF1AF518C200D5BC65 /* creat_feed_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCEF7CD1AF518C200D5BC65 /* creat_feed_topic@2x.png */; };
+		7CCEF7D01AF518C200D5BC65 /* creat_feed_topic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCEF7CE1AF518C200D5BC65 /* creat_feed_topic@3x.png */; };
 		7CCF5B641AF35A640091F3A7 /* StoryDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCF5B631AF35A640091F3A7 /* StoryDetailController.m */; };
 		7CCF5B6F1AF361210091F3A7 /* story_detail_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B651AF361210091F3A7 /* story_detail_edit@2x.png */; };
 		7CCF5B701AF361210091F3A7 /* story_detail_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B661AF361210091F3A7 /* story_detail_edit@3x.png */; };
@@ -315,6 +317,8 @@
 		7CCEF7C81AF4540D00D5BC65 /* WorryDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorryDetailController.m; sourceTree = "<group>"; };
 		7CCEF7CA1AF4B46600D5BC65 /* WorryAnswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorryAnswerCell.h; sourceTree = "<group>"; };
 		7CCEF7CB1AF4B46600D5BC65 /* WorryAnswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorryAnswerCell.m; sourceTree = "<group>"; };
+		7CCEF7CD1AF518C200D5BC65 /* creat_feed_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_topic@2x.png"; sourceTree = "<group>"; };
+		7CCEF7CE1AF518C200D5BC65 /* creat_feed_topic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_topic@3x.png"; sourceTree = "<group>"; };
 		7CCF5B621AF35A640091F3A7 /* StoryDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryDetailController.h; sourceTree = "<group>"; };
 		7CCF5B631AF35A640091F3A7 /* StoryDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryDetailController.m; sourceTree = "<group>"; };
 		7CCF5B651AF361210091F3A7 /* story_detail_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "story_detail_edit@2x.png"; sourceTree = "<group>"; };
@@ -429,6 +433,8 @@
 				7CBD56E61AE7DF5600423D5D /* create_feed_save@2x.png */,
 				7CBD56E71AE7DF5600423D5D /* create_feed_save@3x.png */,
 				7CCBCAE51AE3F451006410BD /* blessing@2x.png */,
+				7CCEF7CD1AF518C200D5BC65 /* creat_feed_topic@2x.png */,
+				7CCEF7CE1AF518C200D5BC65 /* creat_feed_topic@3x.png */,
 				7CCBCAE61AE3F451006410BD /* comment@2x.png */,
 				7CCBCAD91AE3E4C8006410BD /* blessing@3x.png */,
 				7CCBCADA1AE3E4C8006410BD /* comment@3x.png */,
@@ -1101,10 +1107,12 @@
 				7CCF5B781AF361210091F3A7 /* story_detail_share@3x.png in Resources */,
 				7CCF5B6F1AF361210091F3A7 /* story_detail_edit@2x.png in Resources */,
 				7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */,
+				7CCEF7D01AF518C200D5BC65 /* creat_feed_topic@3x.png in Resources */,
 				7CCBCACD1AE3E469006410BD /* me_normal@2x.png in Resources */,
 				7CCF5B751AF361210091F3A7 /* story_detail_more@2x.png in Resources */,
 				7CCBCABE1AE3E210006410BD /* barbg64@3x.png in Resources */,
 				7CCBCAD61AE3E469006410BD /* timeline_normal@3x.png in Resources */,
+				7CCEF7CF1AF518C200D5BC65 /* creat_feed_topic@2x.png in Resources */,
 				7CC456011AEA691B008B7BB6 /* Topic.proto in Resources */,
 				7CC8769C1AE79E3700963450 /* topic@3x.png in Resources */,
 				7CCBCAD51AE3E469006410BD /* timeline_normal@2x.png in Resources */,

@@ -13,10 +13,17 @@
 #import "UIView+DefaultView.h"
 #import "ViewInfo.h"
 #import "ColorInfo.h"
+#import "Feed.pb.h"
 
 @interface CreatFeedController ()
-@property (nonatomic,strong)PlaceholderTextView *placeholderTextView;
-@property (nonatomic,strong)UITextField *titleTextField;
+
+@property (nonatomic,strong) PlaceholderTextView *placeholderTextView;
+@property (nonatomic,strong) UITextField *titleTextField;
+@property (nonatomic,strong) UIView *selectionHolderView;
+@property (nonatomic,strong) UIButton *topicButton;
+@property (nonatomic,strong) UIButton *typeButton;
+@property (nonatomic,assign) PBFeedType *feedType;
+@property (nonatomic,assign) PBTopic *feedTopic;
 
 @end
 
@@ -40,6 +47,7 @@
     [self addRightButtonWithImageName:@"create_feed_save" target:self action:@selector(clickRightButton)];
     [self loadTitleTextField];
     [self loadPlaceholderTextView];
+    [self loadSelectionHolderView];
 }
 
 #pragma mark - Private methods
@@ -81,6 +89,53 @@
         make.top.equalTo(self.placeholderTextView.mas_bottom);
     }];
 }
+
+- (void)loadSelectionHolderView
+{
+    self.selectionHolderView = [[UIView alloc]init];
+    [self.view addSubview:self.selectionHolderView];
+    
+    [self.selectionHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.height.equalTo(self.view).with.multipliedBy(0.1);
+        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
+        make.top.equalTo(self.placeholderTextView.mas_bottom);
+    }];
+    
+    [self loadTopicButton];
+    [self loadTypeButton];
+}
+
+- (void)loadTopicButton
+{
+    self.topicButton = [[UIButton alloc]init];
+    [self.selectionHolderView addSubview:self.topicButton];
+    UIImage *image = [UIImage imageNamed:@"creat_feed_topic"];
+    [self.topicButton setImage:image forState:UIControlStateNormal];
+    [self.topicButton setTitle:@"话题" forState:UIControlStateNormal];
+    [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.typeButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.topicButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.selectionHolderView);
+        make.centerY.equalTo(self.selectionHolderView);
+    }];
+}
+
+- (void)loadTypeButton
+{
+    self.typeButton = [[UIButton alloc]init];
+    [self.selectionHolderView addSubview:self.typeButton];
+    [self.typeButton setTitle:@"类型" forState:UIControlStateNormal];
+    [self.typeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.typeButton addTarget:self action:@selector(clickTypeButton) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.typeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.selectionHolderView);
+        make.centerY.equalTo(self.selectionHolderView);
+    }];
+}
+
 #pragma mark - Utils
 - (void)clickRightButton
 {
@@ -115,6 +170,16 @@
             }
         }];
     }
+}
+
+- (void)clickTopicButton
+{
+    
+}
+
+- (void)clickTypeButton
+{
+    
 }
 
 @end
