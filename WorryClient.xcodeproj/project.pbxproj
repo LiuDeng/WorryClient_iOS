@@ -118,6 +118,8 @@
 		7CCBCADC1AE3E4C8006410BD /* comment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCADA1AE3E4C8006410BD /* comment@3x.png */; };
 		7CCBCAE71AE3F451006410BD /* blessing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAE51AE3F451006410BD /* blessing@2x.png */; };
 		7CCBCAE81AE3F451006410BD /* comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBCAE61AE3F451006410BD /* comment@2x.png */; };
+		7CCEF7C91AF4540D00D5BC65 /* WorryDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCEF7C81AF4540D00D5BC65 /* WorryDetailController.m */; };
+		7CCEF7CC1AF4B46600D5BC65 /* WorryAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCEF7CB1AF4B46600D5BC65 /* WorryAnswerCell.m */; };
 		7CCF5B641AF35A640091F3A7 /* StoryDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCF5B631AF35A640091F3A7 /* StoryDetailController.m */; };
 		7CCF5B6F1AF361210091F3A7 /* story_detail_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B651AF361210091F3A7 /* story_detail_edit@2x.png */; };
 		7CCF5B701AF361210091F3A7 /* story_detail_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B661AF361210091F3A7 /* story_detail_edit@3x.png */; };
@@ -309,6 +311,10 @@
 		7CCBCADA1AE3E4C8006410BD /* comment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@3x.png"; sourceTree = "<group>"; };
 		7CCBCAE51AE3F451006410BD /* blessing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blessing@2x.png"; sourceTree = "<group>"; };
 		7CCBCAE61AE3F451006410BD /* comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment@2x.png"; sourceTree = "<group>"; };
+		7CCEF7C71AF4540D00D5BC65 /* WorryDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorryDetailController.h; sourceTree = "<group>"; };
+		7CCEF7C81AF4540D00D5BC65 /* WorryDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorryDetailController.m; sourceTree = "<group>"; };
+		7CCEF7CA1AF4B46600D5BC65 /* WorryAnswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorryAnswerCell.h; sourceTree = "<group>"; };
+		7CCEF7CB1AF4B46600D5BC65 /* WorryAnswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorryAnswerCell.m; sourceTree = "<group>"; };
 		7CCF5B621AF35A640091F3A7 /* StoryDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryDetailController.h; sourceTree = "<group>"; };
 		7CCF5B631AF35A640091F3A7 /* StoryDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryDetailController.m; sourceTree = "<group>"; };
 		7CCF5B651AF361210091F3A7 /* story_detail_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "story_detail_edit@2x.png"; sourceTree = "<group>"; };
@@ -384,6 +390,8 @@
 				7CCAC0341AE0EE1F007F4326 /* TimelineController.m */,
 				7CCF5B621AF35A640091F3A7 /* StoryDetailController.h */,
 				7CCF5B631AF35A640091F3A7 /* StoryDetailController.m */,
+				7CCEF7C71AF4540D00D5BC65 /* WorryDetailController.h */,
+				7CCEF7C81AF4540D00D5BC65 /* WorryDetailController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -727,6 +735,8 @@
 				7C5A37DB1ADB9E3000CFA176 /* TopicCollectionViewCell.m */,
 				7CC0EAC61AF09F8900ED7FC7 /* StoryCollectionViewCell.h */,
 				7CC0EAC71AF09F8900ED7FC7 /* StoryCollectionViewCell.m */,
+				7CCEF7CA1AF4B46600D5BC65 /* WorryAnswerCell.h */,
+				7CCEF7CB1AF4B46600D5BC65 /* WorryAnswerCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1195,7 +1205,9 @@
 				7CBD2D201AEBCDCB0091EB20 /* DeviceDetection.m in Sources */,
 				7CC3369C1ADFA6A20084D891 /* FeedService.m in Sources */,
 				7C54C2BD1ADC091E002A32E2 /* UIView+Utils.m in Sources */,
+				7CCEF7CC1AF4B46600D5BC65 /* WorryAnswerCell.m in Sources */,
 				7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */,
+				7CCEF7C91AF4540D00D5BC65 /* WorryDetailController.m in Sources */,
 				7CC8768A1AE78FFB00963450 /* SettingController.m in Sources */,
 				7CC3B45E1ADE9481004463C4 /* SignUpByEmailController.m in Sources */,
 				7C5A37FC1ADB9E3000CFA176 /* UIColor+UIColorExt.m in Sources */,
