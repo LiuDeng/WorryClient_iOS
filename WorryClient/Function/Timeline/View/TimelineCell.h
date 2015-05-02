@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^TimelineCellBlock) ();
+
 @interface TimelineCell : UITableViewCell
+
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) UILabel *shortTextLabel;
-@property (nonatomic,strong) UILabel *topicLabel;
-@property (nonatomic,strong) UIImageView *commentImageView;
-@property (nonatomic,strong) UILabel *commentNumLabel;
-@property (nonatomic,strong) UIImageView *blessingImageView;
-@property (nonatomic,strong) UILabel *blessingNumLabel;
+@property (nonatomic,strong) UIButton *topicButton;
+@property (nonatomic,strong) UIButton *commentButton;
+@property (nonatomic,strong) UIButton *blessingButton;
+@property (nonatomic,strong) TimelineCellBlock clickTopicButtonBlock;
+@property (nonatomic,strong) TimelineCellBlock clickCommentButtonBlock;
+@property (nonatomic,strong) TimelineCellBlock clickBlessingButtonBlock;
+
 @end

@@ -83,11 +83,15 @@
     PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
     cell.titleLabel.text = pbFeed.title;
     cell.shortTextLabel.text = pbFeed.text;
-    cell.commentNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
+    NSString *commentNum = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
+    [cell.commentButton setTitle:commentNum forState:UIControlStateNormal];
+//    cell.commentNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
     PBTopic *pbTopic = [pbFeed.topic firstObject];
     NSString *topicString = pbTopic.title;
-    cell.topicLabel.text = topicString;
-    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
+    [cell.topicButton setTitle:topicString forState:UIControlStateNormal];
+    NSString *blessingNum = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
+    [cell.blessingButton setTitle:blessingNum forState:UIControlStateNormal];
+//    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

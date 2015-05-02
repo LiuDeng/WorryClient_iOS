@@ -10,8 +10,7 @@
 #import "Feed.pb.h"
 #import "ViewDefault.h"
 #import "UIColor+UIColorExt.h"
-
-//const CGFloat kWidthScale = 0.9;
+#import "Utils.h"
 @implementation TimelineCell
 
 #pragma mark - Default methods
@@ -33,11 +32,9 @@
         [self loadBackgroundView];
         [self loadTitleLabel];
         [self loadShortTextLabel];
-        [self loadTopicLabel];
-        [self loadCommentNumLabel];
-        [self loadCommentImageView];
-        [self loadBlessingNumLabel];
-        [self loadBlessingImageView];
+        [self loadTopicButton];
+        [self loadCommentButton];
+        [self loadBlessingButton];
     }
     return self;
 }
@@ -66,45 +63,21 @@
         make.height.equalTo(self.contentView).with.multipliedBy(0.4);
     }];
     
-    [self.topicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.topicButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView).with.multipliedBy(0.9);
         make.left.equalTo(self.titleLabel);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.6);
-        make.height.equalTo(self.contentView).with.multipliedBy(0.2);
-    }];
-    //    self.topicLabel.backgroundColor  = [UIColor greenColor];
-    
-    
-    [self.commentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.shortTextLabel);
-        make.bottom.equalTo(self.topicLabel);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.05);//  TODO
-        make.centerY.equalTo(self.topicLabel);
     }];
     
-    [self.commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.commentNumLabel.mas_left);
-        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.042);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.042);
-        make.centerY.equalTo(self.topicLabel);
+    [self.commentButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.mas_right).with.multipliedBy(0.85);
+        make.centerY.equalTo(self.topicButton);
     }];
     
-    [self.blessingNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.commentImageView.mas_left);
-        make.centerY.equalTo(self.topicLabel);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.05);//  TODO
-        make.height.equalTo(self.topicLabel);
-    }];
-    
-    [self.blessingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.blessingNumLabel.mas_left);
-        make.height.equalTo(self.contentView.mas_width).with.multipliedBy(0.042);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.042);
-        make.centerY.equalTo(self.topicLabel);
+    [self.blessingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.mas_right).with.multipliedBy(0.75);
+        make.centerY.equalTo(self.topicButton);
     }];
 }
-
-#pragma mark - Public methods
 
 #pragma mark - Private methods
 
@@ -133,43 +106,53 @@
     self.shortTextLabel.textColor = OPAQUE_COLOR(0x7C, 0x86, 0x92);
 }
 
-- (void)loadTopicLabel
+- (void)loadCommentButton
 {
-    self.topicLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.topicLabel];
-    self.topicLabel.font = kMiddleLabelFont;
-    self.topicLabel.textColor = OPAQUE_COLOR(0x00, 0xAE, 0xE9);
-}
-
-- (void)loadCommentNumLabel
-{
-    self.commentNumLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.commentNumLabel];
-    self.commentNumLabel.font = kLargeLabelFont;
-    self.commentNumLabel.textAlignment = NSTextAlignmentCenter;
-    self.commentNumLabel.textColor = OPAQUE_COLOR(0x8E, 0xA0, 0x9A);
-}
-
-- (void)loadBlessingNumLabel
-{
-    self.blessingNumLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.blessingNumLabel];
-    self.blessingNumLabel.font = kLargeLabelFont;
-    self.blessingNumLabel.textAlignment = NSTextAlignmentCenter;
-    self.blessingNumLabel.textColor = OPAQUE_COLOR(0x8E, 0xA0, 0x9A);
-}
-
-- (void)loadBlessingImageView
-{
-    UIImage *image = [UIImage imageNamed:@"blessing"];
-    self.blessingImageView = [[UIImageView alloc]initWithImage:image];
-    [self.contentView addSubview:self.blessingImageView];
-}
-
-- (void)loadCommentImageView
-{
+    self.commentButton = [[UIButton alloc]init];
+    [self.contentView addSubview:self.commentButton];
     UIImage *image = [UIImage imageNamed:@"comment"];
-    self.commentImageView = [[UIImageView alloc]initWithImage:image];
-    [self.contentView addSubview:self.commentImageView];
+    [self.commentButton setImage:image forState:UIControlStateNormal];
+    [self.commentButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 2, 0, 0);
+    self.commentButton.titleEdgeInsets = edgeInsets;
+    [self.commentButton addTarget:self action:@selector(clickCommentButton) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)loadBlessingButton
+{
+    self.blessingButton = [[UIButton alloc]init];
+    [self.contentView addSubview:self.blessingButton];
+    UIImage *image = [UIImage imageNamed:@"blessing"];
+    [self.blessingButton setImage:image forState:UIControlStateNormal];
+    [self.blessingButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 2, 0, 0);
+    self.blessingButton.titleEdgeInsets = edgeInsets;
+    [self.blessingButton addTarget:self action:@selector(clickBlessingButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)loadTopicButton
+{
+    self.topicButton = [[UIButton alloc]init];
+    [self.contentView addSubview:self.topicButton];
+    [self.topicButton setTitleColor:OPAQUE_COLOR(0x00, 0xAE, 0xE9) forState:UIControlStateNormal];
+    [self.topicButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - Utils
+
+- (void)clickCommentButton
+{
+    EXECUTE_BLOCK(self.clickCommentButtonBlock);
+}
+
+- (void)clickBlessingButton
+{
+    EXECUTE_BLOCK(self.clickBlessingButtonBlock);
+}
+
+- (void)clickTopicButton
+{
+    EXECUTE_BLOCK(self.clickTopicButtonBlock);
+}
+
 @end
