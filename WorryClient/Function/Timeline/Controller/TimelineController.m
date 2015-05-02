@@ -45,8 +45,23 @@
     [super loadTableView];
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
-    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
+//    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
+//    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [[FeedService sharedInstance]requireNewFeedsWithBlock:^(NSError *error) {
+            if(error==nil){
+                [weakSelf afterRefresh];
+            }
+        }];
+    }];
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
+        [[FeedService sharedInstance]requireMoreFeedsWithBlock:^(NSError *error) {
+            if(error==nil){
+                [weakSelf afterRefresh];
+            }
+        }];
+    }];
 }
 
 #pragma mark - Table view data source

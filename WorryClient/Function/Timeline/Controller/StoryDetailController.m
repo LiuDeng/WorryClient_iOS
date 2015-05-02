@@ -45,9 +45,16 @@ const CGFloat strokeSize = 1.0f;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self showTabBar];
+}
+
 - (void)loadView
 {
     [super loadView];
+    [self hideTabBar];
     [self loadNavigationBar];
     [self loadBGImageView];
     [self loadTitleLabel];

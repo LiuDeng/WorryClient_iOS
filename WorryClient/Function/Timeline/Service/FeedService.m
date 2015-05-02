@@ -40,7 +40,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     [pbFeedBuilder setTitle:title];
     [pbFeedBuilder setText:text];
     [pbFeedBuilder setIsAnonymous:isAnonymous];
-    [pbFeedBuilder setTopicArray:topicArray]; //  会有问题？？？
+    [pbFeedBuilder setTopicArray:topicArray];
     
     PBFeed *pbFeed = [pbFeedBuilder build];
     NSData *pbFeedData = [pbFeed data];
@@ -128,7 +128,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     requireSpecificBlock(avQuery);
     
     avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
-    avQuery.maxCacheAge = 24*3600;
+    avQuery.maxCacheAge = 30*24*3600;   //  30(days)*24(hours)*3600(s)
     [self requireFeedsWithQuery:avQuery from:firstIndex requireFeedsBlock:requireFeedsBlock block:block];
 }
 
