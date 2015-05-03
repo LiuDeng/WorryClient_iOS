@@ -41,7 +41,7 @@
     //默认首页放在navigationController不pop
     int count = 1;
     if (self.navigationController.viewControllers.count > count) {
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"backarrow"]
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_white"]
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(clickBackButton)];

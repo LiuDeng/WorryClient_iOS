@@ -12,7 +12,7 @@
 #import "WorryAnswerCell.h"
 
 #define kInviteButtonTitle @"邀请"
-#define kAnswerButtonTitle @"添加回答"
+#define kAnswerButtonTitle @"回答"
 #define kBlessingButtonTitle @"祝福"
 #define kWorryAnswerCell @"kWorryAnswerCell"
 
@@ -55,6 +55,8 @@
 - (void)loadView
 {
     [super loadView];
+    NSString *answerCount = @"22";
+    self.title = [NSString stringWithFormat:@"共%@条回答",answerCount];
     [self hideTabBar];
     [self loadTitleHolderView];
     [self loadButtonHolderView];
@@ -67,7 +69,7 @@
 {
     [super loadData];
     self.buttonTitleArray = @[kInviteButtonTitle,kAnswerButtonTitle,kBlessingButtonTitle];
-    self.buttonImageNameArray = @[@"story_detail_font",@"story_detail_font",@"story_detail_font"];
+    self.buttonImageNameArray = @[@"worry_detail_invite_answer",@"worry_detail_answer",@"worry_detail_blessing"];
     _holderViewHeight = 44;
 }
 
@@ -95,8 +97,10 @@
         [button setImage:image forState:UIControlStateNormal];
         [button setTitle:title forState:UIControlStateNormal];
         [self.buttonHolderView addSubview:button];
-        button.backgroundColor = [UIColor greenColor];
-
+        [button setTitleColor:OPAQUE_COLOR(0x8a, 0x8a, 0x8a) forState:UIControlStateNormal];
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 3, 0, 0);
+        button.titleEdgeInsets = edgeInsets;
+        
         CGFloat xScale = (2*i+1)/count; //  (1,3,5)/3
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.buttonHolderView).with.dividedBy(count);
@@ -130,6 +134,7 @@
     self.titleLabel = [[UILabel alloc]init];
     [self.titleHolderView addSubview:self.titleLabel];
     self.titleLabel.text = @"最感动的事";
+    self.titleLabel.textColor = kLabelBlackColor;
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleHolderView);
@@ -158,7 +163,9 @@
 {
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
-    self.textView.text = @"工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n工\n";
+    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    self.textView.textColor = OPAQUE_COLOR(0x7c, 0x86, 0x92);
+    self.textView.font = [UIFont systemFontOfSize:17];
     
     [self.textView  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -215,7 +222,7 @@
     UIImage *image = [UIImage imageNamed:@"avatar01"];
     cell.avatarView.imageView.image = image;
     [cell.thanksButton setTitle:@"12" forState:UIControlStateNormal];
-    cell.shortTextLabel.text = @"有\n有\n有\n有\n有\n有\n有\n有\n";
+    cell.shortTextLabel.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
     cell.nickLabel.text = @"笑着流泪";
     return cell;
 }
