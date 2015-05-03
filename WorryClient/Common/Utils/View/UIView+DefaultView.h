@@ -11,7 +11,7 @@
 @interface UIView (DefaultView)
 
 //  普通横线
-+ (UIView*)creatSingleLineWithColor:(UIColor *)color
++ (UIView*)createSingleLineWithColor:(UIColor *)color
                         borderWidth:(CGFloat)borderWidth
                           superView:(id)superView;
 //  上方横线

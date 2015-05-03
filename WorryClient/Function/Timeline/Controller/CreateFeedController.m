@@ -57,7 +57,7 @@
     [self.view addSubview:self.titleTextField];
     self.titleTextField.placeholder = @"标题";
     self.titleTextField.clearButtonMode = UITextFieldViewModeAlways;
-    UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
+    UIView *line = [UIView createSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleTextField.mas_bottom);
     }];
@@ -84,7 +84,7 @@
         make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+2);
     }];
     
-    UIView *line = [UIView creatSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
+    UIView *line = [UIView createSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.placeholderTextView.mas_bottom);
     }];

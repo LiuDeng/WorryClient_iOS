@@ -13,7 +13,7 @@
 
 #pragma mark - Line
 //  普通横线
-+(UIView*)creatSingleLineWithColor:(UIColor *)color
++(UIView*)createSingleLineWithColor:(UIColor *)color
                        borderWidth:(CGFloat)borderWidth
                          superView:(id)superView
 {
@@ -33,7 +33,7 @@
                borderWidth:(CGFloat)borderWidth
                  superView:(id)superView
 {
-    UIView *view = [UIView creatSingleLineWithColor:color
+    UIView *view = [UIView createSingleLineWithColor:color
                                         borderWidth:borderWidth
                                           superView:superView];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -46,7 +46,7 @@
                   borderWidth:(CGFloat)borderWidth
                     superView:(id)superView
 {
-    UIView *view = [UIView creatSingleLineWithColor:color
+    UIView *view = [UIView createSingleLineWithColor:color
                                         borderWidth:borderWidth
                                           superView:superView];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
