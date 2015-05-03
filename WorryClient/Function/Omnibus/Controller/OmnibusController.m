@@ -7,31 +7,21 @@
 //
 
 #import "OmnibusController.h"
-#import "Masonry.h"
 #import "TAPageControl.h"
-#import "ViewInfo.h"
 #import "TopicCollectionViewCell.h"
 #import "OmnibusDetailController.h"
 #import "CreateTopicController.h"
 
-#define kTopicCollectionViewCellId @"kTopicCollectionViewCellId"
+#define kTopicCollectionViewCellId  @"kTopicCollectionViewCellId"
 
 @interface OmnibusController ()<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
-{
-    CGFloat kScrollViewHeight;
-    CGFloat kScrollViewWidth;
-    CGFloat kCollectionViewHeight;
-    NSUInteger countOfTopicCollectionRow;
-    NSUInteger countOfTopicCollectionCol;
-    CGFloat topicCollectionEdgePadding;
-}
-@property (nonatomic,strong)TAPageControl *recommendScrollViewPageControl;
-@property (nonatomic,strong)TAPageControl *topicCollectionPageControl;
-@property (nonatomic,strong)UIScrollView *recommendScrollView;
-@property (nonatomic,strong)NSArray *recommendScrollImageArray;
-@property (nonatomic,strong)UICollectionView *topicCollectionView;
-@property (nonatomic,strong)NSArray *topicCollectionImageNameArray;
-@property (nonatomic,strong)NSArray *topicCollectionTittleArray;
+
+@property (nonatomic,strong) TAPageControl *scrollViewPageControl;
+@property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,strong) NSArray *scrollImageNameArray;
+@property (nonatomic,strong) UICollectionView *collectionView;
+@property (nonatomic,strong) NSArray *collectionImageNameArray;
+@property (nonatomic,strong) NSArray *collectionTittleArray;
 
 @end
 
@@ -40,48 +30,54 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self hideTabBar];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self showTabBar];
+}
 - (void)loadView
 {
     [super loadView];
     [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
-    [self loadData];
-    [self loadScrollView];
     [self loadCollectionView];
+    [self loadScrollView];
+
 }
 
 #pragma mark - Private methods
 - (void)loadScrollView
 {
-    NSUInteger scrollViewImageDataCount = self.recommendScrollImageArray.count;
+    CGFloat kScrollViewHeight = CGRectGetHeight(self.view.frame)/4; //  if the height of collection view is changed,this should change too.
+    CGFloat kScrollViewWidth = CGRectGetWidth(self.view.frame);
+    NSUInteger scrollViewImageDataCount = self.scrollImageNameArray.count;
     
-    self.recommendScrollView = [[UIScrollView alloc]init];
-    [self.view addSubview:self.recommendScrollView];
-    self.recommendScrollView.delegate = self;
-    self.recommendScrollView.pagingEnabled = YES;
-    self.recommendScrollView.showsVerticalScrollIndicator = NO;
-    self.recommendScrollView.showsHorizontalScrollIndicator = NO;
-    self.recommendScrollView.bounces = NO;
-    self.recommendScrollView.contentSize = CGSizeMake(kScrollViewWidth * scrollViewImageDataCount, kScrollViewHeight);
+    self.scrollView = [[UIScrollView alloc]init];
+    [self.view addSubview:self.scrollView];
+    self.scrollView.delegate = self;
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.bounces = NO;
+    self.scrollView.contentSize = CGSizeMake(kScrollViewWidth * scrollViewImageDataCount, kScrollViewHeight);
     [self setupScrollViewImages];
     
-    [self.recommendScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
         make.width.equalTo(self.view);
-//        make.height.equalTo(self.view).with.multipliedBy(0.25);
-        make.height.equalTo(self.view).with.offset(-kCollectionViewHeight);
+        make.bottom.equalTo(self.collectionView.mas_top);
     }];
     
     [self loadRecommendPageControl];
 }
 - (void)loadData
 {
-    self.recommendScrollImageArray = @[@"image2.jpg",@"image1.jpg",@"image3.jpg"];
-    kScrollViewHeight = CGRectGetHeight(self.view.frame)/4;
-    kScrollViewWidth = CGRectGetWidth(self.view.frame);
-    self.topicCollectionImageNameArray = @[@"test_first_page_selected",@"test_first_page_selected",
+    [super loadData];
+    self.scrollImageNameArray = @[@"image2.jpg",@"image1.jpg",@"image3.jpg"];
+    self.collectionImageNameArray = @[@"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
@@ -97,7 +93,7 @@
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected"];
-    self.topicCollectionTittleArray = @[@"生活",@"生活",@"生活",
+    self.collectionTittleArray = @[@"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         
@@ -108,89 +104,65 @@
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活"];
-//    kCollectionViewHeight = CGRectGetHeight(self.view.frame) - kScrollViewHeight - kNavigationBarHeight -  kStatusBarHeight - kTabBarHeight;
-//    kCollectionViewHeight = CGRectGetHeight(self.view.bounds)*0.75;
-    kCollectionViewHeight = CGRectGetWidth(self.view.frame);
-    countOfTopicCollectionRow = 3;
-    countOfTopicCollectionCol = 3;
-    topicCollectionEdgePadding = 3.0f;
 }
 
 - (void)loadCollectionView
 {
+    CGFloat edge = 3.0f;
+    NSUInteger collectionRow = 3;
+    
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+    flowLayout.sectionInset = UIEdgeInsetsMake(edge, edge, edge, edge);
+    flowLayout.minimumLineSpacing = edge;
+    flowLayout.minimumInteritemSpacing = 0;
 
-    UICollectionViewFlowLayout *topicCollectionViewFlowLayout = [[UICollectionViewFlowLayout alloc]init];
-    topicCollectionViewFlowLayout.sectionInset = UIEdgeInsetsMake(topicCollectionEdgePadding, topicCollectionEdgePadding, topicCollectionEdgePadding, topicCollectionEdgePadding);
-    topicCollectionViewFlowLayout.minimumLineSpacing = topicCollectionEdgePadding;
-    topicCollectionViewFlowLayout.minimumInteritemSpacing = 0;
-
-    CGFloat itemSizeWidthHeight = (CGRectGetWidth(self.view.frame) - topicCollectionEdgePadding * (countOfTopicCollectionRow + 1))/countOfTopicCollectionRow;
-//    CGFloat itemSizeHeight = (kCollectionViewHeight - topicCollectionEdgePadding * (countOfTopicCollectionCol + 1))/countOfTopicCollectionCol;
-    topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidthHeight, itemSizeWidthHeight);
-    topicCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    CGFloat itemSizeWidthHeight = ( CGRectGetWidth(self.view.frame) - edge * (collectionRow + 1) ) / collectionRow;
+    flowLayout.itemSize = CGSizeMake(itemSizeWidthHeight, itemSizeWidthHeight);
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    
-//    kCollectionViewHeight = itemSizeWidthHeight * countOfTopicCollectionRow;
-    
-    self.topicCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:topicCollectionViewFlowLayout];
-    [self.view addSubview:self.topicCollectionView];
-    self.topicCollectionView.delegate = self;
-    self.topicCollectionView.dataSource = self;
-    [self.topicCollectionView registerClass:[TopicCollectionViewCell class]
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    [self.view addSubview:self.collectionView];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self.collectionView registerClass:[TopicCollectionViewCell class]
                  forCellWithReuseIdentifier:kTopicCollectionViewCellId];
-    self.topicCollectionView.backgroundColor = [UIColor clearColor];
-//    self.topicCollectionView.bounces = NO;
-    self.topicCollectionView.showsHorizontalScrollIndicator = NO;
-    self.topicCollectionView.showsVerticalScrollIndicator = NO;
-//    self.topicCollectionView.pagingEnabled = YES;
-//    NSInteger rows = self.topicCollectionImageNameArray.count/countOfTopicCollectionRow;
-//    self.topicCollectionView.contentSize = CGSizeMake(CGRectGetWidth(self.view.frame), itemSizeWidthHeight*rows);
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.showsVerticalScrollIndicator = NO;
     
-    [self.topicCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
-        make.top.equalTo(self.recommendScrollView.mas_bottom);
-//        make.centerY.equalTo(self.view).with.multipliedBy(1.25);
+        make.bottom.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.equalTo(@(kCollectionViewHeight));
+        make.height.equalTo(self.view.mas_width);
     }];
 
-//    [self loadTopicCollectionPageControl];
 }
 - (void)loadRecommendPageControl
 {
-    self.recommendScrollViewPageControl = [[TAPageControl alloc]init];
-    [self.view addSubview:self.recommendScrollViewPageControl];
-    self.recommendScrollViewPageControl.numberOfPages =  self.recommendScrollImageArray.count;
+    self.scrollViewPageControl = [[TAPageControl alloc]init];
+    [self.view addSubview:self.scrollViewPageControl];
+    self.scrollViewPageControl.numberOfPages =  self.scrollImageNameArray.count;
 
-    [self.recommendScrollViewPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.recommendScrollView).with.offset(-kVerticalPadding);
+    [self.scrollViewPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.scrollView).with.offset(-kVerticalPadding);
         make.centerX.equalTo(self.view);
     }];
 }
-- (void)loadTopicCollectionPageControl
-{
-    self.topicCollectionPageControl = [[TAPageControl alloc]init];
-    [self.view addSubview:self.topicCollectionPageControl];
-    self.topicCollectionPageControl.numberOfPages =  self.topicCollectionTittleArray.count/(countOfTopicCollectionRow * countOfTopicCollectionCol);
-    
-    [self.topicCollectionPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.topicCollectionView).with.offset(-kVerticalPadding);
-        make.centerX.equalTo(self.view);
-    }];
-}
+
 #pragma mark - Utils
 
 - (void)setupScrollViewImages
 {
-    [self.recommendScrollImageArray enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+    [self.scrollImageNameArray enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc]init];
         imageView.image = [UIImage imageNamed:imageName];
-        [self.recommendScrollView addSubview:imageView];
+        [self.scrollView addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.recommendScrollView).with.multipliedBy(idx*2+1);
-            make.centerY.equalTo(self.recommendScrollView);
-            make.width.equalTo(self.recommendScrollView);
-            make.height.equalTo(self.recommendScrollView);
+            make.centerX.equalTo(self.scrollView).with.multipliedBy(idx*2+1);
+            make.centerY.equalTo(self.scrollView);
+            make.width.equalTo(self.scrollView);
+            make.height.equalTo(self.scrollView);
         }];
     }];
 }
@@ -204,32 +176,26 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
-    if (scrollView == self.recommendScrollView) {
+    if (scrollView == self.scrollView) {
         NSInteger pageIndex = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
-        self.recommendScrollViewPageControl.currentPage = pageIndex;
-    }else if(scrollView == self.topicCollectionView){
-        NSInteger pageIndex = (scrollView.contentOffset.x + topicCollectionEdgePadding *2) / CGRectGetWidth(scrollView.frame);
-        self.topicCollectionPageControl.currentPage = pageIndex;
+        self.scrollViewPageControl.currentPage = pageIndex;
     }else{
         
     }
 }
 #pragma mark - UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.topicCollectionImageNameArray.count;
+    return self.collectionImageNameArray.count;
 }
+
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TopicCollectionViewCell *topicCollectionViewCell = (TopicCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kTopicCollectionViewCellId forIndexPath:indexPath];
-    topicCollectionViewCell.tittleLabel.text = self.topicCollectionTittleArray[indexPath.row];
-    topicCollectionViewCell.iconImageView.image = [UIImage imageNamed:self.topicCollectionImageNameArray[indexPath.row]];
-    return topicCollectionViewCell;
+    TopicCollectionViewCell *cell = (TopicCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kTopicCollectionViewCellId forIndexPath:indexPath];
+    cell.tittleLabel.text = self.collectionTittleArray[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
+    return cell;
 }
 
 #pragma mark - UICollectionViewDelegate

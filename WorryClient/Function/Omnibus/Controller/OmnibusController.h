@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DefaultViewController.h"
 
-@interface OmnibusController : UIViewController
+@interface OmnibusController : DefaultViewController
 
 @end
