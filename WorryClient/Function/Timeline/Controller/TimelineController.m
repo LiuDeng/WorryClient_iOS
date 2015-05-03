@@ -9,7 +9,7 @@
 #import "TimelineController.h"
 #import "TimelineCell.h"
 #import "Feed.pb.h"
-#import "CreatFeedController.h"
+#import "CreateFeedController.h"
 #import "FeedManager.h"
 #import "MJRefresh.h"
 #import "FeedService.h"
@@ -123,7 +123,7 @@
 - (void)clickPlusButton
 {
     if ([[UserService sharedInstance]ifLogIn]) {
-        CreatFeedController *vc = [[CreatFeedController alloc]init];
+        CreateFeedController *vc = [[CreateFeedController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }else {
         [self loadLogInAlertView];

@@ -1,5 +1,5 @@
 //
-//  CreatFeedController.h
+//  CreateFeedController.h
 //  WorryClient
 //
 //  Created by 蔡少武 on 15/4/16.
@@ -8,6 +8,6 @@
 
 #import "DefaultViewController.h"
 
-@interface CreatFeedController : DefaultViewController
+@interface CreateFeedController : DefaultViewController
 
 @end

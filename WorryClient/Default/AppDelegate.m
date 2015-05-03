@@ -23,7 +23,6 @@
 #import "QuickSignUpController.h"
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
-#import "CreatFeedController.h"
 #endif
 
 @interface AppDelegate ()

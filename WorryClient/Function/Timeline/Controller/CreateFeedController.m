@@ -1,12 +1,12 @@
 //
-//  CreatFeedController.m
+//  CreateFeedController.m
 //  WorryClient
 //
 //  Created by 蔡少武 on 15/4/16.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "CreatFeedController.h"
+#import "CreateFeedController.h"
 #import "PlaceholderTextView.h"
 #import "FeedService.h"
 #import "UserManager.h"
@@ -15,7 +15,7 @@
 #import "ColorInfo.h"
 #import "Feed.pb.h"
 
-@interface CreatFeedController ()
+@interface CreateFeedController ()
 
 @property (nonatomic,strong) PlaceholderTextView *placeholderTextView;
 @property (nonatomic,strong) UITextField *titleTextField;
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation CreatFeedController
+@implementation CreateFeedController
 
 #pragma mark - Default methods
 
