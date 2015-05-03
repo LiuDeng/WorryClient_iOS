@@ -46,8 +46,6 @@
     [super loadTableView];
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
-//    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(afterRefresh)];
     __weak typeof(self) weakSelf = self;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         [[FeedService sharedInstance]requireNewFeedsWithBlock:^(NSError *error) {
@@ -79,19 +77,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:kTimelineCell forIndexPath:indexPath];
-    NSData *pbFeedData = [self.pbFeedArray objectAtIndex:indexPath.row];
-    PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
+    PBFeed *pbFeed = [self.pbFeedArray objectAtIndex:indexPath.row];
     cell.titleLabel.text = pbFeed.title;
     cell.shortTextLabel.text = pbFeed.text;
     NSString *commentNum = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
     [cell.commentButton setTitle:commentNum forState:UIControlStateNormal];
-//    cell.commentNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
     PBTopic *pbTopic = [pbFeed.topic firstObject];
     NSString *topicString = pbTopic.title;
     [cell.topicButton setTitle:topicString forState:UIControlStateNormal];
     NSString *blessingNum = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     [cell.blessingButton setTitle:blessingNum forState:UIControlStateNormal];
-//    cell.blessingNumLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

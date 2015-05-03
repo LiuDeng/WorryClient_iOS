@@ -43,16 +43,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 
 - (NSArray *)pbFeedArray
 {
-//    if (_pbFeedArray == nil) {
-        _pbFeedArray = [self readFeedListFromCache];
-//    }
+    _pbFeedArray = [self requireFeedArrayFromCache];
     return _pbFeedArray;
-}
-- (void)storeFeed:(PBFeed *)pbFeed
-{
-    NSData *pbFeedData = [pbFeed data];
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
-    [_db executeUpdate:sql, pbFeed.feedId,pbFeedData];
 }
 
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray
@@ -73,9 +65,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
                 if ( results.next) {
                     [db executeUpdate:updateSql,pbFeedData,pbFeed.feedId];
                 }else{
-                    [_db executeUpdate:insertSql,pbFeed.feedId,pbFeedData];
+                    [db executeUpdate:insertSql,pbFeed.feedId,pbFeedData];
                 }
-                    
             }
         }
         [results close];
@@ -83,23 +74,33 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     
 }
 
-- (NSArray *)readFeedListFromCache
+- (void)deleteOldDatabase
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:_dbPath error:nil];
+}
+
+- (void)dropTable
+{
+    NSString *sql = [NSString stringWithFormat:@"DROP TABLE %@",kFeedTable];
+    [_db executeUpdate:sql];
+}
+
+
+#pragma mark - Private methods
+
+- (NSArray *)requireFeedArrayFromCache
 {
     NSMutableArray *feedArray = [[NSMutableArray alloc]init];
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@",kFeedTable];
     FMResultSet *rs = [_db executeQuery:sql];
     while (rs.next) {
-        [feedArray insertObject:[rs dataForColumn:kFeedTableFieldFeed] atIndex:0];
+        NSData *data = [rs dataForColumn:kFeedTableFieldFeed];
+        PBFeed *pbFeed = [PBFeed parseFromData:data];
+        [feedArray insertObject:pbFeed atIndex:0];
     }
     [rs close];
     return feedArray;
-}
-
-
-- (void)deleteOldDatabase
-{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtPath:_dbPath error:nil];
 }
 
 - (void)test
@@ -110,13 +111,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     PBFeed *pbFeed = [pbFeedBuilder build];
     NSData *data = [pbFeed data];
     
-//    NSString *sql = [NSString stringWithFormat:@"insert into %@ (id,feed) values ('%@',%@);",kFeedTable,pbFeed.feedId,data];
-//    [_db executeStatements:sql];
-//    [_db executeUpdate:@"insert into kFeedTable (id,feed) values (?,?)",pbFeed.feedId,data];
+    //    NSString *sql = [NSString stringWithFormat:@"insert into %@ (id,feed) values ('%@',%@);",kFeedTable,pbFeed.feedId,data];
+    //    [_db executeStatements:sql];
+    //    [_db executeUpdate:@"insert into kFeedTable (id,feed) values (?,?)",pbFeed.feedId,data];
     
-//    NSString *executeStr = [NSString stringWithFormat:@"insert into %@ (id,feed) values (?,?)",kFeedTable];
-//    [_db executeUpdate:executeStr, pbFeed.feedId,data];
-   [_db executeUpdate:@"insert into kFeedTable (id,feed) values (?,?)",pbFeed.feedId,data];
+    //    NSString *executeStr = [NSString stringWithFormat:@"insert into %@ (id,feed) values (?,?)",kFeedTable];
+    //    [_db executeUpdate:executeStr, pbFeed.feedId,data];
+    [_db executeUpdate:@"insert into kFeedTable (id,feed) values (?,?)",pbFeed.feedId,data];
     
     NSString *sqlSet = [NSString stringWithFormat:@"select * from %@",kFeedTable];
     FMResultSet *rs = [_db executeQuery:sqlSet];
@@ -132,20 +133,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
         JDDebug(@"%@",data2);
         PBFeed *pb = [PBFeed parseFromData:data2];
         JDDebug(@"id %@,title %@",pb.feedId,pb.title);
-    
+        
         i++;
     }
     
-   
+    
 }
 
-- (void)dealloc
-{
-    [_db close];
-}
-- (void)dropTable
-{
-    NSString *sql = [NSString stringWithFormat:@"DROP TABLE %@",kFeedTable];
-    [_db executeUpdate:sql];
-}
 @end
