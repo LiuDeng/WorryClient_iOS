@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self test];
     // Do any additional setup after loading the view.
 }
 

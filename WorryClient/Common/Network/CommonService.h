@@ -10,6 +10,7 @@
 #import "SynthesizeSingleton.h"
 #import "AVOSCloud/AVOSCloud.h"
 #import "Utils.h"
+#import "WorryConfigManager.h"
 
 typedef void (^ServiceErrorResultBlock) (NSError *error);
 typedef void (^ServiceImageBlock) (NSError *error,NSString *imageUrl);

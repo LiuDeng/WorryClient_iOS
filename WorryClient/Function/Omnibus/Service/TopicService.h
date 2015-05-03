@@ -11,7 +11,9 @@
 #import "Topic.pb.h"
 
 @interface TopicService : CommonService
-
+{
+    NSUInteger _requiredTopicsCount;
+}
 DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
 - (void)creatTopicWithTitle:(NSString *)title
@@ -19,4 +21,6 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block;
 
+- (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block;
+- (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block;
 @end

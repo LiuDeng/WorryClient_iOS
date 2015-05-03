@@ -8,11 +8,14 @@
 
 #import "TopicService.h"
 #import "Utils.h"
+#import "TopicManager.h"
 
 #define kTopicKey               @"pbTopic"
 #define kTopicClassName         @"Topic"
 #define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon"
+
+const NSUInteger kTopicCount = 10;
 
 @implementation TopicService
 
@@ -49,6 +52,79 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             }];
         }
     }];    
+}
+
+- (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block
+{
+    [self requirePublicTopicsWithFrom:0 requireTopicsBlock:^{
+    
+    } Block:block];
+}
+
+- (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block
+{
+    [self requirePublicTopicsWithFrom: _requiredTopicsCount requireTopicsBlock:^{
+        _requiredTopicsCount++;
+    } Block:block];
+}
+
+
+#pragma mark - Uitls
+
+/*
+ require public topics from 'firstIndex'.
+ In general, change the 'firstIndex' in 'requireTopicsBlock' when invoked.
+ */
+- (void)requirePublicTopicsWithFrom:(NSUInteger)firstIndex
+                 requireTopicsBlock:(void (^)())requireTopicsBlock
+                             Block:(ServiceErrorResultBlock)block
+{
+    [self requireSpecificTopicsFrom:firstIndex requireSpecificBlock:^(AVQuery *avQuery) {
+        [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
+    } requireTopicsBlock:requireTopicsBlock Block:block];
+}
+
+/*
+ In general,make custom 'avQuery' by changing 'wherekey:...' in the 'requireSpecificBlock' when invoked.
+ */
+- (void)requireSpecificTopicsFrom:(NSUInteger)firstIndex
+            requireSpecificBlock:(void (^)(AVQuery *avQuery))requireSpecificBlock
+               requireTopicsBlock:(void (^)())requireTopicsBlock
+                           Block:(ServiceErrorResultBlock)block
+{
+    AVQuery *avQuery = [AVQuery queryWithClassName:kTopicClassName];
+    
+    requireSpecificBlock(avQuery);
+    
+    avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    avQuery.maxCacheAge = kMaxCacheAge;
+    [self requireTopicsWithQuery:avQuery from:firstIndex requireTopicsBlock:requireTopicsBlock block:block];
+}
+
+/*
+ With the help of AVQuery,require public topics from 'firstIndex'.
+ In general,change the 'firstIndex' in the 'requireTopicsBlock' when invoked.
+ The block return the result of finding topics from the service,referring to 'AVBooleanResultBlock'.
+ */
+- (void)requireTopicsWithQuery:(AVQuery *)avQuery
+                         from:(NSUInteger)firstIndex
+            requireTopicsBlock:(void (^)())requireTopicsBlock
+                        block:(ServiceErrorResultBlock)block
+{
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error == nil) {
+            NSMutableArray *pbTopicDataArray = [[NSMutableArray alloc]init];
+            NSUInteger dataCount = objects.count > kTopicCount ? kTopicCount : objects.count;
+            for (NSUInteger i = firstIndex; i<dataCount; i++) {
+                AVObject *avObject = [objects objectAtIndex:i];
+                NSData *pbTopicData = [avObject objectForKey:kTopicKey];
+                [pbTopicDataArray addObject:pbTopicData];
+                requireTopicsBlock();
+            }
+            [[TopicManager sharedInstance]storePBTopicDataArray:pbTopicDataArray];
+            EXECUTE_BLOCK(block,error);
+        }
+    }];
 }
 
 

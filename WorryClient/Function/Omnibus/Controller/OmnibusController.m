@@ -11,6 +11,8 @@
 #import "TopicCollectionViewCell.h"
 #import "OmnibusDetailController.h"
 #import "CreateTopicController.h"
+#import "TopicManager.h"
+#import "TopicService.h"
 
 #define kTopicCollectionViewCellId  @"kTopicCollectionViewCellId"
 
@@ -203,5 +205,18 @@
 {
     OmnibusDetailController *vc = [[OmnibusDetailController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)test
+{
+    __block NSArray *array;
+    [[TopicService sharedInstance]requireNewTopicsWithBlock:^(NSError *error) {
+        if (error == nil) {
+            array = [[TopicManager sharedInstance]pbTopicArray];
+//            PBTopic *pbTopic = [array objectAtIndex:0];
+        }
+    }];
+
+    
 }
 @end
