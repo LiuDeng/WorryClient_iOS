@@ -34,7 +34,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             [pbTopicBuilder setTopicId:uuid];
             [pbTopicBuilder setTitle:title];
             [pbTopicBuilder setDecription:decription];
-//            [pbTopicBuilder setIcon:imageUrl];
+            [pbTopicBuilder setIcon:imageUrl];
             PBTopic *pbTopic = [pbTopicBuilder build];
             
             NSData *pbTopicData = [pbTopic data];

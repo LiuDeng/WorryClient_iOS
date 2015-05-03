@@ -38,7 +38,7 @@
   BOOL hasTopicId_:1;
   BOOL hasTitle_:1;
   BOOL hasDecription_:1;
-  BOOL hasImage_:1;
+  BOOL hasIcon_:1;
   BOOL hasCreatUser_:1;
   SInt32 followersCount;
   SInt32 createdAt;
@@ -46,7 +46,7 @@
   NSString* topicId;
   NSString* title;
   NSString* decription;
-  NSString* image;
+  NSString* icon;
   PBUser* creatUser;
   NSMutableArray * followersArray;
 }
@@ -55,7 +55,7 @@
 - (BOOL) hasDecription;
 - (BOOL) hasCreatUser;
 - (BOOL) hasFollowersCount;
-- (BOOL) hasImage;
+- (BOOL) hasIcon;
 - (BOOL) hasCreatedAt;
 - (BOOL) hasUpdatedAt;
 @property (readonly, strong) NSString* topicId;
@@ -64,7 +64,7 @@
 @property (readonly, strong) PBUser* creatUser;
 @property (readonly, strong) NSArray * followers;
 @property (readonly) SInt32 followersCount;
-@property (readonly, strong) NSString* image;
+@property (readonly, strong) NSString* icon;
 @property (readonly) SInt32 createdAt;
 @property (readonly) SInt32 updatedAt;
 - (PBUser*)followersAtIndex:(NSUInteger)index;
@@ -137,10 +137,10 @@
 - (PBTopicBuilder*) setFollowersCount:(SInt32) value;
 - (PBTopicBuilder*) clearFollowersCount;
 
-- (BOOL) hasImage;
-- (NSString*) image;
-- (PBTopicBuilder*) setImage:(NSString*) value;
-- (PBTopicBuilder*) clearImage;
+- (BOOL) hasIcon;
+- (NSString*) icon;
+- (PBTopicBuilder*) setIcon:(NSString*) value;
+- (PBTopicBuilder*) clearIcon;
 
 - (BOOL) hasCreatedAt;
 - (SInt32) createdAt;

@@ -10,7 +10,7 @@ message PBTopic{
     repeated PBUser followers = 10;                             //  关注该话题的人，保存基础信息
     optional int32 followers_count = 11;                        //  关注该话题的人数，保存它的原因：获取关注人数时，避免查询
 
-    optional string image = 20;                                 //  话题图片URL，数据存储于服务器
+    optional string icon = 20;                                 //  话题图片URL，数据存储于服务器
     optional int32 created_at =40;                              //  创建时间，服务器上是date类型
     optional int32 updated_at = 41;                             //  更新时间，服务器上是date类型
 

@@ -28,7 +28,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) PBUser* creatUser;
 @property (strong) NSMutableArray * followersArray;
 @property SInt32 followersCount;
-@property (strong) NSString* image;
+@property (strong) NSString* icon;
 @property SInt32 createdAt;
 @property SInt32 updatedAt;
 @end
@@ -72,13 +72,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasFollowersCount_ = !!_value_;
 }
 @synthesize followersCount;
-- (BOOL) hasImage {
-  return !!hasImage_;
+- (BOOL) hasIcon {
+  return !!hasIcon_;
 }
-- (void) setHasImage:(BOOL) _value_ {
-  hasImage_ = !!_value_;
+- (void) setHasIcon:(BOOL) _value_ {
+  hasIcon_ = !!_value_;
 }
-@synthesize image;
+@synthesize icon;
 - (BOOL) hasCreatedAt {
   return !!hasCreatedAt_;
 }
@@ -100,7 +100,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.decription = @"";
     self.creatUser = [PBUser defaultInstance];
     self.followersCount = 0;
-    self.image = @"";
+    self.icon = @"";
     self.createdAt = 0;
     self.updatedAt = 0;
   }
@@ -125,6 +125,9 @@ static PBTopic* defaultPBTopicInstance = nil;
   return [followersArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
+  if (!self.hasTopicId) {
+    return NO;
+  }
   if (self.hasCreatUser) {
     if (!self.creatUser.isInitialized) {
       return NO;
@@ -159,8 +162,8 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasFollowersCount) {
     [output writeInt32:11 value:self.followersCount];
   }
-  if (self.hasImage) {
-    [output writeString:20 value:self.image];
+  if (self.hasIcon) {
+    [output writeString:20 value:self.icon];
   }
   if (self.hasCreatedAt) {
     [output writeInt32:40 value:self.createdAt];
@@ -195,8 +198,8 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasFollowersCount) {
     size_ += computeInt32Size(11, self.followersCount);
   }
-  if (self.hasImage) {
-    size_ += computeStringSize(20, self.image);
+  if (self.hasIcon) {
+    size_ += computeStringSize(20, self.icon);
   }
   if (self.hasCreatedAt) {
     size_ += computeInt32Size(40, self.createdAt);
@@ -263,8 +266,8 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasFollowersCount) {
     [output appendFormat:@"%@%@: %@\n", indent, @"followersCount", [NSNumber numberWithInteger:self.followersCount]];
   }
-  if (self.hasImage) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"image", self.image];
+  if (self.hasIcon) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"icon", self.icon];
   }
   if (self.hasCreatedAt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"createdAt", [NSNumber numberWithInteger:self.createdAt]];
@@ -294,8 +297,8 @@ static PBTopic* defaultPBTopicInstance = nil;
       [self.followersArray isEqualToArray:otherMessage.followersArray] &&
       self.hasFollowersCount == otherMessage.hasFollowersCount &&
       (!self.hasFollowersCount || self.followersCount == otherMessage.followersCount) &&
-      self.hasImage == otherMessage.hasImage &&
-      (!self.hasImage || [self.image isEqual:otherMessage.image]) &&
+      self.hasIcon == otherMessage.hasIcon &&
+      (!self.hasIcon || [self.icon isEqual:otherMessage.icon]) &&
       self.hasCreatedAt == otherMessage.hasCreatedAt &&
       (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
       self.hasUpdatedAt == otherMessage.hasUpdatedAt &&
@@ -322,8 +325,8 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasFollowersCount) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.followersCount] hash];
   }
-  if (self.hasImage) {
-    hashCode = hashCode * 31 + [self.image hash];
+  if (self.hasIcon) {
+    hashCode = hashCode * 31 + [self.icon hash];
   }
   if (self.hasCreatedAt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createdAt] hash];
@@ -396,8 +399,8 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (other.hasFollowersCount) {
     [self setFollowersCount:other.followersCount];
   }
-  if (other.hasImage) {
-    [self setImage:other.image];
+  if (other.hasIcon) {
+    [self setIcon:other.icon];
   }
   if (other.hasCreatedAt) {
     [self setCreatedAt:other.createdAt];
@@ -458,7 +461,7 @@ static PBTopic* defaultPBTopicInstance = nil;
         break;
       }
       case 162: {
-        [self setImage:[input readString]];
+        [self setIcon:[input readString]];
         break;
       }
       case 320: {
@@ -587,20 +590,20 @@ static PBTopic* defaultPBTopicInstance = nil;
   resultPbtopic.followersCount = 0;
   return self;
 }
-- (BOOL) hasImage {
-  return resultPbtopic.hasImage;
+- (BOOL) hasIcon {
+  return resultPbtopic.hasIcon;
 }
-- (NSString*) image {
-  return resultPbtopic.image;
+- (NSString*) icon {
+  return resultPbtopic.icon;
 }
-- (PBTopicBuilder*) setImage:(NSString*) value {
-  resultPbtopic.hasImage = YES;
-  resultPbtopic.image = value;
+- (PBTopicBuilder*) setIcon:(NSString*) value {
+  resultPbtopic.hasIcon = YES;
+  resultPbtopic.icon = value;
   return self;
 }
-- (PBTopicBuilder*) clearImage {
-  resultPbtopic.hasImage = NO;
-  resultPbtopic.image = @"";
+- (PBTopicBuilder*) clearIcon {
+  resultPbtopic.hasIcon = NO;
+  resultPbtopic.icon = @"";
   return self;
 }
 - (BOOL) hasCreatedAt {
