@@ -11,7 +11,7 @@
 @interface TopicCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic,strong)UILabel *tittleLabel;
-@property (nonatomic,strong)UIImageView *iconImageView;
-@property (nonatomic,strong)UIView *iconBackgroundView;
+@property (nonatomic,strong)UIImageView *imageView;
+//@property (nonatomic,strong)UIView *iconBackgroundView;
 
 @end

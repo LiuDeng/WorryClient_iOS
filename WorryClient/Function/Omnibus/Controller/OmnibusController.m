@@ -30,13 +30,13 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self hideTabBar];
+//    [self hideTabBar];    // if is iphone4s
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self showTabBar];
+//    [self showTabBar];
 }
 - (void)loadView
 {
@@ -194,7 +194,7 @@
 {
     TopicCollectionViewCell *cell = (TopicCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kTopicCollectionViewCellId forIndexPath:indexPath];
     cell.tittleLabel.text = self.collectionTittleArray[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
+    cell.imageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
     return cell;
 }
 
