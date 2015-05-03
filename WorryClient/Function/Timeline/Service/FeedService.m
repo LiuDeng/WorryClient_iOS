@@ -40,6 +40,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     [pbFeedBuilder setTitle:title];
     [pbFeedBuilder setText:text];
     [pbFeedBuilder setIsAnonymous:isAnonymous];
+    [pbFeedBuilder setCreatedAt:(int)time(0)];
     [pbFeedBuilder setTopicArray:topicArray];
     
     PBFeed *pbFeed = [pbFeedBuilder build];

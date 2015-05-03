@@ -24,7 +24,6 @@ const NSUInteger kTopicCount = 10;
 IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 
 - (void)creatTopicWithTitle:(NSString *)title
-                 decription:(NSString *)decription
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block
 {    
@@ -36,8 +35,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
             [pbTopicBuilder setTopicId:uuid];
             [pbTopicBuilder setTitle:title];
-            [pbTopicBuilder setDecription:decription];
             [pbTopicBuilder setIcon:imageUrl];
+            [pbTopicBuilder setCreatedAt:(int)time(0)];
             PBTopic *pbTopic = [pbTopicBuilder build];
             
             NSData *pbTopicData = [pbTopic data];

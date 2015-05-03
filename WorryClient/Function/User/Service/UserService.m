@@ -43,6 +43,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
         if (error == nil) {
             PBUserBuilder *pbUserBuilder = [PBUser builder];
             [pbUserBuilder setPhone:phone];
+            [pbUserBuilder setCreatedAt:(int)time(0)];
             PBUser *pbUser = [pbUserBuilder build];
         
             NSData *pbUserData = [pbUser data];
@@ -62,6 +63,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     PBUserBuilder *pbUserBuilder = [PBUser builder];
     [pbUserBuilder setPassword:avUser.password];
     [pbUserBuilder setEmail:email];
+    [pbUserBuilder setCreatedAt:(int)time(0)];
     
     PBUser *pbUser = [pbUserBuilder build];
     NSData *pbUserData = [pbUser data];
@@ -92,6 +94,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 {
     PBUser *pbUser = [[UserManager sharedInstance]pbUser];
     PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
+    [pbUserBuilder setUpatedAt:(int)time(0)];
     updatePBUserblock(pbUserBuilder);
     pbUser = [pbUserBuilder build];
     NSData *pbUserData = [pbUser data];

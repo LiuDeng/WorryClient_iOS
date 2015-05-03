@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self test];
     // Do any additional setup after loading the view.
 }
 
@@ -34,18 +35,12 @@
 - (void)test
 {
     NSString *title = @"人生";
-    NSString *decription = @"此话题沉重";
     UIImage *image = [UIImage imageNamed:@"avatar01"];
-    [[TopicService sharedInstance]creatTopicWithTitle:title decription:decription image:image block:^(NSError *error) {
+    [[TopicService sharedInstance]creatTopicWithTitle:title image:image block:^(NSError *error) {
         if (error == nil) {
             POST_SUCCESS_MSG(@"发表成功");
         }
     }];
-}
-
-- (void)getTest
-{
-    
 }
 
 @end

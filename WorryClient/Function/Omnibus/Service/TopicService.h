@@ -17,7 +17,6 @@
 DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
 - (void)creatTopicWithTitle:(NSString *)title
-                 decription:(NSString *)decription
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block;
 

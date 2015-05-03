@@ -50,6 +50,32 @@
         return YES;
 }
 
++ (NSString *)dateStringCompareToDate:(NSDate *)date
+{
+    //  require year,month,day,hour and minute.
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitHour |NSCalendarUnitMinute;
+    NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:date];
+    NSDateComponents *cmp2 = [calendar components:unitFlags fromDate:[NSDate date]];
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if ([cmp1 day] == [cmp2 day]) {
+        formatter.dateFormat = @"今天 HH:mm";
+    } else if ([cmp1 year] == [cmp2 year]) {
+        formatter.dateFormat = @"MM-dd HH:mm";
+    } else {
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+    }
+    NSString *dateString = [formatter stringFromDate:date];
+    return dateString;
+}
+
++ (NSString *)dateStringCompareTo:(int64_t)timestamp
+{
+   NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    return [self dateStringCompareToDate:date];
+}
 
 #pragma mark - Utils
 
