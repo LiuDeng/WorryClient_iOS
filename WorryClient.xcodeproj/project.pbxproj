@@ -133,6 +133,8 @@
 		7CCF5B761AF361210091F3A7 /* story_detail_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B6C1AF361210091F3A7 /* story_detail_more@3x.png */; };
 		7CCF5B771AF361210091F3A7 /* story_detail_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B6D1AF361210091F3A7 /* story_detail_share@2x.png */; };
 		7CCF5B781AF361210091F3A7 /* story_detail_share@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B6E1AF361210091F3A7 /* story_detail_share@3x.png */; };
+		7CE987291AF5B1BA00D270EC /* TopicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE987281AF5B1BA00D270EC /* TopicManager.m */; };
+		7CE9872D1AF5B23A00D270EC /* TopicService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9872C1AF5B23A00D270EC /* TopicService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,6 +333,10 @@
 		7CCF5B6C1AF361210091F3A7 /* story_detail_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "story_detail_more@3x.png"; sourceTree = "<group>"; };
 		7CCF5B6D1AF361210091F3A7 /* story_detail_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "story_detail_share@2x.png"; sourceTree = "<group>"; };
 		7CCF5B6E1AF361210091F3A7 /* story_detail_share@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "story_detail_share@3x.png"; sourceTree = "<group>"; };
+		7CE987271AF5B1BA00D270EC /* TopicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicManager.h; sourceTree = "<group>"; };
+		7CE987281AF5B1BA00D270EC /* TopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicManager.m; sourceTree = "<group>"; };
+		7CE9872B1AF5B23A00D270EC /* TopicService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicService.h; sourceTree = "<group>"; };
+		7CE9872C1AF5B23A00D270EC /* TopicService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicService.m; sourceTree = "<group>"; };
 		B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FE462C863722ADF4DD13A144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -690,8 +696,9 @@
 		7C5A37CF1ADB9E3000CFA176 /* Omnibus */ = {
 			isa = PBXGroup;
 			children = (
+				7CE9872A1AF5B23A00D270EC /* Service */,
+				7CE987261AF5B1BA00D270EC /* Model */,
 				7C5A37D01ADB9E3000CFA176 /* Controller */,
-				7C5A37D31ADB9E3000CFA176 /* Model */,
 				7C5A37D41ADB9E3000CFA176 /* Resource */,
 				7C5A37D91ADB9E3000CFA176 /* View */,
 			);
@@ -707,13 +714,6 @@
 				7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		7C5A37D31ADB9E3000CFA176 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		7C5A37D41ADB9E3000CFA176 /* Resource */ = {
@@ -972,6 +972,24 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		7CE987261AF5B1BA00D270EC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7CE987271AF5B1BA00D270EC /* TopicManager.h */,
+				7CE987281AF5B1BA00D270EC /* TopicManager.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7CE9872A1AF5B23A00D270EC /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				7CE9872B1AF5B23A00D270EC /* TopicService.h */,
+				7CE9872C1AF5B23A00D270EC /* TopicService.m */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1180,6 +1198,7 @@
 				7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */,
 				7C5A37FA1ADB9E3000CFA176 /* CommonService.m in Sources */,
 				7CC8768D1AE7939A00963450 /* DefaultTableViewController.m in Sources */,
+				7CE9872D1AF5B23A00D270EC /* TopicService.m in Sources */,
 				7CBF03E01ADE560C0001C31A /* Utils.m in Sources */,
 				7C5A37FD1ADB9E3000CFA176 /* DataUtils.m in Sources */,
 				7CBD2D181AEBA4060091EB20 /* UpdateImage.m in Sources */,
@@ -1212,6 +1231,7 @@
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,
 				7CBD2D201AEBCDCB0091EB20 /* DeviceDetection.m in Sources */,
 				7CC3369C1ADFA6A20084D891 /* FeedService.m in Sources */,
+				7CE987291AF5B1BA00D270EC /* TopicManager.m in Sources */,
 				7C54C2BD1ADC091E002A32E2 /* UIView+Utils.m in Sources */,
 				7CCEF7CC1AF4B46600D5BC65 /* WorryAnswerCell.m in Sources */,
 				7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */,

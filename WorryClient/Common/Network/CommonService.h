@@ -7,10 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkRequest.h"
-#import "WorryConfigManager.h"
+#import "SynthesizeSingleton.h"
+#import "AVOSCloud/AVOSCloud.h"
+#import "Utils.h"
+
+typedef void (^ServiceErrorResultBlock) (NSError *error);
+typedef void (^ServiceImageBlock) (NSError *error,NSString *imageUrl);
+typedef AVBooleanResultBlock ServiceBooleanResultBlock;
 
 @interface CommonService : NSObject
 
+- (void)updateImage:(UIImage *)image imageName:(NSString *)imageName block:(ServiceImageBlock)block;
 
 @end

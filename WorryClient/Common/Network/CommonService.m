@@ -8,8 +8,20 @@
 
 #import "CommonService.h"
 
+//const CGFloat kUpdateImageQuality = 1.0f;
+
 @implementation CommonService
 
-#pragma mark - Public methods
+- (void)updateImage:(UIImage *)image imageName:(NSString *)imageName block:(ServiceImageBlock)block
+{
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+    AVFile *avFile = [AVFile fileWithName:imageName data:imageData];
+    [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            EXECUTE_BLOCK(block,error,avFile.url);
+        }
+    }];
+}
 
 @end
