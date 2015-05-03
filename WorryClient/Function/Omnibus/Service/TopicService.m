@@ -9,10 +9,10 @@
 #import "TopicService.h"
 #import "Utils.h"
 
-#define kTopicKey @"pbTopic"
-#define kTopicClassName @"Topic"
-#define kCreateUserIdKey @"createUserId"
-#define kImageName      @"topicIcon"
+#define kTopicKey               @"pbTopic"
+#define kTopicClassName         @"Topic"
+#define kCreateUserIdKey        @"createUserId"
+#define kImageName              @"topicIcon"
 
 @implementation TopicService
 
@@ -50,5 +50,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
         }
     }];    
 }
+
 
 @end

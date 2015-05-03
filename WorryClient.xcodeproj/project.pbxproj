@@ -135,6 +135,7 @@
 		7CCF5B781AF361210091F3A7 /* story_detail_share@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CCF5B6E1AF361210091F3A7 /* story_detail_share@3x.png */; };
 		7CE987291AF5B1BA00D270EC /* TopicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE987281AF5B1BA00D270EC /* TopicManager.m */; };
 		7CE9872D1AF5B23A00D270EC /* TopicService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9872C1AF5B23A00D270EC /* TopicService.m */; };
+		7CE987301AF5B57600D270EC /* CreateTopicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9872F1AF5B57600D270EC /* CreateTopicController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +338,8 @@
 		7CE987281AF5B1BA00D270EC /* TopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicManager.m; sourceTree = "<group>"; };
 		7CE9872B1AF5B23A00D270EC /* TopicService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicService.h; sourceTree = "<group>"; };
 		7CE9872C1AF5B23A00D270EC /* TopicService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicService.m; sourceTree = "<group>"; };
+		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTopicController.h; sourceTree = "<group>"; };
+		7CE9872F1AF5B57600D270EC /* CreateTopicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTopicController.m; sourceTree = "<group>"; };
 		B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FE462C863722ADF4DD13A144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -712,6 +715,8 @@
 				7C5A37D21ADB9E3000CFA176 /* OmnibusController.m */,
 				7CC0EAC31AF06B9300ED7FC7 /* OmnibusDetailController.h */,
 				7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */,
+				7CE9872E1AF5B57600D270EC /* CreateTopicController.h */,
+				7CE9872F1AF5B57600D270EC /* CreateTopicController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1211,6 +1216,7 @@
 				7CBD2D0B1AEB75EC0091EB20 /* Topic.pb.m in Sources */,
 				7C5A38001ADB9E3000CFA176 /* AppDelegate.m in Sources */,
 				7CCAC0351AE0EE1F007F4326 /* TimelineController.m in Sources */,
+				7CE987301AF5B57600D270EC /* CreateTopicController.m in Sources */,
 				7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */,
 				7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */,
 				7CBD2D1C1AEBBF180091EB20 /* LocaleUtils.m in Sources */,

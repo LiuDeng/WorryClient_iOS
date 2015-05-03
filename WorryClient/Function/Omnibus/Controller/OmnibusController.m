@@ -12,6 +12,7 @@
 #import "ViewInfo.h"
 #import "TopicCollectionViewCell.h"
 #import "OmnibusDetailController.h"
+#import "CreateTopicController.h"
 
 #define kTopicCollectionViewCellId @"kTopicCollectionViewCellId"
 
@@ -44,6 +45,7 @@
 - (void)loadView
 {
     [super loadView];
+    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
     [self loadData];
     [self loadScrollView];
     [self loadCollectionView];
@@ -191,6 +193,12 @@
             make.height.equalTo(self.recommendScrollView);
         }];
     }];
+}
+
+- (void)clickPlusButton
+{
+    CreateTopicController *vc = [[CreateTopicController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - ScrollView delegate
 
