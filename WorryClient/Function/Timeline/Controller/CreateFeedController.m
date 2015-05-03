@@ -14,6 +14,10 @@
 #import "ViewInfo.h"
 #import "ColorInfo.h"
 #import "Feed.pb.h"
+#import "DLRadioButton.h"
+
+#define kStoryButtonTitle   @"心事"
+#define kWorryButtonTitle   @"心结"
 
 @interface CreateFeedController ()
 
@@ -24,6 +28,8 @@
 @property (nonatomic,strong) UIButton *typeButton;
 @property (nonatomic,assign) PBFeedType *feedType;
 @property (nonatomic,assign) PBTopic *feedTopic;
+@property (nonatomic,strong) DLRadioButton *storyButton;
+@property (nonatomic,strong) DLRadioButton *worryButton;
 
 @end
 
@@ -102,8 +108,15 @@
         make.top.equalTo(self.placeholderTextView.mas_bottom);
     }];
     
+    UIView *line = [UIView createSingleLineWithColor:kLayerColor borderWidth:kLayerBorderWidth superView:self.view];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.selectionHolderView.mas_bottom);
+    }];
+    
+    
     [self loadTopicButton];
-    [self loadTypeButton];
+    [self loadRadioButtons];
+//    [self loadTypeButton];
 }
 
 - (void)loadTopicButton
@@ -133,6 +146,41 @@
     [self.typeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.selectionHolderView);
         make.centerY.equalTo(self.selectionHolderView);
+    }];
+}
+
+- (void)loadRadioButtons
+{
+    NSArray *titleArray = @[kStoryButtonTitle,kWorryButtonTitle];
+    for (NSString *title in titleArray) {
+        DLRadioButton *button = [[DLRadioButton alloc]init];
+        [self.selectionHolderView addSubview:button];
+        [button setTitle:title forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        button.ButtonIcon = [UIImage imageNamed:@"creat_feed_unchecked"];
+        button.ButtonIconSelected = [UIImage imageNamed:@"creat_feed_checked"];
+        if ([title isEqualToString:kWorryButtonTitle]) {
+            self.worryButton = button;
+        }else if ([title isEqualToString:kStoryButtonTitle]){
+            self.storyButton = button;
+        }
+        [self.selectionHolderView addSubview:button];
+    }
+    self.worryButton.otherButtons = @[self.storyButton];
+    
+    CGFloat withScale = 0.2;
+    [self.storyButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.selectionHolderView);
+        make.centerY.equalTo(self.topicButton);
+        make.width.equalTo(self.selectionHolderView).with.multipliedBy(withScale);
+    }];
+    
+    [self.worryButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.storyButton.mas_left);
+        make.centerY.equalTo(self.topicButton);
+        make.width.equalTo(self.selectionHolderView).with.multipliedBy(withScale);
     }];
 }
 
