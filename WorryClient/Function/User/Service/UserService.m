@@ -203,11 +203,21 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 
 
+//- (UIImage *)requireAvatar
+//{
+//    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
+//        return [avUser objectForKey:kAvatarKey];
+//    }];
+//    return image;
+//}
 - (UIImage *)requireAvatar
 {
-    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
-        return [avUser objectForKey:kAvatarKey];
-    }];
+    AVUser *avUser = [AVUser currentUser];
+    NSData *data = [avUser objectForKey:kPBUserKey];
+    PBUser *pbUser = [PBUser parseFromData:data];
+    NSURL *url = [NSURL URLWithString:pbUser.avatar];
+    NSData *imageData = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData:imageData];
     return image;
 }
 

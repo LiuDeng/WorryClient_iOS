@@ -43,6 +43,12 @@
     CGRect footerViewFrame = self.view.bounds;
     footerViewFrame.size.height *= 0.1;
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:footerViewFrame];
+    
+    //  add the following to avoid that tab bar cover some parts of table view.
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(self.view);
+        make.center.equalTo(self.view);
+    }];
 }
 
 #pragma mark - UITabelViewDelegate
