@@ -93,8 +93,8 @@
 {
     self.titleLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.titleLabel];
-    self.titleLabel.textColor = OPAQUE_COLOR(0x69, 0x69, 0x69);
-    self.titleLabel.font = kLargeLabelFont;
+    self.titleLabel.textColor = OPAQUE_COLOR(0x6c, 0x6c, 0x6c);
+    self.titleLabel.font = [UIFont systemFontOfSize:15];
 }
 
 - (void)loadShortTextLabel
@@ -102,8 +102,8 @@
     self.shortTextLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.shortTextLabel];
     self.shortTextLabel.numberOfLines = 0;
-    self.shortTextLabel.font = kSmallLabelFont;
-    self.shortTextLabel.textColor = OPAQUE_COLOR(0x7C, 0x86, 0x92);
+    self.shortTextLabel.font = [UIFont systemFontOfSize:14];
+    self.shortTextLabel.textColor = OPAQUE_COLOR(0x7F, 0x89, 0x91);
 }
 
 - (void)loadCommentButton
@@ -136,6 +136,7 @@
     [self.contentView addSubview:self.topicButton];
     [self.topicButton setTitleColor:OPAQUE_COLOR(0x00, 0xAE, 0xE9) forState:UIControlStateNormal];
     [self.topicButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
+    self.topicButton.titleLabel.font = [UIFont systemFontOfSize:14];
 }
 
 #pragma mark - Utils
