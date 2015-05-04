@@ -76,8 +76,6 @@
     self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
-    self.cellHeight = self.view.frame.size.height*0.075;
-    self.avatarCellHeight = self.view.frame.size.height*0.25;
 }
 
 #pragma mark - Private methods
@@ -97,7 +95,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return indexPath.section == self.sectionAvatar ? self.avatarCellHeight : self.cellHeight;
+    return indexPath.section == self.sectionAvatar ? 167 : kTableViewCellRowHeight;
 }
 
 #pragma mark - Table view data source

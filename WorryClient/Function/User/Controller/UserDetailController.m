@@ -80,7 +80,7 @@
 - (void)loadTableView
 {
     [super loadTableView];
-    self.tableView.scrollEnabled = NO;
+//    self.tableView.scrollEnabled = NO;
 }
 - (void)loadData
 {
@@ -196,12 +196,15 @@
     CGFloat height;
     if (indexPath.section == self.sectionBasic) {
         if ([kAvatarTitle isEqualToString:self.sectionBasicItems[indexPath.row]] || [kBackgroundTitle isEqualToString:self.sectionBasicItems[indexPath.row]]) {
-            height = self.view.frame.size.height * 0.1;
+//            height = self.view.frame.size.height * 0.1;
+            height = 67;
         }else{
-            height = self.view.frame.size.height * 0.07;
+//            height = self.view.frame.size.height * 0.07;
+            height = 44;
         }
     }else{
-        height = self.view.frame.size.height * 0.07;
+//        height = self.view.frame.size.height * 0.07;
+        height = 44;
     }
     return height;
 }

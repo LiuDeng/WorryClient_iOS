@@ -15,7 +15,7 @@
 #define kStatusBarHeight 20
 #define kSearchBarHeight 50
 #define kKeyboardHeight 216
-#define kTableViewCellRowHeight 44  //  iphone4 change
+#define kTableViewCellRowHeight 44     //   iphone6 plus change
 
 #define kLayerBorderWidth 0.5
 #define kLeftPadding 20
