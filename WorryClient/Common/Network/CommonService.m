@@ -15,11 +15,11 @@
 - (void)updateImage:(UIImage *)image imageName:(NSString *)imageName block:(ServiceImageBlock)block
 {
     
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5f);
     AVFile *avFile = [AVFile fileWithName:imageName data:imageData];
     [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            EXECUTE_BLOCK(block,error,avFile);
+            EXECUTE_BLOCK(block,error,avFile.url);
         }
     }];
 }

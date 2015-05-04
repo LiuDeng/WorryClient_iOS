@@ -123,10 +123,10 @@
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
         userAvatarCell.nickNameLabel.text = self.pbUser.nick;
-        UIImage *avatarImage = [[UserService sharedInstance]requireAvatar];
-        userAvatarCell.avatarView.imageView.image = avatarImage;
-        UIImage *BGImage = [[UserService sharedInstance]requireBackgroundImage];
-        userAvatarCell.backgroundImageView.image = BGImage;
+        NSURL *avatarUrl = [NSURL URLWithString:self.pbUser.avatar];
+        [userAvatarCell.avatarView.imageView sd_setImageWithURL:avatarUrl];
+        NSURL *bgImageUrl = [NSURL URLWithString:self.pbUser.bgImage];
+        [userAvatarCell.backgroundImageView sd_setImageWithURL:bgImageUrl];
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1

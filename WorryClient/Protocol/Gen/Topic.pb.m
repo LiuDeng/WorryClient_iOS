@@ -24,7 +24,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface PBTopic ()
 @property (strong) NSString* topicId;
 @property (strong) NSString* title;
-@property (strong) NSString* decription;
 @property (strong) PBUser* creatUser;
 @property (strong) NSMutableArray * followersArray;
 @property SInt32 followersCount;
@@ -49,13 +48,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTitle_ = !!_value_;
 }
 @synthesize title;
-- (BOOL) hasDecription {
-  return !!hasDecription_;
-}
-- (void) setHasDecription:(BOOL) _value_ {
-  hasDecription_ = !!_value_;
-}
-@synthesize decription;
 - (BOOL) hasCreatUser {
   return !!hasCreatUser_;
 }
@@ -97,7 +89,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if ((self = [super init])) {
     self.topicId = @"";
     self.title = @"";
-    self.decription = @"";
     self.creatUser = [PBUser defaultInstance];
     self.followersCount = 0;
     self.icon = @"";
@@ -150,9 +141,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     [output writeString:2 value:self.title];
   }
-  if (self.hasDecription) {
-    [output writeString:3 value:self.decription];
-  }
   if (self.hasCreatUser) {
     [output writeMessage:4 value:self.creatUser];
   }
@@ -185,9 +173,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   }
   if (self.hasTitle) {
     size_ += computeStringSize(2, self.title);
-  }
-  if (self.hasDecription) {
-    size_ += computeStringSize(3, self.decription);
   }
   if (self.hasCreatUser) {
     size_ += computeMessageSize(4, self.creatUser);
@@ -248,9 +233,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     [output appendFormat:@"%@%@: %@\n", indent, @"title", self.title];
   }
-  if (self.hasDecription) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"decription", self.decription];
-  }
   if (self.hasCreatUser) {
     [output appendFormat:@"%@%@ {\n", indent, @"creatUser"];
     [self.creatUser writeDescriptionTo:output
@@ -290,8 +272,6 @@ static PBTopic* defaultPBTopicInstance = nil;
       (!self.hasTopicId || [self.topicId isEqual:otherMessage.topicId]) &&
       self.hasTitle == otherMessage.hasTitle &&
       (!self.hasTitle || [self.title isEqual:otherMessage.title]) &&
-      self.hasDecription == otherMessage.hasDecription &&
-      (!self.hasDecription || [self.decription isEqual:otherMessage.decription]) &&
       self.hasCreatUser == otherMessage.hasCreatUser &&
       (!self.hasCreatUser || [self.creatUser isEqual:otherMessage.creatUser]) &&
       [self.followersArray isEqualToArray:otherMessage.followersArray] &&
@@ -312,9 +292,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   }
   if (self.hasTitle) {
     hashCode = hashCode * 31 + [self.title hash];
-  }
-  if (self.hasDecription) {
-    hashCode = hashCode * 31 + [self.decription hash];
   }
   if (self.hasCreatUser) {
     hashCode = hashCode * 31 + [self.creatUser hash];
@@ -383,9 +360,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (other.hasTitle) {
     [self setTitle:other.title];
   }
-  if (other.hasDecription) {
-    [self setDecription:other.decription];
-  }
   if (other.hasCreatUser) {
     [self mergeCreatUser:other.creatUser];
   }
@@ -435,10 +409,6 @@ static PBTopic* defaultPBTopicInstance = nil;
       }
       case 18: {
         [self setTitle:[input readString]];
-        break;
-      }
-      case 26: {
-        [self setDecription:[input readString]];
         break;
       }
       case 34: {
@@ -505,22 +475,6 @@ static PBTopic* defaultPBTopicInstance = nil;
 - (PBTopicBuilder*) clearTitle {
   resultPbtopic.hasTitle = NO;
   resultPbtopic.title = @"";
-  return self;
-}
-- (BOOL) hasDecription {
-  return resultPbtopic.hasDecription;
-}
-- (NSString*) decription {
-  return resultPbtopic.decription;
-}
-- (PBTopicBuilder*) setDecription:(NSString*) value {
-  resultPbtopic.hasDecription = YES;
-  resultPbtopic.decription = value;
-  return self;
-}
-- (PBTopicBuilder*) clearDecription {
-  resultPbtopic.hasDecription = NO;
-  resultPbtopic.decription = @"";
   return self;
 }
 - (BOOL) hasCreatUser {

@@ -10,6 +10,7 @@
 #import "SignUpAndLogInView.h"
 #import "UserService.h"
 #import "UIViewController+Utils.h"
+#import "SignUpByEmailController.h"
 
 @interface LogInController()
 
@@ -32,6 +33,7 @@
 - (void)loadView
 {
     [super loadView];
+    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickRightButton)];
     [self loadSignUpAndLogInView];
 }
 #pragma mark - Private methods
@@ -89,5 +91,12 @@
             }
         }];
     }
+}
+
+- (void)clickRightButton
+{
+    SignUpByEmailController *vc = [[SignUpByEmailController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 @end

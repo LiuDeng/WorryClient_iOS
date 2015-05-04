@@ -321,9 +321,6 @@ static PBUser* defaultPBUserInstance = nil;
   return [devicesArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (!self.hasUserId) {
-    return NO;
-  }
   if (self.hasCurrentDevice) {
     if (!self.currentDevice.isInitialized) {
       return NO;

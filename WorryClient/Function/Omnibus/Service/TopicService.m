@@ -28,7 +28,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block
 {    
-    [self updateImage:image imageName:kImageName block:^(NSError *error, AVFile *avFile) {
+    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *url) {
         if (error == nil) {
             AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
             AVUser *avCurrentUser = [AVUser currentUser];
@@ -36,13 +36,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
             [pbTopicBuilder setTopicId:uuid];
             [pbTopicBuilder setTitle:title];
-            [pbTopicBuilder setIcon:avFile.url];
+            [pbTopicBuilder setIcon:url];
             [pbTopicBuilder setCreatedAt:(int)time(0)];
             PBTopic *pbTopic = [pbTopicBuilder build];
             
             NSData *pbTopicData = [pbTopic data];
             
-            [topic setObject:avFile forKey:kImageKey];
             [topic setObject:pbTopicData forKey:kTopicKey];
             [topic setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
         

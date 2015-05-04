@@ -8,13 +8,14 @@
 #import "User.pb.h"
 #import "SynthesizeSingleton.h"
 #import "AVOSCloud/AVOSCloud.h"
+#import "CommonService.h"
 
 typedef void (^UserServiceCallBackBlock) (PBUser* pbUser, NSError* error);
 typedef void (^UserServiceErrorResultBlock) (NSError *error);
 typedef AVBooleanResultBlock UserServiceBooleanResultBlock;
 typedef AVUserResultBlock UserServiceResultBlock;
 
-@interface UserService : NSObject
+@interface UserService : CommonService
 
 DEFINE_SINGLETON_FOR_CLASS(UserService)
 
@@ -45,9 +46,6 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)updateQQ:(NSString *)QQ block:(UserServiceErrorResultBlock)block;
 - (void)updateWeixinId:(NSString *)WeixinId block:(UserServiceErrorResultBlock)block;
 - (void)updateSinaId:(NSString *)sinaId block:(UserServiceErrorResultBlock)block;
-
-- (UIImage *)requireAvatar;
-- (UIImage *)requireBackgroundImage;
 
 - (BOOL)ifLogIn;
 @end

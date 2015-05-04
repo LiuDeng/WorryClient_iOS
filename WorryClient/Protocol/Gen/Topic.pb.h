@@ -37,7 +37,6 @@
   BOOL hasUpdatedAt_:1;
   BOOL hasTopicId_:1;
   BOOL hasTitle_:1;
-  BOOL hasDecription_:1;
   BOOL hasIcon_:1;
   BOOL hasCreatUser_:1;
   SInt32 followersCount;
@@ -45,14 +44,12 @@
   SInt32 updatedAt;
   NSString* topicId;
   NSString* title;
-  NSString* decription;
   NSString* icon;
   PBUser* creatUser;
   NSMutableArray * followersArray;
 }
 - (BOOL) hasTopicId;
 - (BOOL) hasTitle;
-- (BOOL) hasDecription;
 - (BOOL) hasCreatUser;
 - (BOOL) hasFollowersCount;
 - (BOOL) hasIcon;
@@ -60,7 +57,6 @@
 - (BOOL) hasUpdatedAt;
 @property (readonly, strong) NSString* topicId;
 @property (readonly, strong) NSString* title;
-@property (readonly, strong) NSString* decription;
 @property (readonly, strong) PBUser* creatUser;
 @property (readonly, strong) NSArray * followers;
 @property (readonly) SInt32 followersCount;
@@ -113,11 +109,6 @@
 - (NSString*) title;
 - (PBTopicBuilder*) setTitle:(NSString*) value;
 - (PBTopicBuilder*) clearTitle;
-
-- (BOOL) hasDecription;
-- (NSString*) decription;
-- (PBTopicBuilder*) setDecription:(NSString*) value;
-- (PBTopicBuilder*) clearDecription;
 
 - (BOOL) hasCreatUser;
 - (PBUser*) creatUser;

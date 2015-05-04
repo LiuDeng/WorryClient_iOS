@@ -11,11 +11,13 @@
 #import "WorryConfigManager.h"
 #import "Utils.h"
 
-#define kPBUserKey @"kPBUserKey"
-#define kAvatarKey @"Avatar"
-#define kBGImageKey @"backgroundImage"
+#define kPBUserKey      @"pbUserData"
+#define kAvatarKey      @"Avatar"
+#define kBGImageKey     @"BGImage"
+#define kAvatarName     @"avatar.jpeg"
+#define kBGImageName    @"BGImage.jpeg"
 
-const CGFloat kUpdateImageQuality = 1.0f;
+const CGFloat kUpdateImageQuality = 0.5f;
 
 @implementation UserService
 
@@ -75,7 +77,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 {
     [AVUser logInWithUsernameInBackground:value password:password block:^(AVUser *user, NSError *error) {
         if (error == nil) {
-            NSData *pbUserData = [user objectForKey:kPBUserKey];
+            NSData *data = [user objectForKey:kPBUserKey];
+            PBUser *webPBUser = [PBUser parseFromData:data];
+            PBUserBuilder *pbUserBuilder = [webPBUser toBuilder];
+            [pbUserBuilder setUserId:user.objectId];
+            
+            PBUser *pbUser = [pbUserBuilder build];
+            NSData *pbUserData = [pbUser data];
             [[UserManager sharedInstance]storeUser:pbUserData];
             EXECUTE_BLOCK(block,error);
         }
@@ -104,39 +112,26 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock)block
 {
-    NSData *imageData = UIImageJPEGRepresentation(image, kUpdateImageQuality);
-    AVFile *avFile = [AVFile fileWithName:@"avatar.jpeg" data:imageData];
-    [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [self updateObject:avFile forKey:kAvatarKey block:block];
-            
+    [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
+        if (error == nil) {
             [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-                [pbUserBuilder setAvatar:avFile.url];
+                [pbUserBuilder setAvatar:url];
             } block:block];
-            
-        }else{
-            EXECUTE_BLOCK(block,error);
         }
     }];
 }
 
 - (void)updateBGImage:(UIImage *)image block:(UserServiceErrorResultBlock)block
 {
-    NSData *imageData = UIImageJPEGRepresentation(image, kUpdateImageQuality);
-    AVFile *avFile = [AVFile fileWithName:@"BGImage.jpeg" data:imageData];
-    [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [self updateObject:avFile forKey:kBGImageKey block:block];
-            
+    [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
+        if (error == nil) {
             [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-                [pbUserBuilder setBgImage:avFile.url];
+                [pbUserBuilder setBgImage:url];
             } block:block];
-            
-        }else{
-            EXECUTE_BLOCK(block,error);
         }
     }];
 }
+
 
 - (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block
 {
@@ -203,31 +198,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 
 
-//- (UIImage *)requireAvatar
-//{
-//    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
-//        return [avUser objectForKey:kAvatarKey];
-//    }];
-//    return image;
-//}
-- (UIImage *)requireAvatar
-{
-    AVUser *avUser = [AVUser currentUser];
-    NSData *data = [avUser objectForKey:kPBUserKey];
-    PBUser *pbUser = [PBUser parseFromData:data];
-    NSURL *url = [NSURL URLWithString:pbUser.avatar];
-    NSData *imageData = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData:imageData];
-    return image;
-}
-
-- (UIImage *)requireBackgroundImage
-{
-    UIImage *image = [self image:^AVFile *(AVUser *avUser) {
-        return [avUser objectForKey:kBGImageKey];
-    }];
-    return image;
-}
 
 #pragma mark - Uitls
 
@@ -240,15 +210,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
             EXECUTE_BLOCK(block,error);
         }
     }];
-}
-
-- (UIImage *)image:(AVFile* (^)(AVUser *avUser))block
-{
-    AVUser *avUser = [AVUser currentUser];
-    AVFile *imageFile = block(avUser);
-    NSData *imageData = [imageFile getData];
-    UIImage *image = [UIImage imageWithData:imageData];
-    return image;
 }
 
 - (BOOL)ifLogIn

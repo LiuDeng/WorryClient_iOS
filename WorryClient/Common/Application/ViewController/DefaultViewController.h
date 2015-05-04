@@ -17,6 +17,7 @@
 #import "LocaleUtils.h"
 #import "UserManager.h"
 #import "UserService.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DefaultViewController : UIViewController
 

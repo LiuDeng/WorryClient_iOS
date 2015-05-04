@@ -11,7 +11,7 @@ enum PBSignUpAndLogInType{
 }
 
 message PBUser{
-	required string user_id = 1;
+	optional string user_id = 1;
     optional string password = 2;                                   //  密码，因AVOSCloud会加密，则本地不加密
 	optional string nick = 3;                                       //  用户昵称
     optional string avatar = 4;                                     //  URL，数据存储于服务器

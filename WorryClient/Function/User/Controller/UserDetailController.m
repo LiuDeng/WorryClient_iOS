@@ -129,16 +129,16 @@
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
-            UIImage *image = [[UserService sharedInstance]requireAvatar];
+//            UIImage *image = [[UserService sharedInstance]requireAvatar];
             UserDetailAvatarCell *detailAvatarCell = [[UserDetailAvatarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailAvatarCell.textLabel.text = title;
-            detailAvatarCell.avatarView.imageView.image = image;
+            [detailAvatarCell.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.avatar]];
             cell = detailAvatarCell;
         }else if([title isEqualToString:kBackgroundTitle]){
             UserDetailBGImageCell *detailBGImageCell = [[UserDetailBGImageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailBGImageCell.textLabel.text = title;
-            UIImage *image = [[UserService sharedInstance]requireBackgroundImage];
-            detailBGImageCell.BGImageView.image = image;
+//            UIImage *image = [[UserService sharedInstance]requireBackgroundImage];
+            [detailBGImageCell.BGImageView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.bgImage]];
             cell = detailBGImageCell;
         }else{
             cell.textLabel.text = title;
