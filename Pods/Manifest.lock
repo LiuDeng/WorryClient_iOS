@@ -15,6 +15,9 @@ PODS:
   - MJRefresh (1.4.6)
   - ProtocolBuffers (1.9.7)
   - RDVTabBarController (1.1.9)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - TAPageControl (0.2.0)
   - THLabel (1.4.6)
 
@@ -29,6 +32,7 @@ DEPENDENCIES:
   - MJRefresh
   - ProtocolBuffers (= 1.9.7)
   - RDVTabBarController
+  - SDWebImage (~> 3.7)
   - TAPageControl
   - THLabel (~> 1.4.6)
 
@@ -43,6 +47,7 @@ SPEC CHECKSUMS:
   MJRefresh: 2eaa3fd8f67fbb86497840fb0167446f7eb61dc7
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   TAPageControl: fd11d779bbb5c2464ca2f55dde9e288213ea8a9b
   THLabel: 27890d10123514ffe74b6e023b57b2ece55304af
 
