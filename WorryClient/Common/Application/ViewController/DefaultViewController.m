@@ -48,12 +48,31 @@
 {
     [super loadView];
     [self loadData];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self customizeNavigationBar];
     [self loadBackButton];
 }
 
 - (void)loadData
 {
     
+}
+
+- (void)customizeNavigationBar
+{
+//    UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
+    UINavigationBar *navigationBarAppearance = self.navigationController.navigationBar;
+    UIImage* backgroundImage = [UIImage imageNamed:@"barbg64.png"];
+    
+    NSDictionary *textAttributes = @{
+                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+                                     NSForegroundColorAttributeName: [UIColor whiteColor],
+                                     };
+    
+    [navigationBarAppearance setBackgroundImage:backgroundImage
+                                  forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setTitleTextAttributes:textAttributes];
+    [navigationBarAppearance setTintColor:[UIColor whiteColor]];    //  must
 }
 
 #pragma mark - Private methods

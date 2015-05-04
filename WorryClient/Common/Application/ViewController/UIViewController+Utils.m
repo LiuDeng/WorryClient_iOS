@@ -36,12 +36,12 @@
     self.navigationItem.rightBarButtonItem = rightButton;
 }
 
--(void)loadBackButton
+- (void)loadBackButtonWithImageName:(NSString *)imageName
 {
     //默认首页放在navigationController不pop
     int count = 1;
     if (self.navigationController.viewControllers.count > count) {
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_white"]
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:imageName]
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(clickBackButton)];
@@ -50,6 +50,11 @@
         //        backButton.imageInsets = UIEdgeInsetsMake(0, NAVBARLEFT_BUTTON_INSET_LEFT, 0, 0);
         self.navigationItem.leftBarButtonItem = backButton;
     }
+}
+
+- (void)loadBackButton
+{
+    [self loadBackButtonWithImageName:@"back_white"];
 }
 
 #pragma mark - Private methods

@@ -19,7 +19,7 @@
     AVFile *avFile = [AVFile fileWithName:imageName data:imageData];
     [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            EXECUTE_BLOCK(block,error,avFile.url);
+            EXECUTE_BLOCK(block,error,avFile);
         }
     }];
 }

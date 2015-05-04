@@ -94,8 +94,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    StoryDetailController *vc = [[StoryDetailController alloc]init];
-    WorryDetailController *vc = [[WorryDetailController alloc]init];
+    StoryDetailController *vc = [[StoryDetailController alloc]init];
+//    WorryDetailController *vc = [[WorryDetailController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

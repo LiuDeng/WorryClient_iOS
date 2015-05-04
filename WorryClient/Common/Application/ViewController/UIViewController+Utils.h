@@ -17,5 +17,6 @@
 - (void)addRightButtonWithImageName:(NSString*)imageName
                              target:(id)target
                              action:(SEL)action;
+- (void)loadBackButtonWithImageName:(NSString *)imageName;
 - (void)loadBackButton;
 @end

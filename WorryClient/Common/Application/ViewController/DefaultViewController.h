@@ -24,4 +24,5 @@
 - (void)loadData;
 - (void)hideTabBar;
 - (void)showTabBar;
+- (void)customizeNavigationBar;
 @end

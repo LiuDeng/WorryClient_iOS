@@ -42,13 +42,6 @@
     
     // show window now
     [self.window makeKeyAndVisible];
-    
-    // set status bar
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-
-    //  TODO
-    // set navigation bar
-    [[AppDelegate sharedInstance] customizeNavigationBar];
 
     //设置AVOSCloud
     [AVOSCloud setApplicationId:kAVOSCloudAppID
@@ -131,21 +124,6 @@
                                            thirdNavigationController]];
     self.viewController = tabBarController;
     [self customizeTabBarForController:tabBarController];
-}
-
-- (void)customizeNavigationBar {
-    UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    UIImage* backgroundImage = [UIImage imageNamed:@"barbg64.png"];
-    
-    NSDictionary *textAttributes = @{
-                       NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
-                       NSForegroundColorAttributeName: [UIColor whiteColor],
-                       };
-    
-    [navigationBarAppearance setBackgroundImage:backgroundImage
-                                  forBarMetrics:UIBarMetricsDefault];
-    [navigationBarAppearance setTitleTextAttributes:textAttributes];
-    [navigationBarAppearance setTintColor:[UIColor whiteColor]];
 }
 
 #define TABBAR_IMAGE_TOP_INSETS 1

@@ -9,6 +9,7 @@
 #import "StoryDetailController.h"
 #import "AvatarView.h"
 #import "THLabel.h"
+#import "AppDelegate.h"
 
 const CGFloat strokeSize = 1.0f;
 
@@ -23,7 +24,7 @@ const CGFloat strokeSize = 1.0f;
 @property (nonatomic,strong) THLabel *nickLabel;
 @property (nonatomic,strong) THLabel *dateLabel;
 @property (nonatomic,strong) UITextView *textView;
-@property (nonatomic,strong) UIImageView *editImageView;
+@property (nonatomic,strong) UIButton *editButton;
 @property (nonatomic,strong) UIImageView *shareWeiboImageView;
 @property (nonatomic,strong) UIImageView *shareWxTimelineImageView;
 @property (nonatomic,strong) UIImageView *blessingImageView;
@@ -49,11 +50,17 @@ const CGFloat strokeSize = 1.0f;
 {
     [super viewWillDisappear:animated];
     [self showTabBar];
+    [self customizeNavigationBar];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)loadView
 {
     [super loadView];
+//    [self loadBackButtonWithImageName:@"story_detail_back"];
+    [self loadBackButtonWithImageName:@"back_white"];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     [self hideTabBar];
     [self loadNavigationBar];
     [self loadBGImageView];
@@ -81,12 +88,25 @@ const CGFloat strokeSize = 1.0f;
 - (void)loadNavigationBar
 {
     UIImage *moreImage = [UIImage imageNamed:@"story_detail_more"];
-    UIImage *image = [UIImage imageNamed:@"story_detail_share"];
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
-    UIBarButtonItem *favoriteItem = [[UIBarButtonItem alloc]initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
+    UIImage *shareImage = [UIImage imageNamed:@"story_detail_share"];
+    UIImage *favoriteImage = [UIImage imageNamed:@"plus"];
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:shareImage style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
+    UIBarButtonItem *favoriteItem = [[UIBarButtonItem alloc]initWithImage:favoriteImage style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
     UIBarButtonItem *moreItem = [[UIBarButtonItem alloc]initWithImage:moreImage style:UIBarButtonItemStylePlain target:self action:@selector(clickMoreButton)];
     NSArray *barButtonArray = @[moreItem,shareItem,favoriteItem];
     [self.navigationItem setRightBarButtonItems:barButtonArray];
+    
+    
+    UIImage *navigationBGImage = [UIImage imageNamed:@"barbg64_white"];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    NSDictionary *textAttributes = @{
+                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+                                     NSForegroundColorAttributeName: [UIColor whiteColor],
+                                     };
+    [navigationBar setBackgroundImage:navigationBGImage forBarMetrics:UIBarMetricsDefault];
+    [navigationBar setTitleTextAttributes:textAttributes];
+    [navigationBar setTintColor:OPAQUE_COLOR(0x87, 0x87, 0x87)];
+    
 }
 
 - (void)loadBGImageView
@@ -189,7 +209,7 @@ const CGFloat strokeSize = 1.0f;
 
 - (void)loadShareWeiboImageView
 {
-    UIImage *image = [UIImage imageNamed:@"story@3x"];
+    UIImage *image = [UIImage imageNamed:@"story_detail_sina"];
     self.shareWeiboImageView = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:self.shareWeiboImageView];
     
@@ -203,7 +223,7 @@ const CGFloat strokeSize = 1.0f;
 
 - (void)loadShareWxTimelineImageView
 {
-    UIImage *image = [UIImage imageNamed:@"story@3x"];
+    UIImage *image = [UIImage imageNamed:@"story_detail_weixin"];
     self.shareWxTimelineImageView = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:self.shareWxTimelineImageView];
     
@@ -217,7 +237,7 @@ const CGFloat strokeSize = 1.0f;
 
 - (void)loadBlessingImageView
 {
-    UIImage *image = [UIImage imageNamed:@"story@3x"];
+    UIImage *image = [UIImage imageNamed:@"story_detail_blessing"];
     self.blessingImageView = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:self.blessingImageView];
     
@@ -234,8 +254,8 @@ const CGFloat strokeSize = 1.0f;
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
     self.textView.selectable = NO;
-    self.textView.font = [UIFont systemFontOfSize:13];
-    self.textView.text = @"工工工工工工工\n工工工工工工工\n工工工工工工工\n工工工工工工工\n工工工工工工工\n工工工工工工工\n";
+    self.textView.font = [UIFont systemFontOfSize:15];
+    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -248,15 +268,17 @@ const CGFloat strokeSize = 1.0f;
 - (void)loadEditImageView
 {
     UIImage *image = [UIImage imageNamed:@"story_detail_edit"];
-    self.editImageView = [[UIImageView alloc]initWithImage:image];
-    [self.textView addSubview:self.editImageView];
-    self.editImageView.backgroundColor = [UIColor greenColor];
+//    self.editImageView = [[UIImageView alloc]initWithImage:image];
+//    [self.textView addSubview:self.editImageView];
+    self.editButton = [[UIButton alloc]init];
+    [self.textView addSubview:self.editButton];
+    [self.editButton setImage:image forState:UIControlStateNormal];
     
-    [self.editImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.textView).with.multipliedBy(1.8);
         make.centerY.equalTo(self.textView).with.multipliedBy(1.8);
-        make.width.equalTo(self.textView.mas_height).with.multipliedBy(0.1);
-        make.height.equalTo(self.textView).with.multipliedBy(0.1);
+//        make.width.equalTo(self.textView.mas_height).with.multipliedBy(0.1);
+//        make.height.equalTo(self.textView).with.multipliedBy(0.1);
     }];
 }
 #pragma mark - Utils

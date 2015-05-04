@@ -25,6 +25,9 @@
 @property (nonatomic,strong) NSArray *collectionImageNameArray;
 @property (nonatomic,strong) NSArray *collectionTittleArray;
 
+@property (nonatomic,strong) NSArray *collectionImageUrlArray;
+//@property (nonatomic,strong) PBTopic *pbTopic;
+
 @end
 
 @implementation OmnibusController
@@ -79,7 +82,7 @@
 {
     [super loadData];
     self.scrollImageNameArray = @[@"image2.jpg",@"image1.jpg",@"image3.jpg"];
-    self.collectionImageNameArray = @[@"test_first_page_selected",@"test_first_page_selected",
+    self.collectionImageNameArray = @[@"love",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
@@ -95,7 +98,7 @@
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected",@"test_first_page_selected",
                                            @"test_first_page_selected"];
-    self.collectionTittleArray = @[@"生活",@"生活",@"生活",
+    self.collectionTittleArray = @[@"爱情",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         @"生活",@"生活",@"生活",
                                         
@@ -131,6 +134,7 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.backgroundColor = OPAQUE_COLOR(0xee, 0xee, 0xee);
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
@@ -195,8 +199,8 @@
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TopicCollectionViewCell *cell = (TopicCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kTopicCollectionViewCellId forIndexPath:indexPath];
-    cell.tittleLabel.text = self.collectionTittleArray[indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
+//    cell.tittleLabel.text = self.collectionTittleArray[indexPath.row];
+//    cell.imageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
     return cell;
 }
 

@@ -22,4 +22,6 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
 - (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block;
 - (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block;
+- (UIImage *)requireIcon;
+
 @end

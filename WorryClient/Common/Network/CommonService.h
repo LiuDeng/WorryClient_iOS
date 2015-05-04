@@ -13,7 +13,7 @@
 #import "WorryConfigManager.h"
 
 typedef void (^ServiceErrorResultBlock) (NSError *error);
-typedef void (^ServiceImageBlock) (NSError *error,NSString *imageUrl);
+typedef void (^ServiceImageBlock) (NSError *error,AVFile *avFile);
 typedef AVBooleanResultBlock ServiceBooleanResultBlock;
 
 @interface CommonService : NSObject

@@ -46,7 +46,7 @@
 
 - (void)loadView
 {
-    self.contentView.backgroundColor = [UIColor grayColor];
+    self.contentView.backgroundColor = [UIColor whiteColor];
     [self loadImageView];
     [self loadTitleLabel];
 }
@@ -55,7 +55,7 @@
 {
     self.imageView = [[UIImageView alloc]init];
     [self.contentView addSubview:self.imageView];
-    self.imageView.backgroundColor = [UIColor greenColor];
+//    self.imageView.backgroundColor = [UIColor greenColor];
 }
 - (void)loadTitleLabel
 {

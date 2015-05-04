@@ -35,7 +35,7 @@
 - (void)test
 {
     NSString *title = @"人生";
-    UIImage *image = [UIImage imageNamed:@"avatar01"];
+    UIImage *image = [UIImage imageNamed:@"love"];
     [[TopicService sharedInstance]creatTopicWithTitle:title image:image block:^(NSError *error) {
         if (error == nil) {
             POST_SUCCESS_MSG(@"发表成功");

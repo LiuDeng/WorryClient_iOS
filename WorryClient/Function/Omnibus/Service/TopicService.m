@@ -10,10 +10,11 @@
 #import "Utils.h"
 #import "TopicManager.h"
 
-#define kTopicKey               @"pbTopic"
+#define kTopicKey               @"pbTopicData"
 #define kTopicClassName         @"Topic"
 #define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon"
+#define kImageKey               @"icon"
 
 const NSUInteger kTopicCount = 10;
 
@@ -27,7 +28,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block
 {    
-    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *imageUrl) {
+    [self updateImage:image imageName:kImageName block:^(NSError *error, AVFile *avFile) {
         if (error == nil) {
             AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
             AVUser *avCurrentUser = [AVUser currentUser];
@@ -35,12 +36,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
             [pbTopicBuilder setTopicId:uuid];
             [pbTopicBuilder setTitle:title];
-            [pbTopicBuilder setIcon:imageUrl];
+            [pbTopicBuilder setIcon:avFile.url];
             [pbTopicBuilder setCreatedAt:(int)time(0)];
             PBTopic *pbTopic = [pbTopicBuilder build];
             
             NSData *pbTopicData = [pbTopic data];
             
+            [topic setObject:avFile forKey:kImageKey];
             [topic setObject:pbTopicData forKey:kTopicKey];
             [topic setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
         
@@ -67,6 +69,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     } Block:block];
 }
 
+- (UIImage *)requireIcon
+{
+    UIImage *image = [self image:^AVFile *(AVObject *avTopic) {
+        return [avTopic objectForKey:kImageKey];
+    }];
+    return image;
+}
 
 #pragma mark - Uitls
 
@@ -124,6 +133,17 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             EXECUTE_BLOCK(block,error);
         }
     }];
+}
+
+- (UIImage *)image:(AVFile* (^)(AVObject *avTopic))block
+{
+    AVObject *avTopic = [AVObject objectWithClassName:kTopicClassName];
+//    AVQuery *query = [AVQuery queryWithClassName:kTopicClassName];
+//    AVObject *avTopic  = [query getObjectWithId:<#(NSString *)#>]
+    AVFile *imageFile = block(avTopic);
+    NSData *imageData = [imageFile getData];
+    UIImage *image = [UIImage imageWithData:imageData];
+    return image;
 }
 
 
