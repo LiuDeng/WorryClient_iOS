@@ -22,5 +22,6 @@ DEFINE_SINGLETON_FOR_CLASS(TopicManager)
 - (void)storePBTopicDataArray:(NSArray *)pbTopicDataArray;
 - (void)deleteOldDatabase;
 - (void)dropTable;
+- (void)deleteCache;
 
 @end

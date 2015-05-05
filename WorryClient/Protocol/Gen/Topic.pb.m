@@ -116,9 +116,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   return [followersArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (!self.hasTopicId) {
-    return NO;
-  }
   if (self.hasCreatUser) {
     if (!self.creatUser.isInitialized) {
       return NO;

@@ -133,9 +133,6 @@ static PBComment* defaultPBCommentInstance = nil;
   return [replyArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (!self.hasCommentId) {
-    return NO;
-  }
   if (self.hasCreateUser) {
     if (!self.createUser.isInitialized) {
       return NO;
@@ -674,9 +671,6 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   return defaultPBAnswerInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasAnswerId) {
-    return NO;
-  }
   if (self.hasCreatUser) {
     if (!self.creatUser.isInitialized) {
       return NO;
@@ -1244,9 +1238,6 @@ static PBBlessing* defaultPBBlessingInstance = nil;
   return [imagesArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (!self.hasBlessingId) {
-    return NO;
-  }
   if (self.hasCreatUser) {
     if (!self.creatUser.isInitialized) {
       return NO;

@@ -13,6 +13,7 @@
 #import "CreateTopicController.h"
 #import "TopicManager.h"
 #import "TopicService.h"
+#import "MJRefresh.h"
 
 #define kTopicCollectionViewCellId  @"kTopicCollectionViewCellId"
 
@@ -26,6 +27,7 @@
 @property (nonatomic,strong) NSArray *collectionTittleArray;
 
 @property (nonatomic,strong) NSArray *collectionImageUrlArray;
+@property (nonatomic,strong) NSArray *pbTopicArray;
 //@property (nonatomic,strong) PBTopic *pbTopic;
 
 @end
@@ -135,6 +137,22 @@
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     self.collectionView.backgroundColor = OPAQUE_COLOR(0xee, 0xee, 0xee);
+    __weak typeof(self) weakSelf = self;
+    [self.collectionView addLegendHeaderWithRefreshingBlock:^{
+        [[TopicService sharedInstance]requireNewTopicsWithBlock:^(NSError *error) {
+            if (error == nil) {
+                [weakSelf afterRefresh];
+            }
+        }];
+    }];
+
+    [self.collectionView addLegendFooterWithRefreshingBlock:^{
+        [[TopicService sharedInstance]requireMoreTopicsWithBlock:^(NSError *error) {
+            if (error == nil) {
+                [weakSelf afterRefresh];
+            }
+        }];
+    }];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
@@ -178,6 +196,18 @@
     CreateTopicController *vc = [[CreateTopicController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)afterRefresh
+{
+    self.pbTopicArray = [[TopicManager sharedInstance]pbTopicArray];
+    [self.collectionView reloadData];
+    if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
+        [self.collectionView.header endRefreshing];
+    }else if (self.collectionView.footer.state != MJRefreshHeaderStateIdle){
+        [self.collectionView.footer endRefreshing];
+    }
+}
+
 #pragma mark - ScrollView delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -193,21 +223,31 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.collectionImageNameArray.count;
+//    return self.collectionImageNameArray.count;
+    return  self.pbTopicArray.count;
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TopicCollectionViewCell *cell = (TopicCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:kTopicCollectionViewCellId forIndexPath:indexPath];
-//    cell.tittleLabel.text = self.collectionTittleArray[indexPath.row];
-//    cell.imageView.image = [UIImage imageNamed:self.collectionImageNameArray[indexPath.row]];
+    NSMutableArray *titleArray = [[NSMutableArray alloc]init];
+    NSMutableArray *iconUrlArray = [[NSMutableArray alloc]init];
+    for (PBTopic *pbTopic in self.pbTopicArray) {
+        [titleArray addObject:pbTopic.title];
+        [iconUrlArray addObject:[NSURL URLWithString:pbTopic.icon]];
+    }
+    cell.tittleLabel.text = titleArray[indexPath.row];
+    [cell.imageView sd_setImageWithURL:iconUrlArray[indexPath.row]];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    PBTopic *pbTopic = self.pbTopicArray[indexPath.row];
+    
     OmnibusDetailController *vc = [[OmnibusDetailController alloc]init];
+    vc.title = pbTopic.title;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

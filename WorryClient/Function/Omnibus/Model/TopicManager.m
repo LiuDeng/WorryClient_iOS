@@ -55,9 +55,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kTopicTable,kTopicTableFieldTopic,kTopicTableFieldTopic];
     
     NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kTopicTable,kTopicTableFieldId,kTopicTableFieldTopic];
-    __block FMResultSet *results;
     [queue inDatabase:^(FMDatabase *db) {
         for (NSData *pbTopicData in pbTopicDataArray) {
+            FMResultSet *results;
+            
             PBTopic  *pbTopic = [PBTopic parseFromData:pbTopicData];
             NSString *querySql;
             if ([pbTopic hasTopicId]) {
@@ -68,10 +69,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
                 }else{
                     [db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
                 }
-                
             }
+            
+            [results close];
         }
-        [results close];
+
     }];
     
 }
@@ -93,6 +95,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
     [_db executeUpdate:sql];
 }
 
+- (void)deleteCache
+{
+    NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@",kTopicTable];
+    [_db executeUpdate:sql];
+}
 #pragma mark - Private methods
 
 - (NSArray *)requireTopicArrayFromCache

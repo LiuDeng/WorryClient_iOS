@@ -150,6 +150,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
             for (NSUInteger i = firstIndex; i<dataCount; i++) {
                 AVObject *avObject = [objects objectAtIndex:i];
                 NSData *pbFeedData = [avObject objectForKey:kFeedKey];
+                
                 [pbFeedDataArray addObject:pbFeedData];
                 requireFeedsBlock();
             }

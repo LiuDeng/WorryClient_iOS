@@ -3,7 +3,7 @@ import "User.proto";
 package worry;
 
 message PBTopic{
-    required string topic_id = 1;
+    optional string topic_id = 1;
     optional string title = 2;     
     //optional string decription = 3;                             //  简述，现阶段不加
     optional PBUser creat_user = 4;                             //  创建者，保存基础信息

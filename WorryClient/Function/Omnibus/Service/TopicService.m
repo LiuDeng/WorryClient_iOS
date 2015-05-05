@@ -13,8 +13,7 @@
 #define kTopicKey               @"pbTopicData"
 #define kTopicClassName         @"Topic"
 #define kCreateUserIdKey        @"createUserId"
-#define kImageName              @"topicIcon"
-#define kImageKey               @"icon"
+#define kImageName              @"topicIcon.jpeg"
 
 const NSUInteger kTopicCount = 10;
 
@@ -32,14 +31,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
         if (error == nil) {
             AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
             AVUser *avCurrentUser = [AVUser currentUser];
-            NSString *uuid = [Utils getUUID];
             PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
-            [pbTopicBuilder setTopicId:uuid];
             [pbTopicBuilder setTitle:title];
             [pbTopicBuilder setIcon:url];
             [pbTopicBuilder setCreatedAt:(int)time(0)];
             PBTopic *pbTopic = [pbTopicBuilder build];
-            
             NSData *pbTopicData = [pbTopic data];
             
             [topic setObject:pbTopicData forKey:kTopicKey];
@@ -57,7 +53,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 - (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requirePublicTopicsWithFrom:0 requireTopicsBlock:^{
-    
+        [[TopicManager sharedInstance]deleteCache];
     } Block:block];
 }
 
@@ -66,14 +62,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     [self requirePublicTopicsWithFrom: _requiredTopicsCount requireTopicsBlock:^{
         _requiredTopicsCount++;
     } Block:block];
-}
-
-- (UIImage *)requireIcon
-{
-    UIImage *image = [self image:^AVFile *(AVObject *avTopic) {
-        return [avTopic objectForKey:kImageKey];
-    }];
-    return image;
 }
 
 #pragma mark - Uitls
@@ -124,7 +112,14 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             NSUInteger dataCount = objects.count > kTopicCount ? kTopicCount : objects.count;
             for (NSUInteger i = firstIndex; i<dataCount; i++) {
                 AVObject *avObject = [objects objectAtIndex:i];
-                NSData *pbTopicData = [avObject objectForKey:kTopicKey];
+                NSData *webTopicData = [avObject objectForKey:kTopicKey];
+                
+                PBTopic *webPBTopic = [PBTopic parseFromData:webTopicData];
+                PBTopicBuilder *pbTopicBuilder = [webPBTopic toBuilder];
+                [pbTopicBuilder setTopicId:avObject.objectId];
+                PBTopic *pbTopic = [pbTopicBuilder build];
+                NSData *pbTopicData = [pbTopic data];
+                
                 [pbTopicDataArray addObject:pbTopicData];
                 requireTopicsBlock();
             }
@@ -132,17 +127,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             EXECUTE_BLOCK(block,error);
         }
     }];
-}
-
-- (UIImage *)image:(AVFile* (^)(AVObject *avTopic))block
-{
-    AVObject *avTopic = [AVObject objectWithClassName:kTopicClassName];
-//    AVQuery *query = [AVQuery queryWithClassName:kTopicClassName];
-//    AVObject *avTopic  = [query getObjectWithId:<#(NSString *)#>]
-    AVFile *imageFile = block(avTopic);
-    NSData *imageData = [imageFile getData];
-    UIImage *image = [UIImage imageWithData:imageData];
-    return image;
 }
 
 

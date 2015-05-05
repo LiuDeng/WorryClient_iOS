@@ -9,7 +9,7 @@ enum PBFeedType{
 }
 
 message PBComment{
-    required string comment_id = 1;
+    optional string comment_id = 1;
     optional PBUser create_user = 2;                                            //  创建者，保存基础信息
     optional string text = 3;                                                   //  内容，后期如果变为富文本，考虑一下如何存储？
     optional bool is_anonymous = 4 [default=false];                             //  是否匿名，默认是不匿名
@@ -20,7 +20,7 @@ message PBComment{
 }
 
 message PBAnswer{
-    required string answer_id = 1;
+    optional string answer_id = 1;
     optional PBUser creat_user = 2;                                             //  创建用户，保存基础信息
     optional bool is_anonymous = 5 [default=false];                             //  是否匿名，默认是不匿名
     optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
@@ -33,7 +33,7 @@ message PBAnswer{
 }
 
 message PBBlessing{
-    required string blessing_id = 1;
+    optional string blessing_id = 1;
     optional PBUser creat_user = 2;
     optional PBUser to_user = 3;
     optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
