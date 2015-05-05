@@ -23,12 +23,7 @@
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSArray *scrollImageNameArray;
 @property (nonatomic,strong) UICollectionView *collectionView;
-@property (nonatomic,strong) NSArray *collectionImageNameArray;
-@property (nonatomic,strong) NSArray *collectionTittleArray;
-
-@property (nonatomic,strong) NSArray *collectionImageUrlArray;
 @property (nonatomic,strong) NSArray *pbTopicArray;
-//@property (nonatomic,strong) PBTopic *pbTopic;
 
 @end
 
@@ -85,33 +80,6 @@
 {
     [super loadData];
     self.scrollImageNameArray = @[@"image2.jpg",@"image1.jpg",@"image3.jpg"];
-    self.collectionImageNameArray = @[@"love",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected",@"test_first_page_selected",
-                                           @"test_first_page_selected"];
-    self.collectionTittleArray = @[@"爱情",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活",
-                                        
-                                        @"生活",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活",
-                                        
-                                        @"生活",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活",
-                                        @"生活",@"生活",@"生活"];
 }
 
 - (void)loadCollectionView
@@ -224,7 +192,6 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//    return self.collectionImageNameArray.count;
     return  self.pbTopicArray.count;
 }
 
@@ -243,6 +210,7 @@
 }
 
 #pragma mark - UICollectionViewDelegate
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PBTopic *pbTopic = self.pbTopicArray[indexPath.row];
@@ -252,16 +220,4 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)test
-{
-    __block NSArray *array;
-    [[TopicService sharedInstance]requireNewTopicsWithBlock:^(NSError *error) {
-        if (error == nil) {
-            array = [[TopicManager sharedInstance]pbTopicArray];
-//            PBTopic *pbTopic = [array objectAtIndex:0];
-        }
-    }];
-
-    
-}
 @end
