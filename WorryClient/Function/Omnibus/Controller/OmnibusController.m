@@ -37,6 +37,7 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.collectionView.header beginRefreshing];
 //    [self hideTabBar];    // if is iphone4s
 }
 

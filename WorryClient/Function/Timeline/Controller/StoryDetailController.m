@@ -255,6 +255,7 @@ const CGFloat strokeSize = 1.0f;
     [self.view addSubview:self.textView];
     self.textView.selectable = NO;
     self.textView.font = [UIFont systemFontOfSize:15];
+    self.textView.textColor = OPAQUE_COLOR(0x69, 0x69, 0x69);
     self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
