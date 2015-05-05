@@ -54,9 +54,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kFeedTable,kFeedTableFieldFeed,kFeedTableFieldFeed];
 
     NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
-    __block FMResultSet *results;
     [queue inDatabase:^(FMDatabase *db) {
         for (NSData *pbFeedData in pbFeedDataArray) {
+            FMResultSet *results;
+            
             PBFeed *pbFeed = [PBFeed parseFromData:pbFeedData];
             NSString *querySql;
             if ([pbFeed hasFeedId]) {
@@ -68,8 +69,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
                     [db executeUpdate:insertSql,pbFeed.feedId,pbFeedData];
                 }
             }
+            [results close];
         }
-        [results close];
     }];
     
 }
@@ -86,6 +87,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     [_db executeUpdate:sql];
 }
 
+- (void)deleteCache
+{
+    NSString *sql = [NSString stringWithFormat:@"DELETE FORM %@",kFeedTable];
+    [_db executeUpdate:sql];
+}
 
 #pragma mark - Private methods
 

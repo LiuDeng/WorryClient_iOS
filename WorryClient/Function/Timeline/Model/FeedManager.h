@@ -24,5 +24,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 - (NSArray *)pbFeedArray;
 - (void)deleteOldDatabase;
 - (void)dropTable;
+- (void)deleteCache;
 
 @end
