@@ -16,8 +16,6 @@
 		7C54C2C01ADC0A5E002A32E2 /* UIView+DefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C54C2BF1ADC0A5E002A32E2 /* UIView+DefaultView.m */; };
 		7C5A37771ADB9D6A00CFA176 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37761ADB9D6A00CFA176 /* main.m */; };
 		7C5A37831ADB9D6A00CFA176 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37811ADB9D6A00CFA176 /* Main.storyboard */; };
-		7C5A37851ADB9D6A00CFA176 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37841ADB9D6A00CFA176 /* Images.xcassets */; };
-		7C5A37881ADB9D6B00CFA176 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37861ADB9D6B00CFA176 /* LaunchScreen.xib */; };
 		7C5A37941ADB9D6B00CFA176 /* WorryClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37931ADB9D6B00CFA176 /* WorryClientTests.m */; };
 		7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37A11ADB9E3000CFA176 /* CommonManager.m */; };
 		7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37A41ADB9E3000CFA176 /* WorryConfigManager.m */; };
@@ -64,6 +62,7 @@
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
 		7CC0EAC51AF06B9300ED7FC7 /* OmnibusDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */; };
 		7CC0EAC81AF09F8900ED7FC7 /* StoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0EAC71AF09F8900ED7FC7 /* StoryCollectionViewCell.m */; };
+		7CC1CA6D1AFA68F9002FFACD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37841ADB9D6A00CFA176 /* Images.xcassets */; };
 		7CC3021C1AE281800059B80F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC3021B1AE281800059B80F /* libsqlite3.dylib */; };
 		7CC336931ADF6A430084D891 /* MessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC336921ADF6A430084D891 /* MessageCenter.m */; };
 		7CC336951ADF9EE90084D891 /* Feed.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CC336941ADF9EE90084D891 /* Feed.proto */; };
@@ -1189,6 +1188,7 @@
 				7CBD56E81AE7DF5600423D5D /* create_feed_save@2x.png in Resources */,
 				7CC336951ADF9EE90084D891 /* Feed.proto in Resources */,
 				7CC876961AE79E3700963450 /* user_blessing@3x.png in Resources */,
+				7CC1CA6D1AFA68F9002FFACD /* Images.xcassets in Resources */,
 				7C5A380B1ADB9E3000CFA176 /* image1.jpg in Resources */,
 				7CE9874C1AF65B1F00D270EC /* creat_feed_unchecked@3x.png in Resources */,
 				7C5A380C1ADB9E3000CFA176 /* image2.jpg in Resources */,
@@ -1203,12 +1203,10 @@
 				7CCBCAD21AE3E469006410BD /* omnibus_normal@3x.png in Resources */,
 				7CCF5B771AF361210091F3A7 /* story_detail_share@2x.png in Resources */,
 				7C5A38131ADB9E3000CFA176 /* avatar01.png in Resources */,
-				7C5A37881ADB9D6B00CFA176 /* LaunchScreen.xib in Resources */,
 				7CE9873A1AF6589C00D270EC /* worry_detail_invite_answer@3x.png in Resources */,
 				7C4F48301AECF4E200BEE5CB /* story@3x.png in Resources */,
 				7CCF5B741AF361210091F3A7 /* story_detail_mode@3x.png in Resources */,
 				7CE987481AF65B1400D270EC /* back_white@3x.png in Resources */,
-				7C5A37851ADB9D6A00CFA176 /* Images.xcassets in Resources */,
 				7CC8769A1AE79E3700963450 /* setting@3x.png in Resources */,
 				7CCBCAD71AE3E469006410BD /* timeline_selected@2x.png in Resources */,
 				7CCBCABF1AE3E210006410BD /* tabbar_bg@2x.png in Resources */,
@@ -1475,9 +1473,11 @@
 			baseConfigurationReference = FE462C863722ADF4DD13A144 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = WorryClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1486,9 +1486,11 @@
 			baseConfigurationReference = B4333343F9ABF6DCBF1CA43F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = WorryClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
