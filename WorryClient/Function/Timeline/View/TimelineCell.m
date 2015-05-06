@@ -115,7 +115,7 @@
     [self.commentButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 2, 0, 0);
     self.commentButton.titleEdgeInsets = edgeInsets;
-    [self.commentButton addTarget:self action:@selector(clickCommentButton) forControlEvents:UIControlEventTouchUpInside];
+//    [self.commentButton addTarget:self action:@selector(clickCommentButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadBlessingButton
@@ -127,7 +127,7 @@
     [self.blessingButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 2, 0, 0);
     self.blessingButton.titleEdgeInsets = edgeInsets;
-    [self.blessingButton addTarget:self action:@selector(clickBlessingButton) forControlEvents:UIControlEventTouchUpInside];
+//    [self.blessingButton addTarget:self action:@selector(clickBlessingButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadTopicButton
@@ -135,25 +135,25 @@
     self.topicButton = [[UIButton alloc]init];
     [self.contentView addSubview:self.topicButton];
     [self.topicButton setTitleColor:OPAQUE_COLOR(0x00, 0xAE, 0xE9) forState:UIControlStateNormal];
-    [self.topicButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
+//    [self.topicButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
     self.topicButton.titleLabel.font = [UIFont systemFontOfSize:14];
 }
 
 #pragma mark - Utils
 
-- (void)clickCommentButton
-{
-    EXECUTE_BLOCK(self.clickCommentButtonBlock);
-}
-
-- (void)clickBlessingButton
-{
-    EXECUTE_BLOCK(self.clickBlessingButtonBlock);
-}
-
-- (void)clickTopicButton
-{
-    EXECUTE_BLOCK(self.clickTopicButtonBlock);
-}
+//- (void)clickCommentButton
+//{
+//    EXECUTE_BLOCK(self.clickCommentButtonBlock);
+//}
+//
+//- (void)clickBlessingButton
+//{
+//    EXECUTE_BLOCK(self.clickBlessingButtonBlock);
+//}
+//
+//- (void)clickTopicButton
+//{
+//    EXECUTE_BLOCK(self.clickTopicButtonBlock);
+//}
 
 @end

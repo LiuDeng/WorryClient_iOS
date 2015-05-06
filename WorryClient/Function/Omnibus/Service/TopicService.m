@@ -15,7 +15,7 @@
 #define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon.jpeg"
 
-const NSUInteger kTopicCount = 10;
+const NSUInteger kTopicCount = 9;
 
 @implementation TopicService
 
@@ -60,7 +60,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 - (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requirePublicTopicsWithFrom: _requiredTopicsCount requireTopicsBlock:^{
-        _requiredTopicsCount++;
+        _requiredTopicsCount += kTopicCount;
     } Block:block];
 }
 

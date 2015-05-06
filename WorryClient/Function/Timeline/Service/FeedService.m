@@ -29,6 +29,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
                 createUser:(PBUser *)createUser
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
+                  feedType:(PBFeedType)feedType
                      block:(FeedServiceErrorResultBlock)block
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
@@ -42,6 +43,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     [pbFeedBuilder setIsAnonymous:isAnonymous];
     [pbFeedBuilder setCreatedAt:(int)time(0)];
     [pbFeedBuilder setTopicArray:topicArray];
+    [pbFeedBuilder setType:feedType];
     
     PBFeed *pbFeed = [pbFeedBuilder build];
     NSData *pbFeedData = [pbFeed data];

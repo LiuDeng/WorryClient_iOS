@@ -15,6 +15,7 @@
 #import "ColorInfo.h"
 #import "Feed.pb.h"
 #import "DLRadioButton.h"
+#import "SelectTopicController.h"
 
 #define kStoryButtonTitle   @"心事"
 #define kWorryButtonTitle   @"心结"
@@ -26,10 +27,10 @@
 @property (nonatomic,strong) UIView *selectionHolderView;
 @property (nonatomic,strong) UIButton *topicButton;
 @property (nonatomic,strong) UIButton *typeButton;
-@property (nonatomic,assign) PBFeedType *feedType;
-@property (nonatomic,assign) PBTopic *feedTopic;
+@property (nonatomic,assign) PBFeedType feedType;
 @property (nonatomic,strong) DLRadioButton *storyButton;
 @property (nonatomic,strong) DLRadioButton *worryButton;
+@property (nonatomic,strong) NSArray *pbTopicArray;
 
 @end
 
@@ -127,7 +128,7 @@
     [self.topicButton setImage:image forState:UIControlStateNormal];
     [self.topicButton setTitle:@"话题" forState:UIControlStateNormal];
     [self.topicButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.typeButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.topicButton addTarget:self action:@selector(clickTopicButton) forControlEvents:UIControlEventTouchUpInside];
     
     [self.topicButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.selectionHolderView);
@@ -141,7 +142,7 @@
     [self.selectionHolderView addSubview:self.typeButton];
     [self.typeButton setTitle:@"类型" forState:UIControlStateNormal];
     [self.typeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.typeButton addTarget:self action:@selector(clickTypeButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.typeButton addTarget:self action:@selector(clickTypeButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.typeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.selectionHolderView);
@@ -169,6 +170,7 @@
         [self.selectionHolderView addSubview:button];
     }
     self.worryButton.otherButtons = @[self.storyButton];
+    self.worryButton.selected = YES;
     
     CGFloat withScale = 0.2;
     [self.storyButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -189,21 +191,16 @@
 {
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
-    
-    // 不应该出现在这的
-    NSString *uuid = [Utils getUUID];
-    PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
-    [pbTopicBuilder setTopicId:uuid];
-    [pbTopicBuilder setTitle:@"人生"];
-    PBTopic *pbTopic = [pbTopicBuilder build];
-    
-    NSArray *topicArray = @[pbTopic,pbTopic];
+    NSArray *topicArray = self.pbTopicArray;
+    self.feedType = ([self.worryButton.selectedButton isEqual: self.worryButton]) ? PBFeedTypeWorry : PBFeedTypeStory;
     
     BOOL isAnonymous = NO;
     if (title.length == 0) {
         POST_ERROR_MSG(@"请输入标题");
     }else if (text.length == 0){
         POST_ERROR_MSG(@"不能发表空白内容");
+    }else if (topicArray == nil || topicArray.count == 0){
+        POST_ERROR_MSG(@"请选择话题");
     }else{
         PBUser *pbUser = [[UserManager sharedInstance]pbUser];
         [[FeedService sharedInstance]creatFeedWithTitle:title
@@ -211,6 +208,7 @@
                                              createUser:pbUser
                                             isAnonymous:isAnonymous
                                                   topic:topicArray
+                                               feedType:self.feedType
                                                   block:^(NSError *error) {
             if (error == nil) {
                 POST_SUCCESS_MSG(@"发表成功");
@@ -222,12 +220,22 @@
 
 - (void)clickTopicButton
 {
-    
+
+    SelectTopicController *vc = [[SelectTopicController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+    vc.selectTopicBlock = ^(NSArray *selectedPBTopicArray){
+        self.pbTopicArray = selectedPBTopicArray;
+    };
 }
 
-- (void)clickTypeButton
+- (void)clickTypeButton:(UIButton *)button
 {
-    
+    NSString *title = button.titleLabel.text;
+    if ([title isEqualToString:kStoryButtonTitle]) {
+        //
+    }else if([title isEqualToString:kWorryButtonTitle]){
+        
+    }
 }
 
 @end

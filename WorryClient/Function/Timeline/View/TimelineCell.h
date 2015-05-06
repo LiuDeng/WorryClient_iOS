@@ -17,8 +17,8 @@ typedef void (^TimelineCellBlock) ();
 @property (nonatomic,strong) UIButton *topicButton;
 @property (nonatomic,strong) UIButton *commentButton;
 @property (nonatomic,strong) UIButton *blessingButton;
-@property (nonatomic,strong) TimelineCellBlock clickTopicButtonBlock;
-@property (nonatomic,strong) TimelineCellBlock clickCommentButtonBlock;
-@property (nonatomic,strong) TimelineCellBlock clickBlessingButtonBlock;
+//@property (nonatomic,strong) TimelineCellBlock clickTopicButtonBlock;
+//@property (nonatomic,strong) TimelineCellBlock clickCommentButtonBlock;
+//@property (nonatomic,strong) TimelineCellBlock clickBlessingButtonBlock;
 
 @end

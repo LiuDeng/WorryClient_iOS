@@ -27,6 +27,7 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
                 createUser:(PBUser *)createUser
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
+                  feedType:(PBFeedType)feedType
                      block:(FeedServiceErrorResultBlock)block;
 
 - (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;

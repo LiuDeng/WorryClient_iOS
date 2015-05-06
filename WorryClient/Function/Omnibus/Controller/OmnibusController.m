@@ -102,7 +102,7 @@
     self.collectionView.dataSource = self;
     [self.collectionView registerClass:[TopicCollectionViewCell class]
                  forCellWithReuseIdentifier:kTopicCollectionViewCellId];
-    self.collectionView.backgroundColor = [UIColor clearColor];
+
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
     self.collectionView.backgroundColor = OPAQUE_COLOR(0xee, 0xee, 0xee);
