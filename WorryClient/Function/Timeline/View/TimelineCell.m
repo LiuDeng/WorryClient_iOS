@@ -33,7 +33,7 @@
         [self loadTitleLabel];
         [self loadShortTextLabel];
         [self loadTopicButton];
-        [self loadCommentButton];
+        [self loadReplyButton];
         [self loadBlessingButton];
     }
     return self;
@@ -68,7 +68,7 @@
         make.left.equalTo(self.titleLabel);
     }];
     
-    [self.commentButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.replyButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_right).with.multipliedBy(0.85);
         make.centerY.equalTo(self.topicButton);
     }];
@@ -106,15 +106,15 @@
     self.shortTextLabel.textColor = OPAQUE_COLOR(0x7F, 0x89, 0x91);
 }
 
-- (void)loadCommentButton
+- (void)loadReplyButton
 {
-    self.commentButton = [[UIButton alloc]init];
-    [self.contentView addSubview:self.commentButton];
+    self.replyButton = [[UIButton alloc]init];
+    [self.contentView addSubview:self.replyButton];
     UIImage *image = [UIImage imageNamed:@"comment"];
-    [self.commentButton setImage:image forState:UIControlStateNormal];
-    [self.commentButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
+    [self.replyButton setImage:image forState:UIControlStateNormal];
+    [self.replyButton setTitleColor:OPAQUE_COLOR(0x8E, 0xA0, 0x9A) forState:UIControlStateNormal];
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 2, 0, 0);
-    self.commentButton.titleEdgeInsets = edgeInsets;
+    self.replyButton.titleEdgeInsets = edgeInsets;
 //    [self.commentButton addTarget:self action:@selector(clickCommentButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
