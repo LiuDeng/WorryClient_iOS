@@ -46,6 +46,7 @@
   NSString* title;
   NSString* icon;
   PBUser* creatUser;
+  NSMutableArray * feedIdArray;
   NSMutableArray * followersArray;
 }
 - (BOOL) hasTopicId;
@@ -61,9 +62,11 @@
 @property (readonly, strong) NSArray * followers;
 @property (readonly) SInt32 followersCount;
 @property (readonly, strong) NSString* icon;
+@property (readonly, strong) NSArray * feedId;
 @property (readonly) SInt32 createdAt;
 @property (readonly) SInt32 updatedAt;
 - (PBUser*)followersAtIndex:(NSUInteger)index;
+- (NSString*)feedIdAtIndex:(NSUInteger)index;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -132,6 +135,12 @@
 - (NSString*) icon;
 - (PBTopicBuilder*) setIcon:(NSString*) value;
 - (PBTopicBuilder*) clearIcon;
+
+- (NSMutableArray *)feedId;
+- (NSString*)feedIdAtIndex:(NSUInteger)index;
+- (PBTopicBuilder *)addFeedId:(NSString*)value;
+- (PBTopicBuilder *)setFeedIdArray:(NSArray *)array;
+- (PBTopicBuilder *)clearFeedId;
 
 - (BOOL) hasCreatedAt;
 - (SInt32) createdAt;

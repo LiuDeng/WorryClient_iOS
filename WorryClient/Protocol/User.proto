@@ -32,6 +32,7 @@ message PBUser{
     optional string phone_verified = 21;                            //  手机是否验证
 
     optional int32 credit = 30 [default = 20];                      //  积分，默认是20
+    optional int32 level = 31 [default = 1];                      //  等级，默认是1
 
     optional string weixin_id = 40;                                 // 微信号
     optional string QQ_id = 41;                                     // QQ号

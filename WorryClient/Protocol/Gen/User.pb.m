@@ -68,6 +68,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property (strong) NSString* emailVerified;
 @property (strong) NSString* phoneVerified;
 @property SInt32 credit;
+@property SInt32 level;
 @property (strong) NSString* weixinId;
 @property (strong) NSString* qqId;
 @property (strong) NSString* sinaId;
@@ -206,6 +207,13 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasCredit_ = !!_value_;
 }
 @synthesize credit;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) _value_ {
+  hasLevel_ = !!_value_;
+}
+@synthesize level;
 - (BOOL) hasWeixinId {
   return !!hasWeixinId_;
 }
@@ -265,6 +273,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
     self.emailVerified = @"";
     self.phoneVerified = @"";
     self.credit = 20;
+    self.level = 1;
     self.weixinId = @"";
     self.qqId = @"";
     self.sinaId = @"";
@@ -388,6 +397,9 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasCredit) {
     [output writeInt32:30 value:self.credit];
   }
+  if (self.hasLevel) {
+    [output writeInt32:31 value:self.level];
+  }
   if (self.hasWeixinId) {
     [output writeString:40 value:self.weixinId];
   }
@@ -477,6 +489,9 @@ static PBUser* defaultPBUserInstance = nil;
   }
   if (self.hasCredit) {
     size_ += computeInt32Size(30, self.credit);
+  }
+  if (self.hasLevel) {
+    size_ += computeInt32Size(31, self.level);
   }
   if (self.hasWeixinId) {
     size_ += computeStringSize(40, self.weixinId);
@@ -624,6 +639,9 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasCredit) {
     [output appendFormat:@"%@%@: %@\n", indent, @"credit", [NSNumber numberWithInteger:self.credit]];
   }
+  if (self.hasLevel) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
+  }
   if (self.hasWeixinId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"weixinId", self.weixinId];
   }
@@ -705,6 +723,8 @@ static PBUser* defaultPBUserInstance = nil;
       (!self.hasPhoneVerified || [self.phoneVerified isEqual:otherMessage.phoneVerified]) &&
       self.hasCredit == otherMessage.hasCredit &&
       (!self.hasCredit || self.credit == otherMessage.credit) &&
+      self.hasLevel == otherMessage.hasLevel &&
+      (!self.hasLevel || self.level == otherMessage.level) &&
       self.hasWeixinId == otherMessage.hasWeixinId &&
       (!self.hasWeixinId || [self.weixinId isEqual:otherMessage.weixinId]) &&
       self.hasQqId == otherMessage.hasQqId &&
@@ -773,6 +793,9 @@ static PBUser* defaultPBUserInstance = nil;
   }
   if (self.hasCredit) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.credit] hash];
+  }
+  if (self.hasLevel) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
   }
   if (self.hasWeixinId) {
     hashCode = hashCode * 31 + [self.weixinId hash];
@@ -897,6 +920,9 @@ static PBUser* defaultPBUserInstance = nil;
   }
   if (other.hasCredit) {
     [self setCredit:other.credit];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
   }
   if (other.hasWeixinId) {
     [self setWeixinId:other.weixinId];
@@ -1039,6 +1065,10 @@ static PBUser* defaultPBUserInstance = nil;
       }
       case 240: {
         [self setCredit:[input readInt32]];
+        break;
+      }
+      case 248: {
+        [self setLevel:[input readInt32]];
         break;
       }
       case 322: {
@@ -1361,6 +1391,22 @@ static PBUser* defaultPBUserInstance = nil;
 - (PBUserBuilder*) clearCredit {
   resultPbuser.hasCredit = NO;
   resultPbuser.credit = 20;
+  return self;
+}
+- (BOOL) hasLevel {
+  return resultPbuser.hasLevel;
+}
+- (SInt32) level {
+  return resultPbuser.level;
+}
+- (PBUserBuilder*) setLevel:(SInt32) value {
+  resultPbuser.hasLevel = YES;
+  resultPbuser.level = value;
+  return self;
+}
+- (PBUserBuilder*) clearLevel {
+  resultPbuser.hasLevel = NO;
+  resultPbuser.level = 1;
   return self;
 }
 - (BOOL) hasWeixinId {

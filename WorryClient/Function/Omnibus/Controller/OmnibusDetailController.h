@@ -7,7 +7,10 @@
 //
 
 #import "DefaultViewController.h"
+@class PBTopic;
 
 @interface OmnibusDetailController : DefaultViewController
+
+- (instancetype)initWithPBTopic:(PBTopic *)pbTopic;
 
 @end

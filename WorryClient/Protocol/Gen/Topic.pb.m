@@ -28,6 +28,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSMutableArray * followersArray;
 @property SInt32 followersCount;
 @property (strong) NSString* icon;
+@property (strong) NSMutableArray * feedIdArray;
 @property SInt32 createdAt;
 @property SInt32 updatedAt;
 @end
@@ -71,6 +72,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasIcon_ = !!_value_;
 }
 @synthesize icon;
+@synthesize feedIdArray;
+@dynamic feedId;
 - (BOOL) hasCreatedAt {
   return !!hasCreatedAt_;
 }
@@ -115,6 +118,12 @@ static PBTopic* defaultPBTopicInstance = nil;
 - (PBUser*)followersAtIndex:(NSUInteger)index {
   return [followersArray objectAtIndex:index];
 }
+- (NSArray *)feedId {
+  return feedIdArray;
+}
+- (NSString*)feedIdAtIndex:(NSUInteger)index {
+  return [feedIdArray objectAtIndex:index];
+}
 - (BOOL) isInitialized {
   if (self.hasCreatUser) {
     if (!self.creatUser.isInitialized) {
@@ -150,6 +159,9 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasIcon) {
     [output writeString:20 value:self.icon];
   }
+  [self.feedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:30 value:element];
+  }];
   if (self.hasCreatedAt) {
     [output writeInt32:40 value:self.createdAt];
   }
@@ -182,6 +194,15 @@ static PBTopic* defaultPBTopicInstance = nil;
   }
   if (self.hasIcon) {
     size_ += computeStringSize(20, self.icon);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.feedIdArray.count;
+    [self.feedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
   }
   if (self.hasCreatedAt) {
     size_ += computeInt32Size(40, self.createdAt);
@@ -248,6 +269,9 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasIcon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"icon", self.icon];
   }
+  [self.feedIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"feedId", obj];
+  }];
   if (self.hasCreatedAt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"createdAt", [NSNumber numberWithInteger:self.createdAt]];
   }
@@ -276,6 +300,7 @@ static PBTopic* defaultPBTopicInstance = nil;
       (!self.hasFollowersCount || self.followersCount == otherMessage.followersCount) &&
       self.hasIcon == otherMessage.hasIcon &&
       (!self.hasIcon || [self.icon isEqual:otherMessage.icon]) &&
+      [self.feedIdArray isEqualToArray:otherMessage.feedIdArray] &&
       self.hasCreatedAt == otherMessage.hasCreatedAt &&
       (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
       self.hasUpdatedAt == otherMessage.hasUpdatedAt &&
@@ -302,6 +327,9 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasIcon) {
     hashCode = hashCode * 31 + [self.icon hash];
   }
+  [self.feedIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
   if (self.hasCreatedAt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createdAt] hash];
   }
@@ -373,6 +401,13 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (other.hasIcon) {
     [self setIcon:other.icon];
   }
+  if (other.feedIdArray.count > 0) {
+    if (resultPbtopic.feedIdArray == nil) {
+      resultPbtopic.feedIdArray = [[NSMutableArray alloc] initWithArray:other.feedIdArray];
+    } else {
+      [resultPbtopic.feedIdArray addObjectsFromArray:other.feedIdArray];
+    }
+  }
   if (other.hasCreatedAt) {
     [self setCreatedAt:other.createdAt];
   }
@@ -429,6 +464,10 @@ static PBTopic* defaultPBTopicInstance = nil;
       }
       case 162: {
         [self setIcon:[input readString]];
+        break;
+      }
+      case 242: {
+        [self addFeedId:[input readString]];
         break;
       }
       case 320: {
@@ -555,6 +594,27 @@ static PBTopic* defaultPBTopicInstance = nil;
 - (PBTopicBuilder*) clearIcon {
   resultPbtopic.hasIcon = NO;
   resultPbtopic.icon = @"";
+  return self;
+}
+- (NSMutableArray *)feedId {
+  return resultPbtopic.feedIdArray;
+}
+- (NSString*)feedIdAtIndex:(NSUInteger)index {
+  return [resultPbtopic feedIdAtIndex:index];
+}
+- (PBTopicBuilder *)addFeedId:(NSString*)value {
+  if (resultPbtopic.feedIdArray == nil) {
+    resultPbtopic.feedIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbtopic.feedIdArray addObject:value];
+  return self;
+}
+- (PBTopicBuilder *)setFeedIdArray:(NSArray *)array {
+  resultPbtopic.feedIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBTopicBuilder *)clearFeedId {
+  resultPbtopic.feedIdArray = nil;
   return self;
 }
 - (BOOL) hasCreatedAt {

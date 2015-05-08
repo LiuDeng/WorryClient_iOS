@@ -26,7 +26,7 @@
 @property (nonatomic,strong) UITextField *titleTextField;
 @property (nonatomic,strong) UIView *selectionHolderView;
 @property (nonatomic,strong) UIButton *topicButton;
-@property (nonatomic,strong) UIButton *typeButton;
+@property (nonatomic,strong) UIButton *anonymousButton;
 @property (nonatomic,assign) PBFeedType feedType;
 @property (nonatomic,strong) DLRadioButton *storyButton;
 @property (nonatomic,strong) DLRadioButton *worryButton;
@@ -51,10 +51,16 @@
 - (void)loadView
 {
     [super loadView];
+
     [self addRightButtonWithImageName:@"create_feed_save" target:self action:@selector(clickRightButton)];
     [self loadTitleTextField];
     [self loadPlaceholderTextView];
     [self loadSelectionHolderView];
+}
+
+- (void)loadData
+{
+    [super loadData];
 }
 
 #pragma mark - Private methods
@@ -117,7 +123,7 @@
     
     [self loadTopicButton];
     [self loadRadioButtons];
-//    [self loadTypeButton];
+    [self loadAnonymousButton];
 }
 
 - (void)loadTopicButton
@@ -136,17 +142,23 @@
     }];
 }
 
-- (void)loadTypeButton
+static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
+
+- (void)loadAnonymousButton
 {
-    self.typeButton = [[UIButton alloc]init];
-    [self.selectionHolderView addSubview:self.typeButton];
-    [self.typeButton setTitle:@"类型" forState:UIControlStateNormal];
-    [self.typeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.typeButton addTarget:self action:@selector(clickTypeButton:) forControlEvents:UIControlEventTouchUpInside];
+    self.anonymousButton = [[UIButton alloc]init];
+    [self.selectionHolderView addSubview:self.anonymousButton];
+    [self.anonymousButton setTitle:@"匿名" forState:UIControlStateNormal];
+    [self.anonymousButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.anonymousButton addTarget:self action:@selector(clickAnonymousButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.anonymousButton setImage:[UIImage imageNamed:@"creat_feed_unchecked"] forState:UIControlStateNormal];
+    [self.anonymousButton setImage:[UIImage imageNamed:@"creat_feed_checked"] forState:UIControlStateSelected];
     
-    [self.typeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.anonymousButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.selectionHolderView);
         make.centerY.equalTo(self.selectionHolderView);
+        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
     }];
 }
 
@@ -172,17 +184,16 @@
     self.worryButton.otherButtons = @[self.storyButton];
     self.worryButton.selected = YES;
     
-    CGFloat withScale = 0.2;
     [self.storyButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.selectionHolderView);
+        make.right.equalTo(self.selectionHolderView.mas_centerX);
         make.centerY.equalTo(self.topicButton);
-        make.width.equalTo(self.selectionHolderView).with.multipliedBy(withScale);
+        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
     }];
     
     [self.worryButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.storyButton.mas_left);
+        make.left.equalTo(self.selectionHolderView.mas_centerX);
         make.centerY.equalTo(self.topicButton);
-        make.width.equalTo(self.selectionHolderView).with.multipliedBy(withScale);
+        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
     }];
 }
 
@@ -192,9 +203,9 @@
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
     NSArray *topicArray = self.pbTopicArray;
+    BOOL isAnonymous = self.anonymousButton.selected;
     self.feedType = ([self.worryButton.selectedButton isEqual: self.worryButton]) ? PBFeedTypeWorry : PBFeedTypeStory;
     
-    BOOL isAnonymous = NO;
     if (title.length == 0) {
         POST_ERROR_MSG(@"请输入标题");
     }else if (text.length == 0){
@@ -228,14 +239,10 @@
     };
 }
 
-- (void)clickTypeButton:(UIButton *)button
+- (void)clickAnonymousButton
 {
-    NSString *title = button.titleLabel.text;
-    if ([title isEqualToString:kStoryButtonTitle]) {
-        //
-    }else if([title isEqualToString:kWorryButtonTitle]){
-        
-    }
+    self.anonymousButton.selected = !self.anonymousButton.selected;
 }
+
 
 @end

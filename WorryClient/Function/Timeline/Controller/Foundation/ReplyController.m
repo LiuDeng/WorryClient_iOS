@@ -19,11 +19,22 @@
 @property (nonatomic,strong) UITextView *textView;
 @property (nonatomic,strong) UIView *holderView;
 @property (nonatomic,strong) UIView *miscHolderView;
-
+@property (nonatomic,strong) PBFeed *pbFeed;
 
 @end
 
 @implementation ReplyController
+
+#pragma mark - Public methods
+
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed
+{
+    self = [super init];
+    if (self) {
+        self.pbFeed = pbFeed;
+    }
+    return self;
+}
 
 #pragma mark - Default methods
 
@@ -76,7 +87,7 @@
 {
     self.titleLabel = [[UILabel alloc]init];
     [self.view addSubview:self.titleLabel];
-    self.titleLabel.text = @"是时候了";//self.pbFeed.title;
+    self.titleLabel.text = self.pbFeed.title;
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -116,7 +127,7 @@
 {
     self.avatarView = [[AvatarView alloc]initWithBorderWidth:1.0f];
     [self.holderView addSubview:self.avatarView];
-    PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    PBUser *pbUser = self.pbFeed.createUser;
     NSURL *url = [NSURL URLWithString:pbUser.avatar];
     [self.avatarView.imageView sd_setImageWithURL:url];
     
@@ -145,7 +156,8 @@
 {
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
-    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+//    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    self.textView.text = self.pbFeed.text;
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);

@@ -11,9 +11,10 @@
 #import "UIColor+UIColorExt.h"
 #import "TimelineCell.h"
 #import "StoryCollectionViewCell.h"
+#import "Topic.pb.h"
 
-#define kStoryTitle @"故事"
-#define kWorryTitle @"心事"
+#define kStoryTitle @"心事"
+#define kWorryTitle @"心结"
 
 #define kWorryCell  @"kWorryCell"
 #define kStoryCell  @"kStoryCell"
@@ -36,11 +37,23 @@
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIImageView *recommendStoryImageView;
+@property (nonatomic,strong) PBTopic *pbTopic;
 
 
 @end
 
 @implementation OmnibusDetailController
+
+#pragma mark - Public methods
+
+- (instancetype)initWithPBTopic:(PBTopic *)pbTopic
+{
+    self = [super init];
+    if (self) {
+        self.pbTopic = pbTopic;
+    }
+    return self;
+}
 
 #pragma mark - Default methods
 
@@ -119,8 +132,6 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.bounces = NO;
     self.scrollView.directionalLockEnabled = YES;
-    
-    self.scrollView.backgroundColor = [UIColor greenColor];
     
     NSUInteger arrayCount = self.segmentedControlTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeight);

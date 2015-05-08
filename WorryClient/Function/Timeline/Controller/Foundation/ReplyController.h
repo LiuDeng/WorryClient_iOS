@@ -11,6 +11,6 @@
 
 @interface ReplyController : DefaultViewController
 
-@property (nonatomic,strong) PBFeed *pbFeed;
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed;
 
 @end

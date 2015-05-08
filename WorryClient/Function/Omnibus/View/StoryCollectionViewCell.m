@@ -60,7 +60,7 @@
 {
     self.authorLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.authorLabel];
-    self.authorLabel.textColor = kLabelGrayColor;
+    self.authorLabel.textColor = OPAQUE_COLOR(0Xdf,0Xdf,0Xdf);
     self.authorLabel.font = kMiddleLabelFont;
     
     [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -75,7 +75,7 @@
 {
     self.dateLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.dateLabel];
-    self.dateLabel.textColor = kLabelGrayColor;
+    self.dateLabel.textColor = OPAQUE_COLOR(0Xdf,0Xdf,0Xdf);
     self.dateLabel.font = kMiddleLabelFont;
     
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
