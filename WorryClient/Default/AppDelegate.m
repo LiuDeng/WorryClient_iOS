@@ -41,7 +41,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     [self setupViewControllers];
-//    [self.window setRootViewController:self.viewController];
+    [self.window setRootViewController:self.viewController];
     
     // show window now
     [self.window makeKeyAndVisible];
@@ -54,7 +54,7 @@
     [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     
-    [self loadGuidePage];
+//    [self loadGuidePage];
     return YES;
 }
 
