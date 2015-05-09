@@ -39,7 +39,11 @@
 - (void)loadView
 {
     [super loadView];
-    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
+    UIImage *createFeedImage = [UIImage imageNamed:@"creat_feed"];
+    UIImage *newsImage  = [UIImage imageNamed:@"news"];
+    UIBarButtonItem *createFeedItem = [[UIBarButtonItem alloc]initWithImage:createFeedImage style:UIBarButtonItemStylePlain target:self action:@selector(clickPlusButton)];
+    UIBarButtonItem *newsItem = [[UIBarButtonItem alloc]initWithImage:newsImage style:UIBarButtonItemStylePlain target:self action:@selector(clickNewsButton)];
+    self.navigationItem.rightBarButtonItems = @[createFeedItem,newsItem];
 }
 
 #pragma mark - Private methods
@@ -193,6 +197,11 @@
     TimelineCell *cell = (TimelineCell *)[[sender superview]superview];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     return self.pbFeedArray[indexPath.row];
+}
+
+- (void)clickNewsButton
+{
+    
 }
 
 @end

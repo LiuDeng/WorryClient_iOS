@@ -46,15 +46,15 @@
                                                                       target:self
                                                                       action:@selector(clickBackButton)];
         
-        
-        //        backButton.imageInsets = UIEdgeInsetsMake(0, NAVBARLEFT_BUTTON_INSET_LEFT, 0, 0);
+    
+//                backButton.imageInsets = UIEdgeInsetsMake(0, NAVBARLEFT_BUTTON_INSET_LEFT, 0, 0);
         self.navigationItem.leftBarButtonItem = backButton;
     }
 }
 
 - (void)loadBackButton
 {
-    [self loadBackButtonWithImageName:@"back_white"];
+    self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
 #pragma mark - Private methods

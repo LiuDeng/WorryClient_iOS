@@ -58,7 +58,7 @@ const CGFloat strokeSize = 1.0f;
 {
     [super loadView];
 //    [self loadBackButtonWithImageName:@"story_detail_back"];
-    [self loadBackButtonWithImageName:@"back_white"];
+//    [self loadBackButtonWithImageName:@"back_white"];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     [self hideTabBar];

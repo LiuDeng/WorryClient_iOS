@@ -80,7 +80,6 @@
 - (void)loadTableView
 {
     [super loadTableView];
-//    self.tableView.scrollEnabled = NO;
 }
 - (void)loadData
 {
