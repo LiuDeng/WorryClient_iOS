@@ -11,8 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 - (UINavigationController*)currentNavigationController;
-
 - (UIViewController*)currentViewController;
+- (void)showNormalHome;
 
 + (AppDelegate*)sharedInstance;
 

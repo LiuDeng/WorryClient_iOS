@@ -23,9 +23,12 @@
 #import "QuickSignUpController.h"
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
+#import "GuidePageController.h"
 #endif
 
 @interface AppDelegate ()
+
+@property (nonatomic,strong) UINavigationController *guidePageNavigatonController;
 
 @end
 
@@ -38,7 +41,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     [self setupViewControllers];
-    [self.window setRootViewController:self.viewController];
+//    [self.window setRootViewController:self.viewController];
     
     // show window now
     [self.window makeKeyAndVisible];
@@ -50,6 +53,8 @@
     //统计应用启动情况
     [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+    
+    [self loadGuidePage];
     return YES;
 }
 
@@ -76,6 +81,29 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Private methods
+
+- (void)loadGuidePage
+{
+    GuidePageController *vc = [[GuidePageController alloc]init];
+    self.guidePageNavigatonController = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.window setRootViewController:self.guidePageNavigatonController];
+}
+
+- (void)showNormalHome
+{
+    if (self.guidePageNavigatonController){
+        [self.guidePageNavigatonController dismissViewControllerAnimated:YES completion:^{
+            self.guidePageNavigatonController = nil;
+        }];
+    }
+    [self showHomePage];
+}
+
+-(void)showHomePage
+{
+    [self.window setRootViewController:self.viewController];
+}
 
 #pragma mark - Utils
 - (UINavigationController*)currentNavigationController
