@@ -1,17 +1,16 @@
 //
-//  ReplyController.m
+//  ReplyDetailController.m
 //  WorryClient
 //
-//  Created by 蔡少武 on 15/5/7.
+//  Created by 蔡少武 on 15/5/9.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
-
-#import "ReplyController.h"
+#import "ReplyDetailController.h"
 #import "AvatarView.h"
 #import "UIView+DefaultView.h"
 #import "Feed.pb.h"
 
-@interface ReplyController ()
+@interface ReplyDetailController ()
 
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) AvatarView *avatarView;
@@ -27,9 +26,10 @@
 
 @end
 
-const CGFloat holderViewHeight = 42;
-
-@implementation ReplyController
+@implementation ReplyDetailController
+{
+    CGFloat _holderViewHeight;
+}
 
 #pragma mark - Public methods
 
@@ -75,6 +75,7 @@ const CGFloat holderViewHeight = 42;
 - (void)loadData
 {
     [super loadData];
+    _holderViewHeight = 44;
 }
 
 #pragma mark - Private methods
@@ -99,7 +100,7 @@ const CGFloat holderViewHeight = 42;
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.view);
         make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
-        make.height.equalTo(@(holderViewHeight));
+        make.height.equalTo(@(_holderViewHeight));
     }];
 }
 
@@ -111,7 +112,7 @@ const CGFloat holderViewHeight = 42;
     [self.holderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
-        make.height.equalTo(@(holderViewHeight));
+        make.height.equalTo(@(_holderViewHeight));
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(+2);
     }];
     
@@ -165,7 +166,7 @@ const CGFloat holderViewHeight = 42;
 {
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
-//    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    //    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
     self.textView.text = self.pbFeed.text;
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -187,7 +188,7 @@ const CGFloat holderViewHeight = 42;
         make.centerX.equalTo(self.view);
         make.bottom.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.equalTo(@(holderViewHeight));
+        make.height.equalTo(@(_holderViewHeight));
     }];
     
     [self loadMiscButtons];
@@ -234,7 +235,7 @@ const CGFloat holderViewHeight = 42;
 
 - (void)clickMoreButton
 {
-    //  TODO    
+    //  TODO
 }
 
 - (void)clickPraiseButton
