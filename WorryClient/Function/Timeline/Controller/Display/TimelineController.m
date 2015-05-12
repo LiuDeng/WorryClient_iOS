@@ -17,6 +17,7 @@
 #import "WorryDetailController.h"
 #import "ReplyController.h"
 #import "OmnibusDetailController.h"
+#import "SendBlessingController.h"
 
 #define kTimelineCell @"kTimelineCell"
 
@@ -115,9 +116,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    StoryDetailController *vc = [[StoryDetailController alloc]init];
-//    WorryDetailController *vc = [[WorryDetailController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    PBFeed *pbFeed = self.pbFeedArray[indexPath.row];
+    PBFeedType type = pbFeed.type;
+    
+    switch (type) {
+        case PBFeedTypeStory:{
+            StoryDetailController *vc = [[StoryDetailController alloc]initWithPBFeed:pbFeed];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case PBFeedTypeWorry:{
+            WorryDetailController *vc = [[WorryDetailController alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -172,7 +187,8 @@
 
 - (void)clickBlessingButton:(id)sender
 {
-    //  TODO
+    SendBlessingController *vc = [[SendBlessingController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)clickReplyButton:(id)sender

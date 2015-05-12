@@ -75,8 +75,9 @@
 - (void)loadView
 {
     [super loadView];
+    self.title = self.pbTopic.title;
     [self hideTabBar];
-    [self.view layoutIfNeeded];
+    [self.view layoutIfNeeded]; //  TODO
     [self loadSegmentedControl];
     [self loadScrollView];
     [self loadWorryHolderView];
@@ -279,8 +280,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryCell forIndexPath:indexPath];
-    cell.titleLabel.text = @"title";
-    cell.shortTextLabel.text = @"shoret jfladjfga=gasdfkasd";
+    cell.titleLabel.text = @"成绩提不上去，怎么办？";
+    cell.shortTextLabel.text = @"连续几次考试，成绩一直不好啊，明明有认真听课啊";
+    NSString *replyTitle = @"1";
+    [cell.replyButton setTitle:replyTitle forState:UIControlStateNormal];
+    NSString *blessingTitle = @"1";
+    [cell.blessingButton setTitle:blessingTitle forState:UIControlStateNormal];
+    NSString *topicTitle = @"爱情";
+    [cell.topicButton setTitle:topicTitle forState:UIControlStateNormal];
     return cell;
 }
 
@@ -315,9 +322,9 @@
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     StoryCollectionViewCell *storyCollectionViewCell = (StoryCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kStoryCell forIndexPath:indexPath];
-    storyCollectionViewCell.titleLabel.text = @"title ";
-    storyCollectionViewCell.authorLabel.text = @"author";
-    storyCollectionViewCell.dateLabel.text = @"xxxxxx";
+    storyCollectionViewCell.titleLabel.text = @"金鱼女生的暗恋";
+    storyCollectionViewCell.authorLabel.text = @"金鱼";
+    storyCollectionViewCell.dateLabel.text = @"2015.04.20";//@"金鱼女生喜欢上了一个男生，于是有了心事，只是一直都是独角戏。";
     
     return storyCollectionViewCell;
 }

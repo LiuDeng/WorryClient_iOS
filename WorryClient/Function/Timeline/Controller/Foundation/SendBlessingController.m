@@ -30,8 +30,20 @@
 {
     [super loadView];
     self.title = @"祝福";
+    [self test];
 }
 
 #pragma mark - Private methods
+
+- (void)test
+{
+    UIImage *image = [UIImage imageNamed:@"send_blessing_test"];
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:image];
+    [self.view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.equalTo(self.view);
+    }];
+}
 
 @end

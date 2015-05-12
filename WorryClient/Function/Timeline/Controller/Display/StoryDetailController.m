@@ -10,6 +10,7 @@
 #import "AvatarView.h"
 #import "THLabel.h"
 #import "AppDelegate.h"
+#import "Feed.pb.h"
 
 const CGFloat strokeSize = 1.0f;
 
@@ -28,11 +29,23 @@ const CGFloat strokeSize = 1.0f;
 @property (nonatomic,strong) UIImageView *shareWeiboImageView;
 @property (nonatomic,strong) UIImageView *shareWxTimelineImageView;
 @property (nonatomic,strong) UIImageView *blessingImageView;
+@property (nonatomic,strong) PBFeed *pbFeed;
 
 
 @end
 
 @implementation StoryDetailController
+
+#pragma mark - Public methods
+
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed
+{
+    self = [super init];
+    if (self) {
+        self.pbFeed = pbFeed;
+    }
+    return self;
+}
 
 #pragma mark - Default methods
 
@@ -57,8 +70,6 @@ const CGFloat strokeSize = 1.0f;
 - (void)loadView
 {
     [super loadView];
-//    [self loadBackButtonWithImageName:@"story_detail_back"];
-//    [self loadBackButtonWithImageName:@"back_white"];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     [self hideTabBar];
@@ -113,7 +124,7 @@ const CGFloat strokeSize = 1.0f;
 {
     self.bgImageView = [[UIImageView alloc]init];
     [self.view addSubview:self.bgImageView];
-    UIImage *image = [UIImage imageNamed:@"image3.jpg"];
+    UIImage *image = [UIImage imageNamed:@"story_detail_image"];
     self.bgImageView.image = image;
     _isBGImageLightColor = [Utils isLightColorInImage:image];
     
@@ -129,7 +140,7 @@ const CGFloat strokeSize = 1.0f;
 {
     self.titleLabel = [[THLabel alloc]init];
     [self.bgImageView addSubview:self.titleLabel];
-    self.titleLabel.text = @"金鱼女生的暗恋";
+    self.titleLabel.text = self.pbFeed.title;//@"金鱼女生的暗恋";
     self.titleLabel.font = [UIFont systemFontOfSize:24];
     self.titleLabel.strokeSize = strokeSize;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -154,7 +165,7 @@ const CGFloat strokeSize = 1.0f;
 {
     self.creatUserAvatarView = [[AvatarView alloc]initWithBorderWidth:1.0f];
     [self.bgImageView addSubview:self.creatUserAvatarView];
-    self.creatUserAvatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
+    self.creatUserAvatarView.imageView.image = [UIImage imageNamed:@"avatar01"];    //  TODO
     
     [self.creatUserAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bgImageView.mas_centerX).with.multipliedBy(kRightScale);
@@ -255,8 +266,10 @@ const CGFloat strokeSize = 1.0f;
     [self.view addSubview:self.textView];
     self.textView.selectable = NO;
     self.textView.font = [UIFont systemFontOfSize:15];
+    self.textView.scrollEnabled = YES;
     self.textView.textColor = OPAQUE_COLOR(0x69, 0x69, 0x69);
-    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+//    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    self.textView.text = self.pbFeed.text;
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);

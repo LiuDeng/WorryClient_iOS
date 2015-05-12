@@ -7,7 +7,10 @@
 //
 
 #import "DefaultViewController.h"
+@class PBFeed;
 
 @interface StoryDetailController : DefaultViewController
+
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed;
 
 @end

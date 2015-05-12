@@ -215,8 +215,7 @@
 {
     PBTopic *pbTopic = self.pbTopicArray[indexPath.row];
     
-    OmnibusDetailController *vc = [[OmnibusDetailController alloc]init];
-    vc.title = pbTopic.title;
+    OmnibusDetailController *vc = [[OmnibusDetailController alloc]initWithPBTopic:pbTopic];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
