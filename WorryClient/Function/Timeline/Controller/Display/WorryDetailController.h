@@ -7,7 +7,10 @@
 //
 
 #import "DefaultViewController.h"
+@class PBFeed;
 
 @interface WorryDetailController : DefaultViewController
+
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed;
 
 @end

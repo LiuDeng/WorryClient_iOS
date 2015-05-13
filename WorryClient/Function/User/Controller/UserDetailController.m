@@ -242,6 +242,8 @@
         if (image) {
             [[UserService sharedInstance]updateAvatar:image block:^(NSError *error) {
                 if (error == nil) {
+                    self.pbUser = [[UserManager sharedInstance]pbUser];
+                    [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
             }];
@@ -257,6 +259,8 @@
         if (image) {
             [[UserService sharedInstance]updateBGImage:image block:^(NSError *error) {
                 if (error == nil) {
+                    self.pbUser = [[UserManager sharedInstance]pbUser];
+                    [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
             }];

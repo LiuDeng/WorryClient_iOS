@@ -70,7 +70,7 @@
 - (void)loadView
 {
     self.contentView.layer.borderColor = [kLayerColor CGColor];
-    self.contentView.layer.borderWidth = kLayerBorderWidth;
+    self.contentView.layer.borderWidth = 0.5;
     [self loadAvatarView];
     [self loadTitleHolderView];
     [self loadShortTextLabel];
@@ -115,7 +115,7 @@
     self.shortTextLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.shortTextLabel];
     self.shortTextLabel.numberOfLines = 0;
-    self.shortTextLabel.textColor = OPAQUE_COLOR(0x53, 0x53, 0x53);
+    self.shortTextLabel.textColor = kLabelBlackColor;
     self.shortTextLabel.font = [UIFont systemFontOfSize:14];
 }
 

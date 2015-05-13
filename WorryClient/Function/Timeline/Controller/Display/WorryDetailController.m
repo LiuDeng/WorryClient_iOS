@@ -10,6 +10,7 @@
 #import "AvatarView.h"
 #import "UIView+DefaultView.h"
 #import "WorryAnswerCell.h"
+#import "Feed.pb.h"
 
 #define kInviteButtonTitle @"邀请"
 #define kAnswerButtonTitle @"回答"
@@ -27,6 +28,7 @@
 @property (nonatomic,strong) UITextView *textView;
 @property (nonatomic,strong) NSArray *buttonTitleArray;
 @property (nonatomic,strong) NSArray *buttonImageNameArray;
+@property (nonatomic,strong) PBFeed *pbFeed;
 
 @property (nonatomic,strong) UIView *titleHolderView;
 @property (nonatomic,strong) UIView *buttonHolderView;
@@ -34,6 +36,17 @@
 @end
 
 @implementation WorryDetailController
+
+#pragma mark - Public methods
+
+- (instancetype)initWithPBFeed:(PBFeed *)pbFeed
+{
+    self = [super init];
+    if (self) {
+        self.pbFeed = pbFeed;
+    }
+    return self;
+}
 
 #pragma mark - Private methods
 
@@ -97,7 +110,7 @@
         [button setImage:image forState:UIControlStateNormal];
         [button setTitle:title forState:UIControlStateNormal];
         [self.buttonHolderView addSubview:button];
-        [button setTitleColor:OPAQUE_COLOR(0x8a, 0x8a, 0x8a) forState:UIControlStateNormal];
+        [button setTitleColor:kLabelBlackColor forState:UIControlStateNormal];
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 3, 0, 0);
         button.titleEdgeInsets = edgeInsets;
         
@@ -133,8 +146,8 @@
 {
     self.titleLabel = [[UILabel alloc]init];
     [self.titleHolderView addSubview:self.titleLabel];
-    self.titleLabel.text = @"最感动的事";
-    self.titleLabel.textColor = kLabelBlackColor;
+    self.titleLabel.text = self.pbFeed.title;
+//    self.titleLabel.textColor = kLabelBlackColor;
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleHolderView);
@@ -163,9 +176,10 @@
 {
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
-    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
-    self.textView.textColor = OPAQUE_COLOR(0x7c, 0x86, 0x92);
-    self.textView.font = [UIFont systemFontOfSize:17];
+//    self.textView.text = @"连续几次考试，成绩都在下游徘徊，明明有好好听课，明明有好好复习，可是为什么成绩老是提不上去？看到别人申请奖学金、出国、各种全能，我真的觉得自己一无是处。";
+    self.textView.text = self.pbFeed.text;
+    self.textView.textColor = kLabelBlackColor;
+    self.textView.font = kMiddleLabelFont;
     
     [self.textView  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -222,7 +236,7 @@
     UIImage *image = [UIImage imageNamed:@"avatar01"];
     cell.avatarView.imageView.image = image;
     [cell.thanksButton setTitle:@"12" forState:UIControlStateNormal];
-    cell.shortTextLabel.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    cell.shortTextLabel.text = @"连续几次考试，成绩都在下游徘徊，明明有好好听课，明明有好好复习，可是为什么成绩老是提不上去？看到别人申请奖学金、出国、各种全能，我真的觉得自己一无是处。";
     cell.nickLabel.text = @"笑着流泪";
     return cell;
 }

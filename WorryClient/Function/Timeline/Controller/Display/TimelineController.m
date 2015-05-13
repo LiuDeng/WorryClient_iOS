@@ -126,7 +126,7 @@
             break;
         }
         case PBFeedTypeWorry:{
-            WorryDetailController *vc = [[WorryDetailController alloc]init];
+            WorryDetailController *vc = [[WorryDetailController alloc]initWithPBFeed:pbFeed];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
