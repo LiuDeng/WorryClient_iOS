@@ -12,6 +12,9 @@
 #import "TimelineCell.h"
 #import "StoryCollectionViewCell.h"
 #import "Topic.pb.h"
+#import "Feed.pb.h"
+#import "FeedManager.h"
+#import "FeedService.h"
 
 #define kStoryTitle @"心事"
 #define kWorryTitle @"心结"
@@ -59,6 +62,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self test];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -258,7 +262,16 @@
 
 #pragma mark - Utils
 
-
+- (void)test
+{
+    [[FeedService sharedInstance]requireNewFeedsWithPBTopic:self.pbTopic block:^(NSError *error) {
+//        if (error == nil) {
+        
+//        }
+    }];
+    NSArray *pbFeedArray = [[FeedManager sharedInstance]pbFeedArrayWithPBTopic:self.pbTopic];
+    
+}
 
 
 #pragma mark - UIScrollViewDelegate

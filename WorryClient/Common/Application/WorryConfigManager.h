@@ -12,6 +12,7 @@
 #define kAVOSCloudAppKey    @"9px9mu18kjy59eaigq6h3l1xnz1lryw4q5o2kf3jtg8w6ppc"
 #define kDBName             @"worry_DB"
 #define kMaxCacheAge        30*24*3600;   //  30(days)*24(hours)*3600(s)
+#define kFeedDataCount      30
 
 @interface WorryConfigManager : NSObject
 

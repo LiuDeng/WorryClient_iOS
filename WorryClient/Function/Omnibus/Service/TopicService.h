@@ -23,4 +23,6 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
 - (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block;
 - (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block;
 
+- (void)updatePBTopic:(PBTopic *)pbTopic addFeedId:(NSString *)feedId block:(ServiceErrorResultBlock)block;
+
 @end

@@ -11,13 +11,16 @@
 #import "AVOSCloud/AVOSCloud.h"
 #import "Feed.pb.h"
 
+@class PBTopic;
+
 typedef AVBooleanResultBlock FeedServiceBooleanResultBlock;
 typedef void (^FeedServiceErrorResultBlock) (NSError *error);
 
 @interface FeedService : NSObject
 {
     NSUInteger _requiredFeedsCount;
-    NSUInteger _myRequireFeedCount;
+    NSUInteger _myRequireFeedsCount;
+    NSUInteger _requireFeedsByTopicCount;
 }
 
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
@@ -34,5 +37,7 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 - (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
 - (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+
+- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(FeedServiceErrorResultBlock)block;
 
 @end

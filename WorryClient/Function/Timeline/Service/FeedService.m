@@ -9,6 +9,8 @@
 #import "FeedService.h"
 #import "FeedManager.h"
 #import "Utils.h"
+#import "TopicManager.h"
+#import "TopicService.h"
 //#import "UserService.h"
 //#import "UserManager.h"
 
@@ -34,9 +36,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     AVUser *avCurrentUser = [AVUser currentUser];
-    NSString *uuid = [Utils getUUID];
+//    NSString *uuid = [Utils getUUID];
     PBFeedBuilder *pbFeedBuilder = [[PBFeedBuilder alloc]init];
-    [pbFeedBuilder setFeedId:uuid];
+//    [pbFeedBuilder setFeedId:uuid];
     [pbFeedBuilder setCreateUser:createUser];
     [pbFeedBuilder setTitle:title];
     [pbFeedBuilder setText:text];
@@ -52,8 +54,16 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     
     [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
+            //  update topic
+            for (PBTopic *pbTopic in topicArray) {
+                [[TopicService sharedInstance]updatePBTopic:pbTopic addFeedId:feed.objectId block:^(NSError *error) {
+                    EXECUTE_BLOCK(block,error);
+                }];
+            }
+        }else{
             EXECUTE_BLOCK(block,error);
         }
+        
     }];
 }
 
@@ -61,7 +71,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-//    [self requireMyFeedsFrom:0 requireFeedsBlock:nil Block:block];
     [self requireMyFeedsFrom:0 requireFeedsBlock:^{
         
     } Block:block];
@@ -69,14 +78,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-    [self requireMyFeedsFrom:_myRequireFeedCount requireFeedsBlock:^{
-        _myRequireFeedCount++;
+    [self requireMyFeedsFrom:_myRequireFeedsCount requireFeedsBlock:^{
+        _myRequireFeedsCount++;  //  TODO    要是feeds剩下的已经少于myRequiredFeedCount了呢？
     } Block:block];
 }
 
 - (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
-//    [self requirePublicFeedsWithFrom:0 requireFeedsBlock:nil Block:block];
     [self requirePublicFeedsWithFrom:0 requireFeedsBlock:^{
         
     } Block:block];
@@ -85,8 +93,31 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
 {
     [self requirePublicFeedsWithFrom:_requiredFeedsCount requireFeedsBlock:^{
-        _requiredFeedsCount++;
+        _requiredFeedsCount++;  //  TODO
     } Block:block];
+}
+
+- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(FeedServiceErrorResultBlock)block
+{
+    NSUInteger dataCount = pbTopic.feedId.count;
+    NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i < dataCount; i++) {
+        NSString *pbFeedId = [pbTopic.feedId objectAtIndex:i];
+        AVObject *avFeed = [AVQuery getObjectOfClass:kFeedClassName objectId:pbFeedId];
+        NSData *data = [avFeed objectForKey:kFeedKey];
+        [pbFeedDataArray addObject:data];
+    }
+    if (pbFeedDataArray.count > 0) {
+        [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+    }
+}
+
+//  TODO
+- (PBFeed *)pbFeedWithFeedTitle:(NSString *)title
+{
+    PBFeed *pbFeed;
+    
+    return pbFeed;
 }
 
 #pragma mark - Utils

@@ -9,6 +9,7 @@
 #import "FeedManager.h"
 #import "UserManager.h"
 #import "WorryConfigManager.h"
+#import "Topic.pb.h"
 
 #define kFeedTable              @"kFeedTable"
 #define kFeedTableFieldId       @"id"
@@ -45,6 +46,19 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
 {
     _pbFeedArray = [self requireFeedArrayFromCache];
     return _pbFeedArray;
+}
+
+- (NSArray *)pbFeedArrayWithPBTopic:(PBTopic *)pbTopic
+{
+    NSMutableArray *pbFeedArray = [[NSMutableArray alloc]init];
+    NSUInteger dataCount = pbTopic.feedId.count > kFeedDataCount ? kFeedDataCount : pbTopic.feedId.count;
+    for (int i = 0 ;i < dataCount; i++) {
+        NSString *pbFeedId = [pbTopic.feedId objectAtIndex:i];
+        PBFeed *pbFeed = [self pbFeedWithPBFeedId:pbFeedId];
+//        [pbFeedArray insertObject:pbFeed atIndex:0];
+        [pbFeedArray addObject:pbFeed];
+    }
+    return pbFeedArray;
 }
 
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray
@@ -144,6 +158,25 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     }
     
     
+}
+
+
+#pragma mark - Utils
+
+- (PBFeed *)pbFeedWithPBFeedId:(NSString *)pbFeedId
+{
+    NSString *querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kFeedTable,kFeedTableFieldId,pbFeedId];
+    FMResultSet *results;
+    
+    results = [_db executeQuery:querySql];
+    PBFeed *pbFeed;
+    if (results.next) {
+        NSData *data = [results dataForColumn:kFeedTableFieldFeed];
+        pbFeed = [PBFeed parseFromData:data];
+    }
+    
+    [results close];
+    return pbFeed;
 }
 
 @end

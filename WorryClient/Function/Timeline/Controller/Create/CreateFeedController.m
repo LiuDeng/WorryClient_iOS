@@ -203,6 +203,7 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
     NSArray *topicArray = self.pbTopicArray;
+
     BOOL isAnonymous = self.anonymousButton.selected;
     self.feedType = ([self.worryButton.selectedButton isEqual: self.worryButton]) ? PBFeedTypeWorry : PBFeedTypeStory;
     

@@ -64,6 +64,27 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     } Block:block];
 }
 
+- (void)updatePBTopic:(PBTopic *)pbTopic addFeedId:(NSString *)feedId block:(ServiceErrorResultBlock)block
+{
+    NSMutableArray *feedIdArray = (NSMutableArray *)pbTopic.feedId;
+    if (feedIdArray == nil) {
+        feedIdArray = [[NSMutableArray alloc]init];
+    }
+    
+    [feedIdArray addObject:feedId];
+    [self updateTopic:pbTopic updatePBTopicBlock:^(PBTopicBuilder *pbTopicBuilder) {
+        [pbTopicBuilder setFeedIdArray:feedIdArray];
+        [pbTopicBuilder setUpdatedAt:(int)time(0)];
+    } block:block];
+}
+
+- (void)refreshPBTopic:(PBTopic *)pbTopic
+{
+    NSData *pbTopicData = [self pbTopicDataWithTopicId:pbTopic.topicId];
+    // store pbTopic into cache
+    [[TopicManager sharedInstance]storePBTopicData:pbTopicData];
+}
+
 #pragma mark - Uitls
 
 /*
@@ -124,10 +145,43 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
                 requireTopicsBlock();
             }
             [[TopicManager sharedInstance]storePBTopicDataArray:pbTopicDataArray];
+        }//else{
             EXECUTE_BLOCK(block,error);
-        }
+//        }
     }];
 }
 
+- (void)updateTopic:(PBTopic *)pbTopic
+ updatePBTopicBlock:(void(^)(PBTopicBuilder *pbTopicBuilder))updatePBTopicBlock
+              block:(ServiceErrorResultBlock)block
+{
+    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopic.topicId];
+    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
+    pbTopic = [PBTopic parseFromData:webTopicData];
+    PBTopicBuilder *pbTopicBuilder = [pbTopic toBuilder];
+    
+    updatePBTopicBlock(pbTopicBuilder);
+    
+    pbTopic = [pbTopicBuilder build];
+    NSData *data = [pbTopic data];
+    [avTopic setObject:data forKey:kTopicKey];
+    [avTopic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (PBTopic *)pbTopicWithTopicId:(NSString *)topicId
+{
+    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
+    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
+    return [PBTopic parseFromData:webTopicData];
+}
+
+- (NSData *)pbTopicDataWithTopicId:(NSString *)topicId
+{
+    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
+    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
+    return webTopicData;
+}
 
 @end

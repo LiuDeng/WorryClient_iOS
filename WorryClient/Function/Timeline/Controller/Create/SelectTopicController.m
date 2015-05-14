@@ -41,7 +41,7 @@
 {
     [super loadView];
     [self loadCollectionView];
-    [self addRightButtonWithImageName:@"create_feed_save" target:self action:@selector(clickRightButton)];
+    [self addRightButtonWithImageName:@"create_feed_save" target:self action:@selector(clickSaveButton)];
 }
 
 - (void)loadData
@@ -120,11 +120,19 @@
 {
     SelectTopicCell *cell = (SelectTopicCell *)[collectionView cellForItemAtIndexPath:indexPath];
     PBTopic *pbTopic = self.pbTopicArray[indexPath.row];
-    if ([self.selectedPBTopicArray containsObject:pbTopic]) {
-        [self.selectedPBTopicArray removeObject:pbTopic];
+    
+    //  save pbTopic with basic info
+    PBTopicBuilder *pbTopicBuilder = [pbTopic builder];
+    [pbTopicBuilder clear];
+    [pbTopicBuilder setTopicId:pbTopic.topicId];
+    [pbTopicBuilder setTitle:pbTopic.title];
+    PBTopic *lightPBTopic = [pbTopicBuilder build];
+    
+    if ([self.selectedPBTopicArray containsObject:lightPBTopic]) {
+        [self.selectedPBTopicArray removeObject:lightPBTopic];
         cell.contentView.backgroundColor = [UIColor clearColor];
     }else{
-        [self.selectedPBTopicArray addObject:pbTopic];
+        [self.selectedPBTopicArray addObject:lightPBTopic];
         cell.contentView.backgroundColor = [UIColor greenColor];
     }
 }
@@ -143,7 +151,7 @@
     }
 }
 
-- (void)clickRightButton
+- (void)clickSaveButton
 {
     if (self.selectedPBTopicArray.count>0) {
         EXECUTE_BLOCK(self.selectTopicBlock,self.selectedPBTopicArray);

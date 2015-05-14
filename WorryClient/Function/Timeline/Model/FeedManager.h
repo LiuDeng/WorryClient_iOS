@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 #import "CommonManager.h"
-#import <Foundation/Foundation.h>
-#import "SynthesizeSingleton.h"
 #import "Feed.pb.h"
 #import "FMDB.h"
+
+@class PBTopic;
 
 @interface FeedManager : CommonManager
 {
@@ -22,6 +22,7 @@ DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray;
 - (NSArray *)pbFeedArray;
+- (NSArray *)pbFeedArrayWithPBTopic:(PBTopic *)pbTopic;
 - (void)deleteOldDatabase;
 - (void)dropTable;
 - (void)deleteCache;

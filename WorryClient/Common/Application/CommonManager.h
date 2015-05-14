@@ -10,6 +10,7 @@
 #import "SynthesizeSingleton.h"
 #import "LogUtils.h"
 #import "DataUtils.h"
+#import "WorryConfigManager.h"
 
 @interface CommonManager : NSObject
 

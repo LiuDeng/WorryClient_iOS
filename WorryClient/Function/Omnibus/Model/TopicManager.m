@@ -73,9 +73,26 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
             
             [results close];
         }
-
     }];
     
+}
+
+- (void)storePBTopicData:(NSData *)pbTopicData
+{
+    PBTopic *pbTopic = [PBTopic parseFromData:pbTopicData];
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kTopicTable,kTopicTableFieldTopic,kTopicTableFieldTopic];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kTopicTable,kTopicTableFieldId,kTopicTableFieldTopic];
+    NSString *selectSql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kTopicTable,kTopicTableFieldId,pbTopic.topicId];
+    
+    if ([pbTopic hasTopicId]) {
+        FMResultSet *results = [_db executeQuery:selectSql];
+        if (results.next) {
+            [_db executeUpdate:updateSql,pbTopicData,pbTopic.topicId];
+        }else{
+            [_db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
+        }
+        [results close];
+    }
 }
 
 - (void)deleteOldDatabase
