@@ -8,6 +8,13 @@ enum PBFeedType{
     story = 2;                                                                  //  故事
 }
 
+//  状态，feed有可能被删除，被屏蔽
+enum PBFeedState{
+    normal = 1;                                                                 //  正常
+    removed = 2;                                                                //  已删除
+    prohibited = 3;                                                             //  被屏蔽
+}
+
 message PBComment{
     optional string comment_id = 1;
     optional PBUser create_user = 2;                                            //  创建者，保存基础信息
@@ -53,6 +60,7 @@ message PBFeed{
     optional string text = 41;                                                  //  如果有图片怎么办？
     optional int32 created_at =42;                                              //  创建时间，服务器上是date类型
     optional int32 updated_at = 43;                                             //  更新时间，服务器上是date类型
+    optional PBFeedState state = 44 [default=normal];
 
     repeated PBTopic topic = 50;                                                //  话题，保存基础信息
 

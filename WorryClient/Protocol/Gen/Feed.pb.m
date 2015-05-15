@@ -42,6 +42,29 @@ NSString *NSStringFromPBFeedType(PBFeedType value) {
   }
 }
 
+BOOL PBFeedStateIsValidValue(PBFeedState value) {
+  switch (value) {
+    case PBFeedStateNormal:
+    case PBFeedStateRemoved:
+    case PBFeedStateProhibited:
+      return YES;
+    default:
+      return NO;
+  }
+}
+NSString *NSStringFromPBFeedState(PBFeedState value) {
+  switch (value) {
+    case PBFeedStateNormal:
+      return @"PBFeedStateNormal";
+    case PBFeedStateRemoved:
+      return @"PBFeedStateRemoved";
+    case PBFeedStateProhibited:
+      return @"PBFeedStateProhibited";
+    default:
+      return nil;
+  }
+}
+
 @interface PBComment ()
 @property (strong) NSString* commentId;
 @property (strong) PBUser* createUser;
@@ -1705,6 +1728,7 @@ static PBBlessing* defaultPBBlessingInstance = nil;
 @property (strong) NSString* text;
 @property SInt32 createdAt;
 @property SInt32 updatedAt;
+@property PBFeedState state;
 @property (strong) NSMutableArray * topicArray;
 @property (strong) NSMutableArray * commentArray;
 @property (strong) NSMutableArray * blessingArray;
@@ -1774,6 +1798,13 @@ static PBBlessing* defaultPBBlessingInstance = nil;
   hasUpdatedAt_ = !!_value_;
 }
 @synthesize updatedAt;
+- (BOOL) hasState {
+  return !!hasState_;
+}
+- (void) setHasState:(BOOL) _value_ {
+  hasState_ = !!_value_;
+}
+@synthesize state;
 @synthesize topicArray;
 @dynamic topic;
 @synthesize commentArray;
@@ -1792,6 +1823,7 @@ static PBBlessing* defaultPBBlessingInstance = nil;
     self.text = @"";
     self.createdAt = 0;
     self.updatedAt = 0;
+    self.state = PBFeedStateNormal;
   }
   return self;
 }
@@ -1896,6 +1928,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasUpdatedAt) {
     [output writeInt32:43 value:self.updatedAt];
   }
+  if (self.hasState) {
+    [output writeEnum:44 value:self.state];
+  }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:50 value:element];
   }];
@@ -1940,6 +1975,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   if (self.hasUpdatedAt) {
     size_ += computeInt32Size(43, self.updatedAt);
+  }
+  if (self.hasState) {
+    size_ += computeEnumSize(44, self.state);
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(50, element);
@@ -2015,6 +2053,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasUpdatedAt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"updatedAt", [NSNumber numberWithInteger:self.updatedAt]];
   }
+  if (self.hasState) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"state", NSStringFromPBFeedState(self.state)];
+  }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@ {\n", indent, @"topic"];
     [element writeDescriptionTo:output
@@ -2066,6 +2107,8 @@ static PBFeed* defaultPBFeedInstance = nil;
       (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
       self.hasUpdatedAt == otherMessage.hasUpdatedAt &&
       (!self.hasUpdatedAt || self.updatedAt == otherMessage.updatedAt) &&
+      self.hasState == otherMessage.hasState &&
+      (!self.hasState || self.state == otherMessage.state) &&
       [self.topicArray isEqualToArray:otherMessage.topicArray] &&
       [self.commentArray isEqualToArray:otherMessage.commentArray] &&
       [self.blessingArray isEqualToArray:otherMessage.blessingArray] &&
@@ -2097,6 +2140,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   if (self.hasUpdatedAt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.updatedAt] hash];
+  }
+  if (self.hasState) {
+    hashCode = hashCode * 31 + self.state;
   }
   [self.topicArray enumerateObjectsUsingBlock:^(PBTopic *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
@@ -2176,6 +2222,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   }
   if (other.hasUpdatedAt) {
     [self setUpdatedAt:other.updatedAt];
+  }
+  if (other.hasState) {
+    [self setState:other.state];
   }
   if (other.topicArray.count > 0) {
     if (resultPbfeed.topicArray == nil) {
@@ -2266,6 +2315,15 @@ static PBFeed* defaultPBFeedInstance = nil;
       }
       case 344: {
         [self setUpdatedAt:[input readInt32]];
+        break;
+      }
+      case 352: {
+        PBFeedState value = (PBFeedState)[input readEnum];
+        if (PBFeedStateIsValidValue(value)) {
+          [self setState:value];
+        } else {
+          [unknownFields mergeVarintField:44 value:value];
+        }
         break;
       }
       case 402: {
@@ -2435,6 +2493,22 @@ static PBFeed* defaultPBFeedInstance = nil;
 - (PBFeedBuilder*) clearUpdatedAt {
   resultPbfeed.hasUpdatedAt = NO;
   resultPbfeed.updatedAt = 0;
+  return self;
+}
+- (BOOL) hasState {
+  return resultPbfeed.hasState;
+}
+- (PBFeedState) state {
+  return resultPbfeed.state;
+}
+- (PBFeedBuilder*) setState:(PBFeedState) value {
+  resultPbfeed.hasState = YES;
+  resultPbfeed.state = value;
+  return self;
+}
+- (PBFeedBuilder*) clearState {
+  resultPbfeed.hasState = NO;
+  resultPbfeed.state = PBFeedStateNormal;
   return self;
 }
 - (NSMutableArray *)topic {

@@ -32,14 +32,12 @@
 
 @interface PBTopic : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
-  BOOL hasFollowersCount_:1;
   BOOL hasCreatedAt_:1;
   BOOL hasUpdatedAt_:1;
   BOOL hasTopicId_:1;
   BOOL hasTitle_:1;
   BOOL hasIcon_:1;
   BOOL hasCreatUser_:1;
-  SInt32 followersCount;
   SInt32 createdAt;
   SInt32 updatedAt;
   NSString* topicId;
@@ -52,7 +50,6 @@
 - (BOOL) hasTopicId;
 - (BOOL) hasTitle;
 - (BOOL) hasCreatUser;
-- (BOOL) hasFollowersCount;
 - (BOOL) hasIcon;
 - (BOOL) hasCreatedAt;
 - (BOOL) hasUpdatedAt;
@@ -60,7 +57,6 @@
 @property (readonly, strong) NSString* title;
 @property (readonly, strong) PBUser* creatUser;
 @property (readonly, strong) NSArray * followers;
-@property (readonly) SInt32 followersCount;
 @property (readonly, strong) NSString* icon;
 @property (readonly, strong) NSArray * feedId;
 @property (readonly) SInt32 createdAt;
@@ -125,11 +121,6 @@
 - (PBTopicBuilder *)addFollowers:(PBUser*)value;
 - (PBTopicBuilder *)setFollowersArray:(NSArray *)array;
 - (PBTopicBuilder *)clearFollowers;
-
-- (BOOL) hasFollowersCount;
-- (SInt32) followersCount;
-- (PBTopicBuilder*) setFollowersCount:(SInt32) value;
-- (PBTopicBuilder*) clearFollowersCount;
 
 - (BOOL) hasIcon;
 - (NSString*) icon;

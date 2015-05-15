@@ -26,7 +26,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (strong) NSString* title;
 @property (strong) PBUser* creatUser;
 @property (strong) NSMutableArray * followersArray;
-@property SInt32 followersCount;
 @property (strong) NSString* icon;
 @property (strong) NSMutableArray * feedIdArray;
 @property SInt32 createdAt;
@@ -58,13 +57,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize creatUser;
 @synthesize followersArray;
 @dynamic followers;
-- (BOOL) hasFollowersCount {
-  return !!hasFollowersCount_;
-}
-- (void) setHasFollowersCount:(BOOL) _value_ {
-  hasFollowersCount_ = !!_value_;
-}
-@synthesize followersCount;
 - (BOOL) hasIcon {
   return !!hasIcon_;
 }
@@ -93,7 +85,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.topicId = @"";
     self.title = @"";
     self.creatUser = [PBUser defaultInstance];
-    self.followersCount = 0;
     self.icon = @"";
     self.createdAt = 0;
     self.updatedAt = 0;
@@ -153,9 +144,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:10 value:element];
   }];
-  if (self.hasFollowersCount) {
-    [output writeInt32:11 value:self.followersCount];
-  }
   if (self.hasIcon) {
     [output writeString:20 value:self.icon];
   }
@@ -189,9 +177,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(10, element);
   }];
-  if (self.hasFollowersCount) {
-    size_ += computeInt32Size(11, self.followersCount);
-  }
   if (self.hasIcon) {
     size_ += computeStringSize(20, self.icon);
   }
@@ -263,9 +248,6 @@ static PBTopic* defaultPBTopicInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
-  if (self.hasFollowersCount) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"followersCount", [NSNumber numberWithInteger:self.followersCount]];
-  }
   if (self.hasIcon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"icon", self.icon];
   }
@@ -296,8 +278,6 @@ static PBTopic* defaultPBTopicInstance = nil;
       self.hasCreatUser == otherMessage.hasCreatUser &&
       (!self.hasCreatUser || [self.creatUser isEqual:otherMessage.creatUser]) &&
       [self.followersArray isEqualToArray:otherMessage.followersArray] &&
-      self.hasFollowersCount == otherMessage.hasFollowersCount &&
-      (!self.hasFollowersCount || self.followersCount == otherMessage.followersCount) &&
       self.hasIcon == otherMessage.hasIcon &&
       (!self.hasIcon || [self.icon isEqual:otherMessage.icon]) &&
       [self.feedIdArray isEqualToArray:otherMessage.feedIdArray] &&
@@ -321,9 +301,6 @@ static PBTopic* defaultPBTopicInstance = nil;
   [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
-  if (self.hasFollowersCount) {
-    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.followersCount] hash];
-  }
   if (self.hasIcon) {
     hashCode = hashCode * 31 + [self.icon hash];
   }
@@ -395,9 +372,6 @@ static PBTopic* defaultPBTopicInstance = nil;
       [resultPbtopic.followersArray addObjectsFromArray:other.followersArray];
     }
   }
-  if (other.hasFollowersCount) {
-    [self setFollowersCount:other.followersCount];
-  }
   if (other.hasIcon) {
     [self setIcon:other.icon];
   }
@@ -456,10 +430,6 @@ static PBTopic* defaultPBTopicInstance = nil;
         PBUserBuilder* subBuilder = [PBUser builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addFollowers:[subBuilder buildPartial]];
-        break;
-      }
-      case 88: {
-        [self setFollowersCount:[input readInt32]];
         break;
       }
       case 162: {
@@ -562,22 +532,6 @@ static PBTopic* defaultPBTopicInstance = nil;
 }
 - (PBTopicBuilder *)clearFollowers {
   resultPbtopic.followersArray = nil;
-  return self;
-}
-- (BOOL) hasFollowersCount {
-  return resultPbtopic.hasFollowersCount;
-}
-- (SInt32) followersCount {
-  return resultPbtopic.followersCount;
-}
-- (PBTopicBuilder*) setFollowersCount:(SInt32) value {
-  resultPbtopic.hasFollowersCount = YES;
-  resultPbtopic.followersCount = value;
-  return self;
-}
-- (PBTopicBuilder*) clearFollowersCount {
-  resultPbtopic.hasFollowersCount = NO;
-  resultPbtopic.followersCount = 0;
   return self;
 }
 - (BOOL) hasIcon {

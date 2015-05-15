@@ -40,6 +40,15 @@ typedef NS_ENUM(SInt32, PBFeedType) {
 BOOL PBFeedTypeIsValidValue(PBFeedType value);
 NSString *NSStringFromPBFeedType(PBFeedType value);
 
+typedef NS_ENUM(SInt32, PBFeedState) {
+  PBFeedStateNormal = 1,
+  PBFeedStateRemoved = 2,
+  PBFeedStateProhibited = 3,
+};
+
+BOOL PBFeedStateIsValidValue(PBFeedState value);
+NSString *NSStringFromPBFeedState(PBFeedState value);
+
 
 @interface FeedRoot : NSObject {
 }
@@ -385,6 +394,7 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
   BOOL hasText_:1;
   BOOL hasCreateUser_:1;
   BOOL hasType_:1;
+  BOOL hasState_:1;
   BOOL isAnonymous_:1;
   SInt32 createdAt;
   SInt32 updatedAt;
@@ -393,6 +403,7 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
   NSString* text;
   PBUser* createUser;
   PBFeedType type;
+  PBFeedState state;
   NSMutableArray * topicArray;
   NSMutableArray * commentArray;
   NSMutableArray * blessingArray;
@@ -406,6 +417,7 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (BOOL) hasText;
 - (BOOL) hasCreatedAt;
 - (BOOL) hasUpdatedAt;
+- (BOOL) hasState;
 @property (readonly, strong) NSString* feedId;
 @property (readonly) PBFeedType type;
 @property (readonly, strong) PBUser* createUser;
@@ -414,6 +426,7 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 @property (readonly, strong) NSString* text;
 @property (readonly) SInt32 createdAt;
 @property (readonly) SInt32 updatedAt;
+@property (readonly) PBFeedState state;
 @property (readonly, strong) NSArray * topic;
 @property (readonly, strong) NSArray * comment;
 @property (readonly, strong) NSArray * blessing;
@@ -499,6 +512,11 @@ NSString *NSStringFromPBFeedType(PBFeedType value);
 - (SInt32) updatedAt;
 - (PBFeedBuilder*) setUpdatedAt:(SInt32) value;
 - (PBFeedBuilder*) clearUpdatedAt;
+
+- (BOOL) hasState;
+- (PBFeedState) state;
+- (PBFeedBuilder*) setState:(PBFeedState) value;
+- (PBFeedBuilder*) clearState;
 
 - (NSMutableArray *)topic;
 - (PBTopic*)topicAtIndex:(NSUInteger)index;

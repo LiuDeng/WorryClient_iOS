@@ -55,7 +55,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     for (int i = 0 ;i < dataCount; i++) {
         NSString *pbFeedId = [pbTopic.feedId objectAtIndex:i];
         PBFeed *pbFeed = [self pbFeedWithPBFeedId:pbFeedId];
-//        [pbFeedArray insertObject:pbFeed atIndex:0];
         [pbFeedArray addObject:pbFeed];
     }
     return pbFeedArray;
