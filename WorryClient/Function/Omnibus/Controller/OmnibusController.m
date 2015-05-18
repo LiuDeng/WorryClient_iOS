@@ -14,6 +14,7 @@
 #import "TopicManager.h"
 #import "TopicService.h"
 #import "MJRefresh.h"
+#import "RecommendationService.h"
 
 #define kTopicCollectionViewCellId  @"kTopicCollectionViewCellId"
 
@@ -21,7 +22,8 @@
 
 @property (nonatomic,strong) TAPageControl *scrollViewPageControl;
 @property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) NSArray *scrollImageNameArray;
+@property (nonatomic,strong) NSMutableArray *scrollImageStringArray;
+@property (nonatomic,strong) NSArray *pbRecommendationArray;
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSArray *pbTopicArray;
 
@@ -55,7 +57,7 @@
 {
     CGFloat kScrollViewHeight = CGRectGetHeight(self.view.frame)/4; //  if the height of collection view is changed,this should change too.
     CGFloat kScrollViewWidth = CGRectGetWidth(self.view.frame);
-    NSUInteger scrollViewImageDataCount = self.scrollImageNameArray.count;
+    NSUInteger scrollViewImageDataCount = self.scrollImageStringArray.count;
     
     self.scrollView = [[UIScrollView alloc]init];
     [self.view addSubview:self.scrollView];
@@ -79,7 +81,14 @@
 - (void)loadData
 {
     [super loadData];
-    self.scrollImageNameArray = @[@"image2.jpg",@"image1.jpg",@"image3.jpg"];
+    self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
+    if (self.pbRecommendationArray.count == 0) {
+        [self.scrollImageStringArray addObject:@""];    //  TODO
+    }else{
+        for (NSString *imageUrl in self.pbRecommendationArray) {
+            [self.scrollImageStringArray addObject:imageUrl];
+        }
+    }
 }
 
 - (void)loadCollectionView
@@ -135,7 +144,7 @@
 {
     self.scrollViewPageControl = [[TAPageControl alloc]init];
     [self.view addSubview:self.scrollViewPageControl];
-    self.scrollViewPageControl.numberOfPages =  self.scrollImageNameArray.count;
+    self.scrollViewPageControl.numberOfPages =  self.scrollImageStringArray.count;
 
     [self.scrollViewPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.scrollView).with.offset(-kVerticalPadding);
@@ -147,9 +156,10 @@
 
 - (void)setupScrollViewImages
 {
-    [self.scrollImageNameArray enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+    [self.scrollImageStringArray enumerateObjectsUsingBlock:^(NSString *imageUrl, NSUInteger idx, BOOL *stop) {
         UIImageView *imageView = [[UIImageView alloc]init];
-        imageView.image = [UIImage imageNamed:imageName];
+        NSURL *url = [NSURL URLWithString:imageUrl];
+        [imageView sd_setImageWithURL:url];
         [self.scrollView addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.scrollView).with.multipliedBy(idx*2+1);

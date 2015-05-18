@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		04AC58051D718698075A356F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21FB69C4F4F58957B5198F92 /* libPods.a */; };
+		7C4EBD2E1B09A1B200261E15 /* Recommendation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */; };
+		7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */; };
 		7C4F464D1AFCEBD70050152F /* guide_page_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464A1AFCEBD70050152F /* guide_page_01@2x.png */; };
 		7C4F464E1AFCEBD70050152F /* guide_page_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464B1AFCEBD70050152F /* guide_page_02@2x.png */; };
 		7C4F464F1AFCEBD70050152F /* guide_page_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464C1AFCEBD70050152F /* guide_page_03@2x.png */; };
@@ -47,6 +49,7 @@
 		7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37F41ADB9E3000CFA176 /* User.pb.m */; };
 		7C5A38181ADB9E3000CFA176 /* User.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37F61ADB9E3000CFA176 /* User.proto */; };
 		7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6FBDE1AEE4DB90028F3AD /* EditController.m */; };
+		7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBB51461B0582A80052A5B2 /* RecommendationService.m */; };
 		7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */; };
 		7CBBB61A1ADFF7EC00AD2CA6 /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */; };
 		7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6191ADFF7EC00AD2CA6 /* backarrow@3x.png */; };
@@ -203,6 +206,9 @@
 
 /* Begin PBXFileReference section */
 		21FB69C4F4F58957B5198F92 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Recommendation.proto; sourceTree = "<group>"; };
+		7C4EBD2F1B09A1BC00261E15 /* Recommendation.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recommendation.pb.h; sourceTree = "<group>"; };
+		7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recommendation.pb.m; sourceTree = "<group>"; };
 		7C4F464A1AFCEBD70050152F /* guide_page_01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guide_page_01@2x.png"; sourceTree = "<group>"; };
 		7C4F464B1AFCEBD70050152F /* guide_page_02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guide_page_02@2x.png"; sourceTree = "<group>"; };
 		7C4F464C1AFCEBD70050152F /* guide_page_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guide_page_03@2x.png"; sourceTree = "<group>"; };
@@ -272,6 +278,8 @@
 		7C5A37F61ADB9E3000CFA176 /* User.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.proto; sourceTree = "<group>"; };
 		7CA6FBDD1AEE4DB90028F3AD /* EditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditController.h; sourceTree = "<group>"; };
 		7CA6FBDE1AEE4DB90028F3AD /* EditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditController.m; sourceTree = "<group>"; };
+		7CBB51451B0582A80052A5B2 /* RecommendationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendationService.h; sourceTree = "<group>"; };
+		7CBB51461B0582A80052A5B2 /* RecommendationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendationService.m; sourceTree = "<group>"; };
 		7CBBB6151ADFF0B500AD2CA6 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderTextView.h; sourceTree = "<group>"; };
 		7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderTextView.m; sourceTree = "<group>"; };
 		7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@2x.png"; sourceTree = "<group>"; };
@@ -1056,6 +1064,7 @@
 				7CC455FF1AEA691B008B7BB6 /* Topic.proto */,
 				7CC336941ADF9EE90084D891 /* Feed.proto */,
 				7CBD2D011AEB71D50091EB20 /* Common.proto */,
+				7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1073,6 +1082,8 @@
 				7CBD2D081AEB75EC0091EB20 /* Topic.pb.m */,
 				7C5A37F31ADB9E3000CFA176 /* User.pb.h */,
 				7C5A37F41ADB9E3000CFA176 /* User.pb.m */,
+				7C4EBD2F1B09A1BC00261E15 /* Recommendation.pb.h */,
+				7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */,
 			);
 			path = Gen;
 			sourceTree = "<group>";
@@ -1220,6 +1231,8 @@
 			children = (
 				7CE9872B1AF5B23A00D270EC /* TopicService.h */,
 				7CE9872C1AF5B23A00D270EC /* TopicService.m */,
+				7CBB51451B0582A80052A5B2 /* RecommendationService.h */,
+				7CBB51461B0582A80052A5B2 /* RecommendationService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1365,6 +1378,7 @@
 				7CBDDF5C1AFE2776005C7354 /* news@3x.png in Resources */,
 				7CBDDF521AFDF2BF005C7354 /* guide_page_01@3x.png in Resources */,
 				7CCF5B711AF361210091F3A7 /* story_detail_font@2x.png in Resources */,
+				7C4EBD2E1B09A1B200261E15 /* Recommendation.proto in Resources */,
 				7C4F464F1AFCEBD70050152F /* guide_page_03@2x.png in Resources */,
 				7CBDDF511AFDF2BF005C7354 /* dot_image@3x.png in Resources */,
 				7CE987571AF6678E00D270EC /* barbg64_white@3x.png in Resources */,
@@ -1488,6 +1502,7 @@
 				7CBD2D181AEBA4060091EB20 /* UpdateImage.m in Sources */,
 				7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */,
 				7CBD2D0E1AEB81460091EB20 /* UserDetailController.m in Sources */,
+				7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */,
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
 				7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */,
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
@@ -1514,6 +1529,7 @@
 				7C5A38141ADB9E3000CFA176 /* UserAvatarCell.m in Sources */,
 				7CC0EAC51AF06B9300ED7FC7 /* OmnibusDetailController.m in Sources */,
 				7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */,
+				7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */,
 				7C54C2C01ADC0A5E002A32E2 /* UIView+DefaultView.m in Sources */,
 				7C5A380F1ADB9E3000CFA176 /* UserController.m in Sources */,
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,

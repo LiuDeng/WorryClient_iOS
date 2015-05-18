@@ -1,0 +1,11 @@
+
+package worry;
+
+//  目前的推荐是feed，所以保存的是feedId，往后，会添加url
+message PBRecommendation{
+    optional string recommendation_id = 1;
+
+    optional string image = 20;                                 //  话题图片URL，数据存储于服务器
+
+    optional string feed_id = 30;                               //  记录此推荐下feed的id
+}
