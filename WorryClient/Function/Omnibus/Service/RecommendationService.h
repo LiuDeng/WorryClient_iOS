@@ -16,7 +16,7 @@
 
 DEFINE_SINGLETON_FOR_CLASS(RecommendationService)
 
-- (void)requireRecommendation;
+- (void)requireRecommendationWithBlock:(ServiceErrorResultBlock)block;
 
 /*
  *  called after 'requireRecommendation'

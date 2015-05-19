@@ -7,7 +7,6 @@
 //
 
 #import "OmnibusController.h"
-#import "TAPageControl.h"
 #import "TopicCollectionViewCell.h"
 #import "OmnibusDetailController.h"
 #import "CreateTopicController.h"
@@ -15,17 +14,19 @@
 #import "TopicService.h"
 #import "MJRefresh.h"
 #import "RecommendationService.h"
+#import "ImagePlayerView.h"
+#import "StoryDetailController.h"
+#import "WorryDetailController.h"
+#import "FeedService.h"
 
 #define kTopicCollectionViewCellId  @"kTopicCollectionViewCellId"
 
-@interface OmnibusController ()<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface OmnibusController ()<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,ImagePlayerViewDelegate>
 
-@property (nonatomic,strong) TAPageControl *scrollViewPageControl;
-@property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) NSMutableArray *scrollImageStringArray;
 @property (nonatomic,strong) NSArray *pbRecommendationArray;
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSArray *pbTopicArray;
+@property (nonatomic,strong) ImagePlayerView *imagePlayerView;
 
 @end
 
@@ -48,48 +49,40 @@
     [super loadView];
     [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
     [self loadCollectionView];
-    [self loadScrollView];
+    [self loadImagePlayerView];
 
 }
 
-#pragma mark - Private methods
-- (void)loadScrollView
+- (void)loadData
 {
-    CGFloat kScrollViewHeight = CGRectGetHeight(self.view.frame)/4; //  if the height of collection view is changed,this should change too.
-    CGFloat kScrollViewWidth = CGRectGetWidth(self.view.frame);
-    NSUInteger scrollViewImageDataCount = self.scrollImageStringArray.count;
+    [super loadData];
+    [[RecommendationService sharedInstance]requireRecommendationWithBlock:^(NSError *error) {
+        if (error == nil) {
+            self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
+            if (self.imagePlayerView) {
+                [self.imagePlayerView reloadData];
+            }
+        }
+    }];
+}
+
+#pragma mark - Private methods
+
+- (void)loadImagePlayerView
+{
+    self.imagePlayerView = [[ImagePlayerView alloc]init];
+    [self.view addSubview:self.imagePlayerView];
+    self.imagePlayerView.imagePlayerViewDelegate = self;
+    self.imagePlayerView.pageControlPosition = ICPageControlPosition_BottomCenter;
     
-    self.scrollView = [[UIScrollView alloc]init];
-    [self.view addSubview:self.scrollView];
-    self.scrollView.delegate = self;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.bounces = NO;
-    self.scrollView.contentSize = CGSizeMake(kScrollViewWidth * scrollViewImageDataCount, kScrollViewHeight);
-    [self setupScrollViewImages];
-    
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.imagePlayerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
         make.width.equalTo(self.view);
         make.bottom.equalTo(self.collectionView.mas_top);
     }];
-    
-    [self loadRecommendPageControl];
 }
-- (void)loadData
-{
-    [super loadData];
-    self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
-    if (self.pbRecommendationArray.count == 0) {
-        [self.scrollImageStringArray addObject:@""];    //  TODO
-    }else{
-        for (NSString *imageUrl in self.pbRecommendationArray) {
-            [self.scrollImageStringArray addObject:imageUrl];
-        }
-    }
-}
+
 
 - (void)loadCollectionView
 {
@@ -138,37 +131,10 @@
         make.width.equalTo(self.view);
         make.height.equalTo(self.view.mas_width);
     }];
-
 }
-- (void)loadRecommendPageControl
-{
-    self.scrollViewPageControl = [[TAPageControl alloc]init];
-    [self.view addSubview:self.scrollViewPageControl];
-    self.scrollViewPageControl.numberOfPages =  self.scrollImageStringArray.count;
 
-    [self.scrollViewPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.scrollView).with.offset(-kVerticalPadding);
-        make.centerX.equalTo(self.view);
-    }];
-}
 
 #pragma mark - Utils
-
-- (void)setupScrollViewImages
-{
-    [self.scrollImageStringArray enumerateObjectsUsingBlock:^(NSString *imageUrl, NSUInteger idx, BOOL *stop) {
-        UIImageView *imageView = [[UIImageView alloc]init];
-        NSURL *url = [NSURL URLWithString:imageUrl];
-        [imageView sd_setImageWithURL:url];
-        [self.scrollView addSubview:imageView];
-        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.scrollView).with.multipliedBy(idx*2+1);
-            make.centerY.equalTo(self.scrollView);
-            make.width.equalTo(self.scrollView);
-            make.height.equalTo(self.scrollView);
-        }];
-    }];
-}
 
 - (void)clickPlusButton
 {
@@ -187,17 +153,6 @@
     }
 }
 
-#pragma mark - ScrollView delegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView == self.scrollView) {
-        NSInteger pageIndex = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
-        self.scrollViewPageControl.currentPage = pageIndex;
-    }else{
-        
-    }
-}
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -227,6 +182,47 @@
     
     OmnibusDetailController *vc = [[OmnibusDetailController alloc]initWithPBTopic:pbTopic];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - ImagePlayerViewDelegate
+
+- (NSInteger)numberOfItems
+{
+    return self.pbRecommendationArray.count;
+}
+
+- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
+{
+    PBRecommendation *pbRecommendation = [self.pbRecommendationArray objectAtIndex:index];
+    NSString *feedId = pbRecommendation.feedId;
+    PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeedId:feedId];
+    switch (pbFeed.type) {
+        case PBFeedTypeStory:{
+            StoryDetailController *vc = [[StoryDetailController alloc]initWithPBFeed:pbFeed];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case PBFeedTypeWorry:{
+            WorryDetailController *vc = [[WorryDetailController alloc]initWithPBFeed:pbFeed];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
+{
+    if (self.pbRecommendationArray.count == 0) {
+        imageView.image = [UIImage imageNamed:@"image1"];   //  TODO
+    }else{
+        for (PBRecommendation *pbRecommendation in self.pbRecommendationArray) {
+            NSString *imageUrl = pbRecommendation.image;
+            NSURL *url = [NSURL URLWithString:imageUrl];
+            [imageView sd_setImageWithURL:url];
+        }
+    }
 }
 
 @end

@@ -7,16 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SynthesizeSingleton.h"
-#import "AVOSCloud/AVOSCloud.h"
+#import "CommonService.h"
 #import "Feed.pb.h"
 
 @class PBTopic;
 
-typedef AVBooleanResultBlock FeedServiceBooleanResultBlock;
-typedef void (^FeedServiceErrorResultBlock) (NSError *error);
-
-@interface FeedService : NSObject
+@interface FeedService : CommonService
 {
     NSUInteger _requiredFeedsCount;
     NSUInteger _myRequireFeedsCount;
@@ -31,13 +27,13 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
                   feedType:(PBFeedType)feedType
-                     block:(FeedServiceErrorResultBlock)block;
+                     block:(ServiceErrorResultBlock)block;
 
-- (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
-- (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
-- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block;
-- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block;
+- (void)requireMyNewFeedsWithBlock:(ServiceErrorResultBlock)block;
+- (void)requireMyMoreFeedsWithBlock:(ServiceErrorResultBlock)block;
+- (void)requireNewFeedsWithBlock:(ServiceErrorResultBlock)block;
+- (void)requireMoreFeedsWithBlock:(ServiceErrorResultBlock)block;
 
-- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(FeedServiceErrorResultBlock)block;
-
+- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block;
+- (PBFeed *)pbFeedWithFeedId:(NSString *)feedId;
 @end

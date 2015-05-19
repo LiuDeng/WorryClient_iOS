@@ -8,21 +8,22 @@
 
 // AVOSCloud
 #define COCOAPODS_POD_AVAILABLE_AVOSCloud
-#define COCOAPODS_VERSION_MAJOR_AVOSCloud 3
-#define COCOAPODS_VERSION_MINOR_AVOSCloud 1
-#define COCOAPODS_VERSION_PATCH_AVOSCloud 0
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.1.1.
 
 // CLImageEditor
 #define COCOAPODS_POD_AVAILABLE_CLImageEditor
 #define COCOAPODS_VERSION_MAJOR_CLImageEditor 0
 #define COCOAPODS_VERSION_MINOR_CLImageEditor 1
-#define COCOAPODS_VERSION_PATCH_CLImageEditor 3
+#define COCOAPODS_VERSION_PATCH_CLImageEditor 4
 
 // CLImageEditor/Core
 #define COCOAPODS_POD_AVAILABLE_CLImageEditor_Core
 #define COCOAPODS_VERSION_MAJOR_CLImageEditor_Core 0
 #define COCOAPODS_VERSION_MINOR_CLImageEditor_Core 1
-#define COCOAPODS_VERSION_PATCH_CLImageEditor_Core 3
+#define COCOAPODS_VERSION_PATCH_CLImageEditor_Core 4
 
 // DLRadioButton
 #define COCOAPODS_POD_AVAILABLE_DLRadioButton
@@ -53,6 +54,12 @@
 #define COCOAPODS_VERSION_MAJOR_HMSegmentedControl 1
 #define COCOAPODS_VERSION_MINOR_HMSegmentedControl 5
 #define COCOAPODS_VERSION_PATCH_HMSegmentedControl 1
+
+// ImagePlayerView
+#define COCOAPODS_POD_AVAILABLE_ImagePlayerView
+#define COCOAPODS_VERSION_MAJOR_ImagePlayerView 1
+#define COCOAPODS_VERSION_MINOR_ImagePlayerView 0
+#define COCOAPODS_VERSION_PATCH_ImagePlayerView 2
 
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
@@ -95,12 +102,6 @@
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 2
-
-// TAPageControl
-#define COCOAPODS_POD_AVAILABLE_TAPageControl
-#define COCOAPODS_VERSION_MAJOR_TAPageControl 0
-#define COCOAPODS_VERSION_MINOR_TAPageControl 2
-#define COCOAPODS_VERSION_PATCH_TAPageControl 0
 
 // THLabel
 #define COCOAPODS_POD_AVAILABLE_THLabel

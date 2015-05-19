@@ -269,7 +269,7 @@
         
 //        }
     }];
-    NSArray *pbFeedArray = [[FeedManager sharedInstance]pbFeedArrayWithPBTopic:self.pbTopic];
+//    NSArray *pbFeedArray = [[FeedManager sharedInstance]pbFeedArrayWithPBTopic:self.pbTopic];
     
 }
 

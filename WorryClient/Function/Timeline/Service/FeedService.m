@@ -32,7 +32,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
                isAnonymous:(BOOL)isAnonymous
                      topic:(NSArray *)topicArray
                   feedType:(PBFeedType)feedType
-                     block:(FeedServiceErrorResultBlock)block
+                     block:(ServiceErrorResultBlock)block
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     AVUser *avCurrentUser = [AVUser currentUser];
@@ -69,35 +69,35 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 #pragma mark - Require feeds
 
-- (void)requireMyNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
+- (void)requireMyNewFeedsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requireMyFeedsFrom:0 requireFeedsBlock:^{
         
     } Block:block];
 }
 
-- (void)requireMyMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
+- (void)requireMyMoreFeedsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requireMyFeedsFrom:_myRequireFeedsCount requireFeedsBlock:^{
         _myRequireFeedsCount++;  //  TODO    要是feeds剩下的已经少于myRequiredFeedCount了呢？
     } Block:block];
 }
 
-- (void)requireNewFeedsWithBlock:(FeedServiceErrorResultBlock)block
+- (void)requireNewFeedsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requirePublicFeedsWithFrom:0 requireFeedsBlock:^{
         
     } Block:block];
 }
 
-- (void)requireMoreFeedsWithBlock:(FeedServiceErrorResultBlock)block
+- (void)requireMoreFeedsWithBlock:(ServiceErrorResultBlock)block
 {
     [self requirePublicFeedsWithFrom:_requiredFeedsCount requireFeedsBlock:^{
         _requiredFeedsCount++;  //  TODO
     } Block:block];
 }
 
-- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(FeedServiceErrorResultBlock)block
+- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block
 {
     NSUInteger dataCount = pbTopic.feedId.count;
     NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
@@ -120,6 +120,16 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     return pbFeed;
 }
 
+- (PBFeed *)pbFeedWithFeedId:(NSString *)feedId
+{
+    AVQuery *query = [AVQuery queryWithClassName:kFeedClassName];
+    AVObject *avFeed = [query getObjectWithId:feedId];
+    //  TODO maybe need to add block
+    NSData *data = [avFeed objectForKey:kFeedKey];
+    PBFeed *pbFeed = [PBFeed parseFromData:data];
+    return pbFeed;
+}
+
 #pragma mark - Utils
 
 /*  
@@ -128,7 +138,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
  */
 - (void)requirePublicFeedsWithFrom:(NSUInteger)firstIndex
                  requireFeedsBlock:(void (^)())requireFeedsBlock
-                             Block:(FeedServiceErrorResultBlock)block
+                             Block:(ServiceErrorResultBlock)block
 {
     [self requireSpecificFeedsFrom:firstIndex requireSpecificBlock:^(AVQuery *avQuery) {
         [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
@@ -141,7 +151,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
  */
 - (void)requireMyFeedsFrom:(NSUInteger)firstIndex
          requireFeedsBlock:(void (^)())requireFeedsBlock
-                     Block:(FeedServiceErrorResultBlock)block
+                     Block:(ServiceErrorResultBlock)block
 {
     [self requireSpecificFeedsFrom:firstIndex requireSpecificBlock:^(AVQuery *avQuery) {
         AVUser *avUser = [AVUser currentUser];
@@ -155,7 +165,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)requireSpecificFeedsFrom:(NSUInteger)firstIndex
             requireSpecificBlock:(void (^)(AVQuery *avQuery))requireSpecificBlock
                requireFeedsBlock:(void (^)())requireFeedsBlock
-                           Block:(FeedServiceErrorResultBlock)block
+                           Block:(ServiceErrorResultBlock)block
 {
     AVQuery *avQuery = [AVQuery queryWithClassName:kFeedClassName];
 
@@ -174,7 +184,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)requireFeedsWithQuery:(AVQuery *)avQuery
                          from:(NSUInteger)firstIndex
             requireFeedsBlock:(void (^)())requireFeedsBlock
-                        block:(FeedServiceErrorResultBlock)block
+                        block:(ServiceErrorResultBlock)block
 {
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error == nil) {

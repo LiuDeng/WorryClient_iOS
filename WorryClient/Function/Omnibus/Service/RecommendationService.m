@@ -16,9 +16,12 @@
 
 IMPLEMENT_SINGLETON_FOR_CLASS(RecommendationService)
 
-- (void)requireRecommendation
+- (void)requireRecommendationWithBlock:(ServiceErrorResultBlock)block
 {
     int dataCount = 3;
+    if (_PBRecommendationArray == nil) {
+        _PBRecommendationArray = [[NSMutableArray alloc]init];
+    }
     
     AVQuery *avQuery = [AVQuery queryWithClassName:kRecommendationClassName];
     [avQuery whereKey:kContentKey notEqualTo:@""];  //   TODO
@@ -34,10 +37,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(RecommendationService)
                 [bulider setImage:imageUrl];
                 [bulider setFeedId:content];
                 PBRecommendation *pbRecommendation = [bulider build];
-                _PBRecommendationArray = [[NSMutableArray alloc]init];
                 [_PBRecommendationArray addObject:pbRecommendation];
             }
         }
+        
+        EXECUTE_BLOCK(block,error);
     }];
 }
 

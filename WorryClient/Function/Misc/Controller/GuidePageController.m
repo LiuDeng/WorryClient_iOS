@@ -7,14 +7,12 @@
 //
 
 #import "GuidePageController.h"
-#import "TAPageControl.h"
 #import "AppDelegate.h"
 
-
-@interface GuidePageController ()<UIScrollViewDelegate,TAPageControlDelegate>
+@interface GuidePageController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) TAPageControl *pageControl;
+@property (nonatomic,strong) UIPageControl *pageControl;
 @property (nonatomic,strong) NSArray *imageNameArray;
 @property (nonatomic,strong) UIButton *signUpButton;
 @property (nonatomic,strong) UIButton *logInButton;
@@ -83,14 +81,11 @@
 
 - (void)loadPageControl
 {
-    self.pageControl = [[TAPageControl alloc]init];
+    self.pageControl = [[UIPageControl alloc]init];
     [self.scrollView addSubview:self.pageControl];
     self.pageControl.numberOfPages =  self.imageNameArray.count;
-    UIImage *currentDotImage = [UIImage imageNamed:@"current_dot_image"];
-    UIImage *dotImage = [UIImage imageNamed:@"dot_image"];
-    self.pageControl.currentDotImage = currentDotImage;
-    self.pageControl.dotImage = dotImage;
-    
+    self.pageControl.currentPageIndicatorTintColor = OPAQUE_COLOR(0x07, 0xaa, 0x48);
+    self.pageControl.pageIndicatorTintColor = OPAQUE_COLOR(0xdd, 0xea, 0x1b);
     
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).with.multipliedBy(0.8);
