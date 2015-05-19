@@ -1,8 +1,8 @@
 PODS:
-  - AVOSCloud (3.1.0)
-  - CLImageEditor (0.1.3):
-    - CLImageEditor/Core (= 0.1.3)
-  - CLImageEditor/Core (0.1.3)
+  - AVOSCloud (3.1.1.1)
+  - CLImageEditor (0.1.4):
+    - CLImageEditor/Core (= 0.1.4)
+  - CLImageEditor/Core (0.1.4)
   - DLRadioButton (1.1.1)
   - FMDB (2.5):
     - FMDB/standard (= 2.5)
@@ -10,6 +10,7 @@ PODS:
   - FMDB/standard (2.5):
     - FMDB/common
   - HMSegmentedControl (1.5.1)
+  - ImagePlayerView (1.0.2)
   - Masonry (0.6.1)
   - MBProgressHUD (0.9.1)
   - MJRefresh (1.4.6)
@@ -18,7 +19,6 @@ PODS:
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
-  - TAPageControl (0.2.0)
   - THLabel (1.4.6)
 
 DEPENDENCIES:
@@ -27,28 +27,28 @@ DEPENDENCIES:
   - DLRadioButton
   - FMDB
   - HMSegmentedControl
+  - ImagePlayerView
   - Masonry
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh
   - ProtocolBuffers (= 1.9.7)
   - RDVTabBarController
   - SDWebImage (~> 3.7)
-  - TAPageControl
   - THLabel (~> 1.4.6)
 
 SPEC CHECKSUMS:
-  AVOSCloud: fadaba350e8f28c371da50e056991ca774db8310
-  CLImageEditor: c54336f80300d47694f7e5e95f6c0a1632ad503d
+  AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
+  CLImageEditor: 9d388449af816729da67e68465e20462f181841d
   DLRadioButton: 1aad82f913b621432d51f8d5f4139265c39d202d
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   HMSegmentedControl: 35460abdd15c3087368db2d3d956717f088b34d1
+  ImagePlayerView: f32dbbaf9aea86d25f5ccba7fb67f644b56f9464
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: 2eaa3fd8f67fbb86497840fb0167446f7eb61dc7
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
-  TAPageControl: fd11d779bbb5c2464ca2f55dde9e288213ea8a9b
   THLabel: 27890d10123514ffe74b6e023b57b2ece55304af
 
 COCOAPODS: 0.35.0
