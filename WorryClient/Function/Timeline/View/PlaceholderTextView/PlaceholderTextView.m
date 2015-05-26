@@ -42,6 +42,11 @@ const float kPlaceHolderTopPadding = 5.0f;
     }
     return self;
 }
+
+- (id)initWithPlaceholder:(NSString*)placeholder
+{
+    return [self initWithPlaceholder:placeholder placeholderColor:nil placeholderFont:nil];
+}
 #pragma mark - Default methods
 
 -(void)layoutSubviews

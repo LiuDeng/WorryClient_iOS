@@ -15,9 +15,10 @@
 #import "FeedService.h"
 #import "StoryDetailController.h"
 #import "WorryDetailController.h"
-#import "ReplyController.h"
 #import "OmnibusDetailController.h"
 #import "SendBlessingController.h"
+#import "AnswerController.h"
+#import "CommentController.h"
 
 #define kTimelineCell @"kTimelineCell"
 
@@ -194,8 +195,20 @@
 - (void)clickReplyButton:(id)sender
 {
     PBFeed *pbFeed = [self pbFeedWithSender:sender];
-    ReplyController *vc = [[ReplyController alloc]initWithPBFeed:pbFeed];
-    [self.navigationController pushViewController:vc animated:YES];
+    switch (pbFeed.type) {
+        case PBFeedTypeWorry:{
+            AnswerController *vc = [[AnswerController alloc]initWithPBFeed:pbFeed];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case PBFeedTypeStory:{
+            CommentController *vc = [[CommentController alloc]initWithPBFeed:pbFeed];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (BOOL)canCreateFeed

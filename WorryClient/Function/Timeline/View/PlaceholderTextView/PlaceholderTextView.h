@@ -16,4 +16,5 @@
 - (id)initWithPlaceholder:(NSString*)placeholder
          placeholderColor:(UIColor*)color
           placeholderFont:(UIFont*)font;
+- (id)initWithPlaceholder:(NSString*)placeholder;
 @end

@@ -15,6 +15,10 @@ typedef void (^TimelineCellBlock) ();
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) UILabel *shortTextLabel;
 @property (nonatomic,strong) UIButton *topicButton;
+/**
+ *  if PBFeedType is PBFeedWorry,replyButton stands for answer,
+ *  if PBFeedType is PBFeedStory,replyButton stands for comment.
+ */
 @property (nonatomic,strong) UIButton *replyButton;
 @property (nonatomic,strong) UIButton *blessingButton;
 //@property (nonatomic,strong) TimelineCellBlock clickTopicButtonBlock;

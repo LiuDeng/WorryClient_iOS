@@ -36,4 +36,5 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block;
 - (PBFeed *)pbFeedWithFeedId:(NSString *)feedId;
+
 @end
