@@ -21,9 +21,18 @@
 
 @interface DefaultViewController : UIViewController
 
+/**
+ *  default is NO.
+ *  if is YES,
+ *  hideTabBar will be called in loadView,
+ *  showTabBar will be called in viewWillDisappear:.
+ */
+@property (nonatomic,assign) BOOL isHideTabBar;
+
 - (void)loadLogInAlertView;
 - (void)loadData;
 - (void)hideTabBar;
 - (void)showTabBar;
 - (void)customizeNavigationBar;
+
 @end

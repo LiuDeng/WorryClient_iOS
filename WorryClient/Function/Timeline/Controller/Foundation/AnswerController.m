@@ -25,6 +25,7 @@
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
+        self.isHideTabBar = YES;
     }
     return self;
 }
@@ -59,7 +60,8 @@
     [self.view addSubview:self.textView];
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.view);
         make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
         make.height.equalTo(self.view).with.multipliedBy(0.5);
     }];

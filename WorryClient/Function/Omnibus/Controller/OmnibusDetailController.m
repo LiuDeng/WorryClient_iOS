@@ -54,6 +54,7 @@
     self = [super init];
     if (self) {
         self.pbTopic = pbTopic;
+        self.isHideTabBar = YES;
     }
     return self;
 }
@@ -70,17 +71,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self showTabBar];
-}
 
 - (void)loadView
 {
     [super loadView];
     self.title = self.pbTopic.title;
-    [self hideTabBar];
     [self.view layoutIfNeeded]; //  TODO
     [self loadSegmentedControl];
     [self loadScrollView];

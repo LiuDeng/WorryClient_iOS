@@ -44,6 +44,7 @@
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
+        self.isHideTabBar = YES;
     }
     return self;
 }
@@ -60,17 +61,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self showTabBar];
-}
 - (void)loadView
 {
     [super loadView];
     NSString *answerCount = @"22";
     self.title = [NSString stringWithFormat:@"共%@条回答",answerCount];
-    [self hideTabBar];
     [self loadTitleHolderView];
     [self loadButtonHolderView];
     [self loadTextView];

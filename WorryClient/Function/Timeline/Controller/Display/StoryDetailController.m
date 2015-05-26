@@ -43,6 +43,7 @@ const CGFloat strokeSize = 1.0f;
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
+        self.isHideTabBar = YES;
     }
     return self;
 }
@@ -62,7 +63,6 @@ const CGFloat strokeSize = 1.0f;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self showTabBar];
     [self customizeNavigationBar];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
@@ -72,7 +72,6 @@ const CGFloat strokeSize = 1.0f;
     [super loadView];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    [self hideTabBar];
     [self loadNavigationBar];
     [self loadBGImageView];
     [self loadTitleLabel];

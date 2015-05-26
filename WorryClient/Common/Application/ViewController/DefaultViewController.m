@@ -42,25 +42,10 @@
 {
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
 }
-#pragma mark -Default methods
-
--(void)loadView
-{
-    [super loadView];
-    [self loadData];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [self customizeNavigationBar];
-    [self loadBackButton];
-}
-
-- (void)loadData
-{
-    
-}
 
 - (void)customizeNavigationBar
 {
-//    UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
+    //    UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     UINavigationBar *navigationBarAppearance = self.navigationController.navigationBar;
     UIImage* backgroundImage = [UIImage imageNamed:@"barbg64.png"];
     
@@ -75,6 +60,35 @@
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];    //  must
 }
 
+#pragma mark -Default methods
+
+-(void)loadView
+{
+    [super loadView];
+    [self loadData];
+    
+    if (self.isHideTabBar) {
+        [self hideTabBar];
+    }
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self customizeNavigationBar];
+    [self loadBackButton];
+}
+
+- (void)loadData
+{
+    
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.isHideTabBar) {
+        [self showTabBar];
+    }
+}
 #pragma mark - Private methods
 
 
