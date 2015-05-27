@@ -19,6 +19,7 @@
 #import "SendBlessingController.h"
 #import "AnswerController.h"
 #import "CommentController.h"
+#import "NewsController.h"
 
 #define kTimelineCell @"kTimelineCell"
 
@@ -230,7 +231,8 @@
 
 - (void)clickNewsButton
 {
-    
+    NewsController *vc = [[NewsController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

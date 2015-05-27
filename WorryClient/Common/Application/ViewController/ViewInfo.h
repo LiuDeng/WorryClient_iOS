@@ -33,5 +33,6 @@
 #define kTopScale 1.1
 #define kCellHeightScale 0.8
 #define kCellRightScale 0.95
+#define kIndicatorHeight 3      //  height of segmentedControl's selected indicator
 
 #endif

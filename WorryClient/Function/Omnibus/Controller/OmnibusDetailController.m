@@ -132,7 +132,6 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.bounces = NO;
     self.scrollView.directionalLockEnabled = YES;
-    
     NSUInteger arrayCount = self.segmentedControlTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeight);
     self.scrollView.delegate = self;
