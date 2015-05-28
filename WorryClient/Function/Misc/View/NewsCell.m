@@ -25,12 +25,11 @@
     return self;
 }
 
-#pragma mark - Private methods
+#pragma mark - Default methods
 
-- (void)loadAvatarView
+- (void)layoutSubviews
 {
-    self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
-    [self.contentView addSubview:self.avatarView];
+    [super layoutSubviews];
     
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView);
@@ -39,17 +38,38 @@
         make.height.equalTo(self.contentView).with.multipliedBy(0.7);
     }];
     
+    float padding = 16;
+    [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.mas_centerY);
+        make.left.equalTo(self.avatarView.mas_right).with.offset(+padding);
+    }];
+    
+    [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.nickLabel);
+        make.top.equalTo(self.contentView.mas_centerY);
+    }];
+    
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.contentView).with.multipliedBy(0.97);
+        make.centerY.equalTo(self.descriptionLabel);
+    }];
+}
+
+#pragma mark - Private methods
+
+- (void)loadAvatarView
+{
+    self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
+    [self.contentView addSubview:self.avatarView];
+    
+    
 }
 
 - (void)loadNickLabel
 {
     self.nickLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.nickLabel];
-    float padding = 16;
-    [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.mas_centerY);
-        make.left.equalTo(self.avatarView.mas_right).with.offset(+padding);
-    }];
+    
 }
 
 - (void)loadDescriptionLabel
@@ -59,10 +79,7 @@
     self.descriptionLabel.font = kMiddleLabelFont;
     self.descriptionLabel.textColor = OPAQUE_COLOR(0xbd, 0xbd, 0xbd);
     
-    [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nickLabel);
-        make.top.equalTo(self.contentView.mas_centerY);
-    }];
+    
 }
 
 - (void)loadTimeLabel
@@ -71,10 +88,6 @@
     [self.contentView addSubview:self.timeLabel];
     self.timeLabel.textColor = OPAQUE_COLOR(0xbd, 0xbd, 0xbd);
     self.timeLabel.font = kMiddleLabelFont;
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView).with.multipliedBy(0.97);
-        make.centerY.equalTo(self.descriptionLabel);
-    }];
 }
 
 @end
