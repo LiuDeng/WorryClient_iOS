@@ -49,6 +49,12 @@
     self.navigationItem.rightBarButtonItems = @[createFeedItem,newsItem];
 }
 
+- (void)loadData
+{
+    [super loadData];
+    self.isHideTabBar = NO;
+}
+
 #pragma mark - Private methods
 
 - (void)loadTableView

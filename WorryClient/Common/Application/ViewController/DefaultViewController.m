@@ -9,7 +9,6 @@
 #import "DefaultViewController.h"
 #import "RDVTabBarController.h"
 
-
 @interface DefaultViewController ()<UIAlertViewDelegate>
 @property (nonatomic,strong) NSString* backButtonText;
 @property (nonatomic,strong) UIAlertView *logInAlertView;
@@ -78,7 +77,7 @@
 
 - (void)loadData
 {
-    
+    self.isHideTabBar = YES;
 }
 
 

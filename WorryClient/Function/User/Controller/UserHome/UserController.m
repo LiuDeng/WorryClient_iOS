@@ -72,6 +72,7 @@
 - (void)loadData
 {
     [super loadData];
+    self.isHideTabBar = NO;
     self.sectionBasicItems = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
     self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;

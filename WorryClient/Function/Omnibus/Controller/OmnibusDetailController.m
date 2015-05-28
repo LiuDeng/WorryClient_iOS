@@ -54,7 +54,6 @@
     self = [super init];
     if (self) {
         self.pbTopic = pbTopic;
-        self.isHideTabBar = YES;
     }
     return self;
 }

@@ -21,13 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self test];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//    [self test];
 }
 
 #pragma mark - Private methods

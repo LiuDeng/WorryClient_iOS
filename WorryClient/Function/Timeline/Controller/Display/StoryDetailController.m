@@ -43,7 +43,6 @@ const CGFloat strokeSize = 1.0f;
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
-        self.isHideTabBar = YES;
     }
     return self;
 }

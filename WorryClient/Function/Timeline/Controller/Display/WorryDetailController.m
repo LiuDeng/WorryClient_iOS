@@ -44,7 +44,6 @@
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
-        self.isHideTabBar = YES;
     }
     return self;
 }

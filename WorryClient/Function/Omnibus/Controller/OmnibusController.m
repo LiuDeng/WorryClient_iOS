@@ -56,6 +56,7 @@
 - (void)loadData
 {
     [super loadData];
+    self.isHideTabBar = NO;
     [[RecommendationService sharedInstance]requireRecommendationWithBlock:^(NSError *error) {
         if (error == nil) {
             self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
