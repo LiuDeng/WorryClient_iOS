@@ -27,4 +27,8 @@ DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 - (void)dropTable;
 - (void)deleteCache;
 
+#ifdef DEBUG
+- (NSArray *)testFeedArray;
+#endif
+
 @end

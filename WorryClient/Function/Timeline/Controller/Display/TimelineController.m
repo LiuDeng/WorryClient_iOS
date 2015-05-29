@@ -150,7 +150,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGRectGetHeight(self.view.bounds)*0.012;
+//    return CGRectGetHeight(self.view.bounds)*0.012;
+    return 16;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

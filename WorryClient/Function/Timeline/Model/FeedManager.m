@@ -178,4 +178,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     return pbFeed;
 }
 
+- (NSArray *)testFeedArray
+{
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    
+    return array;
+}
+
 @end

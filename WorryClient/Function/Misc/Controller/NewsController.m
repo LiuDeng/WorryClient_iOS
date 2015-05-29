@@ -205,7 +205,7 @@
         
         cell.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
         cell.nickLabel.text = @"用户";
-        cell.timeLabel.text = @"十分钟前";
+        cell.dateLabel.text = @"十分钟前";
         cell.descriptionLabel.text = @"xx回答了你的问题";
         
         return cell;
@@ -214,7 +214,7 @@
         
         cell.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
         cell.nickLabel.text = @"用户";
-        cell.timeLabel.text = @"十分钟前";
+        cell.dateLabel.text = @"十分钟前";
         cell.descriptionLabel.text = @"你好啊！";
         
         return cell;

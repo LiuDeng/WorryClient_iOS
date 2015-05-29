@@ -25,6 +25,7 @@
 @interface OmnibusDetailController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     CGFloat _viewWidth;
+    CGFloat _viewHeight;
     CGFloat _segmentedControlHeihtScale;
     CGFloat _scrollViewHeight;
     CGFloat _countOfCollectionRow;
@@ -85,14 +86,16 @@
 - (void)loadData
 {
     [super loadData];
-    _viewWidth = CGRectGetWidth(self.view.frame);
+    _viewWidth = CGRectGetWidth(self.view.bounds);
+    _viewHeight = CGRectGetHeight(self.view.bounds) - kStatusBarHeight - kNavigationBarHeight;
     self.segmentedControlTitles = @[kStoryTitle,kWorryTitle];
     _segmentedControlHeihtScale = 0.1;
-    _scrollViewHeight = CGRectGetHeight(self.view.frame) * (1-_segmentedControlHeihtScale);
+    
+    _scrollViewHeight = _viewHeight * (1-_segmentedControlHeihtScale);
     _countOfCollectionRow = 2;
     _countOfCollectionCol = 3;
     _collectionEdgePadding = 1.0f;
-    _collectionViewHeight = CGRectGetHeight(self.view.bounds)*0.6;
+    _collectionViewHeight = CGRectGetHeight(self.view.bounds)*0.6;  //  maybe a trouble
 }
 
 #pragma  mark - Private methods
@@ -134,6 +137,7 @@
     NSUInteger arrayCount = self.segmentedControlTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeight);
     self.scrollView.delegate = self;
+    self.scrollView.directionalLockEnabled = YES;
     
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.segmentedControl.mas_top);
@@ -270,10 +274,16 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    NSInteger page = scrollView.contentOffset.x / pageWidth;
-    
-    [self.segmentedControl setSelectedSegmentIndex:page animated:YES];
+    /**
+     *  tableView is scrollView too.
+     *  add the follow to avoid trouble.
+     */
+    if (scrollView == self.scrollView) {
+        CGFloat pageWidth = scrollView.frame.size.width;
+        NSInteger page = scrollView.contentOffset.x / pageWidth;
+        [self.segmentedControl setSelectedSegmentIndex:page];
+    }
+
 }
 
 #pragma mark - UITableViewDatasource
@@ -311,7 +321,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGRectGetHeight(self.worryHolderView.bounds)*0.012;
+//    return CGRectGetHeight(self.worryHolderView.bounds)*0.012;
+    return 0.1;
 }
 
 #pragma mark - UICollectionViewDataSource

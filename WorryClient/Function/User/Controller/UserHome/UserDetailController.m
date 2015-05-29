@@ -183,7 +183,6 @@
     }else{
         
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailTextLabel.font = kMiddleLabelFont;
     return cell;
 }

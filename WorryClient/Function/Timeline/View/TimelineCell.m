@@ -93,7 +93,6 @@
 {
     self.titleLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.titleLabel];
-    self.titleLabel.textColor = OPAQUE_COLOR(0x6c, 0x6c, 0x6c);
     self.titleLabel.font = [UIFont systemFontOfSize:15];
 }
 
@@ -103,7 +102,7 @@
     [self.contentView addSubview:self.shortTextLabel];
     self.shortTextLabel.numberOfLines = 0;
     self.shortTextLabel.font = [UIFont systemFontOfSize:14];
-    self.shortTextLabel.textColor = OPAQUE_COLOR(0x7F, 0x89, 0x91);
+    self.shortTextLabel.textColor = [UIColor grayColor];
 }
 
 - (void)loadReplyButton

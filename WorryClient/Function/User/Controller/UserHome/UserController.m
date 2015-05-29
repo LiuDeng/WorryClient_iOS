@@ -17,6 +17,8 @@
 #import "UserDetailController.h"
 #import "UserService.h"
 #import "ContributionController.h"
+#import "FavoriteController.h"
+#import "ThanksController.h"
 
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
@@ -94,7 +96,14 @@
             if ([title isEqualToString:kContributionTitle]) {
                 ContributionController *vc = [[ContributionController alloc]init];
                 [self.navigationController pushViewController:vc animated:YES];
+            }else if ([title isEqualToString:kFavoritesTitle]){
+                FavoriteController *vc = [[FavoriteController alloc]init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if ([title isEqualToString:kThanksTitle]){
+                ThanksController *vc = [[ThanksController alloc]init];
+                [self.navigationController pushViewController:vc animated:YES];
             }
+            
         }
     }else{
         [self loadLogInAlertView];
