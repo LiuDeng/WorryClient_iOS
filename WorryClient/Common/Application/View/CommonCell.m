@@ -1,24 +1,23 @@
 //
-//  ThanksCell.m
+//  CommonCell.m
 //  WorryClient
 //
-//  Created by 蔡少武 on 15/5/29.
+//  Created by 蔡少武 on 15/5/30.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "ThanksCell.h"
+#import "CommonCell.h"
 #import "ViewDefault.h"
 
-@implementation ThanksCell
+@implementation CommonCell
 
-#pragma mark - Default methods
+#pragma mark - Public methods
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self loadAvatarView];
-        [self loadAnswerLabel];
+        [self loadContentLabel];
         [self loadDescriptionLabel];
         [self loadDateLabel];
     }
@@ -30,49 +29,44 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.contentView.mas_right).with.multipliedBy(0.03);
-        make.width.equalTo(self.contentView.mas_height).with.multipliedBy(0.7);
-        make.height.equalTo(self.contentView).with.multipliedBy(0.7);
-    }];
+    [UIView setAsRound:self.imageView];
     
     float padding = 16;
     [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_centerY);
-        make.left.equalTo(self.avatarView.mas_right).with.offset(+padding);
+        make.left.equalTo(self.imageView.mas_right).with.offset(+padding);
     }];
     
-    [self.answerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.descriptionLabel);
         make.top.equalTo(self.contentView.mas_centerY);
     }];
     
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).with.multipliedBy(0.97);
-        make.centerY.equalTo(self.answerLabel);
+        make.centerY.equalTo(self.contentLabel);
     }];
 }
 
 #pragma mark - Private methods
-- (void)loadAvatarView
-{
-    self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
-    [self.contentView addSubview:self.avatarView];
-}
+
+
 
 - (void)loadDescriptionLabel
 {
     self.descriptionLabel = [[UILabel alloc]init];
     [self.contentView addSubview:self.descriptionLabel];
+    
 }
 
-- (void)loadAnswerLabel
+- (void)loadContentLabel
 {
-    self.answerLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.answerLabel];
-    self.answerLabel.font = kMiddleLabelFont;
-    self.answerLabel.textColor = [UIColor grayColor];
+    self.contentLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:self.contentLabel];
+    self.contentLabel.font = kMiddleLabelFont;
+    self.contentLabel.textColor = [UIColor grayColor];
+    
+    
 }
 
 - (void)loadDateLabel

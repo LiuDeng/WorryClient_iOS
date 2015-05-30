@@ -96,6 +96,7 @@
     _countOfCollectionCol = 3;
     _collectionEdgePadding = 1.0f;
     _collectionViewHeight = CGRectGetHeight(self.view.bounds)*0.6;  //  maybe a trouble
+//    _collectionViewHeight = CGRectGetWidth(self.view.bounds);
 }
 
 #pragma  mark - Private methods
@@ -215,7 +216,7 @@
     topicCollectionViewFlowLayout.minimumLineSpacing = 0;
     topicCollectionViewFlowLayout.minimumInteritemSpacing = 0;
     
-    CGFloat itemSizeWidth = (CGRectGetWidth(self.view.frame) - padding * (row))/row;
+    CGFloat itemSizeWidth = (CGRectGetWidth(self.view.frame) - padding * row)/row;
     CGFloat itemSizeHeight = (_collectionViewHeight - padding * (col + 1))/col;
     
     topicCollectionViewFlowLayout.itemSize = CGSizeMake(itemSizeWidth, itemSizeHeight);

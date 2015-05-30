@@ -7,7 +7,7 @@
 //
 
 #import "ContributionController.h"
-#import "ContributionCell.h"
+#import "CommonCell.h"
 
 #define kContributionCell   @"contributionCell"
 
@@ -33,7 +33,7 @@
 - (void)loadTableView
 {
     [super loadTableView];
-    [self.tableView registerClass:[ContributionCell class] forCellReuseIdentifier:kContributionCell];
+    [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kContributionCell];
 }
 #pragma mark - Private methods
 
@@ -53,13 +53,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ContributionCell *cell = [tableView dequeueReusableCellWithIdentifier:kContributionCell forIndexPath:indexPath];
+    CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kContributionCell forIndexPath:indexPath];
     
     cell.imageView.image = [UIImage imageNamed:@"reply_thanks"];
-    cell.titleLabel.text = @"题目";
-    cell.answerLabel.text = @"我的回答啊啊";
-
-    
+    cell.descriptionLabel.text = @"题目";
+    cell.contentLabel.text = @"我的回答啊啊";
+    cell.dateLabel.text = @"刚刚";
     return cell;
 }
 

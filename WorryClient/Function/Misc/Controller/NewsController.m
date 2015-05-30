@@ -7,7 +7,7 @@
 //
 
 #import "NewsController.h"
-#import "NewsCell.h"
+#import "CommonCell.h"
 #import "HMSegmentedControl.h"
 
 #define kNOTECell   @"NOTECell"
@@ -132,7 +132,7 @@
     [self.NOTEHolderView addSubview:self.NOTETableView];
     self.NOTETableView.delegate = self;
     self.NOTETableView.dataSource = self;
-    [self.NOTETableView registerClass:[NewsCell class] forCellReuseIdentifier:kNOTECell];
+    [self.NOTETableView registerClass:[CommonCell class] forCellReuseIdentifier:kNOTECell];
     
     [self.NOTETableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.NOTEHolderView);
@@ -163,7 +163,7 @@
     [self.MSGHolderView addSubview:self.MSGTableView];
     self.MSGTableView.delegate = self;
     self.MSGTableView.dataSource = self;
-    [self.MSGTableView registerClass:[NewsCell class] forCellReuseIdentifier:kMSGCell];
+    [self.MSGTableView registerClass:[CommonCell class] forCellReuseIdentifier:kMSGCell];
     
     [self.MSGTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.MSGHolderView);
@@ -201,21 +201,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.NOTETableView) {
-        NewsCell *cell = [tableView dequeueReusableCellWithIdentifier:kNOTECell forIndexPath:indexPath];
+        CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kNOTECell forIndexPath:indexPath];
         
-        cell.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
-        cell.nickLabel.text = @"用户";
+        cell.imageView.image = [UIImage imageNamed:@"avatar_male"];
+        cell.descriptionLabel.text = @"用户";
         cell.dateLabel.text = @"十分钟前";
-        cell.descriptionLabel.text = @"xx回答了你的问题";
+        cell.contentLabel.text = @"xx回答了你的问题";
         
         return cell;
     }else{
-        NewsCell *cell = [tableView dequeueReusableCellWithIdentifier:kMSGCell forIndexPath:indexPath];
+        CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kMSGCell forIndexPath:indexPath];
         
-        cell.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
-        cell.nickLabel.text = @"用户";
+        cell.imageView.image = [UIImage imageNamed:@"avatar_female"];
+        cell.descriptionLabel.text = @"用户";
         cell.dateLabel.text = @"十分钟前";
-        cell.descriptionLabel.text = @"你好啊！";
+        cell.contentLabel.text = @"你好啊！";
         
         return cell;
     }

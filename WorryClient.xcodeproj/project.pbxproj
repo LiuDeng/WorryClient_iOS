@@ -90,7 +90,6 @@
 		7CC268431B15D6D3003F42E7 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC268421B15D6D3003F42E7 /* UserController.m */; };
 		7CC268461B15D6F2003F42E7 /* UserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC268451B15D6F2003F42E7 /* UserDetailController.m */; };
 		7CC268491B15D7B0003F42E7 /* ContributionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC268481B15D7B0003F42E7 /* ContributionController.m */; };
-		7CC2684C1B15D8AD003F42E7 /* ContributionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2684B1B15D8AD003F42E7 /* ContributionCell.m */; };
 		7CC3021C1AE281800059B80F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC3021B1AE281800059B80F /* libsqlite3.dylib */; };
 		7CC336931ADF6A430084D891 /* MessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC336921ADF6A430084D891 /* MessageCenter.m */; };
 		7CC336951ADF9EE90084D891 /* Feed.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CC336941ADF9EE90084D891 /* Feed.proto */; };
@@ -104,7 +103,6 @@
 		7CC555F21B1467D2000149BB /* AnswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC555F11B1467D2000149BB /* AnswerController.m */; };
 		7CC555F51B146C3D000149BB /* CommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC555F41B146C3D000149BB /* CommentController.m */; };
 		7CC555F81B1482C3000149BB /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC555F71B1482C3000149BB /* NewsController.m */; };
-		7CC555FC1B1483D5000149BB /* NewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC555FB1B1483D5000149BB /* NewsCell.m */; };
 		7CC5A47B1B18121900484B5C /* favorite_story_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A4791B18121900484B5C /* favorite_story_bg@2x.png */; };
 		7CC5A47C1B18121900484B5C /* favorite_worry_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A47A1B18121900484B5C /* favorite_worry_bg@2x.png */; };
 		7CC5A4801B182BC400484B5C /* avatar_female@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A47D1B182BC400484B5C /* avatar_female@3x.png */; };
@@ -112,9 +110,9 @@
 		7CC5A4821B182BC400484B5C /* user_background_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A47F1B182BC400484B5C /* user_background_image@3x.png */; };
 		7CC5A4851B182BCD00484B5C /* avatar_female@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A4831B182BCD00484B5C /* avatar_female@2x.png */; };
 		7CC5A4861B182BCD00484B5C /* avatar_male@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CC5A4841B182BCD00484B5C /* avatar_male@2x.png */; };
-		7CC5A4891B1835F500484B5C /* ThanksCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC5A4881B1835F500484B5C /* ThanksCell.m */; };
 		7CC5A48C1B18386C00484B5C /* ThanksController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC5A48B1B18386C00484B5C /* ThanksController.m */; };
 		7CC5FDAA1AF876E200DFCE42 /* SelectTopicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC5FDA91AF876E200DFCE42 /* SelectTopicCell.m */; };
+		7CC73A311B195DC100B4F54D /* CommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC73A301B195DC100B4F54D /* CommonCell.m */; };
 		7CC8767D1AE7831D00963450 /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC8767C1AE7831D00963450 /* DefaultViewController.m */; };
 		7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876851AE787BD00963450 /* UIViewController+Utils.m */; };
 		7CC8768A1AE78FFB00963450 /* SettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC876891AE78FFB00963450 /* SettingController.m */; };
@@ -348,8 +346,6 @@
 		7CC268451B15D6F2003F42E7 /* UserDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailController.m; sourceTree = "<group>"; };
 		7CC268471B15D7B0003F42E7 /* ContributionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContributionController.h; sourceTree = "<group>"; };
 		7CC268481B15D7B0003F42E7 /* ContributionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContributionController.m; sourceTree = "<group>"; };
-		7CC2684A1B15D8AD003F42E7 /* ContributionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContributionCell.h; sourceTree = "<group>"; };
-		7CC2684B1B15D8AD003F42E7 /* ContributionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContributionCell.m; sourceTree = "<group>"; };
 		7CC3021B1AE281800059B80F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7CC336911ADF6A430084D891 /* MessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenter.h; sourceTree = "<group>"; };
 		7CC336921ADF6A430084D891 /* MessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenter.m; sourceTree = "<group>"; };
@@ -372,8 +368,6 @@
 		7CC555F41B146C3D000149BB /* CommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentController.m; sourceTree = "<group>"; };
 		7CC555F61B1482C3000149BB /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		7CC555F71B1482C3000149BB /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
-		7CC555FA1B1483D5000149BB /* NewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsCell.h; sourceTree = "<group>"; };
-		7CC555FB1B1483D5000149BB /* NewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsCell.m; sourceTree = "<group>"; };
 		7CC5A4791B18121900484B5C /* favorite_story_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_story_bg@2x.png"; sourceTree = "<group>"; };
 		7CC5A47A1B18121900484B5C /* favorite_worry_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_worry_bg@2x.png"; sourceTree = "<group>"; };
 		7CC5A47D1B182BC400484B5C /* avatar_female@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_female@3x.png"; sourceTree = "<group>"; };
@@ -381,12 +375,12 @@
 		7CC5A47F1B182BC400484B5C /* user_background_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_background_image@3x.png"; sourceTree = "<group>"; };
 		7CC5A4831B182BCD00484B5C /* avatar_female@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_female@2x.png"; sourceTree = "<group>"; };
 		7CC5A4841B182BCD00484B5C /* avatar_male@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_male@2x.png"; sourceTree = "<group>"; };
-		7CC5A4871B1835F500484B5C /* ThanksCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThanksCell.h; sourceTree = "<group>"; };
-		7CC5A4881B1835F500484B5C /* ThanksCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThanksCell.m; sourceTree = "<group>"; };
 		7CC5A48A1B18386C00484B5C /* ThanksController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThanksController.h; sourceTree = "<group>"; };
 		7CC5A48B1B18386C00484B5C /* ThanksController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThanksController.m; sourceTree = "<group>"; };
 		7CC5FDA81AF876E200DFCE42 /* SelectTopicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectTopicCell.h; sourceTree = "<group>"; };
 		7CC5FDA91AF876E200DFCE42 /* SelectTopicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectTopicCell.m; sourceTree = "<group>"; };
+		7CC73A2F1B195DC100B4F54D /* CommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonCell.h; sourceTree = "<group>"; };
+		7CC73A301B195DC100B4F54D /* CommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCell.m; sourceTree = "<group>"; };
 		7CC8767B1AE7831D00963450 /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		7CC8767C1AE7831D00963450 /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		7CC8767E1AE7834E00963450 /* ColorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ColorInfo.h; path = ViewController/ColorInfo.h; sourceTree = "<group>"; };
@@ -470,7 +464,7 @@
 		7CE987281AF5B1BA00D270EC /* TopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicManager.m; sourceTree = "<group>"; };
 		7CE9872B1AF5B23A00D270EC /* TopicService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicService.h; sourceTree = "<group>"; };
 		7CE9872C1AF5B23A00D270EC /* TopicService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicService.m; sourceTree = "<group>"; };
-		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTopicController.h; sourceTree = "<group>"; };
+		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateTopicController.h; path = ../Controller/CreateTopicController.h; sourceTree = "<group>"; };
 		7CE9872F1AF5B57600D270EC /* CreateTopicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTopicController.m; sourceTree = "<group>"; };
 		7CE987351AF6502C00D270EC /* creat_feed_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_checked@2x.png"; sourceTree = "<group>"; };
 		7CE987361AF6502C00D270EC /* creat_feed_unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_unchecked@2x.png"; sourceTree = "<group>"; };
@@ -786,6 +780,7 @@
 		7C5A379E1ADB9E3000CFA176 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7CC73A2E1B195DAD00B4F54D /* View */,
 				7CC8767A1AE7831D00963450 /* ViewController */,
 				7C5A37A01ADB9E3000CFA176 /* CommonManager.h */,
 				7C5A37A11ADB9E3000CFA176 /* CommonManager.m */,
@@ -950,7 +945,6 @@
 				7C5A37D21ADB9E3000CFA176 /* OmnibusController.m */,
 				7CC0EAC31AF06B9300ED7FC7 /* OmnibusDetailController.h */,
 				7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */,
-				7CE9872E1AF5B57600D270EC /* CreateTopicController.h */,
 				7CE9872F1AF5B57600D270EC /* CreateTopicController.m */,
 			);
 			path = Controller;
@@ -978,6 +972,7 @@
 		7C5A37D91ADB9E3000CFA176 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7CE9872E1AF5B57600D270EC /* CreateTopicController.h */,
 				7C5A37DA1ADB9E3000CFA176 /* TopicCollectionViewCell.h */,
 				7C5A37DB1ADB9E3000CFA176 /* TopicCollectionViewCell.m */,
 				7CC0EAC61AF09F8900ED7FC7 /* StoryCollectionViewCell.h */,
@@ -1082,12 +1077,8 @@
 				7CBD2D101AEB88EB0091EB20 /* UserDetailAvatarCell.m */,
 				7CBD2D121AEB8B660091EB20 /* UserDetailBGImageCell.h */,
 				7CBD2D131AEB8B660091EB20 /* UserDetailBGImageCell.m */,
-				7CC2684A1B15D8AD003F42E7 /* ContributionCell.h */,
-				7CC2684B1B15D8AD003F42E7 /* ContributionCell.m */,
 				7C0DEF801B174E1000224547 /* FavoriteWorryCell.h */,
 				7C0DEF811B174E1000224547 /* FavoriteWorryCell.m */,
-				7CC5A4871B1835F500484B5C /* ThanksCell.h */,
-				7CC5A4881B1835F500484B5C /* ThanksCell.m */,
 				7C3C75BD1B1863D000AE5561 /* FavoriteStoryCell.h */,
 				7C3C75BE1B1863D000AE5561 /* FavoriteStoryCell.m */,
 			);
@@ -1215,8 +1206,15 @@
 		7CC555F91B14837C000149BB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7CC555FA1B1483D5000149BB /* NewsCell.h */,
-				7CC555FB1B1483D5000149BB /* NewsCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7CC73A2E1B195DAD00B4F54D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7CC73A2F1B195DC100B4F54D /* CommonCell.h */,
+				7CC73A301B195DC100B4F54D /* CommonCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1559,7 +1557,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C5A37FE1ADB9E3000CFA176 /* LogUtils.m in Sources */,
-				7CC5A4891B1835F500484B5C /* ThanksCell.m in Sources */,
 				7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */,
 				7C5A37FA1ADB9E3000CFA176 /* CommonService.m in Sources */,
 				7CC5FDAA1AF876E200DFCE42 /* SelectTopicCell.m in Sources */,
@@ -1574,13 +1571,13 @@
 				7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */,
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
 				7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */,
+				7CC73A311B195DC100B4F54D /* CommonCell.m in Sources */,
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
 				7CDA5D531AFAE5EA001D16F9 /* SelectTopicController.m in Sources */,
 				7CC268431B15D6D3003F42E7 /* UserController.m in Sources */,
 				7CC555F51B146C3D000149BB /* CommentController.m in Sources */,
 				7CC0EAC81AF09F8900ED7FC7 /* StoryCollectionViewCell.m in Sources */,
 				7CC555F21B1467D2000149BB /* AnswerController.m in Sources */,
-				7CC555FC1B1483D5000149BB /* NewsCell.m in Sources */,
 				7CBD2D0B1AEB75EC0091EB20 /* Topic.pb.m in Sources */,
 				7CDA5D551AFAE5EA001D16F9 /* TimelineController.m in Sources */,
 				7C5A38001ADB9E3000CFA176 /* AppDelegate.m in Sources */,
@@ -1624,7 +1621,6 @@
 				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
 				7CE9874F1AF65F4A00D270EC /* WorryAnswerCell.m in Sources */,
 				7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */,
-				7CC2684C1B15D8AD003F42E7 /* ContributionCell.m in Sources */,
 				7CCEF8BC1AFEC9FF0034A2C3 /* SendBlessingController.m in Sources */,
 				7CDA5D521AFAE5EA001D16F9 /* CreateFeedController.m in Sources */,
 				7C54C2B61ADBFD63002A32E2 /* QuickSignUpController.m in Sources */,

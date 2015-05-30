@@ -7,7 +7,7 @@
 //
 
 #import "ThanksController.h"
-#import "ThanksCell.h"
+#import "CommonCell.h"
 
 #define kThanksCell @"thanksCell"
 
@@ -27,7 +27,7 @@
 - (void)loadTableView
 {
     [super loadTableView];
-    [self.tableView registerClass:[ThanksCell class] forCellReuseIdentifier:kThanksCell];
+    [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kThanksCell];
 }
 
 #pragma mark - UITableViewDelegate
@@ -46,10 +46,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ThanksCell *cell = [tableView dequeueReusableCellWithIdentifier:kThanksCell forIndexPath:indexPath];
-    cell.avatarView.imageView.image = [UIImage imageNamed:@"avatar_female"];
-    cell.descriptionLabel.text = @"描述";
-    cell.answerLabel.text = @"回答";
+    CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kThanksCell forIndexPath:indexPath];
+    cell.imageView.image = [UIImage imageNamed:@"avatar_female"];
+    cell.contentLabel.text = @"描述";
+    cell.descriptionLabel.text = @"回答";
     cell.dateLabel.text = @"刚刚";
     return cell;
 }
