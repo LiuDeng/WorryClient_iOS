@@ -19,6 +19,7 @@
 #import "ContributionController.h"
 #import "FavoriteController.h"
 #import "ThanksController.h"
+#import "BlessingController.h"
 
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
@@ -88,22 +89,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([[UserService sharedInstance]ifLogIn]){
-        // TODO
         if (indexPath.section == self.sectionAvatar) {
             [self didSelectBackgroundImage];
         }else{
+            UIViewController *vc;
             NSString *title = [self.sectionBasicItems objectAtIndex:indexPath.row];
+            
             if ([title isEqualToString:kContributionTitle]) {
-                ContributionController *vc = [[ContributionController alloc]init];
-                [self.navigationController pushViewController:vc animated:YES];
+                vc = (ContributionController*)[[ContributionController alloc]init];
             }else if ([title isEqualToString:kFavoritesTitle]){
-                FavoriteController *vc = [[FavoriteController alloc]init];
-                [self.navigationController pushViewController:vc animated:YES];
+                vc = (FavoriteController *)[[FavoriteController alloc]init];
             }else if ([title isEqualToString:kThanksTitle]){
-                ThanksController *vc = [[ThanksController alloc]init];
-                [self.navigationController pushViewController:vc animated:YES];
+                vc = (ThanksController *)[[ThanksController alloc]init];
+            }else if ([title isEqualToString:kBlessingTitle]){
+                vc = [(BlessingController *)[BlessingController alloc]init];
             }
             
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }else{
         [self loadLogInAlertView];

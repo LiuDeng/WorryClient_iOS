@@ -12,6 +12,8 @@
 		7C3C75BB1B185CF000AE5561 /* favorite_triangle_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3C75B91B185CF000AE5561 /* favorite_triangle_blue@2x.png */; };
 		7C3C75BC1B185CF000AE5561 /* favorite_triangle_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C3C75BA1B185CF000AE5561 /* favorite_triangle_green@2x.png */; };
 		7C3C75BF1B1863D000AE5561 /* FavoriteStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3C75BE1B1863D000AE5561 /* FavoriteStoryCell.m */; };
+		7C4805391B1A9F0800C39764 /* WSegmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805381B1A9F0800C39764 /* WSegmentController.m */; };
+		7C48053F1B1AA62100C39764 /* BlessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C48053E1B1AA62100C39764 /* BlessingController.m */; };
 		7C4EBD2E1B09A1B200261E15 /* Recommendation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */; };
 		7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */; };
 		7C4F464D1AFCEBD70050152F /* guide_page_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464A1AFCEBD70050152F /* guide_page_01@2x.png */; };
@@ -223,6 +225,10 @@
 		7C3C75BA1B185CF000AE5561 /* favorite_triangle_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_triangle_green@2x.png"; sourceTree = "<group>"; };
 		7C3C75BD1B1863D000AE5561 /* FavoriteStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteStoryCell.h; sourceTree = "<group>"; };
 		7C3C75BE1B1863D000AE5561 /* FavoriteStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteStoryCell.m; sourceTree = "<group>"; };
+		7C4805371B1A9F0800C39764 /* WSegmentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSegmentController.h; sourceTree = "<group>"; };
+		7C4805381B1A9F0800C39764 /* WSegmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSegmentController.m; sourceTree = "<group>"; };
+		7C48053D1B1AA62100C39764 /* BlessingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlessingController.h; sourceTree = "<group>"; };
+		7C48053E1B1AA62100C39764 /* BlessingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlessingController.m; sourceTree = "<group>"; };
 		7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Recommendation.proto; sourceTree = "<group>"; };
 		7C4EBD2F1B09A1BC00261E15 /* Recommendation.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recommendation.pb.h; sourceTree = "<group>"; };
 		7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recommendation.pb.m; sourceTree = "<group>"; };
@@ -1174,6 +1180,8 @@
 				7CD11BBA1B17F598000514BD /* FavoriteController.m */,
 				7CC5A48A1B18386C00484B5C /* ThanksController.h */,
 				7CC5A48B1B18386C00484B5C /* ThanksController.m */,
+				7C48053D1B1AA62100C39764 /* BlessingController.h */,
+				7C48053E1B1AA62100C39764 /* BlessingController.m */,
 			);
 			path = UserHome;
 			sourceTree = "<group>";
@@ -1230,6 +1238,8 @@
 				7CC8768C1AE7939A00963450 /* DefaultTableViewController.m */,
 				7CA6FBDD1AEE4DB90028F3AD /* EditController.h */,
 				7CA6FBDE1AEE4DB90028F3AD /* EditController.m */,
+				7C4805371B1A9F0800C39764 /* WSegmentController.h */,
+				7C4805381B1A9F0800C39764 /* WSegmentController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1589,6 +1599,7 @@
 				7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */,
 				7C4F46521AFCEC540050152F /* GuidePageController.m in Sources */,
 				7CBD2D1C1AEBBF180091EB20 /* LocaleUtils.m in Sources */,
+				7C48053F1B1AA62100C39764 /* BlessingController.m in Sources */,
 				7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */,
 				7CC336981ADFA5910084D891 /* Feed.pb.m in Sources */,
 				7CC5A48C1B18386C00484B5C /* ThanksController.m in Sources */,
@@ -1621,6 +1632,7 @@
 				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
 				7CE9874F1AF65F4A00D270EC /* WorryAnswerCell.m in Sources */,
 				7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */,
+				7C4805391B1A9F0800C39764 /* WSegmentController.m in Sources */,
 				7CCEF8BC1AFEC9FF0034A2C3 /* SendBlessingController.m in Sources */,
 				7CDA5D521AFAE5EA001D16F9 /* CreateFeedController.m in Sources */,
 				7C54C2B61ADBFD63002A32E2 /* QuickSignUpController.m in Sources */,
