@@ -8,26 +8,16 @@
 
 #import "NewsController.h"
 #import "CommonCell.h"
-#import "HMSegmentedControl.h"
 
 #define kNOTECell   @"NOTECell"
 #define kMSGCell    @"MSGCell"
 #define kNOTETitle  @"通知"
 #define kMSGTitle   @"私信"
 
-@interface NewsController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
-{
-    CGFloat _controlHeightScale;
-    CGFloat _viewWidth;
-    CGFloat _scrollViewHeigth;
-}
-@property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) UIView *NOTEHolderView;            //  通知
-@property (nonatomic,strong) UIView *MSGHolderView;             //  私信
-@property (nonatomic,strong) UITableView *NOTETableView;
-@property (nonatomic,strong) UITableView *MSGTableView;
-@property (nonatomic,strong) HMSegmentedControl *segmentedControl;
-@property (nonatomic,strong) NSArray *titleArray;               //  the title of segmentedControl
+@interface NewsController ()<UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic,strong) UITableView *NOTETableView;        //  通知
+@property (nonatomic,strong) UITableView *MSGTableView;         //  私信
 
 @end
 
@@ -40,145 +30,31 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView
-{
-    [super loadView];
-    [self loadScrollView];
-    [self loadSegmentedControl];
-}
-
 - (void)loadData
 {
     [super loadData];
-    _controlHeightScale = 0.1;
-    _scrollViewHeigth = CGRectGetHeight(self.view.bounds) * (1 - _controlHeightScale);
-    _viewWidth = CGRectGetWidth(self.view.bounds);
-    self.titleArray = @[kNOTETitle,kMSGTitle];
-    
+    [self loadTableViews];
 }
 
 #pragma mark - Private methods
 
-- (void)loadScrollView
+- (void)loadTableViews
 {
-    self.scrollView = [[UIScrollView alloc]init];
-    [self.view addSubview:self.scrollView];
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator  = NO;
-    self.scrollView.bounces = NO;
-    NSUInteger arrayCount = self.titleArray.count;
-    self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeigth);
+    self.segmentTitles = @[kNOTETitle,kMSGTitle];
+    NSArray *reusedIds  = @[kNOTECell,kMSGCell];
+    self.holderViews = [[NSMutableArray alloc]init];
     
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.height.equalTo(@(_scrollViewHeigth));
-    }];
+    for (int i=0; i<self.segmentTitles.count; i++) {
+        UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        NSString *reusedId = [reusedIds objectAtIndex:i];
+        [tableView registerClass:[CommonCell class] forCellReuseIdentifier:reusedId];
+        [self.holderViews addObject:tableView];
+    }
     
-    [self loadNOTEHolderView];
-    [self loadMSGHolderView];
-}
-
-- (void)loadSegmentedControl
-{
-    self.segmentedControl = [[HMSegmentedControl alloc]initWithSectionTitles:self.titleArray];
-    [self.view addSubview:self.segmentedControl];
-    self.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-    self.segmentedControl.selectionIndicatorColor = kIndicatorColor;
-    self.segmentedControl.selectionIndicatorHeight = kIndicatorHeight;
-    self.segmentedControl.selectedTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:kControlTextColor,NSForegroundColorAttributeName, nil];
-    __weak typeof(self) weakSelf = self;
-    [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
-        CGRect frame = weakSelf.scrollView.frame;
-        frame.origin.x += frame.size.width * index;
-        [weakSelf.scrollView scrollRectToVisible:frame animated:YES];
-    }];
-    
-    
-    [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.centerX.equalTo(self.view);
-        make.height.equalTo(self.view).with.multipliedBy(_controlHeightScale);
-    }];
-}
-
-#pragma mark NOTEHolderView
-- (void)loadNOTEHolderView
-{
-    NSUInteger index = [self.titleArray indexOfObject:kNOTETitle];
-    self.NOTEHolderView = [[UIView alloc]init];
-    [self.scrollView addSubview:self.NOTEHolderView];
-    
-    [self.NOTEHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.scrollView);
-        make.centerY.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
-    }];
-    
-    [self loadNOTETableView];
-}
-
-- (void)loadNOTETableView
-{
-    self.NOTETableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.NOTEHolderView addSubview:self.NOTETableView];
-    self.NOTETableView.delegate = self;
-    self.NOTETableView.dataSource = self;
-    [self.NOTETableView registerClass:[CommonCell class] forCellReuseIdentifier:kNOTECell];
-    
-    [self.NOTETableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.NOTEHolderView);
-        make.center.equalTo(self.NOTEHolderView);
-    }];
-}
-
-#pragma mark MSGHolderView
-
-- (void)loadMSGHolderView
-{
-    NSUInteger index = [self.titleArray indexOfObject:kMSGTitle];
-    self.MSGHolderView = [[UIView alloc]init];
-    [self.scrollView addSubview:self.MSGHolderView];
-    
-    [self.MSGHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.scrollView);
-        make.centerY.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
-    }];
-    
-    [self loadMSGTableView];
-}
-
-- (void)loadMSGTableView
-{
-    self.MSGTableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.MSGHolderView addSubview:self.MSGTableView];
-    self.MSGTableView.delegate = self;
-    self.MSGTableView.dataSource = self;
-    [self.MSGTableView registerClass:[CommonCell class] forCellReuseIdentifier:kMSGCell];
-    
-    [self.MSGTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.MSGHolderView);
-        make.center.equalTo(self.MSGHolderView);
-    }];
-
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    CGFloat pageWidth = scrollView.frame.size.width;
-    NSInteger page = scrollView.contentOffset.x / pageWidth;
-    [self.segmentedControl setSelectedSegmentIndex:page];
+    self.NOTETableView = (UITableView *)[self.holderViews objectAtIndex:0];
+    self.MSGTableView = (UITableView *)[self.holderViews objectAtIndex:1];
 }
 
 #pragma mark - UITableViewDelegate
@@ -223,7 +99,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 67;
+    return kCommonCellRowHeight;
 }
 
 @end

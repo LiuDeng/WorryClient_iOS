@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "WSegmentController.h"
 @class PBTopic;
 
-@interface OmnibusDetailController : DefaultViewController
+@interface OmnibusDetailController : WSegmentController
 
 - (instancetype)initWithPBTopic:(PBTopic *)pbTopic;
 

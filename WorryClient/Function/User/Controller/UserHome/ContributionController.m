@@ -46,7 +46,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 67;
+    return kCommonCellRowHeight;
 }
 
 #pragma mark - UITableViewDataSource

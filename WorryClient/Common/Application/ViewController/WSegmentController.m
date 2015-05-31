@@ -9,7 +9,7 @@
 #import "WSegmentController.h"
 #import "HMSegmentedControl.h"
 
-@interface WSegmentController ()
+@interface WSegmentController ()<UIScrollViewDelegate>
 {
     CGFloat _controlHeightScale;
     CGFloat _viewWidth;
@@ -59,8 +59,10 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator  = NO;
     self.scrollView.bounces = NO;
+    self.scrollView.delegate = self;
     NSUInteger arrayCount = self.segmentTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeigth);
+    
     
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -113,9 +115,16 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    NSInteger page = scrollView.contentOffset.x / pageWidth;
-    [self.segmentedControl setSelectedSegmentIndex:page];
+    /**
+     *  tableView is scrollView too.
+     *  add the follow to avoid trouble.
+     */
+    if (scrollView == self.scrollView) {
+        CGFloat pageWidth = scrollView.frame.size.width;
+        NSInteger page = scrollView.contentOffset.x / pageWidth;
+        [self.segmentedControl setSelectedSegmentIndex:page];
+    }
+
 }
 
 

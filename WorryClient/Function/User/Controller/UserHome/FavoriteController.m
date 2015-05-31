@@ -9,28 +9,16 @@
 #import "FavoriteController.h"
 #import "FavoriteWorryCell.h"
 #import "FavoriteStoryCell.h"
-#import "HMSegmentedControl.h"
 
 #define kWorryCell      @"worryCell"
 #define kStoryCell      @"storyCell"
 #define kWorryTitle     @"心结"
 #define kStoryTitle     @"心事"
 
-@interface FavoriteController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
-{
-    CGFloat _controlHeightScale;
-    CGFloat _viewWidth;
-    CGFloat _viewHeight;
-    CGFloat _scrollViewHeigth;
-}
+@interface FavoriteController ()<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong) UIView *storyHolderView;       //  心事
-@property (nonatomic,strong) UIView *worryHolderView;       //  心结
 @property (nonatomic,strong) UITableView *storyTableView;
 @property (nonatomic,strong) UITableView *worryTableView;
-@property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) HMSegmentedControl *segmentedControl;
-@property (nonatomic,strong) NSArray *titleArray;           //  the title of segmentedControl
 
 @end
 
@@ -43,23 +31,12 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)loadView
-{
-    [super loadView];
-    [self loadScrollView];
-    [self loadSegmentedControl];
-}
 
 - (void)loadData
 {
     [super loadData];
-    _viewWidth = CGRectGetWidth(self.view.bounds);
-    _viewHeight = CGRectGetHeight(self.view.bounds) - kStatusBarHeight - kNavigationBarHeight;
-    _controlHeightScale = 0.1;
-    _scrollViewHeigth = _viewHeight * (1 - _controlHeightScale);
-    self.titleArray = @[kWorryTitle,kStoryTitle];
+    [self loadTableViews];
 }
-
 
 #pragma mark - UITableViewDelegate
 
@@ -106,132 +83,25 @@
 
 #pragma mark - Private methods
 
-- (void)loadScrollView
+- (void)loadTableViews
 {
-    self.scrollView = [[UIScrollView alloc]init];
-    [self.view addSubview:self.scrollView];
-    self.scrollView.delegate = self;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator  = NO;
-    self.scrollView.bounces = NO;
-    NSUInteger arrayCount = self.titleArray.count;
-    self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeigth);
+    self.segmentTitles = @[kWorryTitle,kStoryTitle];
+    NSArray *reusedIds  = @[kWorryCell,kStoryCell];
+    self.holderViews = [[NSMutableArray alloc]init];
+    NSArray *cellClasses = @[[FavoriteWorryCell class],[FavoriteStoryCell class]];
     
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.height.equalTo(self.view).with.multipliedBy(1-_controlHeightScale);
-    }];
-    
-    [self loadStoryHolderView];
-    [self loadWorryHolderView];
-}
-- (void)loadSegmentedControl
-{
-    self.segmentedControl = [[HMSegmentedControl alloc]initWithSectionTitles:self.titleArray];
-    [self.view addSubview:self.segmentedControl];
-    self.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-    self.segmentedControl.selectionIndicatorColor = kIndicatorColor;
-    self.segmentedControl.selectionIndicatorHeight = kIndicatorHeight;
-    self.segmentedControl.selectedTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:kControlTextColor,NSForegroundColorAttributeName, nil];
-    __weak typeof(self) weakSelf = self;
-    [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
-        CGRect frame = weakSelf.scrollView.frame;
-        frame.origin.x += frame.size.width * index;
-        [weakSelf.scrollView scrollRectToVisible:frame animated:YES];
-    }];
-    
-    [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.centerX.equalTo(self.view);
-        make.height.equalTo(self.view).with.multipliedBy(_controlHeightScale);
-    }];
-}
-
-#pragma mark Story Holder View
-
-- (void)loadStoryHolderView
-{
-    NSUInteger index = [self.titleArray indexOfObject:kStoryTitle];
-    self.storyHolderView = [[UIView alloc]init];
-    [self.scrollView addSubview:self.storyHolderView];
-    
-    [self.storyHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.scrollView);
-        make.centerY.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
-    }];
-    
-    [self loadStoryTableView];
-}
-
-- (void)loadStoryTableView
-{
-    self.storyTableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.storyHolderView addSubview:self.storyTableView];
-    [self.storyTableView registerClass:[FavoriteStoryCell class] forCellReuseIdentifier:kStoryCell];
-    self.storyTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.storyTableView.delegate = self;
-    self.storyTableView.dataSource = self;
-    
-    [self.storyTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.storyHolderView);
-        make.center.equalTo(self.storyHolderView);
-    }];
-}
-
-#pragma mark Worry Holder View
-
-- (void)loadWorryHolderView
-{
-    NSUInteger index = [self.titleArray indexOfObject:kWorryTitle];
-    self.worryHolderView = [[UIView alloc]init];
-    [self.scrollView addSubview:self.worryHolderView];
-    
-    [self.worryHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.scrollView);
-        make.centerY.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView).with.offset(+_viewWidth*index);
-    }];
-    
-    [self loadWorryTableView];
-}
-
-- (void)loadWorryTableView
-{
-    self.worryTableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    [self.worryHolderView addSubview:self.worryTableView];
-    [self.worryTableView registerClass:[FavoriteWorryCell class] forCellReuseIdentifier:kWorryCell];
-    self.worryTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.worryTableView.delegate = self;
-    self.worryTableView.dataSource = self;
-    
-    [self.worryTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(self.worryHolderView);
-        make.center.equalTo(self.worryHolderView);
-    }];
-    
-}
-
-
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    /**
-     *  tableView is scrollView too.
-     *  add the follow to avoid trouble.
-     */
-    if (scrollView == self.scrollView) {
-        CGFloat pageWidth = scrollView.frame.size.width;
-        NSInteger page = scrollView.contentOffset.x / pageWidth;
-        [self.segmentedControl setSelectedSegmentIndex:page];
+    for (int i=0; i<self.segmentTitles.count; i++) {
+        UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        
+        NSString *reusedId = [reusedIds objectAtIndex:i];
+        Class class = [cellClasses objectAtIndex:i];
+        [tableView registerClass:class forCellReuseIdentifier:reusedId];
+        
+        [self.holderViews addObject:tableView];
     }
+    self.worryTableView = (UITableView *)[self.holderViews objectAtIndex:0];
+    self.storyTableView = (UITableView *)[self.holderViews objectAtIndex:1];
 }
-
-
 @end
