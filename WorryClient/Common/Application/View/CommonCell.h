@@ -12,6 +12,6 @@
 
 @property (nonatomic,strong) UILabel *contentLabel;
 @property (nonatomic,strong) UILabel *descriptionLabel; //  description the notification detailly.
-@property (nonatomic,strong) UILabel *dateLabel;
+@property (nonatomic,strong) UILabel *additionalLabel;
 
 @end

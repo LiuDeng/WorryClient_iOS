@@ -81,7 +81,7 @@
         
         cell.imageView.image = [UIImage imageNamed:@"avatar_male"];
         cell.descriptionLabel.text = @"用户";
-        cell.dateLabel.text = @"十分钟前";
+        cell.additionalLabel.text = @"十分钟前";
         cell.contentLabel.text = @"xx回答了你的问题";
         
         return cell;
@@ -90,7 +90,7 @@
         
         cell.imageView.image = [UIImage imageNamed:@"avatar_female"];
         cell.descriptionLabel.text = @"用户";
-        cell.dateLabel.text = @"十分钟前";
+        cell.additionalLabel.text = @"十分钟前";
         cell.contentLabel.text = @"你好啊！";
         
         return cell;

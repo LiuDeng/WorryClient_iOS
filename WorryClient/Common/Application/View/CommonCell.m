@@ -19,7 +19,7 @@
     if (self) {
         [self loadContentLabel];
         [self loadDescriptionLabel];
-        [self loadDateLabel];
+        [self loadAdditionalLabel];
     }
     return self;
 }
@@ -42,7 +42,7 @@
         make.top.equalTo(self.contentView.mas_centerY);
     }];
     
-    [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.additionalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).with.multipliedBy(0.97);
         make.centerY.equalTo(self.contentLabel);
     }];
@@ -69,12 +69,12 @@
     
 }
 
-- (void)loadDateLabel
+- (void)loadAdditionalLabel
 {
-    self.dateLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.dateLabel];
-    self.dateLabel.textColor = [UIColor grayColor];
-    self.dateLabel.font = kMiddleLabelFont;
+    self.additionalLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:self.additionalLabel];
+    self.additionalLabel.textColor = [UIColor grayColor];
+    self.additionalLabel.font = kMiddleLabelFont;
 }
 
 @end

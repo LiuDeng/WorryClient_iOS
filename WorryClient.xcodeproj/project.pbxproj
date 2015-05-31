@@ -14,6 +14,7 @@
 		7C3C75BF1B1863D000AE5561 /* FavoriteStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3C75BE1B1863D000AE5561 /* FavoriteStoryCell.m */; };
 		7C4805391B1A9F0800C39764 /* WSegmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805381B1A9F0800C39764 /* WSegmentController.m */; };
 		7C48053F1B1AA62100C39764 /* BlessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C48053E1B1AA62100C39764 /* BlessingController.m */; };
+		7C4805451B1B29EF00C39764 /* FollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805441B1B29EF00C39764 /* FollowController.m */; };
 		7C4EBD2E1B09A1B200261E15 /* Recommendation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */; };
 		7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */; };
 		7C4F464D1AFCEBD70050152F /* guide_page_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464A1AFCEBD70050152F /* guide_page_01@2x.png */; };
@@ -229,6 +230,8 @@
 		7C4805381B1A9F0800C39764 /* WSegmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSegmentController.m; sourceTree = "<group>"; };
 		7C48053D1B1AA62100C39764 /* BlessingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlessingController.h; sourceTree = "<group>"; };
 		7C48053E1B1AA62100C39764 /* BlessingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlessingController.m; sourceTree = "<group>"; };
+		7C4805431B1B29EF00C39764 /* FollowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowController.h; sourceTree = "<group>"; };
+		7C4805441B1B29EF00C39764 /* FollowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowController.m; sourceTree = "<group>"; };
 		7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Recommendation.proto; sourceTree = "<group>"; };
 		7C4EBD2F1B09A1BC00261E15 /* Recommendation.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recommendation.pb.h; sourceTree = "<group>"; };
 		7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recommendation.pb.m; sourceTree = "<group>"; };
@@ -1182,6 +1185,8 @@
 				7CC5A48B1B18386C00484B5C /* ThanksController.m */,
 				7C48053D1B1AA62100C39764 /* BlessingController.h */,
 				7C48053E1B1AA62100C39764 /* BlessingController.m */,
+				7C4805431B1B29EF00C39764 /* FollowController.h */,
+				7C4805441B1B29EF00C39764 /* FollowController.m */,
 			);
 			path = UserHome;
 			sourceTree = "<group>";
@@ -1602,6 +1607,7 @@
 				7C48053F1B1AA62100C39764 /* BlessingController.m in Sources */,
 				7CC3B45B1ADE7F4B004463C4 /* LogInController.m in Sources */,
 				7CC336981ADFA5910084D891 /* Feed.pb.m in Sources */,
+				7C4805451B1B29EF00C39764 /* FollowController.m in Sources */,
 				7CC5A48C1B18386C00484B5C /* ThanksController.m in Sources */,
 				7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */,
 				7CBD2D0A1AEB75EC0091EB20 /* Error.pb.m in Sources */,

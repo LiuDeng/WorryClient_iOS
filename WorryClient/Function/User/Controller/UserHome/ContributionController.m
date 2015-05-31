@@ -58,7 +58,7 @@
     cell.imageView.image = [UIImage imageNamed:@"reply_thanks"];
     cell.descriptionLabel.text = @"题目";
     cell.contentLabel.text = @"我的回答啊啊";
-    cell.dateLabel.text = @"刚刚";
+    cell.additionalLabel.text = @"刚刚";
     return cell;
 }
 

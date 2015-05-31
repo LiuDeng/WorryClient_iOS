@@ -20,6 +20,7 @@
 #import "FavoriteController.h"
 #import "ThanksController.h"
 #import "BlessingController.h"
+#import "FollowController.h"
 
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
@@ -28,6 +29,7 @@
 #define kWorryTitle             @"心事"
 #define kContributionTitle      @"贡献"
 #define kFavoritesTitle         @"收藏"
+#define kFollowingTitle         @"关注"
 
 @interface UserController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -76,8 +78,8 @@
 {
     [super loadData];
     self.isHideTabBar = NO;
-    self.sectionBasicItems = @[kContributionTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
-    self.sectionBasicImageNames = @[@"contribution",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
+    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+    self.sectionBasicImageNames = @[@"contribution",@"",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
 }
@@ -103,8 +105,9 @@
                 vc = (ThanksController *)[[ThanksController alloc]init];
             }else if ([title isEqualToString:kBlessingTitle]){
                 vc = [(BlessingController *)[BlessingController alloc]init];
+            }else if ([title isEqualToString:kFollowingTitle]){
+                vc = [(FollowController *)[FollowController alloc]init];
             }
-            
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else{

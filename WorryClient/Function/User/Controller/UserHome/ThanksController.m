@@ -50,7 +50,7 @@
     cell.imageView.image = [UIImage imageNamed:@"avatar_female"];
     cell.contentLabel.text = @"描述";
     cell.descriptionLabel.text = @"回答";
-    cell.dateLabel.text = @"刚刚";
+    cell.additionalLabel.text = @"刚刚";
     return cell;
 }
 
