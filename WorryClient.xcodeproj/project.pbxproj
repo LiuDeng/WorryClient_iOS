@@ -15,6 +15,9 @@
 		7C4805391B1A9F0800C39764 /* WSegmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805381B1A9F0800C39764 /* WSegmentController.m */; };
 		7C48053F1B1AA62100C39764 /* BlessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C48053E1B1AA62100C39764 /* BlessingController.m */; };
 		7C4805451B1B29EF00C39764 /* FollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805441B1B29EF00C39764 /* FollowController.m */; };
+		7C4805481B1B2E7200C39764 /* WorryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4805471B1B2E7200C39764 /* WorryController.m */; };
+		7C48054B1B1B2FF800C39764 /* StoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C48054A1B1B2FF800C39764 /* StoryController.m */; };
+		7C48054E1B1B30EA00C39764 /* TopicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C48054D1B1B30EA00C39764 /* TopicController.m */; };
 		7C4EBD2E1B09A1B200261E15 /* Recommendation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */; };
 		7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */; };
 		7C4F464D1AFCEBD70050152F /* guide_page_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4F464A1AFCEBD70050152F /* guide_page_01@2x.png */; };
@@ -232,6 +235,12 @@
 		7C48053E1B1AA62100C39764 /* BlessingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlessingController.m; sourceTree = "<group>"; };
 		7C4805431B1B29EF00C39764 /* FollowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowController.h; sourceTree = "<group>"; };
 		7C4805441B1B29EF00C39764 /* FollowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowController.m; sourceTree = "<group>"; };
+		7C4805461B1B2E7200C39764 /* WorryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorryController.h; sourceTree = "<group>"; };
+		7C4805471B1B2E7200C39764 /* WorryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorryController.m; sourceTree = "<group>"; };
+		7C4805491B1B2FF800C39764 /* StoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryController.h; sourceTree = "<group>"; };
+		7C48054A1B1B2FF800C39764 /* StoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryController.m; sourceTree = "<group>"; };
+		7C48054C1B1B30EA00C39764 /* TopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicController.h; sourceTree = "<group>"; };
+		7C48054D1B1B30EA00C39764 /* TopicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicController.m; sourceTree = "<group>"; };
 		7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Recommendation.proto; sourceTree = "<group>"; };
 		7C4EBD2F1B09A1BC00261E15 /* Recommendation.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recommendation.pb.h; sourceTree = "<group>"; };
 		7C4EBD301B09A1BC00261E15 /* Recommendation.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recommendation.pb.m; sourceTree = "<group>"; };
@@ -1187,6 +1196,12 @@
 				7C48053E1B1AA62100C39764 /* BlessingController.m */,
 				7C4805431B1B29EF00C39764 /* FollowController.h */,
 				7C4805441B1B29EF00C39764 /* FollowController.m */,
+				7C4805461B1B2E7200C39764 /* WorryController.h */,
+				7C4805471B1B2E7200C39764 /* WorryController.m */,
+				7C4805491B1B2FF800C39764 /* StoryController.h */,
+				7C48054A1B1B2FF800C39764 /* StoryController.m */,
+				7C48054C1B1B30EA00C39764 /* TopicController.h */,
+				7C48054D1B1B30EA00C39764 /* TopicController.m */,
 			);
 			path = UserHome;
 			sourceTree = "<group>";
@@ -1573,6 +1588,7 @@
 			files = (
 				7C5A37FE1ADB9E3000CFA176 /* LogUtils.m in Sources */,
 				7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */,
+				7C48054E1B1B30EA00C39764 /* TopicController.m in Sources */,
 				7C5A37FA1ADB9E3000CFA176 /* CommonService.m in Sources */,
 				7CC5FDAA1AF876E200DFCE42 /* SelectTopicCell.m in Sources */,
 				7CDA5D541AFAE5EA001D16F9 /* StoryDetailController.m in Sources */,
@@ -1586,6 +1602,7 @@
 				7C4EBD311B09A1BC00261E15 /* Recommendation.pb.m in Sources */,
 				7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */,
 				7CC3369F1ADFB0310084D891 /* FeedManager.m in Sources */,
+				7C48054B1B1B2FF800C39764 /* StoryController.m in Sources */,
 				7CC73A311B195DC100B4F54D /* CommonCell.m in Sources */,
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
 				7CDA5D531AFAE5EA001D16F9 /* SelectTopicController.m in Sources */,
@@ -1601,6 +1618,7 @@
 				7CDA5D561AFAE5EA001D16F9 /* WorryDetailController.m in Sources */,
 				7CE987301AF5B57600D270EC /* CreateTopicController.m in Sources */,
 				7C5A37F81ADB9E3000CFA176 /* CommonManager.m in Sources */,
+				7C4805481B1B2E7200C39764 /* WorryController.m in Sources */,
 				7CC876861AE787BD00963450 /* UIViewController+Utils.m in Sources */,
 				7C4F46521AFCEC540050152F /* GuidePageController.m in Sources */,
 				7CBD2D1C1AEBBF180091EB20 /* LocaleUtils.m in Sources */,

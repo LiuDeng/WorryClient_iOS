@@ -21,6 +21,9 @@
 #import "ThanksController.h"
 #import "BlessingController.h"
 #import "FollowController.h"
+#import "WorryController.h"
+#import "StoryController.h"
+#import "TopicController.h"
 
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
@@ -107,6 +110,12 @@
                 vc = [(BlessingController *)[BlessingController alloc]init];
             }else if ([title isEqualToString:kFollowingTitle]){
                 vc = [(FollowController *)[FollowController alloc]init];
+            }else if ([title isEqualToString:kWorryTitle]){
+                vc = [(WorryController *)[WorryController alloc]init];
+            }else if ([title isEqualToString:kStoryTitle]){
+                vc = [(StoryController *)[StoryController alloc]init];
+            }else if ([title isEqualToString:kTopicTitle]){
+                vc = [(TopicController *)[TopicController alloc]init];
             }
             [self.navigationController pushViewController:vc animated:YES];
         }
