@@ -89,7 +89,7 @@
 {
     UIButton *button = [[UIButton alloc]init];
     [button setTitle:title forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor redColor];
+    button.backgroundColor = kMainColor;
     [UIView setRoundCorner:button];
     return button;
 }

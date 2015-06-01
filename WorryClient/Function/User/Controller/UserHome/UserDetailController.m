@@ -44,6 +44,7 @@
 @property (nonatomic, strong) NSArray *sectionBasicItems;
 @property (nonatomic, strong) NSArray *sectionMiscItems;
 @property (nonatomic, strong) NSArray *sectionContactItems;
+@property (nonatomic, strong) NSArray *sectionContactImages;    //  image names
 @property (nonatomic,strong) PBUser *pbUser;
 @property (nonatomic,strong) UpdateImage *updateImage;
 //@property (nonatomic,strong) CLLocationManager *locationManager;
@@ -90,6 +91,7 @@
     self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSignatureTitle];
     self.sectionMiscItems = @[kGenderTitle,kLocationTitle,kChangePwdTitle];
     self.sectionContactItems = @[kQQTitle,kWeixinTitle,kSinaTitle,kPhoneTitle,kEmailTitle];
+    self.sectionContactImages = @[@"user_detail_qq",@"user_detail_weixin",@"user_detail_sina",@"user_detail_phone",@"user_detail_email"];
 }
 
 #pragma mark - Private methods
@@ -166,7 +168,9 @@
         cell.textLabel.text = title;
     }else if (indexPath.section == self.sectionContact){
         NSString *title = self.sectionContactItems[indexPath.row];
+        NSString *imageNames = self.sectionContactImages[indexPath.row];
         NSString *text = @"未关联";
+        
         if ([title isEqualToString:kQQTitle]) {
             text = self.pbUser.qqId.length == 0 ? text : self.pbUser.qqId;
         }else if ([title isEqualToString:kWeixinTitle]){
@@ -178,8 +182,10 @@
         }else if ([title isEqualToString:kPhoneTitle]){
             text = self.pbUser.phoneVerified ? @"未验证" : self.pbUser.phone;
         }
+        
+        cell.imageView.image = [UIImage imageNamed:imageNames];
         cell.detailTextLabel.text = text;
-        cell.textLabel.text = title;
+//        cell.textLabel.text = title;
     }else{
         
     }

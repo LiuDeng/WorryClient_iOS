@@ -11,8 +11,6 @@
 #import "UIView+DefaultView.h"
 #import "ViewDefault.h"
 
-const float kButtonPadding = 16.0f;  //  按钮间距
-const float kButtonVerticalPadding = 5.0f;   // 垂直方向间距
 
 @implementation SignUpAndLogInView
 
@@ -45,25 +43,32 @@ const float kButtonVerticalPadding = 5.0f;   // 垂直方向间距
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    CGRect frame = self.bounds;
-    CGFloat height = self.bounds.size.height;
-    CGFloat width = self.bounds.size.width;
+    CGFloat heightScale = 0.3;
+    CGFloat widthScale = 0.9;
     
-    CGRect accountTextFieldFrame = frame;
-    accountTextFieldFrame.size.height = height/3;
-    self.accountTextField.frame = accountTextFieldFrame;
+    [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(self);
+        make.width.equalTo(self).with.multipliedBy(widthScale);
+        make.height.equalTo(self).with.multipliedBy(heightScale);
+    }];
     
-    CGRect passwordTextFieldFrame = frame;
-    passwordTextFieldFrame.origin.y = CGRectGetMaxY(accountTextFieldFrame);
-    passwordTextFieldFrame.size.height = height/3;
-    self.passwordTextField.frame = passwordTextFieldFrame;
+    [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(self.accountTextField.mas_bottom);
+        make.width.equalTo(self).with.multipliedBy(widthScale);
+        make.height.equalTo(self).with.multipliedBy(heightScale);
+    }];
     
-    CGRect buttonFrame = frame;
-    buttonFrame.origin.x = frame.origin.x + width * 0.05;
-    buttonFrame.origin.y = CGRectGetMaxY(passwordTextFieldFrame) + (height/3)*0.1;
-    buttonFrame.size.height = (height/3)*0.9;
-    buttonFrame.size.width = width*0.9;
-    self.button.frame = buttonFrame;
+    [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.bottom.equalTo(self);
+        make.width.equalTo(self).with.multipliedBy(widthScale);
+        make.height.equalTo(self).with.multipliedBy(heightScale);
+    }];
+    
+    [UIView setRoundCorner:self.accountTextField];
+    [UIView setRoundCorner:self.passwordTextField];
 }
 @end
 
