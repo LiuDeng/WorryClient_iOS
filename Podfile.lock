@@ -1,5 +1,5 @@
 PODS:
-  - AVOSCloud (3.1.1.1)
+  - AVOSCloud (3.1.2.2)
   - CLImageEditor (0.1.4):
     - CLImageEditor/Core (= 0.1.4)
   - CLImageEditor/Core (0.1.4)
@@ -13,13 +13,14 @@ PODS:
   - ImagePlayerView (1.0.2)
   - Masonry (0.6.1)
   - MBProgressHUD (0.9.1)
-  - MJRefresh (1.4.6)
+  - MJRefresh (1.4.7)
   - ProtocolBuffers (1.9.7)
   - RDVTabBarController (1.1.9)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
   - THLabel (1.4.6)
+  - Vertigo (0.1)
 
 DEPENDENCIES:
   - AVOSCloud
@@ -35,9 +36,10 @@ DEPENDENCIES:
   - RDVTabBarController
   - SDWebImage (~> 3.7)
   - THLabel (~> 1.4.6)
+  - Vertigo
 
 SPEC CHECKSUMS:
-  AVOSCloud: 0c0b91ffd91f83b448312027e5f8b243f261c42a
+  AVOSCloud: bdcd5f3ad4e56bc9027006b4d40f19d16998d1ba
   CLImageEditor: 9d388449af816729da67e68465e20462f181841d
   DLRadioButton: 1aad82f913b621432d51f8d5f4139265c39d202d
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
@@ -45,10 +47,11 @@ SPEC CHECKSUMS:
   ImagePlayerView: f32dbbaf9aea86d25f5ccba7fb67f644b56f9464
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: 2eaa3fd8f67fbb86497840fb0167446f7eb61dc7
+  MJRefresh: 6b140993028fa30f1fcb88e82925a7c7911415cf
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   THLabel: 27890d10123514ffe74b6e023b57b2ece55304af
+  Vertigo: b971aa21e904512cfe387196ccba37df3f9a792e
 
 COCOAPODS: 0.35.0
