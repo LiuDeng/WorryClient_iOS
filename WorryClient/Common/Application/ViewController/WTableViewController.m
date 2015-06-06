@@ -1,30 +1,21 @@
 //
-//  DefaultTableViewController.m
+//  WTableViewController.m
 //  WorryClient
 //
 //  Created by 蔡少武 on 15/4/22.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultTableViewController.h"
+#import "WTableViewController.h"
 
-@interface DefaultTableViewController ()
+@interface WTableViewController ()
 
 @end
 
-@implementation DefaultTableViewController
+@implementation WTableViewController
 
 #pragma mark - Public methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)loadView
 {

@@ -1,22 +1,21 @@
 //
-//  DefaultViewController.m
+//  UIViewController+Worry.m
 //  WorryClient
 //
-//  Created by 蔡少武 on 15/4/14.
+//  Created by 蔡少武 on 15/6/6.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
-#import "RDVTabBarController.h"
-
-@interface DefaultViewController ()<UIAlertViewDelegate>
-@property (nonatomic,strong) NSString* backButtonText;
-@property (nonatomic,strong) UIAlertView *logInAlertView;
-@end
+#import "UIViewController+Worry.h"
 
 #define kLogInTitle     @"登录"
 
-@implementation DefaultViewController
+@implementation UIViewController (Worry) 
+
+- (void)loadData
+{
+    //  这个要去掉的。
+}
 
 #pragma mark - Public methods
 
@@ -24,12 +23,12 @@
 {
     NSString *message = @"您尚未登录，请先登录";
     NSString *cancelTitle = @"取消";
-    self.logInAlertView = [[UIAlertView alloc]initWithTitle:message
-                                                    message:nil
-                                                   delegate:self
-                                          cancelButtonTitle:cancelTitle
-                                          otherButtonTitles:kLogInTitle,nil];
-    [self.logInAlertView show];
+    UIAlertView *logInAlertView = [[UIAlertView alloc]initWithTitle:message
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:cancelTitle
+                                                  otherButtonTitles:kLogInTitle,nil];
+    [logInAlertView show];
 }
 
 - (void)hideTabBar
@@ -59,40 +58,6 @@
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];    //  must
 }
 
-#pragma mark -Default methods
-
--(void)loadView
-{
-    [super loadView];
-    [self loadData];
-    
-    if (self.isHideTabBar) {
-        [self hideTabBar];
-    }
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [self customizeNavigationBar];
-    [self loadBackButton];
-}
-
-- (void)loadData
-{
-    self.isHideTabBar = YES;
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if (self.isHideTabBar) {
-        [self showTabBar];
-    }
-}
-#pragma mark - Private methods
-
-
-#pragma mark - Utils
-
 
 #pragma mark - UIAlertViewDelegate
 
@@ -100,7 +65,7 @@
 {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == alertView.cancelButtonIndex) {
-        self.logInAlertView.hidden = YES;
+        alertView.hidden = YES;
         if (self.navigationController.viewControllers.count > 1) {
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -111,4 +76,6 @@
         
     }
 }
+
+
 @end

@@ -6,9 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
-@interface SignUpByEmailController : DefaultViewController
+@interface SignUpByEmailController : UIViewController
 
 @end

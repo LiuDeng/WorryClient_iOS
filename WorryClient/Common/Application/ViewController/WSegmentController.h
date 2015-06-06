@@ -7,9 +7,9 @@
 //
 //  the segment controller of Worry.app
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
-@interface WSegmentController : DefaultViewController
+@interface WSegmentController : UIViewController
 
 @property (nonatomic,strong) NSArray *segmentTitles;    //  segment control titles
 @property (nonatomic,strong) NSMutableArray *holderViews;      //  holderView added on scrollView

@@ -57,11 +57,12 @@
     self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
-#pragma mark - Private methods
+#pragma mark - Utils
 
--(void)clickBackButton
+- (void)clickBackButton
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end

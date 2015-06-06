@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 //  暂时不会提供这个功能
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
-@interface CreateTopicController : DefaultViewController
+@interface CreateTopicController : UIViewController
 
 @end

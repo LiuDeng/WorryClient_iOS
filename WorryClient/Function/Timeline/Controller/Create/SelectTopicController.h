@@ -6,13 +6,12 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
-
+#import "UIViewController+Worry.h"
 
 
 typedef void (^SelectTopicBlock) (NSArray *selectedPBTopicArray);
 
-@interface SelectTopicController : DefaultViewController
+@interface SelectTopicController : UIViewController
 
 @property (nonatomic,strong) SelectTopicBlock selectTopicBlock;
 @property (nonatomic,strong) NSMutableArray *selectedPBTopicArray;

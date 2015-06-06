@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
-@interface CreateFeedController : DefaultViewController
+@interface CreateFeedController : UIViewController 
 
 @end

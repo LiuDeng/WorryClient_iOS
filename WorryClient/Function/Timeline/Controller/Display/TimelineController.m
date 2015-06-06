@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView.header beginRefreshing];  
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)loadView
@@ -52,7 +52,7 @@
 - (void)loadData
 {
     [super loadData];
-    self.isHideTabBar = NO;
+//    self.isHideTabBar = NO;
 }
 
 #pragma mark - Private methods

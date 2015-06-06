@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
 typedef void (^EditSaveBlock) (NSString* text);
 
-@interface EditController : DefaultViewController
+@interface EditController : UIViewController
 
 - (id)initWithText:(NSString*)editText
    placeHolderText:(NSString*)placeHolderText

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultTableViewController.h"
+#import "WTableViewController.h"
 
-@interface TopicController : DefaultTableViewController
+@interface TopicController : WTableViewController
 
 @end

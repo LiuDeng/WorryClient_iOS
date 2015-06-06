@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 
-@interface GuidePageController : DefaultViewController
+@interface GuidePageController : UIViewController
 
 @end

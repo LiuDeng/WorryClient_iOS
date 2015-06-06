@@ -1,4 +1,5 @@
 PODS:
+  - Aspects (1.4.1)
   - AVOSCloud (3.1.2.2)
   - CLImageEditor (0.1.4):
     - CLImageEditor/Core (= 0.1.4)
@@ -23,6 +24,7 @@ PODS:
   - Vertigo (0.1)
 
 DEPENDENCIES:
+  - Aspects
   - AVOSCloud
   - CLImageEditor
   - DLRadioButton
@@ -39,6 +41,7 @@ DEPENDENCIES:
   - Vertigo
 
 SPEC CHECKSUMS:
+  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   AVOSCloud: bdcd5f3ad4e56bc9027006b4d40f19d16998d1ba
   CLImageEditor: 9d388449af816729da67e68465e20462f181841d
   DLRadioButton: 1aad82f913b621432d51f8d5f4139265c39d202d

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 @class PBFeed;
 
-@interface WorryDetailController : DefaultViewController
+@interface WorryDetailController : UIViewController
 
 - (instancetype)initWithPBFeed:(PBFeed *)pbFeed;
 

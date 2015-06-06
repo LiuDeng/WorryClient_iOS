@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
 
-#import "DefaultViewController.h"
+#import "UIViewController+Worry.h"
 #import "FeedService.h"
 
-@interface AnswerController : DefaultViewController
+@interface AnswerController : UIViewController
 
 - (id)initWithPBFeed:(PBFeed *)pbFeed;
 
