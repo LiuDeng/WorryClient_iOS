@@ -153,10 +153,12 @@
 
 - (void)loadAvatarView
 {
-    self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
+//    self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
+    PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    self.avatarView = [[AvatarView alloc]initWithPBUser:pbUser];
     [self.titleHolderView addSubview:self.avatarView];
-    UIImage *image = [UIImage imageNamed:@"avatar01"];
-    self.avatarView.imageView.image = image;
+//    UIImage *image = [UIImage imageNamed:@"avatar01"];
+//    self.avatarView.image = image;
     
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.titleHolderView).with.multipliedBy(kRightScale);
@@ -228,11 +230,18 @@
 {
     WorryAnswerCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryAnswerCell forIndexPath:indexPath];
     UIImage *image = [UIImage imageNamed:@"avatar01"];
-    cell.avatarView.imageView.image = image;
+    cell.avatarView.image = image;
     [cell.thanksButton setTitle:@"12" forState:UIControlStateNormal];
     cell.shortTextLabel.text = @"连续几次考试，成绩都在下游徘徊，明明有好好听课，明明有好好复习，可是为什么成绩老是提不上去？看到别人申请奖学金、出国、各种全能，我真的觉得自己一无是处。";
     cell.nickLabel.text = @"笑着流泪";
     return cell;
+}
+
+#pragma  mark - Utils
+
+- (void)test
+{
+    JDDebug(@"test click");
 }
 
 @end

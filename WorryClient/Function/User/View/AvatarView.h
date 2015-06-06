@@ -7,23 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.pb.h"
 
-@class AvatarView;
+typedef NS_ENUM(NSInteger, AvatarViewClickType){
+    AvatarViewClickTypeZoom,
+    AvatarViewClickTypeUserInfo
+};
 
-@protocol AvatarViewDelegate <NSObject>
+@interface AvatarView : UIImageView
 
-@optional
-- (void)didClickOnAvatarView:(AvatarView *)avatarView;
+@property (nonatomic,strong) PBUser *pbUser;
 
-@end
-
-
-@interface AvatarView : UIView
-
-- (id)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth;
 - (id)initWithBorderWidth:(CGFloat)borderWidth;
-
-@property (nonatomic,strong)UIImageView *imageView;
-@property (nonatomic,assign)id<AvatarViewDelegate> delegate;
+- (id)initWithPBUser:(PBUser *)pbUser;
+- (void)addTapGestureWithClickType:(AvatarViewClickType)type;
 
 @end

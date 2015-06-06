@@ -154,7 +154,7 @@
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
         userAvatarCell.nickNameLabel.text = self.pbUser.nick;
         NSURL *avatarUrl = [NSURL URLWithString:self.pbUser.avatar];
-        [userAvatarCell.avatarView.imageView sd_setImageWithURL:avatarUrl];
+        [userAvatarCell.avatarView sd_setImageWithURL:avatarUrl];
         NSURL *bgImageUrl = [NSURL URLWithString:self.pbUser.bgImage];
         [userAvatarCell.backgroundImageView sd_setImageWithURL:bgImageUrl];
         cell = userAvatarCell;

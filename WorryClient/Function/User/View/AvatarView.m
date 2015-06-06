@@ -7,8 +7,11 @@
 //
 
 #import "AvatarView.h"
-#import "Masonry.h"
 #import "UIView+Utils.h"
+#import "AppDelegate.h"
+#import "UserInfoController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "TGRImageViewController.h"
 
 @implementation AvatarView
 
@@ -16,8 +19,6 @@
 {
     self = [super init];
     if (self) {
-        self.imageView = [[UIImageView alloc]init];
-        [self addSubview:self.imageView];
         if (borderWidth > 0.0f) {
             self.layer.borderWidth = borderWidth;
             self.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -25,47 +26,62 @@
     }
     return self;
 }
-- (id)initWithFrame:(CGRect)frame borderWidth:(CGFloat)borderWidth
-{
 
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.imageView = [[UIImageView alloc]init];
-        
-        [self addSubview:self.imageView];
-        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.size.equalTo(self);
-        }];
-        if (borderWidth > 0.0f) {
-            self.layer.borderWidth = borderWidth;
-            self.layer.borderColor = [UIColor whiteColor].CGColor;  //  TODO
-        }
-    }
+- (id)initWithPBUser:(PBUser *)pbUser
+{
+    self = [self initWithBorderWidth:1.0f];
+    self.pbUser = pbUser;
+    NSURL *url = [NSURL URLWithString:pbUser.avatar];
+    [self sd_setImageWithURL:url];
+    [self addTapGestureWithClickType:AvatarViewClickTypeUserInfo];
     return self;
 }
 
-#pragma mark - Utils
-- (void)addTapGuesture
+- (void)addTapGestureWithClickType:(AvatarViewClickType)type
 {
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clickOnAvatar:)];
-    tapGR.numberOfTouchesRequired = 1;
+    self.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGR;
+    switch (type) {
+        case AvatarViewClickTypeUserInfo:{
+            tapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(displayUserInfo)];
+            break;
+        }
+        case AvatarViewClickTypeZoom:{
+            tapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(zoomAvatar)];
+            break;
+        }
+        default:
+            break;
+    }
     [self addGestureRecognizer:tapGR];
 }
-- (void)clickOnAvatar:(id)sender
+
+#pragma mark - Utils
+
+- (void)displayUserInfo
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(didClickOnAvatarView:)]) {
-        [_delegate didClickOnAvatarView:self];
-    }else {
-        //  TODO
-    }
+    JDDebug(@"avatar click");
+    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    UINavigationController* currentNavigationController = delegate.currentNavigationController;
+    UserInfoController *vc = [[UserInfoController alloc]initWithPBUser:self.pbUser];
+    [currentNavigationController pushViewController:vc animated:YES];
 }
+
+- (void)zoomAvatar
+{
+    JDDebug(@"avatar click");
+    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    UINavigationController* currentNavigationController = delegate.currentNavigationController;
+    TGRImageViewController *vc = [[TGRImageViewController alloc]initWithImage:self.image];
+    [currentNavigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Default methods
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.imageView.frame = self.bounds;
     [UIView setAsRound:self];
-    [UIView setAsRound:self.imageView];
 }
+
 @end

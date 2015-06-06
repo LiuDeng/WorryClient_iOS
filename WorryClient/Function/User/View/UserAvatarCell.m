@@ -7,9 +7,7 @@
 //
 
 #import "UserAvatarCell.h"
-#import "Masonry.h"
-#import "FontInfo.h"
-#import "ViewInfo.h"
+#import "ViewDefault.h"
 #import "AvatarView.h"
 
 @implementation UserAvatarCell
@@ -22,11 +20,10 @@
     if (self) {
         self.backgroundImageView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.backgroundImageView];
-        self.backgroundImageView.image = [UIImage imageNamed:@"image1.jpg"];    //  TODO
         
         CGFloat borderWidth = 1.0f;
         self.avatarView = [[AvatarView alloc]initWithBorderWidth:borderWidth];
-        self.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"]; //  TODO
+        [self.avatarView addTapGestureWithClickType:AvatarViewClickTypeZoom];
         [self.contentView addSubview:self.avatarView];
         
         self.nickNameLabel = [[UILabel alloc]init];

@@ -33,6 +33,8 @@ message PBUser{
 
     optional int32 credit = 30 [default = 20];                      //  积分，默认是20
     optional int32 level = 31 [default = 1];                      //  等级，默认是1
+    optional int32 thanksNum  = 32;                                 //  被感谢数
+    optional int32 agreeNum = 33;                                   //  被赞同数
 
     optional string weixin_id = 40;                                 // 微信号
     optional string QQ_id = 41;                                     // QQ号
@@ -43,6 +45,8 @@ message PBUser{
     repeated string received_blessing_id = 52;                      //  收到的祝福
     repeated string sent_blessing_id = 53;                          //  送出的祝福
     repeated string topic_id = 54;                                  //  关注的话题id
+    repeated string followings_id;                                  //  关注的人的id
+    repeated string followers_id;                                   //  粉丝的id
 
     // device info
     optional PBDevice currentDevice = 70;

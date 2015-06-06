@@ -50,6 +50,12 @@
         return YES;
 }
 
++ (BOOL)isLightColorInImageView:(UIImageView *)imageView
+{
+    UIImage *image = imageView.image;
+    return [self isLightColorInImage:image];
+}
+
 + (NSString *)dateStringCompareToDate:(NSDate *)date
 {
     //  require year,month,day,hour and minute.

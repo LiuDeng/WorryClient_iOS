@@ -19,7 +19,7 @@
     if (self) {
         CGFloat borderWidth = 1.0f;
         self.avatarView = [[AvatarView alloc]initWithBorderWidth:borderWidth];
-        self.avatarView.imageView.image = [UIImage imageNamed:@"avatar01"];
+        self.avatarView.image = [UIImage imageNamed:@"avatar01"];
         [self.contentView addSubview:self.avatarView];
     }
     return  self;

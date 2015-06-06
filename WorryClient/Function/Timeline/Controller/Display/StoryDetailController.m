@@ -163,7 +163,7 @@ const CGFloat strokeSize = 1.0f;
 {
     self.creatUserAvatarView = [[AvatarView alloc]initWithBorderWidth:1.0f];
     [self.bgImageView addSubview:self.creatUserAvatarView];
-    self.creatUserAvatarView.imageView.image = [UIImage imageNamed:@"avatar01"];    //  TODO
+    self.creatUserAvatarView.image = [UIImage imageNamed:@"avatar01"];    //  TODO
     
     [self.creatUserAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bgImageView.mas_centerX).with.multipliedBy(kRightScale);

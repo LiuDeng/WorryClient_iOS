@@ -133,7 +133,7 @@
 //            UIImage *image = [[UserService sharedInstance]requireAvatar];
             UserDetailAvatarCell *detailAvatarCell = [[UserDetailAvatarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailAvatarCell.textLabel.text = title;
-            [detailAvatarCell.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.avatar]];
+            [detailAvatarCell.avatarView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.avatar]];
             cell = detailAvatarCell;
         }else if([title isEqualToString:kBackgroundTitle]){
             UserDetailBGImageCell *detailBGImageCell = [[UserDetailBGImageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];

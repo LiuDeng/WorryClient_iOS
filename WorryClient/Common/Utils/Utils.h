@@ -16,6 +16,7 @@
 + (NSString *)getUUID;
 + (NSString *)appendArray:(NSArray *)array with:(NSString *)symbol; //  the name should change
 + (BOOL)isLightColorInImage:(UIImage *)image;
++ (BOOL)isLightColorInImageView:(UIImageView *)imageView;
 + (NSString *)dateStringCompareToDate:(NSDate *)date;
 + (NSString *)dateStringCompareTo:(int64_t)timestamp;
 
