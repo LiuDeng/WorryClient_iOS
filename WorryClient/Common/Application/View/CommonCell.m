@@ -29,7 +29,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [UIView setAsRound:self.imageView];
+    [self.imageView setAsRound];
     
     float padding = 16;
     [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {

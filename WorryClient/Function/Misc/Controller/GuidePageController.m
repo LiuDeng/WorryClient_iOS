@@ -129,7 +129,8 @@
     self.exploreButton.hidden = YES;
     self.exploreButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.exploreButton setTitleColor:kLabelGrayColor forState:UIControlStateNormal];
-    [UIView setRoundCorner:self.exploreButton];
+//    [UIView setRoundCorner:self.exploreButton];
+    [self.exploreButton setRoundCorner];
     [self.exploreButton addTarget:self action:@selector(clickExploreButton) forControlEvents:UIControlEventTouchUpInside];
     
     [self.exploreButton mas_makeConstraints:^(MASConstraintMaker *make) {

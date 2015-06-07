@@ -28,7 +28,8 @@
         
         self.nickNameLabel = [[UILabel alloc]init];
         [self.contentView addSubview:self.nickNameLabel];
-        self.nickNameLabel.textColor = [UIColor whiteColor];    //  TODO
+        self.nickNameLabel.textColor = [UIColor whiteColor];
+
         self.nickNameLabel.textAlignment = NSTextAlignmentCenter;
 
     }
@@ -49,8 +50,8 @@
     [self.nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.contentView);
         make.top.equalTo(self.contentView.mas_bottom).with.multipliedBy(0.6);
-        make.height.equalTo(self.contentView).with.multipliedBy(0.2);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.3);
+//        make.height.equalTo(self.contentView).with.multipliedBy(0.2);
+//        make.width.equalTo(self.contentView).with.multipliedBy(0.3);
     }];
     
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -9,7 +9,6 @@
 //  其他专属这个工程的controller会加上前缀"W"
 
 #import <UIKit/UIKit.h>
-#import "UIViewController+Worry.h"
 #import "Utils.h"
 #import "LogUtils.h"
 #import "MessageCenter.h"
@@ -20,7 +19,6 @@
 #import "UserManager.h"
 #import "UserService.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "UIView+Utils.h"
 #import "RDVTabBarController.h"
 
 @interface UIViewController (Worry)<UIAlertViewDelegate>

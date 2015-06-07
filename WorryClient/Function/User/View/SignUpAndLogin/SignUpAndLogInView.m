@@ -67,8 +67,10 @@
         make.height.equalTo(self).with.multipliedBy(heightScale);
     }];
     
-    [UIView setRoundCorner:self.accountTextField];
-    [UIView setRoundCorner:self.passwordTextField];
+//    [UIView setRoundCorner:self.accountTextField];
+//    [UIView setRoundCorner:self.passwordTextField];
+    [self.accountTextField setRoundCorner];
+    [self.passwordTextField setRoundCorner];
 }
 @end
 

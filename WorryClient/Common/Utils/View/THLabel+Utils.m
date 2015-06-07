@@ -13,6 +13,7 @@
 
 - (void)customColorByBGImageView:(UIImageView *)imageView
 {
+    self.strokeSize = 1.0f;
     BOOL isBGLightColor = [Utils isLightColorInImageView:imageView];
     if (isBGLightColor) {
         self.textColor = [UIColor whiteColor];

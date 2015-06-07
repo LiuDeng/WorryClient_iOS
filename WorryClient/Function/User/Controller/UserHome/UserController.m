@@ -80,7 +80,6 @@
 - (void)loadData
 {
     [super loadData];
-//    self.isHideTabBar = NO;
     self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
     self.sectionBasicImageNames = @[@"contribution",@"",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
@@ -125,7 +124,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return indexPath.section == self.sectionAvatar ? 167 : kTableViewCellRowHeight;
+    return indexPath.section == self.sectionAvatar ? 167 : kTableViewRowHeight;
 }
 
 #pragma mark - Table view data source

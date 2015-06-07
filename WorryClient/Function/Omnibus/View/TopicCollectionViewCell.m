@@ -34,7 +34,7 @@
         make.height.equalTo(self.contentView).with.multipliedBy(heightScale);
         make.width.equalTo(self.contentView.mas_height).with.multipliedBy(heightScale);
     }];
-    [UIView setAsRound:self.imageView];
+    [self.imageView setAsRound];
     
     [self.tittleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.imageView.mas_bottom).with.offset(+verticalPadding);

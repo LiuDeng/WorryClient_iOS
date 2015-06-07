@@ -12,20 +12,20 @@ const CGFloat kRadius = 4;  //  if is ipad,should be 8
 
 @implementation UIView (Utils)
 
-+ (void)setRoundCorner:(UIView *)view
+- (void)setRoundCorner
 {
-    [self setRoundCorner:view radius:kRadius];
+    [self setRoundCornerWithRadius:kRadius];
 }
 
-+ (void)setRoundCorner:(UIView *)view radius:(CGFloat)radius
+- (void)setRoundCornerWithRadius:(CGFloat)radius
 {
-    [view.layer setCornerRadius:radius];
-    [view.layer setMasksToBounds:YES];
+    [self.layer setCornerRadius:radius];
+    [self.layer setMasksToBounds:YES];
 }
-+ (void)setAsRound:(UIView *)view
+- (void)setAsRound
 {
-    [view.layer setCornerRadius:CGRectGetWidth(view.frame)/2];
-    [view.layer setMasksToBounds:YES];
-    view.clipsToBounds = YES;
+    [self.layer setCornerRadius:CGRectGetWidth(self.frame)/2];
+    [self.layer setMasksToBounds:YES];
+    self.clipsToBounds = YES;
 }
 @end

@@ -60,7 +60,6 @@
 
 - (void)displayUserInfo
 {
-    JDDebug(@"avatar click");
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     UINavigationController* currentNavigationController = delegate.currentNavigationController;
     UserInfoController *vc = [[UserInfoController alloc]initWithPBUser:self.pbUser];
@@ -69,7 +68,6 @@
 
 - (void)zoomAvatar
 {
-    JDDebug(@"avatar click");
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     UINavigationController* currentNavigationController = delegate.currentNavigationController;
     TGRImageViewController *vc = [[TGRImageViewController alloc]initWithImage:self.image];
@@ -81,7 +79,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [UIView setAsRound:self];
+    [self setAsRound];
 }
 
 @end

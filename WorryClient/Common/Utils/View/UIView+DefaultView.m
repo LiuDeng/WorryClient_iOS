@@ -90,7 +90,8 @@
     UIButton *button = [[UIButton alloc]init];
     [button setTitle:title forState:UIControlStateNormal];
     button.backgroundColor = kMainColor;
-    [UIView setRoundCorner:button];
+    [button setRoundCorner];
+    button.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
     return button;
 }
 @end
