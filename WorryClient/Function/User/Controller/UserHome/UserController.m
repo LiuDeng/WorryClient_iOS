@@ -42,8 +42,6 @@
 @property (nonatomic,assign) int indexOfSection;
 @property (nonatomic,assign) int sectionAvatar;
 @property (nonatomic,assign) int sectionBasic;
-@property (nonatomic,assign) CGFloat avatarCellHeight;
-@property (nonatomic,assign) CGFloat cellHeight;
 @property (nonatomic,strong) PBUser *pbUser;
 
 @end
