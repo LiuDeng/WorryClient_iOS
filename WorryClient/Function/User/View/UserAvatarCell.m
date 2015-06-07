@@ -29,7 +29,6 @@
         self.nickNameLabel = [[UILabel alloc]init];
         [self.contentView addSubview:self.nickNameLabel];
         self.nickNameLabel.textColor = [UIColor whiteColor];
-
         self.nickNameLabel.textAlignment = NSTextAlignmentCenter;
 
     }

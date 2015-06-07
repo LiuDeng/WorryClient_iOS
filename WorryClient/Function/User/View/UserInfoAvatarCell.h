@@ -14,7 +14,7 @@
 @property (nonatomic,strong) UIImageView *bgImageView;
 @property (nonatomic,strong) AvatarView *avatarView;
 @property (nonatomic,strong) UILabel *nickLabel;
-@property (nonatomic,strong) UIImageView *genderImageView;  //  maybe need to delete
+@property (nonatomic,strong) UIImageView *genderImageView;  
 @property (nonatomic,strong) UILabel *signatureLabel;
 @property (nonatomic,strong) UIButton *followingBtn;
 @property (nonatomic,strong) UIButton *MSGBtn;              //  私信TA

@@ -10,6 +10,7 @@
 #import "UIView+DefaultView.h"
 #import "UserInfoAvatarCell.h"
 #import "UserInfoMiscCell.h"
+#import "TGRImageViewController.h"
 
 #define kHerWorrysTitle         @"她的心结"
 #define kHerStorysTitle         @"她的心事"
@@ -64,6 +65,11 @@
     }
 }
 
+- (void)loadView{
+    [super loadView];
+    self.title = @"用户详情";
+}
+
 #pragma Private methods
 
 - (void)loadTableView
@@ -106,6 +112,20 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger section = indexPath.section;
+    if (section == self.sectionAvatar) {
+        UserInfoAvatarCell *cell = (UserInfoAvatarCell *)[tableView cellForRowAtIndexPath:indexPath];
+        TGRImageViewController *vc = [[TGRImageViewController alloc]initWithImage:cell.bgImageView.image];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (section == self.sectionMisc){
+        //  do nothing
+    }else{
+        //  basic
+    }
+}
+
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,6 +140,9 @@
         
         cell.nickLabel.text = self.pbUser.nick;
         cell.signatureLabel.text = self.pbUser.signature;
+
+        NSString *imageName = self.pbUser.gender ? @"user_info_male" : @"user_info_female";
+        cell.genderImageView.image = [UIImage imageNamed:imageName];
         
         [cell.MSGBtn setTitle:@"私信TA" forState:UIControlStateNormal];
         [cell.MSGBtn addTarget:self action:@selector(clickMSGBtn) forControlEvents:UIControlEventTouchUpInside];
