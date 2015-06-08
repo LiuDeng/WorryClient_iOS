@@ -14,6 +14,7 @@
 #import "UpdateImage.h"
 #import "UserService.h"
 #import "EditController.h"
+#import "ActionSheetStringPicker.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -35,19 +36,21 @@
 
 @interface UserDetailController ()
 {
-    NSArray *currentLanguageArray;
+    NSArray *currentLanguageArray;  //  for location
 }
 @property (nonatomic,assign) int indexOfSection;  //  Section索引，计数功能
 @property (nonatomic,assign) int sectionBasic;
 @property (nonatomic,assign) int sectionMisc;
 @property (nonatomic,assign) int sectionContact;
-@property (nonatomic, strong) NSArray *sectionBasicItems;
-@property (nonatomic, strong) NSArray *sectionMiscItems;
-@property (nonatomic, strong) NSArray *sectionContactItems;
-@property (nonatomic, strong) NSArray *sectionContactImages;    //  image names
+@property (nonatomic,strong) NSArray *sectionBasicItems;
+@property (nonatomic,strong) NSArray *sectionMiscItems;
+@property (nonatomic,strong) NSArray *sectionContactItems;
+@property (nonatomic,strong) NSArray *sectionContactImages;    //  image names
 @property (nonatomic,strong) PBUser *pbUser;
 @property (nonatomic,strong) UpdateImage *updateImage;
-//@property (nonatomic,strong) CLLocationManager *locationManager;
+@property (nonatomic,strong) NSArray *genderTexts;
+//@property (nonatomic,strong) CLLocationManager *locationManager;  //  写到另外一个Category中去
+//  考虑把一些修改数据的方法写到一个Category中去。
 
 @end
 
@@ -67,21 +70,12 @@
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)loadView
 {
     [super loadView];
     [self setTitle:@"个人资料"];
 }
 
-- (void)loadTableView
-{
-    [super loadTableView];
-}
 - (void)loadData
 {
     [super loadData];
@@ -92,6 +86,7 @@
     self.sectionMiscItems = @[kGenderTitle,kLocationTitle,kChangePwdTitle];
     self.sectionContactItems = @[kQQTitle,kWeixinTitle,kSinaTitle,kPhoneTitle,kEmailTitle];
     self.sectionContactImages = @[@"user_detail_qq",@"user_detail_weixin",@"user_detail_sina",@"user_detail_phone",@"user_detail_email"];
+    self.genderTexts = @[@"男",@"女"];
 }
 
 #pragma mark - Private methods
@@ -130,18 +125,21 @@
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
-//            UIImage *image = [[UserService sharedInstance]requireAvatar];
+            
             UserDetailAvatarCell *detailAvatarCell = [[UserDetailAvatarCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailAvatarCell.textLabel.text = title;
             [detailAvatarCell.avatarView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.avatar]];
             cell = detailAvatarCell;
+            
         }else if([title isEqualToString:kBackgroundTitle]){
+            
             UserDetailBGImageCell *detailBGImageCell = [[UserDetailBGImageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             detailBGImageCell.textLabel.text = title;
-//            UIImage *image = [[UserService sharedInstance]requireBackgroundImage];
             [detailBGImageCell.BGImageView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.bgImage]];
             cell = detailBGImageCell;
+            
         }else{
+            
             cell.textLabel.text = title;
             NSString *text = @"未设置";
             if ([title isEqualToString:kNickTitle]) {
@@ -200,15 +198,12 @@
     CGFloat height;
     if (indexPath.section == self.sectionBasic) {
         if ([kAvatarTitle isEqualToString:self.sectionBasicItems[indexPath.row]] || [kBackgroundTitle isEqualToString:self.sectionBasicItems[indexPath.row]]) {
-//            height = self.view.frame.size.height * 0.1;
             height = 67;
         }else{
-//            height = self.view.frame.size.height * 0.07;
-            height = 44;
+            height = kTableViewRowHeight;
         }
     }else{
-//        height = self.view.frame.size.height * 0.07;
-        height = 44;
+        height = kTableViewRowHeight;
     }
     return height;
 }
@@ -234,8 +229,17 @@
         }else{
             //  TODO
         }
+    }else if (section == self.sectionMisc){
+        NSString *title = self.sectionMiscItems[indexPath.row];
+        if ([title isEqualToString:kGenderTitle]) {
+            [self updateGender];
+        }
+    }else{
+        //  contact
     }
+    
 }
+
 
 #pragma mark - Utils
 
@@ -303,5 +307,22 @@
         }];
     }];
     [self.navigationController pushViewController:editController animated:YES];
+}
+
+- (void)updateGender
+{
+    ActionSheetStringPicker *picker = [[ActionSheetStringPicker alloc]initWithTitle:@"请选择"
+                                                                               rows:self.genderTexts
+                                                                   initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                                                                       //   todo reloadData
+    } cancelBlock:^(ActionSheetStringPicker *picker) {
+        //  todo 如何把选中样式去掉? popViewController maybe work,reloadData maybe work
+    } origin:self.view];
+    UIBarButtonItem *cancelBarItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:nil];
+    [picker setCancelButton:cancelBarItem];
+    UIBarButtonItem *doneBarItem = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:nil];
+    [picker setDoneButton:doneBarItem];
+    [picker showActionSheetPicker];
+
 }
 @end
