@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (1.5.1)
   - Aspects (1.4.1)
   - AVOSCloud (3.1.2.2)
   - CLImageEditor (0.1.4):
@@ -24,6 +25,7 @@ PODS:
   - Vertigo (0.1)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 1.5.1)
   - Aspects
   - AVOSCloud
   - CLImageEditor
@@ -41,6 +43,7 @@ DEPENDENCIES:
   - Vertigo
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: de0f71e30495ed0192f7d16d0fddcab6882a0ca3
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   AVOSCloud: bdcd5f3ad4e56bc9027006b4d40f19d16998d1ba
   CLImageEditor: 9d388449af816729da67e68465e20462f181841d
