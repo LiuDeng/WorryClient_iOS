@@ -13,13 +13,13 @@ typedef void (^EditSaveBlock) (NSString* text);
 @interface EditController : UIViewController
 
 - (id)initWithText:(NSString*)editText
-   placeHolderText:(NSString*)placeHolderText
+       placeholder:(NSString*)placeholder
               tips:(NSString*)tips
            isMulti:(BOOL)isMulti
    saveActionBlock:(EditSaveBlock)saveActionBlock;
 
 @property (nonatomic,strong) NSString* editText;
-@property (nonatomic,strong) NSString* placeHolderText;
+@property (nonatomic,strong) NSString* placeholder;
 @property (nonatomic,strong) NSString* tips;
 @property (nonatomic,strong) UITextField *textField;
 @property (nonatomic,strong) UITextView *textView;

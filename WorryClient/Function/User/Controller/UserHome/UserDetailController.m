@@ -15,6 +15,7 @@
 #import "UserService.h"
 #import "EditController.h"
 #import "ActionSheetStringPicker.h"
+#import "UpdatePhoneController.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -236,6 +237,12 @@
         }
     }else{
         //  contact
+        NSString *title = self.sectionContactItems[indexPath.row];
+        if ([title isEqualToString:kPhoneTitle]) {
+            [self updatePhone];
+        }else if ([title isEqualToString:kEmailTitle]){
+            [self updateEmail];
+        }
     }
     
 }
@@ -280,7 +287,7 @@
 - (void)updateNick
 {
     EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick
-                                                         placeHolderText:@"请输入昵称"
+                                                             placeholder:@"请输入昵称"
                                                                     tips:@"来吧，取个炫酷的名字！"
                                                                  isMulti:NO
                                                          saveActionBlock:^(NSString *text) {
@@ -295,8 +302,8 @@
 
 - (void)updateSignature
 {
-    EditController *editController = [[EditController alloc]initWithText:self.pbUser.nick
-                                                         placeHolderText:@"请输入签名"
+    EditController *editController = [[EditController alloc]initWithText:self.pbUser.signature
+                                                             placeholder:@"请输入签名"
                                                                     tips:@"签名，签的就是我的心事"
                                                                  isMulti:YES
                                                          saveActionBlock:^(NSString *text) {
@@ -311,7 +318,7 @@
 
 - (void)updateGender
 {
-    ActionSheetStringPicker *picker = [[ActionSheetStringPicker alloc]initWithTitle:@"请选择"
+    ActionSheetStringPicker *picker = [[ActionSheetStringPicker alloc]initWithTitle:nil
                                                                                rows:self.genderTexts
                                                                    initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
                                                                        //   todo reloadData
@@ -325,4 +332,29 @@
     [picker showActionSheetPicker];
 
 }
+
+- (void)updatePhone
+{
+    //  TODO pbUser 得传过去?
+    UpdatePhoneController *vc = [[UpdatePhoneController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)updateEmail
+{
+    NSString *text = self.pbUser.email;
+    NSString *placeholder = @"请输入常用邮箱";
+    NSString *tips = @"邮箱验证之后，可以用于找回密码";
+    EditController *vc = [[EditController alloc]initWithText:text
+                                                 placeholder:placeholder
+                                                        tips:tips
+                                                     isMulti:NO
+                                             saveActionBlock:^(NSString *text) {
+        //  TODO
+    }];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
 @end

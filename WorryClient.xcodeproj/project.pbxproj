@@ -84,6 +84,7 @@
 		7C999BD71B233C3A0088A60B /* UIViewController+Worry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C999BD61B233C3A0088A60B /* UIViewController+Worry.m */; };
 		7C999BDA1B2340BA0088A60B /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C999BD91B2340BA0088A60B /* UIViewController+Utils.m */; };
 		7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6FBDE1AEE4DB90028F3AD /* EditController.m */; };
+		7CB820F31B251F2F00A142D6 /* UpdatePhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB820F21B251F2F00A142D6 /* UpdatePhoneController.m */; };
 		7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBB51461B0582A80052A5B2 /* RecommendationService.m */; };
 		7CBBB6171ADFF0B500AD2CA6 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB6161ADFF0B500AD2CA6 /* PlaceholderTextView.m */; };
 		7CBBB61A1ADFF7EC00AD2CA6 /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB6181ADFF7EC00AD2CA6 /* backarrow@2x.png */; };
@@ -373,6 +374,8 @@
 		7C999BD91B2340BA0088A60B /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		7CA6FBDD1AEE4DB90028F3AD /* EditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditController.h; sourceTree = "<group>"; };
 		7CA6FBDE1AEE4DB90028F3AD /* EditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditController.m; sourceTree = "<group>"; };
+		7CB820F11B251F2F00A142D6 /* UpdatePhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatePhoneController.h; sourceTree = "<group>"; };
+		7CB820F21B251F2F00A142D6 /* UpdatePhoneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatePhoneController.m; sourceTree = "<group>"; };
 		7CBB51451B0582A80052A5B2 /* RecommendationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendationService.h; sourceTree = "<group>"; };
 		7CBB51461B0582A80052A5B2 /* RecommendationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendationService.m; sourceTree = "<group>"; };
 		7CBBB6151ADFF0B500AD2CA6 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderTextView.h; sourceTree = "<group>"; };
@@ -1315,6 +1318,8 @@
 				7C48054D1B1B30EA00C39764 /* TopicController.m */,
 				7CBC17F41B1EF58B00FDB196 /* UserInfoController.h */,
 				7CBC17F51B1EF58B00FDB196 /* UserInfoController.m */,
+				7CB820F11B251F2F00A142D6 /* UpdatePhoneController.h */,
+				7CB820F21B251F2F00A142D6 /* UpdatePhoneController.m */,
 			);
 			path = UserHome;
 			sourceTree = "<group>";
@@ -1732,6 +1737,7 @@
 				7CDA5D541AFAE5EA001D16F9 /* StoryDetailController.m in Sources */,
 				7CC8768D1AE7939A00963450 /* WTableViewController.m in Sources */,
 				7CE9872D1AF5B23A00D270EC /* TopicService.m in Sources */,
+				7CB820F31B251F2F00A142D6 /* UpdatePhoneController.m in Sources */,
 				7CC268461B15D6F2003F42E7 /* UserDetailController.m in Sources */,
 				7CBF03E01ADE560C0001C31A /* Utils.m in Sources */,
 				7C5A37FD1ADB9E3000CFA176 /* DataUtils.m in Sources */,

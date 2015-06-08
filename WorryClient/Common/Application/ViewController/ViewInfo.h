@@ -29,6 +29,7 @@
 #define kLeftScale 1-kRightScale  //  refer to right of self.view
 
 #define kTextFieldHeightScale 0.1   //  refer to self.view
+#define kTextFieldHeight      44
 #define kTextViewHeightScale 0.1    //  refer to self.view
 #define kWidthScale 0.9
 #define kTopScale 1.1

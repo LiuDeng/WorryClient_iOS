@@ -66,7 +66,8 @@
     [textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(superView);
         make.width.equalTo(superView);
-        make.height.equalTo(superView).multipliedBy(kTextFieldHeightScale);
+//        make.height.equalTo(superView).multipliedBy(kTextFieldHeightScale);
+        make.height.equalTo(@kTextFieldHeight);
     }];
     return textField;
 }
