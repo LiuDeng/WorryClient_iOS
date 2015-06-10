@@ -15,6 +15,8 @@
 #import "ViewDefault.h"
 #import "UIView+DefaultView.h"
 
+#import <ShareSDK/ShareSDK.h>
+
 #define kSignUpPhoneTitle     @"手机注册"
 #define kSignUpEmailTitle     @"邮箱注册"
 #define kFindByPhoneTitle     @"手机找回"
@@ -273,16 +275,41 @@
 - (void)clickQQButton
 {
     //  log in by QQ
+    //  真机测试
+    [ShareSDK getUserInfoWithType:ShareTypeQQ
+                      authOptions:nil
+                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                                if (result) {
+                                    JDDebug(@"userInfo uid %@",[userInfo uid]);
+                                    JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+                                }
+                           }];
 }
 
 - (void)clickWeixinButton
 {
     //  log in by Weixin
+    //  真机测试
+    [ShareSDK getUserInfoWithType:ShareTypeWeixiTimeline
+                      authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                          if (result) {
+                              JDDebug(@"userInfo uid %@",[userInfo uid]);
+                              JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+                          }
+                      }];
 }
 
 - (void)clickSinaButton
 {
     //  log in by Sina
+    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                      authOptions:nil
+                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                            if (result) {
+                                JDDebug(@"userInfo uid %@",[userInfo uid]);
+                                JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+                            }
+                        }];
 }
 
 #pragma mark - UIActionSheetDelegate
