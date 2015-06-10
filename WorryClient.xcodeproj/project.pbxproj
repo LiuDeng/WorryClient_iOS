@@ -83,6 +83,7 @@
 		7C999BD31B2320270088A60B /* WViewControllerIntercepter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C999BD21B2320270088A60B /* WViewControllerIntercepter.m */; };
 		7C999BD71B233C3A0088A60B /* UIViewController+Worry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C999BD61B233C3A0088A60B /* UIViewController+Worry.m */; };
 		7C999BDA1B2340BA0088A60B /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C999BD91B2340BA0088A60B /* UIViewController+Utils.m */; };
+		7CA46F931B255CE300B4A199 /* InviteAnswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA46F921B255CE300B4A199 /* InviteAnswerController.m */; };
 		7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6FBDE1AEE4DB90028F3AD /* EditController.m */; };
 		7CB820F31B251F2F00A142D6 /* UpdatePhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB820F21B251F2F00A142D6 /* UpdatePhoneController.m */; };
 		7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBB51461B0582A80052A5B2 /* RecommendationService.m */; };
@@ -372,6 +373,8 @@
 		7C999BD61B233C3A0088A60B /* UIViewController+Worry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Worry.m"; sourceTree = "<group>"; };
 		7C999BD81B2340BA0088A60B /* UIViewController+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Utils.h"; sourceTree = "<group>"; };
 		7C999BD91B2340BA0088A60B /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
+		7CA46F911B255CE300B4A199 /* InviteAnswerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAnswerController.h; sourceTree = "<group>"; };
+		7CA46F921B255CE300B4A199 /* InviteAnswerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAnswerController.m; sourceTree = "<group>"; };
 		7CA6FBDD1AEE4DB90028F3AD /* EditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditController.h; sourceTree = "<group>"; };
 		7CA6FBDE1AEE4DB90028F3AD /* EditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditController.m; sourceTree = "<group>"; };
 		7CB820F11B251F2F00A142D6 /* UpdatePhoneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatePhoneController.h; sourceTree = "<group>"; };
@@ -1422,6 +1425,8 @@
 				7CC555F11B1467D2000149BB /* AnswerController.m */,
 				7CC555F31B146C3D000149BB /* CommentController.h */,
 				7CC555F41B146C3D000149BB /* CommentController.m */,
+				7CA46F911B255CE300B4A199 /* InviteAnswerController.h */,
+				7CA46F921B255CE300B4A199 /* InviteAnswerController.m */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1800,6 +1805,7 @@
 				7C54C2BA1ADBFE7C002A32E2 /* SignUpAndLogInView.m in Sources */,
 				7CA6FBDF1AEE4DB90028F3AD /* EditController.m in Sources */,
 				7CCAC0381AE0EFE9007F4326 /* TimelineCell.m in Sources */,
+				7CA46F931B255CE300B4A199 /* InviteAnswerController.m in Sources */,
 				7CBD2D091AEB75EC0091EB20 /* Common.pb.m in Sources */,
 				7CE9874F1AF65F4A00D270EC /* WorryAnswerCell.m in Sources */,
 				7CBD2D141AEB8B660091EB20 /* UserDetailBGImageCell.m in Sources */,
@@ -1884,7 +1890,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1919,7 +1925,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

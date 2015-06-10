@@ -15,3 +15,6 @@
 @property (nonatomic,strong) NSMutableArray *holderViews;      //  holderView added on scrollView
 
 @end
+
+
+

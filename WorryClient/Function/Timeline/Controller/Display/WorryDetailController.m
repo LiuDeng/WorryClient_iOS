@@ -11,6 +11,7 @@
 #import "UIView+DefaultView.h"
 #import "WorryAnswerCell.h"
 #import "Feed.pb.h"
+#import "InviteAnswerController.h"
 
 #define kInviteButtonTitle @"邀请"
 #define kAnswerButtonTitle @"回答"
@@ -32,6 +33,10 @@
 
 @property (nonatomic,strong) UIView *titleHolderView;
 @property (nonatomic,strong) UIView *buttonHolderView;
+
+@property (nonatomic,strong) UIButton *inviteAnswerBtn;
+@property (nonatomic,strong) UIButton *answerBtn;
+@property (nonatomic,strong) UIButton *blessingBtn;
 
 @end
 
@@ -96,6 +101,7 @@
     }];
 
     CGFloat count = self.buttonTitleArray.count;
+    NSMutableArray *btns = [[NSMutableArray alloc]init];
     for (int i = 0 ; i<count; i++) {
         UIImage *image = [UIImage imageNamed:self.buttonImageNameArray[i]];
         NSString *title = self.buttonTitleArray[i];
@@ -115,7 +121,14 @@
             make.centerY.equalTo(self.buttonHolderView);
             make.centerX.equalTo(self.view).with.multipliedBy(xScale);
         }];
+        [btns addObject:button];
     }
+    
+    self.inviteAnswerBtn = btns[0];
+    self.answerBtn = btns[1];
+    self.blessingBtn = btns[2];
+    
+    [self.inviteAnswerBtn addTarget:self action:@selector(clickInviteAnswerBtn) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadTitleHolderView
@@ -242,6 +255,22 @@
 - (void)test
 {
     JDDebug(@"test click");
+}
+
+- (void)clickInviteAnswerBtn
+{
+    InviteAnswerController *vc = [[InviteAnswerController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickAnswerBtn
+{
+    
+}
+
+- (void)clickBlessingBtn
+{
+    
 }
 
 @end
