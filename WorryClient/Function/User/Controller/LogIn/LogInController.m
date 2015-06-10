@@ -53,13 +53,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+//    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
 }
 
 - (void)loadView
 {
     [super loadView];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+//    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     self.view.backgroundColor = OPAQUE_COLOR(0xea, 0xf1, 0xf1);
 //    [self loadLogoImageView];
     [self loadSignUpAndLogInView];
@@ -97,24 +97,6 @@
                          action:@selector(clickLogInButton)
                forControlEvents:UIControlEventTouchUpInside];
 }
-
-//- (void)loadAccountTextField
-//{
-//    self.accountTextField = self.signUpAndLogInView.accountTextField;
-//
-//}
-//- (void)loadPasswordTextField
-//{
-//    self.passwordTextField = self.signUpAndLogInView.passwordTextField;
-//}
-//
-//- (void)loadLogInButton
-//{
-//    self.logInButton = self.signUpAndLogInView.button;
-//    [self.logInButton addTarget:self
-//                         action:@selector(clickLogInButton)
-//               forControlEvents:UIControlEventTouchUpInside];
-//}
 
 //- (void)loadLogoImageView
 //{
@@ -178,16 +160,17 @@
         make.left.equalTo(self.logInButton);
         make.height.equalTo(@1);
     }];
-    
+
     UIView *line2 = [[UIView alloc]init];
     [self.view addSubview:line2];
     line2.backgroundColor = kMainColor;
     
     [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.orLabel);
-        make.left.equalTo(self.orLabel.mas_right);
+        make.centerY.equalTo(line1);
         make.right.equalTo(self.logInButton);
         make.height.equalTo(@1);
+//        make.left.equalTo(self.orLabel.mas_right);    //  这个加了会有异常，原因不明，换成下面一行。
+        make.width.equalTo(line1);
     }];
 }
 

@@ -8,7 +8,8 @@
 //  the controller will be called in DefaultViewController,
 //  so,it can't interface with DefaultViewController.
 //  这个不知道能不能加UIViewController+Worry，待测试
-#import <UIKit/UIKit.h>
+
+#import "UIViewController+Worry.h"
 
 @interface LogInController : UIViewController
 
