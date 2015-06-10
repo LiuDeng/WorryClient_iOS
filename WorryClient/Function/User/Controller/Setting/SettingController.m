@@ -9,6 +9,7 @@
 #import "SettingController.h"
 #import "UserService.h"
 #import "FeedManager.h"
+#import "AboutController.h"
 
 #define kAboutTitle @"关于"
 #define kLogOut     @"注销"
@@ -76,7 +77,8 @@
     if (indexPath.section == self.sectionMisc) {
         NSString *title = self.sectionMiscItems[indexPath.row];
         if ([title isEqualToString:kAboutTitle]) {
-            //
+            AboutController *vc =[[AboutController alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
         }else if([title isEqualToString:kLogOut]){
             [self logOut];
         }else if([title isEqual:kClearCache]){

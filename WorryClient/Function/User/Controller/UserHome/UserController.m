@@ -79,7 +79,7 @@
 {
     [super loadData];
     self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
-    self.sectionBasicImageNames = @[@"contribution",@"",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
+    self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
 }
