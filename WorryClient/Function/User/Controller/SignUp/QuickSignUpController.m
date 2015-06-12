@@ -117,14 +117,15 @@
     if (self.phoneString.length == 0 ) {
         //  TODO add tips
     }else{
-        [[UserService sharedInstance]requestSmsCodeWithPhone:self.phoneString callback:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
+        [[UserService sharedInstance]requestSmsCodeWithPhone:self.phoneString callback:^(NSError *error) {
+            if (error == nil) {
                 //
                 [self loadSmsCodeTextField];
                 [self loadSignUpButton];
             }else{
-//                JDDebug(@"error: %@",error);
+                //                JDDebug(@"error: %@",error);
             }
+
         }];
 
     }

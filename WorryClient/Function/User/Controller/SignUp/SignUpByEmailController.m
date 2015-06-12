@@ -70,11 +70,13 @@
     NSString *password = self.passwordTextField.text;
     
     if (email.length == 0 || password == 0) {
-        //
+        POST_ERROR_MSG(@"请输入邮箱和密码");
+    }else if ([Utils isValidEmail:email]){
+        POST_ERROR_MSG(@"请输入有效的邮箱");
     }else{
         [[UserService sharedInstance]signUpByEmail:email password:password block:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                //
+                
             }
         }];
     }

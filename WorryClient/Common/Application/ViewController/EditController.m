@@ -38,6 +38,7 @@
 - (void)loadView
 {
     [super loadView];
+    self.view.backgroundColor = kBGColor;
     self.isMulti ? [self loadTextView] : [self loadTextField];
     [self loadTipsLabel];
     [self loadSaveButton];

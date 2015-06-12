@@ -19,5 +19,7 @@
 + (BOOL)isLightColorInImageView:(UIImageView *)imageView;
 + (NSString *)dateStringCompareToDate:(NSDate *)date;
 + (NSString *)dateStringCompareTo:(int64_t)timestamp;
++ (BOOL)isValidEmail:(NSString *)checkString;
++ (BOOL)isValidMobile:(NSString *)checkString;
 
 @end

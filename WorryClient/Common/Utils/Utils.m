@@ -83,6 +83,39 @@
     return [self dateStringCompareToDate:date];
 }
 
+ + (BOOL)isValidEmail:(NSString *)checkString
+{
+    BOOL sticterFilter = YES; // Discussion http://blog.logichigh.com/2010/09/02/validating-an-e-mail-address/
+    
+    NSString *stricterFilterString = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSString *laxString = @".+@.+\\.[A-Za-z]{2}[A-Za-z]*";
+    NSString *emailRegex = sticterFilter ? stricterFilterString : laxString;
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:checkString];
+}
+
++ (BOOL)isValidMobile:(NSString *)checkString
+{
+    /**
+     * 手机号码
+     * 移动：134,135,136,137,138,139,150,151,152,157,158,159,182,187,188
+     * 联通：130,131,132,155,156,185,186
+     * 电信：133,153,180,189
+     */
+    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+    
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    
+    if (([regextestmobile evaluateWithObject:checkString] == YES))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 #pragma mark - Utils
 
 + (UIColor *)mostColorInImage:(UIImage *)image

@@ -24,21 +24,20 @@
 #define kSignatureTitle     @"签名"
 
 #define kGenderTitle        @"性别"
-#define kLocationTitle      @"位置"
+#define kLocationTitle      @"位置"   //  暂时不做
 #define kChangePwdTitle     @"密码"
 
 #define kQQTitle            @"QQ"
-#define kWeixinTitle        @"微信"
+#define kWeixinTitle        @"微信"   //  暂时不做
 #define kSinaTitle          @"微博"
 #define kEmailTitle         @"邮箱"
 #define kPhoneTitle         @"手机"
 
 #define kUpdateSuccessMSG   @"修改成功"
+#define kUpdateFailedMSG    @"修改失败"
 
 @interface UserDetailController ()
-{
-    NSArray *currentLanguageArray;  //  for location
-}
+
 @property (nonatomic,assign) int indexOfSection;  //  Section索引，计数功能
 @property (nonatomic,assign) int sectionBasic;
 @property (nonatomic,assign) int sectionMisc;
@@ -49,9 +48,6 @@
 @property (nonatomic,strong) NSArray *sectionContactImages;    //  image names
 @property (nonatomic,strong) PBUser *pbUser;
 @property (nonatomic,strong) UpdateImage *updateImage;
-@property (nonatomic,strong) NSArray *genderTexts;
-//@property (nonatomic,strong) CLLocationManager *locationManager;  //  写到另外一个Category中去
-//  考虑把一些修改数据的方法写到一个Category中去。
 
 @end
 
@@ -59,16 +55,13 @@
 
 #pragma mark - Default methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.pbUser = [[UserManager sharedInstance] pbUser];
-    [self.tableView reloadData];
+    [self refreshData];
+//    [[UserService sharedInstance]refreshUser];
+//    self.pbUser = [[UserManager sharedInstance] pbUser];
+//    [self.tableView reloadData];
 }
 
 - (void)loadView
@@ -84,14 +77,10 @@
     self.sectionMisc = self.indexOfSection++;
     self.sectionContact = self.indexOfSection++;
     self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSignatureTitle];
-    self.sectionMiscItems = @[kGenderTitle,kLocationTitle,kChangePwdTitle];
-    self.sectionContactItems = @[kQQTitle,kWeixinTitle,kSinaTitle,kPhoneTitle,kEmailTitle];
-    self.sectionContactImages = @[@"user_detail_qq",@"user_detail_weixin",@"user_detail_sina",@"user_detail_phone",@"user_detail_email"];
-    self.genderTexts = @[@"男",@"女"];
+    self.sectionMiscItems = @[kGenderTitle,kChangePwdTitle];
+    self.sectionContactItems = @[kQQTitle,kSinaTitle,kPhoneTitle,kEmailTitle];
+    self.sectionContactImages = @[@"user_detail_qq",@"user_detail_sina",@"user_detail_phone",@"user_detail_email"];
 }
-
-#pragma mark - Private methods
-
 
 #pragma mark - UITableviewDataSource
 
@@ -122,7 +111,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-      UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kUserDetailCell];   
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kUserDetailCell];
     if (indexPath.section == self.sectionBasic) {
         NSString *title = self.sectionBasicItems[indexPath.row];
         if ([title isEqualToString:kAvatarTitle]) {
@@ -131,7 +120,7 @@
             detailAvatarCell.textLabel.text = title;
             [detailAvatarCell.avatarView sd_setImageWithURL:[NSURL URLWithString:self.pbUser.avatar]];
             cell = detailAvatarCell;
-            
+
         }else if([title isEqualToString:kBackgroundTitle]){
             
             UserDetailBGImageCell *detailBGImageCell = [[UserDetailBGImageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
@@ -177,9 +166,9 @@
         }else if ([title isEqualToString:kSinaTitle]){
             text = self.pbUser.sinaId.length == 0 ? text : self.pbUser.sinaId;
         }else if ([title isEqualToString:kEmailTitle]){
-            text = self.pbUser.emailVerified ? @"未验证" : self.pbUser.email;
+            text = self.pbUser.emailVerified ? self.pbUser.email : @"未验证";
         }else if ([title isEqualToString:kPhoneTitle]){
-            text = self.pbUser.phoneVerified ? @"未验证" : self.pbUser.phone;
+            text = self.pbUser.phoneVerified ? self.pbUser.phone : @"未验证";
         }
         
         cell.imageView.image = [UIImage imageNamed:imageNames];
@@ -241,10 +230,16 @@
         if ([title isEqualToString:kPhoneTitle]) {
             [self updatePhone];
         }else if ([title isEqualToString:kEmailTitle]){
-            [self updateEmail];
+            if (self.pbUser.email.length == 0){
+                [self updateEmail];
+            }else {
+                [self verifyEmail];
+            }
         }
     }
     
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = NO;
 }
 
 
@@ -294,6 +289,8 @@
         [[UserService sharedInstance]updateNick:text block:^(NSError *error) {
             if (error == nil) {
                 POST_SUCCESS_MSG(kUpdateSuccessMSG);
+            }else{
+                POST_ERROR_MSG(kUpdateFailedMSG);
             }
         }];
     }];
@@ -305,11 +302,13 @@
     EditController *editController = [[EditController alloc]initWithText:self.pbUser.signature
                                                              placeholder:@"请输入签名"
                                                                     tips:@"签名，签的就是我的心事"
-                                                                 isMulti:YES
+                                                                 isMulti:NO
                                                          saveActionBlock:^(NSString *text) {
         [[UserService sharedInstance]updateSignature:text block:^(NSError *error) {
             if (error == nil) {
                 POST_SUCCESS_MSG(kUpdateSuccessMSG);
+            }else{
+                POST_ERROR_MSG(kUpdateFailedMSG);
             }
         }];
     }];
@@ -318,19 +317,30 @@
 
 - (void)updateGender
 {
+    NSArray *genderTexts = @[@"男",@"女"];
+    BOOL gender = self.pbUser.gender;
+    NSInteger selection = gender ? 0 : 1;
     ActionSheetStringPicker *picker = [[ActionSheetStringPicker alloc]initWithTitle:nil
-                                                                               rows:self.genderTexts
-                                                                   initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
-                                                                       //   todo reloadData
-    } cancelBlock:^(ActionSheetStringPicker *picker) {
-        //  todo 如何把选中样式去掉? popViewController maybe work,reloadData maybe work
-    } origin:self.view];
+                                                                               rows:genderTexts
+                                                                   initialSelection:selection
+                                                                          doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                                                                              if (selectedIndex != selection) {
+                                                                                  [[UserService sharedInstance]updateGender:!gender block:^(NSError *error) {
+                                                                                      if (error == nil) {
+                                                                                          POST_SUCCESS_MSG(kUpdateSuccessMSG);
+                                                                                          [self refreshData];
+                                                                                      }else{
+                                                                                          POST_ERROR_MSG(kUpdateFailedMSG);
+                                                                                      }
+                                                                                  }];
+                                                                              }
+    } cancelBlock:nil origin:self.view];
+    
     UIBarButtonItem *cancelBarItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:nil];
     [picker setCancelButton:cancelBarItem];
     UIBarButtonItem *doneBarItem = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:nil];
     [picker setDoneButton:doneBarItem];
     [picker showActionSheetPicker];
-
 }
 
 - (void)updatePhone
@@ -342,19 +352,44 @@
 
 - (void)updateEmail
 {
-    NSString *text = self.pbUser.email;
+    NSString *emailText = self.pbUser.email;
     NSString *placeholder = @"请输入常用邮箱";
     NSString *tips = @"邮箱验证之后，可以用于找回密码";
-    EditController *vc = [[EditController alloc]initWithText:text
+    EditController *vc = [[EditController alloc]initWithText:emailText
                                                  placeholder:placeholder
                                                         tips:tips
                                                      isMulti:NO
                                              saveActionBlock:^(NSString *text) {
-        //  TODO
-    }];
+                                                 [[UserService sharedInstance]updateEmail:text block:^(NSError *error) {
+                                                     if (error == nil) {
+                                                         POST_SUCCESS_MSG(kUpdateSuccessMSG);
+                                                     }else{
+                                                         POST_ERROR_MSG(kUpdateFailedMSG);
+                                                     }
+                                                 }];
+                        }];
     
     [self.navigationController pushViewController:vc animated:YES];
 
+}
+
+- (void)verifyEmail
+{
+    [[UserService sharedInstance]requestEmailVerify:self.pbUser.email withBlock:^(NSError *error) {
+        if (error == nil) {
+            POST_SUCCESS_MSG(@"验证链接已发送到邮箱");
+            [self.tableView reloadData];
+        }else {
+            POST_ERROR_MSG(@"验证失败，请稍候再试");
+        }
+    }];
+}
+
+- (void)refreshData
+{
+    [[UserService sharedInstance]refreshUser];
+    self.pbUser = [[UserManager sharedInstance] pbUser];
+    [self.tableView reloadData];
 }
 
 @end

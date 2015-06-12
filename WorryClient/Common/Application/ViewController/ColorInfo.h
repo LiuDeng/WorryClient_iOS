@@ -19,7 +19,8 @@
 #define kLabelGrayColor                 OPAQUE_COLOR(0Xbf,0Xbf,0Xbf)
 #define kIndicatorColor                 OPAQUE_COLOR(0x74, 0xC2, 0xA9)  //  the color of segmentedControl's selected indicator
 #define kControlTextColor               OPAQUE_COLOR(0x3A, 0xA7, 0x84)  //  the color of segmentedControl's selected text
-#define kMainColor                    OPAQUE_COLOR(0x2b, 0xd0, 0xc3);  //  the main color of 'Worry'
+#define kMainColor                      OPAQUE_COLOR(0x2b, 0xd0, 0xc3)  //  the main color of 'Worry'
 #define kMessageCenterBackgroundColor   ALPHA_COLOR(0,0,0,0.6)
+#define kBGColor                        OPAQUE_COLOR(0xeb, 0xeb, 0xf2)
 //[UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.4]
 #endif

@@ -63,12 +63,12 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property (strong) NSString* email;
 @property SInt32 createdAt;
 @property SInt32 upatedAt;
-@property (strong) NSString* countryCode;
-@property (strong) NSString* language;
-@property (strong) NSString* emailVerified;
-@property (strong) NSString* phoneVerified;
+@property BOOL phoneVerified;
+@property BOOL emailVerified;
 @property SInt32 credit;
 @property SInt32 level;
+@property SInt32 thanksNum;
+@property SInt32 agreeNum;
 @property (strong) NSString* weixinId;
 @property (strong) NSString* qqId;
 @property (strong) NSString* sinaId;
@@ -77,6 +77,8 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @property (strong) NSMutableArray * receivedBlessingIdArray;
 @property (strong) NSMutableArray * sentBlessingIdArray;
 @property (strong) NSMutableArray * topicIdArray;
+@property (strong) NSMutableArray * followingsIdArray;
+@property (strong) NSMutableArray * followersIdArray;
 @property (strong) PBDevice* currentDevice;
 @property (strong) NSMutableArray * devicesArray;
 @end
@@ -172,34 +174,30 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasUpatedAt_ = !!_value_;
 }
 @synthesize upatedAt;
-- (BOOL) hasCountryCode {
-  return !!hasCountryCode_;
-}
-- (void) setHasCountryCode:(BOOL) _value_ {
-  hasCountryCode_ = !!_value_;
-}
-@synthesize countryCode;
-- (BOOL) hasLanguage {
-  return !!hasLanguage_;
-}
-- (void) setHasLanguage:(BOOL) _value_ {
-  hasLanguage_ = !!_value_;
-}
-@synthesize language;
-- (BOOL) hasEmailVerified {
-  return !!hasEmailVerified_;
-}
-- (void) setHasEmailVerified:(BOOL) _value_ {
-  hasEmailVerified_ = !!_value_;
-}
-@synthesize emailVerified;
 - (BOOL) hasPhoneVerified {
   return !!hasPhoneVerified_;
 }
 - (void) setHasPhoneVerified:(BOOL) _value_ {
   hasPhoneVerified_ = !!_value_;
 }
-@synthesize phoneVerified;
+- (BOOL) phoneVerified {
+  return !!phoneVerified_;
+}
+- (void) setPhoneVerified:(BOOL) _value_ {
+  phoneVerified_ = !!_value_;
+}
+- (BOOL) hasEmailVerified {
+  return !!hasEmailVerified_;
+}
+- (void) setHasEmailVerified:(BOOL) _value_ {
+  hasEmailVerified_ = !!_value_;
+}
+- (BOOL) emailVerified {
+  return !!emailVerified_;
+}
+- (void) setEmailVerified:(BOOL) _value_ {
+  emailVerified_ = !!_value_;
+}
 - (BOOL) hasCredit {
   return !!hasCredit_;
 }
@@ -214,6 +212,20 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
   hasLevel_ = !!_value_;
 }
 @synthesize level;
+- (BOOL) hasThanksNum {
+  return !!hasThanksNum_;
+}
+- (void) setHasThanksNum:(BOOL) _value_ {
+  hasThanksNum_ = !!_value_;
+}
+@synthesize thanksNum;
+- (BOOL) hasAgreeNum {
+  return !!hasAgreeNum_;
+}
+- (void) setHasAgreeNum:(BOOL) _value_ {
+  hasAgreeNum_ = !!_value_;
+}
+@synthesize agreeNum;
 - (BOOL) hasWeixinId {
   return !!hasWeixinId_;
 }
@@ -245,6 +257,10 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
 @dynamic sentBlessingId;
 @synthesize topicIdArray;
 @dynamic topicId;
+@synthesize followingsIdArray;
+@dynamic followingsId;
+@synthesize followersIdArray;
+@dynamic followersId;
 - (BOOL) hasCurrentDevice {
   return !!hasCurrentDevice_;
 }
@@ -268,12 +284,12 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
     self.email = @"";
     self.createdAt = 0;
     self.upatedAt = 0;
-    self.countryCode = @"";
-    self.language = @"";
-    self.emailVerified = @"";
-    self.phoneVerified = @"";
+    self.phoneVerified = NO;
+    self.emailVerified = NO;
     self.credit = 20;
     self.level = 1;
+    self.thanksNum = 0;
+    self.agreeNum = 0;
     self.weixinId = @"";
     self.qqId = @"";
     self.sinaId = @"";
@@ -322,6 +338,18 @@ static PBUser* defaultPBUserInstance = nil;
 }
 - (NSString*)topicIdAtIndex:(NSUInteger)index {
   return [topicIdArray objectAtIndex:index];
+}
+- (NSArray *)followingsId {
+  return followingsIdArray;
+}
+- (NSString*)followingsIdAtIndex:(NSUInteger)index {
+  return [followingsIdArray objectAtIndex:index];
+}
+- (NSArray *)followersId {
+  return followersIdArray;
+}
+- (NSString*)followersIdAtIndex:(NSUInteger)index {
+  return [followersIdArray objectAtIndex:index];
 }
 - (NSArray *)devices {
   return devicesArray;
@@ -382,23 +410,23 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasUpatedAt) {
     [output writeInt32:13 value:self.upatedAt];
   }
-  if (self.hasCountryCode) {
-    [output writeString:14 value:self.countryCode];
-  }
-  if (self.hasLanguage) {
-    [output writeString:15 value:self.language];
+  if (self.hasPhoneVerified) {
+    [output writeBool:20 value:self.phoneVerified];
   }
   if (self.hasEmailVerified) {
-    [output writeString:20 value:self.emailVerified];
-  }
-  if (self.hasPhoneVerified) {
-    [output writeString:21 value:self.phoneVerified];
+    [output writeBool:21 value:self.emailVerified];
   }
   if (self.hasCredit) {
     [output writeInt32:30 value:self.credit];
   }
   if (self.hasLevel) {
     [output writeInt32:31 value:self.level];
+  }
+  if (self.hasThanksNum) {
+    [output writeInt32:32 value:self.thanksNum];
+  }
+  if (self.hasAgreeNum) {
+    [output writeInt32:33 value:self.agreeNum];
   }
   if (self.hasWeixinId) {
     [output writeString:40 value:self.weixinId];
@@ -423,6 +451,12 @@ static PBUser* defaultPBUserInstance = nil;
   }];
   [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     [output writeString:54 value:element];
+  }];
+  [self.followingsIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:55 value:element];
+  }];
+  [self.followersIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:56 value:element];
   }];
   if (self.hasCurrentDevice) {
     [output writeMessage:70 value:self.currentDevice];
@@ -475,23 +509,23 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasUpatedAt) {
     size_ += computeInt32Size(13, self.upatedAt);
   }
-  if (self.hasCountryCode) {
-    size_ += computeStringSize(14, self.countryCode);
-  }
-  if (self.hasLanguage) {
-    size_ += computeStringSize(15, self.language);
+  if (self.hasPhoneVerified) {
+    size_ += computeBoolSize(20, self.phoneVerified);
   }
   if (self.hasEmailVerified) {
-    size_ += computeStringSize(20, self.emailVerified);
-  }
-  if (self.hasPhoneVerified) {
-    size_ += computeStringSize(21, self.phoneVerified);
+    size_ += computeBoolSize(21, self.emailVerified);
   }
   if (self.hasCredit) {
     size_ += computeInt32Size(30, self.credit);
   }
   if (self.hasLevel) {
     size_ += computeInt32Size(31, self.level);
+  }
+  if (self.hasThanksNum) {
+    size_ += computeInt32Size(32, self.thanksNum);
+  }
+  if (self.hasAgreeNum) {
+    size_ += computeInt32Size(33, self.agreeNum);
   }
   if (self.hasWeixinId) {
     size_ += computeStringSize(40, self.weixinId);
@@ -542,6 +576,24 @@ static PBUser* defaultPBUserInstance = nil;
     __block SInt32 dataSize = 0;
     const NSUInteger count = self.topicIdArray.count;
     [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.followingsIdArray.count;
+    [self.followingsIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(2 * count);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.followersIdArray.count;
+    [self.followersIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
       dataSize += computeStringSizeNoTag(element);
     }];
     size_ += dataSize;
@@ -624,23 +676,23 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasUpatedAt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"upatedAt", [NSNumber numberWithInteger:self.upatedAt]];
   }
-  if (self.hasCountryCode) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"countryCode", self.countryCode];
-  }
-  if (self.hasLanguage) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"language", self.language];
+  if (self.hasPhoneVerified) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"phoneVerified", [NSNumber numberWithBool:self.phoneVerified]];
   }
   if (self.hasEmailVerified) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"emailVerified", self.emailVerified];
-  }
-  if (self.hasPhoneVerified) {
-    [output appendFormat:@"%@%@: %@\n", indent, @"phoneVerified", self.phoneVerified];
+    [output appendFormat:@"%@%@: %@\n", indent, @"emailVerified", [NSNumber numberWithBool:self.emailVerified]];
   }
   if (self.hasCredit) {
     [output appendFormat:@"%@%@: %@\n", indent, @"credit", [NSNumber numberWithInteger:self.credit]];
   }
   if (self.hasLevel) {
     [output appendFormat:@"%@%@: %@\n", indent, @"level", [NSNumber numberWithInteger:self.level]];
+  }
+  if (self.hasThanksNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"thanksNum", [NSNumber numberWithInteger:self.thanksNum]];
+  }
+  if (self.hasAgreeNum) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"agreeNum", [NSNumber numberWithInteger:self.agreeNum]];
   }
   if (self.hasWeixinId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"weixinId", self.weixinId];
@@ -665,6 +717,12 @@ static PBUser* defaultPBUserInstance = nil;
   }];
   [self.topicIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [output appendFormat:@"%@%@: %@\n", indent, @"topicId", obj];
+  }];
+  [self.followingsIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"followingsId", obj];
+  }];
+  [self.followersIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"followersId", obj];
   }];
   if (self.hasCurrentDevice) {
     [output appendFormat:@"%@%@ {\n", indent, @"currentDevice"];
@@ -713,18 +771,18 @@ static PBUser* defaultPBUserInstance = nil;
       (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
       self.hasUpatedAt == otherMessage.hasUpatedAt &&
       (!self.hasUpatedAt || self.upatedAt == otherMessage.upatedAt) &&
-      self.hasCountryCode == otherMessage.hasCountryCode &&
-      (!self.hasCountryCode || [self.countryCode isEqual:otherMessage.countryCode]) &&
-      self.hasLanguage == otherMessage.hasLanguage &&
-      (!self.hasLanguage || [self.language isEqual:otherMessage.language]) &&
-      self.hasEmailVerified == otherMessage.hasEmailVerified &&
-      (!self.hasEmailVerified || [self.emailVerified isEqual:otherMessage.emailVerified]) &&
       self.hasPhoneVerified == otherMessage.hasPhoneVerified &&
-      (!self.hasPhoneVerified || [self.phoneVerified isEqual:otherMessage.phoneVerified]) &&
+      (!self.hasPhoneVerified || self.phoneVerified == otherMessage.phoneVerified) &&
+      self.hasEmailVerified == otherMessage.hasEmailVerified &&
+      (!self.hasEmailVerified || self.emailVerified == otherMessage.emailVerified) &&
       self.hasCredit == otherMessage.hasCredit &&
       (!self.hasCredit || self.credit == otherMessage.credit) &&
       self.hasLevel == otherMessage.hasLevel &&
       (!self.hasLevel || self.level == otherMessage.level) &&
+      self.hasThanksNum == otherMessage.hasThanksNum &&
+      (!self.hasThanksNum || self.thanksNum == otherMessage.thanksNum) &&
+      self.hasAgreeNum == otherMessage.hasAgreeNum &&
+      (!self.hasAgreeNum || self.agreeNum == otherMessage.agreeNum) &&
       self.hasWeixinId == otherMessage.hasWeixinId &&
       (!self.hasWeixinId || [self.weixinId isEqual:otherMessage.weixinId]) &&
       self.hasQqId == otherMessage.hasQqId &&
@@ -736,6 +794,8 @@ static PBUser* defaultPBUserInstance = nil;
       [self.receivedBlessingIdArray isEqualToArray:otherMessage.receivedBlessingIdArray] &&
       [self.sentBlessingIdArray isEqualToArray:otherMessage.sentBlessingIdArray] &&
       [self.topicIdArray isEqualToArray:otherMessage.topicIdArray] &&
+      [self.followingsIdArray isEqualToArray:otherMessage.followingsIdArray] &&
+      [self.followersIdArray isEqualToArray:otherMessage.followersIdArray] &&
       self.hasCurrentDevice == otherMessage.hasCurrentDevice &&
       (!self.hasCurrentDevice || [self.currentDevice isEqual:otherMessage.currentDevice]) &&
       [self.devicesArray isEqualToArray:otherMessage.devicesArray] &&
@@ -779,23 +839,23 @@ static PBUser* defaultPBUserInstance = nil;
   if (self.hasUpatedAt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.upatedAt] hash];
   }
-  if (self.hasCountryCode) {
-    hashCode = hashCode * 31 + [self.countryCode hash];
-  }
-  if (self.hasLanguage) {
-    hashCode = hashCode * 31 + [self.language hash];
+  if (self.hasPhoneVerified) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.phoneVerified] hash];
   }
   if (self.hasEmailVerified) {
-    hashCode = hashCode * 31 + [self.emailVerified hash];
-  }
-  if (self.hasPhoneVerified) {
-    hashCode = hashCode * 31 + [self.phoneVerified hash];
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.emailVerified] hash];
   }
   if (self.hasCredit) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.credit] hash];
   }
   if (self.hasLevel) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.level] hash];
+  }
+  if (self.hasThanksNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.thanksNum] hash];
+  }
+  if (self.hasAgreeNum) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.agreeNum] hash];
   }
   if (self.hasWeixinId) {
     hashCode = hashCode * 31 + [self.weixinId hash];
@@ -819,6 +879,12 @@ static PBUser* defaultPBUserInstance = nil;
     hashCode = hashCode * 31 + [element hash];
   }];
   [self.topicIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.followingsIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    hashCode = hashCode * 31 + [element hash];
+  }];
+  [self.followersIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasCurrentDevice) {
@@ -906,23 +972,23 @@ static PBUser* defaultPBUserInstance = nil;
   if (other.hasUpatedAt) {
     [self setUpatedAt:other.upatedAt];
   }
-  if (other.hasCountryCode) {
-    [self setCountryCode:other.countryCode];
-  }
-  if (other.hasLanguage) {
-    [self setLanguage:other.language];
+  if (other.hasPhoneVerified) {
+    [self setPhoneVerified:other.phoneVerified];
   }
   if (other.hasEmailVerified) {
     [self setEmailVerified:other.emailVerified];
-  }
-  if (other.hasPhoneVerified) {
-    [self setPhoneVerified:other.phoneVerified];
   }
   if (other.hasCredit) {
     [self setCredit:other.credit];
   }
   if (other.hasLevel) {
     [self setLevel:other.level];
+  }
+  if (other.hasThanksNum) {
+    [self setThanksNum:other.thanksNum];
+  }
+  if (other.hasAgreeNum) {
+    [self setAgreeNum:other.agreeNum];
   }
   if (other.hasWeixinId) {
     [self setWeixinId:other.weixinId];
@@ -966,6 +1032,20 @@ static PBUser* defaultPBUserInstance = nil;
       resultPbuser.topicIdArray = [[NSMutableArray alloc] initWithArray:other.topicIdArray];
     } else {
       [resultPbuser.topicIdArray addObjectsFromArray:other.topicIdArray];
+    }
+  }
+  if (other.followingsIdArray.count > 0) {
+    if (resultPbuser.followingsIdArray == nil) {
+      resultPbuser.followingsIdArray = [[NSMutableArray alloc] initWithArray:other.followingsIdArray];
+    } else {
+      [resultPbuser.followingsIdArray addObjectsFromArray:other.followingsIdArray];
+    }
+  }
+  if (other.followersIdArray.count > 0) {
+    if (resultPbuser.followersIdArray == nil) {
+      resultPbuser.followersIdArray = [[NSMutableArray alloc] initWithArray:other.followersIdArray];
+    } else {
+      [resultPbuser.followersIdArray addObjectsFromArray:other.followersIdArray];
     }
   }
   if (other.hasCurrentDevice) {
@@ -1047,20 +1127,12 @@ static PBUser* defaultPBUserInstance = nil;
         [self setUpatedAt:[input readInt32]];
         break;
       }
-      case 114: {
-        [self setCountryCode:[input readString]];
+      case 160: {
+        [self setPhoneVerified:[input readBool]];
         break;
       }
-      case 122: {
-        [self setLanguage:[input readString]];
-        break;
-      }
-      case 162: {
-        [self setEmailVerified:[input readString]];
-        break;
-      }
-      case 170: {
-        [self setPhoneVerified:[input readString]];
+      case 168: {
+        [self setEmailVerified:[input readBool]];
         break;
       }
       case 240: {
@@ -1069,6 +1141,14 @@ static PBUser* defaultPBUserInstance = nil;
       }
       case 248: {
         [self setLevel:[input readInt32]];
+        break;
+      }
+      case 256: {
+        [self setThanksNum:[input readInt32]];
+        break;
+      }
+      case 264: {
+        [self setAgreeNum:[input readInt32]];
         break;
       }
       case 322: {
@@ -1101,6 +1181,14 @@ static PBUser* defaultPBUserInstance = nil;
       }
       case 434: {
         [self addTopicId:[input readString]];
+        break;
+      }
+      case 442: {
+        [self addFollowingsId:[input readString]];
+        break;
+      }
+      case 450: {
+        [self addFollowersId:[input readString]];
         break;
       }
       case 562: {
@@ -1313,68 +1401,36 @@ static PBUser* defaultPBUserInstance = nil;
   resultPbuser.upatedAt = 0;
   return self;
 }
-- (BOOL) hasCountryCode {
-  return resultPbuser.hasCountryCode;
-}
-- (NSString*) countryCode {
-  return resultPbuser.countryCode;
-}
-- (PBUserBuilder*) setCountryCode:(NSString*) value {
-  resultPbuser.hasCountryCode = YES;
-  resultPbuser.countryCode = value;
-  return self;
-}
-- (PBUserBuilder*) clearCountryCode {
-  resultPbuser.hasCountryCode = NO;
-  resultPbuser.countryCode = @"";
-  return self;
-}
-- (BOOL) hasLanguage {
-  return resultPbuser.hasLanguage;
-}
-- (NSString*) language {
-  return resultPbuser.language;
-}
-- (PBUserBuilder*) setLanguage:(NSString*) value {
-  resultPbuser.hasLanguage = YES;
-  resultPbuser.language = value;
-  return self;
-}
-- (PBUserBuilder*) clearLanguage {
-  resultPbuser.hasLanguage = NO;
-  resultPbuser.language = @"";
-  return self;
-}
-- (BOOL) hasEmailVerified {
-  return resultPbuser.hasEmailVerified;
-}
-- (NSString*) emailVerified {
-  return resultPbuser.emailVerified;
-}
-- (PBUserBuilder*) setEmailVerified:(NSString*) value {
-  resultPbuser.hasEmailVerified = YES;
-  resultPbuser.emailVerified = value;
-  return self;
-}
-- (PBUserBuilder*) clearEmailVerified {
-  resultPbuser.hasEmailVerified = NO;
-  resultPbuser.emailVerified = @"";
-  return self;
-}
 - (BOOL) hasPhoneVerified {
   return resultPbuser.hasPhoneVerified;
 }
-- (NSString*) phoneVerified {
+- (BOOL) phoneVerified {
   return resultPbuser.phoneVerified;
 }
-- (PBUserBuilder*) setPhoneVerified:(NSString*) value {
+- (PBUserBuilder*) setPhoneVerified:(BOOL) value {
   resultPbuser.hasPhoneVerified = YES;
   resultPbuser.phoneVerified = value;
   return self;
 }
 - (PBUserBuilder*) clearPhoneVerified {
   resultPbuser.hasPhoneVerified = NO;
-  resultPbuser.phoneVerified = @"";
+  resultPbuser.phoneVerified = NO;
+  return self;
+}
+- (BOOL) hasEmailVerified {
+  return resultPbuser.hasEmailVerified;
+}
+- (BOOL) emailVerified {
+  return resultPbuser.emailVerified;
+}
+- (PBUserBuilder*) setEmailVerified:(BOOL) value {
+  resultPbuser.hasEmailVerified = YES;
+  resultPbuser.emailVerified = value;
+  return self;
+}
+- (PBUserBuilder*) clearEmailVerified {
+  resultPbuser.hasEmailVerified = NO;
+  resultPbuser.emailVerified = NO;
   return self;
 }
 - (BOOL) hasCredit {
@@ -1407,6 +1463,38 @@ static PBUser* defaultPBUserInstance = nil;
 - (PBUserBuilder*) clearLevel {
   resultPbuser.hasLevel = NO;
   resultPbuser.level = 1;
+  return self;
+}
+- (BOOL) hasThanksNum {
+  return resultPbuser.hasThanksNum;
+}
+- (SInt32) thanksNum {
+  return resultPbuser.thanksNum;
+}
+- (PBUserBuilder*) setThanksNum:(SInt32) value {
+  resultPbuser.hasThanksNum = YES;
+  resultPbuser.thanksNum = value;
+  return self;
+}
+- (PBUserBuilder*) clearThanksNum {
+  resultPbuser.hasThanksNum = NO;
+  resultPbuser.thanksNum = 0;
+  return self;
+}
+- (BOOL) hasAgreeNum {
+  return resultPbuser.hasAgreeNum;
+}
+- (SInt32) agreeNum {
+  return resultPbuser.agreeNum;
+}
+- (PBUserBuilder*) setAgreeNum:(SInt32) value {
+  resultPbuser.hasAgreeNum = YES;
+  resultPbuser.agreeNum = value;
+  return self;
+}
+- (PBUserBuilder*) clearAgreeNum {
+  resultPbuser.hasAgreeNum = NO;
+  resultPbuser.agreeNum = 0;
   return self;
 }
 - (BOOL) hasWeixinId {
@@ -1560,6 +1648,48 @@ static PBUser* defaultPBUserInstance = nil;
 }
 - (PBUserBuilder *)clearTopicId {
   resultPbuser.topicIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)followingsId {
+  return resultPbuser.followingsIdArray;
+}
+- (NSString*)followingsIdAtIndex:(NSUInteger)index {
+  return [resultPbuser followingsIdAtIndex:index];
+}
+- (PBUserBuilder *)addFollowingsId:(NSString*)value {
+  if (resultPbuser.followingsIdArray == nil) {
+    resultPbuser.followingsIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.followingsIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setFollowingsIdArray:(NSArray *)array {
+  resultPbuser.followingsIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearFollowingsId {
+  resultPbuser.followingsIdArray = nil;
+  return self;
+}
+- (NSMutableArray *)followersId {
+  return resultPbuser.followersIdArray;
+}
+- (NSString*)followersIdAtIndex:(NSUInteger)index {
+  return [resultPbuser followersIdAtIndex:index];
+}
+- (PBUserBuilder *)addFollowersId:(NSString*)value {
+  if (resultPbuser.followersIdArray == nil) {
+    resultPbuser.followersIdArray = [[NSMutableArray alloc]init];
+  }
+  [resultPbuser.followersIdArray addObject:value];
+  return self;
+}
+- (PBUserBuilder *)setFollowersIdArray:(NSArray *)array {
+  resultPbuser.followersIdArray = [[NSMutableArray alloc] initWithArray:array];
+  return self;
+}
+- (PBUserBuilder *)clearFollowersId {
+  resultPbuser.followersIdArray = nil;
   return self;
 }
 - (BOOL) hasCurrentDevice {

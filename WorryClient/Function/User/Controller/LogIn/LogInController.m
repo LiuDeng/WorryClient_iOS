@@ -60,7 +60,8 @@
 {
     [super loadView];
 //    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    self.view.backgroundColor = OPAQUE_COLOR(0xea, 0xf1, 0xf1);
+//    self.view.backgroundColor = OPAQUE_COLOR(0xea, 0xf1, 0xf1);
+    self.view.backgroundColor = kBGColor;
 //    [self loadLogoImageView];
     [self loadSignUpAndLogInView];
     

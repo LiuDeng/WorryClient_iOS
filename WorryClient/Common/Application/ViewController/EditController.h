@@ -24,7 +24,7 @@ typedef void (^EditSaveBlock) (NSString* text);
 @property (nonatomic,strong) UITextField *textField;
 @property (nonatomic,strong) UITextView *textView;
 @property (nonatomic,strong) UILabel *tipsLabel;
-@property (nonatomic, copy) EditSaveBlock saveActionBlock;
+@property (nonatomic,copy) EditSaveBlock saveActionBlock;
 
 - (void)loadSaveButton;
 

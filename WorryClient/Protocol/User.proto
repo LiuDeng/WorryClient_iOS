@@ -25,18 +25,19 @@ message PBUser{
     optional string email = 11;                                     //  邮箱
     optional int32 created_at = 12;                                 //  创建时间，服务器上是date类型
     optional int32 upated_at = 13;                                  //  更新时间，服务器上是date类型
-    optional string countryCode = 14;                               // 国家代码，如 CN
-    optional string language = 15;                                  // 设备语言，如 zh_Hans
+    //optional string countryCode = 14;                               // 国家代码，如 CN
+    //optional string language = 15;                                  // 设备语言，如 zh_Hans
 
-    optional string email_verified= 20;                             //  邮箱是否验证
-    optional string phone_verified = 21;                            //  手机是否验证
+    optional bool phone_verified = 20;                            //  手机是否验证
+    optional bool email_verified= 21;                             //  邮箱是否验证
+
 
     optional int32 credit = 30 [default = 20];                      //  积分，默认是20
     optional int32 level = 31 [default = 1];                      //  等级，默认是1
     optional int32 thanksNum  = 32;                                 //  被感谢数
     optional int32 agreeNum = 33;                                   //  被赞同数
 
-    optional string weixin_id = 40;                                 // 微信号
+    //optional string weixin_id = 40;                                 // 微信号,微信登录暂时不做
     optional string QQ_id = 41;                                     // QQ号
     optional string sina_id = 42;                                   // 新浪微博号
 
@@ -45,8 +46,8 @@ message PBUser{
     repeated string received_blessing_id = 52;                      //  收到的祝福
     repeated string sent_blessing_id = 53;                          //  送出的祝福
     repeated string topic_id = 54;                                  //  关注的话题id
-    repeated string followings_id;                                  //  关注的人的id
-    repeated string followers_id;                                   //  粉丝的id
+    repeated string followings_id = 55;                                  //  关注的人的id
+    repeated string followers_id = 56;                                   //  粉丝的id
 
     // device info
     optional PBDevice currentDevice = 70;

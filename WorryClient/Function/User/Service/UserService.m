@@ -12,10 +12,28 @@
 #import "Utils.h"
 
 #define kPBUserKey      @"pbUserData"
-#define kAvatarKey      @"Avatar"
-#define kBGImageKey     @"BGImage"
 #define kAvatarName     @"avatar.jpeg"
 #define kBGImageName    @"BGImage.jpeg"
+
+//  暂时不用和User.proto中的一样
+
+#define kNickKey        @"nick"
+#define kAvatarKey      @"avatar"
+#define kGenderKey      @"gender"
+#define kBGImageKey     @"BGImage"
+#define kSignatureKey   @"signature"
+#define kLocationKey    @"location"
+#define kCreditKey      @"credit"
+#define kLevelKey       @"level"
+#define kThanksNumKey   @"thanksNum"
+#define kAgreeNumKey    @"agreeNum"
+
+#define kQQIdKey        @"QQId"
+#define kSinaIdKey      @"sinaId"
+
+
+#define kEmailVerified  @"emailVerified"
+
 
 const CGFloat kUpdateImageQuality = 0.5f;
 
@@ -26,68 +44,67 @@ const CGFloat kUpdateImageQuality = 0.5f;
 IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)requestSmsCodeWithPhone:(NSString *)phone
-                       callback:(UserServiceBooleanResultBlock)block
+                       callback:(ServiceErrorResultBlock)block
 {
-    [AVOSCloud requestSmsCodeWithPhoneNumber:phone callback:block];
+    //  TODO换成mob的短信验证码
+    [AVOSCloud requestSmsCodeWithPhoneNumber:phone callback:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
 }
 
-- (void)requestEmailVerify:(NSString*)email
-                 withBlock:(UserServiceErrorResultBlock)block
+- (void)verifySmsCode:(NSString *)code mobilePhoneNumber:(NSString *)phoneNumber callback:(ServiceErrorResultBlock)block
 {
-//    AVUser *avUser = [AVUser currentUser];
-
-//    [AVUser requestEmailVerify:email withBlock:block];
-}
-
-- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(UserServiceErrorResultBlock)block
-{
-    [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
-        if (error == nil) {
-            PBUserBuilder *pbUserBuilder = [PBUser builder];
-            [pbUserBuilder setPhone:phone];
-            [pbUserBuilder setCreatedAt:(int)time(0)];
-            PBUser *pbUser = [pbUserBuilder build];
-        
-            NSData *pbUserData = [pbUser data];
-            [user setObject:pbUserData forKey:kPBUserKey];
-            [user saveEventually];
+    //  TODO换成mob的短信验证码
+    [AVOSCloud verifySmsCode:code mobilePhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self updatePhone:phoneNumber block:block];
+        }else{
             EXECUTE_BLOCK(block,error);
         }
     }];
 }
 
-- (void)signUpByEmail:(NSString *)email password:(NSString *)password block:(UserServiceBooleanResultBlock)block
+- (void)requestEmailVerify:(NSString*)email
+                 withBlock:(ServiceErrorResultBlock)block
+{
+    [AVUser requestEmailVerify:email withBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(ServiceErrorResultBlock)block
+{
+    [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
+        if (error == nil) {
+            [self refreshPBUserWithAVUser:user];
+        }
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)signUpByEmail:(NSString *)email password:(NSString *)password block:(ServiceBooleanResultBlock)block
 {
     AVUser *avUser = [AVUser user];
     avUser.username = email;
     avUser.email = email;
     avUser.password = password;
-    PBUserBuilder *pbUserBuilder = [PBUser builder];
-    [pbUserBuilder setPassword:avUser.password];
-    [pbUserBuilder setEmail:email];
-    [pbUserBuilder setCreatedAt:(int)time(0)];
-    
-    PBUser *pbUser = [pbUserBuilder build];
-    NSData *pbUserData = [pbUser data];
-    
-    [avUser setObject:pbUserData forKey:kPBUserKey];
     [avUser signUpInBackgroundWithBlock:block];
 }
-- (void)logInByValue:(NSString *)value password:(NSString *)password block:(UserServiceErrorResultBlock)block
+
+- (void)logInByValue:(NSString *)value password:(NSString *)password block:(ServiceErrorResultBlock)block
 {
     [AVUser logInWithUsernameInBackground:value password:password block:^(AVUser *user, NSError *error) {
         if (error == nil) {
-            NSData *data = [user objectForKey:kPBUserKey];
-            PBUser *webPBUser = [PBUser parseFromData:data];
-            PBUserBuilder *pbUserBuilder = [webPBUser toBuilder];
-            [pbUserBuilder setUserId:user.objectId];
-            
-            PBUser *pbUser = [pbUserBuilder build];
-            NSData *pbUserData = [pbUser data];
-            [[UserManager sharedInstance]storeUser:pbUserData];
-            EXECUTE_BLOCK(block,error);
+            [self refreshPBUserWithAVUser:user];
         }
+        EXECUTE_BLOCK(block,error);
     }];
+}
+
+- (void)refreshUser
+{
+    AVUser *avUser = [AVUser currentUser];
+    [self refreshPBUserWithAVUser:avUser];
 }
 
 - (void)logOut
@@ -98,122 +115,142 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 #pragma mark - Update
 
-- (void)updatePBUser:(void(^)(PBUserBuilder *pbUserBuilder))updatePBUserblock block:(UserServiceErrorResultBlock)block
-{
-    PBUser *pbUser = [[UserManager sharedInstance]pbUser];
-    PBUserBuilder *pbUserBuilder = [pbUser toBuilder];
-    [pbUserBuilder setUpatedAt:(int)time(0)];
-    updatePBUserblock(pbUserBuilder);
-    pbUser = [pbUserBuilder build];
-    NSData *pbUserData = [pbUser data];
-    [[UserManager sharedInstance]storeUser:pbUserData];
-    [self updateObject:pbUserData forKey:kPBUserKey block:block];
-}
-
-- (void)updateAvatar:(UIImage *)image block:(UserServiceErrorResultBlock)block
+- (void)updateAvatar:(UIImage *)image block:(ServiceErrorResultBlock)block
 {
     [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
         if (error == nil) {
-            [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-                [pbUserBuilder setAvatar:url];
-            } block:block];
+            [self updateObject:url forKey:kAvatarKey block:block];
+        }else{
+            //  TODO update image error
         }
     }];
 }
 
-- (void)updateBGImage:(UIImage *)image block:(UserServiceErrorResultBlock)block
+- (void)updateBGImage:(UIImage *)image block:(ServiceErrorResultBlock)block
 {
     [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
         if (error == nil) {
-            [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-                [pbUserBuilder setBgImage:url];
-            } block:block];
+            [self updateObject:url forKey:kBGImageKey block:block];
+        }else{
+            //  TODO update image error
         }
     }];
 }
 
 
-- (void)updateNick:(NSString *)nick block:(UserServiceErrorResultBlock)block
+- (void)updateNick:(NSString *)nick block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setNick:nick];
-    } block:block];
+    [self updateObject:nick forKey:kNickKey block:block];
 }
 
-- (void)updateSignature:(NSString *)signature block:(UserServiceErrorResultBlock)block
+- (void)updateSignature:(NSString *)signature block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setSignature:signature];
-    } block:block];
+    [self updateObject:signature forKey:kSignatureKey block:block];
 }
 
-- (void)updateGender:(BOOL)gender block:(UserServiceErrorResultBlock)block
+- (void)updateGender:(BOOL)gender block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setGender:gender];
-    } block:block];
+    [self updateObject:[NSNumber numberWithBool:gender] forKey:kGenderKey block:block];}
+
+- (void)updateLocation:(NSString *)location block:(ServiceErrorResultBlock)block
+{
+    [self updateObject:location forKey:kLocationKey block:block];
 }
 
-- (void)updateLocation:(NSString *)location block:(UserServiceErrorResultBlock)block
+- (void)updateQQ:(NSString *)QQ block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setLocation:location];
-    } block:block];
+    //  TODO
 }
 
-- (void)updateQQ:(NSString *)QQ block:(UserServiceErrorResultBlock)block
+- (void)updateWeixinId:(NSString *)WeixinId block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setQqId:QQ];
-    } block:block];
+    //  TODO
 }
 
-- (void)updateWeixinId:(NSString *)WeixinId block:(UserServiceErrorResultBlock)block
+- (void)updateSinaId:(NSString *)sinaId block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setWeixinId:WeixinId];
-    } block:block];
+    //  TODO
 }
 
-- (void)updateSinaId:(NSString *)sinaId block:(UserServiceErrorResultBlock)block
+- (void)updateEmail:(NSString *)email block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setSinaId:sinaId];
-    } block:block];
+    AVUser *avUser = [AVUser currentUser];
+    avUser.email = email;
+    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self refreshPBUserWithAVUser:avUser];
+        }
+        EXECUTE_BLOCK(block,error);
+    }];
 }
 
-- (void)updateEmail:(NSString *)email block:(UserServiceErrorResultBlock)block
+- (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block
 {
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setEmail:email];
-    } block:block];
+    AVUser *avUser = [AVUser currentUser];
+    avUser.mobilePhoneNumber = phone;
+    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self refreshPBUserWithAVUser:avUser];
+        }
+        EXECUTE_BLOCK(block,error);
+    }];
 }
-
-- (void)updatePhone:(NSString *)phone block:(UserServiceErrorResultBlock)block
-{
-    [self updatePBUser:^(PBUserBuilder *pbUserBuilder) {
-        [pbUserBuilder setPhone:phone];
-    } block:block];
-}
-
-
-
 
 #pragma mark - Uitls
 
-- (void)updateObject:(id)object forKey:(NSString *)key block:(UserServiceErrorResultBlock)block
+- (void)updateObject:(id)object forKey:(NSString *)key block:(ServiceErrorResultBlock)block
 {
     AVUser *avUser = [AVUser currentUser];
     [avUser setObject:object forKey:key];
     [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            EXECUTE_BLOCK(block,error);
+            [self refreshPBUserWithAVUser:avUser];
         }
+        EXECUTE_BLOCK(block,error);
     }];
 }
 
 - (BOOL)ifLogIn
 {
     return [AVUser currentUser] == nil ? NO : YES;
+}
+
+- (void)refreshPBUserWithAVUser:(AVUser *)user
+{
+    NSString *nick  = [user objectForKey:kNickKey];
+    NSString *avatar = [user objectForKey:kAvatarKey];
+    NSNumber *genderNum = [user objectForKey:kGenderKey];
+    BOOL gender = genderNum.boolValue;
+    NSString *BGImage = [user objectForKey:kBGImageKey];
+    NSString *signature = [user objectForKey:kSignatureKey];
+    NSString *location = [user objectForKey:kLocationKey];
+    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server.
+    BOOL emailVerified = emailVerifiedNum.boolValue;
+    int credit = (int)[user objectForKey:kCreditKey];
+    int32_t creatAt = user.createdAt.timeIntervalSince1970;   //  may be false.
+    int32_t updateAt = user.updatedAt.timeIntervalSince1970;
+    
+    PBUserBuilder *pbUserBuilder = [PBUser builder];
+    
+    [pbUserBuilder setUserId:user.objectId];
+    [pbUserBuilder setPassword:user.password];
+    [pbUserBuilder setNick:nick];
+    [pbUserBuilder setAvatar:avatar];
+    [pbUserBuilder setGender:gender];
+    [pbUserBuilder setBgImage:BGImage];
+    [pbUserBuilder setSignature:signature];
+    [pbUserBuilder setLocation:location];
+    [pbUserBuilder setPhone:user.mobilePhoneNumber];
+    [pbUserBuilder setEmail:user.email];
+    [pbUserBuilder setCreatedAt:creatAt];
+    [pbUserBuilder setUpatedAt:updateAt];
+    
+    [pbUserBuilder setPhoneVerified:user.mobilePhoneVerified];
+    [pbUserBuilder setEmailVerified:emailVerified];
+    [pbUserBuilder setCredit:credit];
+    
+    PBUser *pbUser = [pbUserBuilder build];
+    NSData *pbUserData = [pbUser data];
+    [[UserManager sharedInstance]storeUser:pbUserData];
 }
 @end
