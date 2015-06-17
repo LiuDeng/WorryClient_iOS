@@ -20,6 +20,9 @@
 #define kShareSDKAppSecret      @"ace5099ec5b71ac468a0c60714fcee7d"
 #define kShareSDKRedirectUrl    @"http://www.sharesdk.cn"
 
+#define kSMSSDKAppKey           @"819b0d20e69b"
+#define kSMSSDKAppSecret        @"3e051568102ae045a9746931d7cbc1a9"
+
 #define kWeiboAppKey            @"3303279609"
 #define kWeiboAppSecret         @"c165dc6d1624837d23981f975a90d042"
 #define kQQAppKey               @""

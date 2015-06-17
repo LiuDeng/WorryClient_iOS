@@ -14,8 +14,9 @@
 #import "RDVTabBarController.h"
 #import "ViewDefault.h"
 #import "UIView+DefaultView.h"
+#import "UIViewController+LogInSignUp.h"
 
-#import <ShareSDK/ShareSDK.h>
+#import "SignUpByEmailController.h"
 
 #define kSignUpPhoneTitle     @"手机注册"
 #define kSignUpEmailTitle     @"邮箱注册"
@@ -50,16 +51,9 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-//    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-}
-
 - (void)loadView
 {
     [super loadView];
-//    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 //    self.view.backgroundColor = OPAQUE_COLOR(0xea, 0xf1, 0xf1);
     self.view.backgroundColor = kBGColor;
 //    [self loadLogoImageView];
@@ -74,7 +68,7 @@
 
 - (void)loadSignUpAndLogInView
 {
-    self.signUpAndLogInView = [[SignUpAndLogInView alloc]initWithAccountPlaceholder:@"请输入用户名/手机/邮箱"
+    self.signUpAndLogInView = [[SignUpAndLogInView alloc]initWithAccountPlaceholder:@"请输入11位手机号码"
                                                                 passwordPlaceholder:@"请输入密码"
                                                                         buttonTitle:@"登录"];
     [self.view addSubview:self.signUpAndLogInView];
@@ -86,11 +80,6 @@
         make.height.equalTo(self.view).with.dividedBy(3);
         make.width.equalTo(self.view);
     }];
-    
-//    [self loadAccountTextField];
-//    [self loadPasswordTextField];
-//    [self loadLogInButton];
-
     self.accountTextField = self.signUpAndLogInView.accountTextField;
     self.passwordTextField = self.signUpAndLogInView.passwordTextField;
     self.logInButton = self.signUpAndLogInView.button;
@@ -177,7 +166,8 @@
 
 - (void)loadElseLogInWayButtons
 {
-    NSArray *imageNames = @[@"log_in_qq",@"log_in_weixin",@"log_in_sina"];
+//    NSArray *imageNames = @[@"log_in_qq",@"log_in_weixin",@"log_in_sina"];
+    NSArray *imageNames = @[@"log_in_qq",@"log_in_sina"];
     NSMutableArray *buttons = [[NSMutableArray alloc]init];
     CGFloat count = imageNames.count;   //  to guarantee the precision of xScale
     for (int i=0;i<count;i++) {
@@ -188,7 +178,8 @@
         [button setImage:image forState:UIControlStateNormal];
         [buttons addObject:button];
         
-        CGFloat xScale = (i+2)/count; //  (2,3,4)/3
+//        CGFloat xScale = (i+2)/count; //  (2,3,4)/3
+        CGFloat xScale = (2*i+4)/5.0f;//  (4,6)/5
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.orLabel.mas_bottom);
             make.centerX.equalTo(self.view).with.multipliedBy(xScale);
@@ -197,12 +188,12 @@
     }
     
     UIButton *qqButton = (UIButton *)[buttons objectAtIndex:0];
-    UIButton *weixinButton = (UIButton *)[buttons objectAtIndex:1];
-    UIButton *sinaButton = (UIButton *)[buttons objectAtIndex:2];
+//    UIButton *weixinButton = (UIButton *)[buttons objectAtIndex:1];
+    UIButton *sinaButton = (UIButton *)[buttons objectAtIndex:1];
     
-    [qqButton addTarget:self action:@selector(clickQQButton) forControlEvents:UIControlEventTouchUpInside];
-    [weixinButton addTarget:self action:@selector(clickWeixinButton) forControlEvents:UIControlEventTouchUpInside];
-    [sinaButton addTarget:self action:@selector(clickSinaButton) forControlEvents:UIControlEventTouchUpInside];
+    [qqButton addTarget:self action:@selector(QQLogIn) forControlEvents:UIControlEventTouchUpInside];
+//    [weixinButton addTarget:self action:@selector(clickWeixinButton) forControlEvents:UIControlEventTouchUpInside];
+    [sinaButton addTarget:self action:@selector(sinaLogIn) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -212,14 +203,14 @@
     NSString *account = self.accountTextField.text;
     NSString *password = self.passwordTextField.text;
     if (account.length == 0 || password.length == 0) {
-        
+        POST_ERROR_MSG(@"请输入手机号和密码");
     }else{
         [[UserService sharedInstance]logInByValue:account password:password block:^(NSError *error) {
-            if (error == nil) {
-                POST_SUCCESS_MSG(@"登录成功");
-                [self.navigationController popViewControllerAnimated:YES];
-            }else{
+            if (error) {
                 POST_ERROR_MSG(@"登录失败");
+            }else{
+                POST_SUCCESS_MSG(@"登录成功");
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }];
     }
@@ -229,71 +220,36 @@
 - (void)clickForgetButton
 {
     //  actionSheet,show find back by phone or email
-    self.forgetSheetTitles = @[kFindByEmailTitle,kFindByPhoneTitle,kCancelTitle];
+//    self.forgetSheetTitles = @[kFindByEmailTitle,kFindByPhoneTitle,kCancelTitle];
+//    
+//    self.forgetSheet = [[UIActionSheet alloc]init];
+//    self.forgetSheet.delegate = self;
+//    for (NSString *title in self.forgetSheetTitles) {
+//        [self.forgetSheet addButtonWithTitle:title];
+//    }
+//    [self.forgetSheet setCancelButtonIndex:[self.forgetSheetTitles indexOfObject:kCancelTitle]];
+//    [self.forgetSheet showInView:self.view];
     
-    self.forgetSheet = [[UIActionSheet alloc]init];
-    self.forgetSheet.delegate = self;
-    for (NSString *title in self.forgetSheetTitles) {
-        [self.forgetSheet addButtonWithTitle:title];
-    }
-    [self.forgetSheet setCancelButtonIndex:[self.forgetSheetTitles indexOfObject:kCancelTitle]];
-    [self.forgetSheet showInView:self.view];
+    //  find by phone
+    
 }
 
 - (void)clickSignUpButton
 {
-    //  actionSheet,show sign up by phone or email
-    self.signUpSheetTitles = @[kSignUpEmailTitle,kSignUpPhoneTitle,kCancelTitle];
+    //  actionSheet,show sign up by phone or email,now is only phone
+//    self.signUpSheetTitles = @[kSignUpEmailTitle,kSignUpPhoneTitle,kCancelTitle];
+//    
+//    self.signUpSheet = [[UIActionSheet alloc]init];
+//    self.signUpSheet.delegate = self;
+//    for (NSString *title in self.signUpSheetTitles) {
+//        [self.signUpSheet addButtonWithTitle:title];
+//    }
+//    [self.signUpSheet setCancelButtonIndex:[self.signUpSheetTitles indexOfObject:kCancelTitle]];
+//    [self.signUpSheet showInView:self.view];
     
-    self.signUpSheet = [[UIActionSheet alloc]init];
-    self.signUpSheet.delegate = self;
-    for (NSString *title in self.signUpSheetTitles) {
-        [self.signUpSheet addButtonWithTitle:title];
-    }
-    [self.signUpSheet setCancelButtonIndex:[self.signUpSheetTitles indexOfObject:kCancelTitle]];
-    [self.signUpSheet showInView:self.view];
-}
-
-#pragma mark Else log in ways
-
-- (void)clickQQButton
-{
-    //  log in by QQ
-    //  真机测试
-    [ShareSDK getUserInfoWithType:ShareTypeQQ
-                      authOptions:nil
-                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                                if (result) {
-                                    JDDebug(@"userInfo uid %@",[userInfo uid]);
-                                    JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-                                }
-                           }];
-}
-
-- (void)clickWeixinButton
-{
-    //  log in by Weixin
-    //  真机测试
-    [ShareSDK getUserInfoWithType:ShareTypeWeixiTimeline
-                      authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                          if (result) {
-                              JDDebug(@"userInfo uid %@",[userInfo uid]);
-                              JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-                          }
-                      }];
-}
-
-- (void)clickSinaButton
-{
-    //  log in by Sina
-    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-                      authOptions:nil
-                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                            if (result) {
-                                JDDebug(@"userInfo uid %@",[userInfo uid]);
-                                JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-                            }
-                        }];
+    
+    //  sign up by phone
+    [self phoneSignUp];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -313,8 +269,11 @@
         NSString *title = [self.signUpSheetTitles objectAtIndex:buttonIndex];
         if ([title isEqualToString:kSignUpEmailTitle]) {
             //  sign up by email
+            //  暂时不做
+            [self emailSignUp];
         }else{
             //  sign up by phone
+            [self phoneSignUp];
         }
     }
     

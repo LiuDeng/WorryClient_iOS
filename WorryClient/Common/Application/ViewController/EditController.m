@@ -50,7 +50,7 @@
 {
     self.textField = [UITextField defaultTextField:self.placeholder superView:self.view];
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.top.equalTo(self.view).with.offset(+kVerticalPadding);
+         make.top.equalTo(self.view).with.offset(+kVerticalPadding*2);
     }];
     self.textField.text = self.editText;
 
@@ -112,14 +112,9 @@
 
 - (void)clickSaveButton:(id)sender
 {
-    [self save];
-}
-
-- (void)save
-{
     NSString *text = self.isMulti ? self.textView.text : self.textField.text;
     EXECUTE_BLOCK(self.saveActionBlock, text);
-    [self.navigationController popViewControllerAnimated:YES];
+    //    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)valueChanged:(UITextField *)textField

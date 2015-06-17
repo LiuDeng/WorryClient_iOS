@@ -24,8 +24,10 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 
+#import <SMS_SDK/SMS_SDK.h>
+
 #ifdef DEBUG
-#import "QuickSignUpController.h"
+//#import "QuickSignUpController.h"
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
 #import "GuidePageController.h"
@@ -209,6 +211,9 @@
     [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885"
                            appSecret:@"64020361b8ec4c99936c0e3999a9f249"
                            wechatCls:[WXApi class]];
+ 
+    //  SMS
+    [SMS_SDK registerApp:kSMSSDKAppKey withSecret:kSMSSDKAppSecret];
     
 }
 

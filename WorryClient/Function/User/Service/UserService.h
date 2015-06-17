@@ -7,6 +7,8 @@
 //
 #import "User.pb.h"
 #import "CommonService.h"
+#import <ShareSDK/ShareSDK.h>
+#import <SMS_SDK/SMS_SDK.h>
 
 @interface UserService : CommonService
 
@@ -26,12 +28,25 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
                                      block:(ServiceErrorResultBlock)block;
 - (void)signUpByEmail:(NSString *)email
              password:(NSString *)password
-                block:(ServiceBooleanResultBlock)block;
+                block:(ServiceBooleanResultBlock)block; //  change to emailSignUp?
+- (void)phoneSignUp:(NSString *)phone
+           password:(NSString *)password
+              block:(ServiceErrorResultBlock)block;
+
 - (void)logInByValue:(NSString *)value
             password:(NSString *)password
                block:(ServiceErrorResultBlock)block;
 - (void)refreshUser;
 - (void)logOut;
+- (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block;
+- (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block;
+
+- (void)requireVerifyCodeWithPhone:(NSString *)phone
+                          areaCode:(NSString *)areaCode
+                       resultBlock:(ServiceErrorResultBlock)resultBlock;
+- (void)commitVerifyCode:(NSString *)code
+                  result:(CommitVerifyCodeBlock)result;
+
 
 - (void)updateAvatar:(UIImage *)image block:(ServiceErrorResultBlock) block;
 - (void)updateBGImage:(UIImage *)image block:(ServiceErrorResultBlock) block;
@@ -44,6 +59,10 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)updateQQ:(NSString *)QQ block:(ServiceErrorResultBlock)block;
 - (void)updateWeixinId:(NSString *)WeixinId block:(ServiceErrorResultBlock)block;
 - (void)updateSinaId:(NSString *)sinaId block:(ServiceErrorResultBlock)block;
+- (void)updatePWD:(NSString *)password
+           newPWD:(NSString *)newPassword
+            block:(ServiceErrorResultBlock)block;
+
 
 - (BOOL)ifLogIn;
 @end

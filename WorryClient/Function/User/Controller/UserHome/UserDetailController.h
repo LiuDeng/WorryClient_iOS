@@ -7,7 +7,11 @@
 //
 //  中文对应的是“个人资料页面”
 #import "WTableViewController.h"
+#import "UpdateImage.h"
 
 @interface UserDetailController : WTableViewController
+
+@property (nonatomic,strong) PBUser *pbUser;
+@property (nonatomic,strong) UpdateImage *updateImage;
 
 @end

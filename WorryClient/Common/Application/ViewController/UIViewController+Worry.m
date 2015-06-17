@@ -71,6 +71,7 @@
         }
     }else if([buttonTitle isEqualToString:kLogInTitle]){
         LogInController *vc = [[LogInController alloc]init];
+//        [self presentViewController:vc animated:YES completion:nil];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         

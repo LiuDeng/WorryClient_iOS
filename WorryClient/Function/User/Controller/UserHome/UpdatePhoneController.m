@@ -37,7 +37,7 @@
 
 - (void)loadTextField
 {
-    self.textField = [UITextField defaultTextField:@"11位手机号" superView:self.view];
+    self.textField = [UITextField defaultTextField:@"请输入11位手机号" superView:self.view];
     self.textField.delegate = self;
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).with.offset(+kVerticalPadding);

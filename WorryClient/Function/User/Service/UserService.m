@@ -15,6 +15,9 @@
 #define kAvatarName     @"avatar.jpeg"
 #define kBGImageName    @"BGImage.jpeg"
 
+#define kDefaultNick           @"还没有昵称"
+#define kDefaultSignature      @"这个人很懒"
+
 //  暂时不用和User.proto中的一样
 
 #define kNickKey        @"nick"
@@ -27,6 +30,8 @@
 #define kLevelKey       @"level"
 #define kThanksNumKey   @"thanksNum"
 #define kAgreeNumKey    @"agreeNum"
+#define kPhoneKey       @"phone"
+#define kPhoneVerified  @"phoneVerified"
 
 #define kQQIdKey        @"QQId"
 #define kSinaIdKey      @"sinaId"
@@ -88,7 +93,28 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     avUser.username = email;
     avUser.email = email;
     avUser.password = password;
-    [avUser signUpInBackgroundWithBlock:block];
+//    [avUser signUpInBackgroundWithBlock:block];   //  修改了ServiceBooleanResultBlock，需要做相应调整
+}
+
+- (void)phoneSignUp:(NSString *)phone password:(NSString *)password block:(ServiceErrorResultBlock)block
+{
+    AVUser *avUser = [AVUser user];
+    avUser.username = phone;
+    avUser.password = password;
+    [avUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error==nil) {
+            [avUser setObject:phone forKey:kPhoneKey];
+            NSNumber *num = [NSNumber numberWithBool:YES];
+            [avUser setObject:num forKey:kPhoneVerified];
+            
+            [avUser setObject:kDefaultNick forKey:kNickKey];
+            [avUser setObject:kDefaultSignature forKey:kSignatureKey];
+            
+            [avUser saveEventually];
+            [self refreshPBUserWithAVUser:avUser];
+        }
+        EXECUTE_BLOCK(block,error);
+    }];
 }
 
 - (void)logInByValue:(NSString *)value password:(NSString *)password block:(ServiceErrorResultBlock)block
@@ -111,6 +137,46 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 {
     [AVUser logOut];
     [[UserManager sharedInstance]removeUser];
+}
+
+- (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block
+{
+    [ShareSDK getUserInfoWithType:ShareTypeQQ
+                      authOptions:nil
+                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                               if (result) {
+//                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
+//                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+                               }
+                               EXECUTE_BLOCK(block,result);
+                           }];
+}
+
+- (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block
+{
+    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+                      authOptions:nil
+                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                               if (result) {
+//                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
+//                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+                                  EXECUTE_BLOCK(block,result);
+                               }
+                           }];
+
+}
+
+- (void)requireVerifyCodeWithPhone:(NSString *)phone
+                          areaCode:(NSString *)areaCode
+                       resultBlock:(ServiceErrorResultBlock)resultBlock
+{
+    [SMS_SDK getVerificationCodeBySMSWithPhone:phone zone:areaCode result:resultBlock]; //  may have trouble
+}
+
+- (void)commitVerifyCode:(NSString *)code
+                  result:(CommitVerifyCodeBlock)result
+{
+    [SMS_SDK commitVerifyCode:code result:result];
 }
 
 #pragma mark - Update
@@ -187,11 +253,24 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 - (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block
 {
     AVUser *avUser = [AVUser currentUser];
-    avUser.mobilePhoneNumber = phone;
+    [avUser setObject:phone forKey:kPhoneKey];
+    NSNumber *num = [NSNumber numberWithBool:YES];
+    [avUser setObject:num forKey:kPhoneVerified];
+    
     [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [self refreshPBUserWithAVUser:avUser];
         }
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)updatePWD:(NSString *)password
+           newPWD:(NSString *)newPassword
+            block:(ServiceErrorResultBlock)block
+{
+    AVUser *avUser = [AVUser currentUser];
+    [avUser updatePassword:password newPassword:newPassword block:^(id object, NSError *error) {
         EXECUTE_BLOCK(block,error);
     }];
 }
@@ -224,11 +303,14 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     NSString *BGImage = [user objectForKey:kBGImageKey];
     NSString *signature = [user objectForKey:kSignatureKey];
     NSString *location = [user objectForKey:kLocationKey];
-    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server.
-    BOOL emailVerified = emailVerifiedNum.boolValue;
+//    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server.
+//    BOOL emailVerified = emailVerifiedNum.boolValue;
     int credit = (int)[user objectForKey:kCreditKey];
     int32_t creatAt = user.createdAt.timeIntervalSince1970;   //  may be false.
     int32_t updateAt = user.updatedAt.timeIntervalSince1970;
+    NSString *phone = [user objectForKey:kPhoneKey];
+    NSNumber *phoneVerifiedNum = [user objectForKey:kPhoneVerified];
+    BOOL phoneVerified = phoneVerifiedNum.boolValue;
     
     PBUserBuilder *pbUserBuilder = [PBUser builder];
     
@@ -240,13 +322,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [pbUserBuilder setBgImage:BGImage];
     [pbUserBuilder setSignature:signature];
     [pbUserBuilder setLocation:location];
-    [pbUserBuilder setPhone:user.mobilePhoneNumber];
-    [pbUserBuilder setEmail:user.email];
+    [pbUserBuilder setPhone:phone];
+//    [pbUserBuilder setEmail:user.email];
     [pbUserBuilder setCreatedAt:creatAt];
     [pbUserBuilder setUpatedAt:updateAt];
     
-    [pbUserBuilder setPhoneVerified:user.mobilePhoneVerified];
-    [pbUserBuilder setEmailVerified:emailVerified];
+    [pbUserBuilder setPhoneVerified:phoneVerified];
+//    [pbUserBuilder setEmailVerified:emailVerified];
     [pbUserBuilder setCredit:credit];
     
     PBUser *pbUser = [pbUserBuilder build];

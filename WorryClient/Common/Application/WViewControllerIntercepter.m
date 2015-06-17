@@ -64,7 +64,7 @@
     /*  There maybe a trouble.
      *  If you want to hide tab bar or show tab bar customlly,
      *  it's not easy to do.
-     *  Maybe I can deal with it in the future.
+     *  Maybe it will be dealed in the future.
      */
     
     NSUInteger count = (unsigned long)viewController.navigationController.viewControllers.count;

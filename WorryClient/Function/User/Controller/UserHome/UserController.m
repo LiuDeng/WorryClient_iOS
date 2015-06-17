@@ -25,6 +25,8 @@
 #import "StoryController.h"
 #import "TopicController.h"
 
+#import "UIImageView+Worry.h"
+
 #define kTopicTitle             @"话题"
 #define kBlessingTitle          @"祝福"
 #define kThanksTitle            @"感谢"
@@ -150,10 +152,8 @@
     if (indexPath.section == self.sectionAvatar) {
         UserAvatarCell *userAvatarCell = [[UserAvatarCell alloc]init];
         userAvatarCell.nickNameLabel.text = self.pbUser.nick;
-        NSURL *avatarUrl = [NSURL URLWithString:self.pbUser.avatar];
-        [userAvatarCell.avatarView sd_setImageWithURL:avatarUrl];
-        NSURL *bgImageUrl = [NSURL URLWithString:self.pbUser.bgImage];
-        [userAvatarCell.backgroundImageView sd_setImageWithURL:bgImageUrl];
+        [userAvatarCell.avatarView setAvatarWithPBUser:self.pbUser];
+        [userAvatarCell.backgroundImageView setBGImageWithPBUser:self.pbUser];
         cell = userAvatarCell;
     }else{
         UITableViewCell *basicCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1
