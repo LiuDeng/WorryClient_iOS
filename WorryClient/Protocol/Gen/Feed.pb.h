@@ -4,6 +4,7 @@
 
 #import "User.pb.h"
 #import "Topic.pb.h"
+#import "Blessing.pb.h"
 // @@protoc_insertion_point(imports)
 
 @class PBAnswer;
@@ -48,6 +49,14 @@ typedef NS_ENUM(SInt32, PBFeedState) {
 
 BOOL PBFeedStateIsValidValue(PBFeedState value);
 NSString *NSStringFromPBFeedState(PBFeedState value);
+
+typedef NS_ENUM(SInt32, PBCommentType) {
+  PBCommentTypeToAnswer = 1,
+  PBCommentTypeToFeed = 2,
+};
+
+BOOL PBCommentTypeIsValidValue(PBCommentType value);
+NSString *NSStringFromPBCommentType(PBCommentType value);
 
 
 @interface FeedRoot : NSObject {
@@ -275,113 +284,6 @@ NSString *NSStringFromPBFeedState(PBFeedState value);
 - (SInt32) updatedAt;
 - (PBAnswerBuilder*) setUpdatedAt:(SInt32) value;
 - (PBAnswerBuilder*) clearUpdatedAt;
-@end
-
-@interface PBBlessing : PBGeneratedMessage<GeneratedMessageProtocol> {
-@private
-  BOOL hasCreatedAt_:1;
-  BOOL hasUpdatedAt_:1;
-  BOOL hasBlessingId_:1;
-  BOOL hasText_:1;
-  BOOL hasCreatUser_:1;
-  BOOL hasToUser_:1;
-  SInt32 createdAt;
-  SInt32 updatedAt;
-  NSString* blessingId;
-  NSString* text;
-  PBUser* creatUser;
-  PBUser* toUser;
-  NSMutableArray * imagesArray;
-}
-- (BOOL) hasBlessingId;
-- (BOOL) hasCreatUser;
-- (BOOL) hasToUser;
-- (BOOL) hasText;
-- (BOOL) hasCreatedAt;
-- (BOOL) hasUpdatedAt;
-@property (readonly, strong) NSString* blessingId;
-@property (readonly, strong) PBUser* creatUser;
-@property (readonly, strong) PBUser* toUser;
-@property (readonly, strong) NSString* text;
-@property (readonly, strong) NSArray * images;
-@property (readonly) SInt32 createdAt;
-@property (readonly) SInt32 updatedAt;
-- (NSString*)imagesAtIndex:(NSUInteger)index;
-
-+ (instancetype) defaultInstance;
-- (instancetype) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PBBlessingBuilder*) builder;
-+ (PBBlessingBuilder*) builder;
-+ (PBBlessingBuilder*) builderWithPrototype:(PBBlessing*) prototype;
-- (PBBlessingBuilder*) toBuilder;
-
-+ (PBBlessing*) parseFromData:(NSData*) data;
-+ (PBBlessing*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PBBlessing*) parseFromInputStream:(NSInputStream*) input;
-+ (PBBlessing*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PBBlessing*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PBBlessing*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PBBlessingBuilder : PBGeneratedMessageBuilder {
-@private
-  PBBlessing* resultPbblessing;
-}
-
-- (PBBlessing*) defaultInstance;
-
-- (PBBlessingBuilder*) clear;
-- (PBBlessingBuilder*) clone;
-
-- (PBBlessing*) build;
-- (PBBlessing*) buildPartial;
-
-- (PBBlessingBuilder*) mergeFrom:(PBBlessing*) other;
-- (PBBlessingBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PBBlessingBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasBlessingId;
-- (NSString*) blessingId;
-- (PBBlessingBuilder*) setBlessingId:(NSString*) value;
-- (PBBlessingBuilder*) clearBlessingId;
-
-- (BOOL) hasCreatUser;
-- (PBUser*) creatUser;
-- (PBBlessingBuilder*) setCreatUser:(PBUser*) value;
-- (PBBlessingBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue;
-- (PBBlessingBuilder*) mergeCreatUser:(PBUser*) value;
-- (PBBlessingBuilder*) clearCreatUser;
-
-- (BOOL) hasToUser;
-- (PBUser*) toUser;
-- (PBBlessingBuilder*) setToUser:(PBUser*) value;
-- (PBBlessingBuilder*) setToUserBuilder:(PBUserBuilder*) builderForValue;
-- (PBBlessingBuilder*) mergeToUser:(PBUser*) value;
-- (PBBlessingBuilder*) clearToUser;
-
-- (BOOL) hasText;
-- (NSString*) text;
-- (PBBlessingBuilder*) setText:(NSString*) value;
-- (PBBlessingBuilder*) clearText;
-
-- (NSMutableArray *)images;
-- (NSString*)imagesAtIndex:(NSUInteger)index;
-- (PBBlessingBuilder *)addImages:(NSString*)value;
-- (PBBlessingBuilder *)setImagesArray:(NSArray *)array;
-- (PBBlessingBuilder *)clearImages;
-
-- (BOOL) hasCreatedAt;
-- (SInt32) createdAt;
-- (PBBlessingBuilder*) setCreatedAt:(SInt32) value;
-- (PBBlessingBuilder*) clearCreatedAt;
-
-- (BOOL) hasUpdatedAt;
-- (SInt32) updatedAt;
-- (PBBlessingBuilder*) setUpdatedAt:(SInt32) value;
-- (PBBlessingBuilder*) clearUpdatedAt;
 @end
 
 @interface PBFeed : PBGeneratedMessage<GeneratedMessageProtocol> {

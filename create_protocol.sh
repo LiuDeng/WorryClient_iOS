@@ -7,6 +7,7 @@ protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Ge
 protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Common.proto
 protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Error.proto
 protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Recommendation.proto
+protoc --proto_path=./WorryClient/Protocol/ --objc_out=./WorryClient/Protocol/Gen ./WorryClient/Protocol/Blessing.proto
 #echo build C codes
 
 #cd /java/protobuf-c-0.15/bin/

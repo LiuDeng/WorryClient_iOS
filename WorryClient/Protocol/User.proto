@@ -37,7 +37,7 @@ message PBUser{
     optional int32 thanksNum  = 32;                                 //  被感谢数
     optional int32 agreeNum = 33;                                   //  被赞同数
 
-    //optional string weixin_id = 40;                                 // 微信号,微信登录暂时不做
+    optional string weixin_id = 40;                                 // 微信号,微信登录暂时不做
     optional string QQ_id = 41;                                     // QQ号
     optional string sina_id = 42;                                   // 新浪微博号
 

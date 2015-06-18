@@ -1,0 +1,14 @@
+import "User.proto";
+
+package worry;
+
+message PBBlessing{
+    optional string blessing_id = 1;
+    optional PBUser creat_user = 2;
+    optional PBUser to_user = 3;
+    optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
+
+    repeated string images = 11;                                                //  图片URL？具体是要几张图，待商榷
+    optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
+    optional int32 updated_at = 41;                                             //  更新时间，服务器上是date类型
+}

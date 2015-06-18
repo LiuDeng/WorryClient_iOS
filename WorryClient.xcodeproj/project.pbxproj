@@ -125,6 +125,8 @@
 		7CBDDF6E1AFE34F0005C7354 /* reply_comments@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBDDF691AFE34F0005C7354 /* reply_comments@3x.png */; };
 		7CBDDF6F1AFE34F0005C7354 /* reply_favorites@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBDDF6A1AFE34F0005C7354 /* reply_favorites@3x.png */; };
 		7CBDDF701AFE34F0005C7354 /* reply_thanks@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CBDDF6B1AFE34F0005C7354 /* reply_thanks@3x.png */; };
+		7CBDFB4E1B32E95900DEC655 /* Blessing.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7CBDFB4D1B32E95900DEC655 /* Blessing.proto */; };
+		7CBDFB511B32EBDF00DEC655 /* Blessing.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDFB501B32EBDF00DEC655 /* Blessing.pb.m */; };
 		7CBDFB801B27DD90008BC170 /* CopyConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBDFB611B27DD90008BC170 /* CopyConnection.framework */; };
 		7CBDFB811B27DD90008BC170 /* MailConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBDFB621B27DD90008BC170 /* MailConnection.framework */; };
 		7CBDFB821B27DD90008BC170 /* QQConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBDFB631B27DD90008BC170 /* QQConnection.framework */; };
@@ -473,6 +475,9 @@
 		7CBDDF691AFE34F0005C7354 /* reply_comments@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply_comments@3x.png"; sourceTree = "<group>"; };
 		7CBDDF6A1AFE34F0005C7354 /* reply_favorites@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply_favorites@3x.png"; sourceTree = "<group>"; };
 		7CBDDF6B1AFE34F0005C7354 /* reply_thanks@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply_thanks@3x.png"; sourceTree = "<group>"; };
+		7CBDFB4D1B32E95900DEC655 /* Blessing.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Blessing.proto; sourceTree = "<group>"; };
+		7CBDFB4F1B32EBDF00DEC655 /* Blessing.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blessing.pb.h; sourceTree = "<group>"; };
+		7CBDFB501B32EBDF00DEC655 /* Blessing.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blessing.pb.m; sourceTree = "<group>"; };
 		7CBDFB611B27DD90008BC170 /* CopyConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopyConnection.framework; sourceTree = "<group>"; };
 		7CBDFB621B27DD90008BC170 /* MailConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MailConnection.framework; sourceTree = "<group>"; };
 		7CBDFB631B27DD90008BC170 /* QQConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QQConnection.framework; sourceTree = "<group>"; };
@@ -1357,6 +1362,7 @@
 				7CC336941ADF9EE90084D891 /* Feed.proto */,
 				7CBD2D011AEB71D50091EB20 /* Common.proto */,
 				7C4EBD2D1B09A1B200261E15 /* Recommendation.proto */,
+				7CBDFB4D1B32E95900DEC655 /* Blessing.proto */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1364,6 +1370,8 @@
 		7C5A37F01ADB9E3000CFA176 /* Gen */ = {
 			isa = PBXGroup;
 			children = (
+				7CBDFB4F1B32EBDF00DEC655 /* Blessing.pb.h */,
+				7CBDFB501B32EBDF00DEC655 /* Blessing.pb.m */,
 				7CBD2D031AEB75EC0091EB20 /* Common.pb.h */,
 				7CBD2D041AEB75EC0091EB20 /* Common.pb.m */,
 				7CBD2D051AEB75EC0091EB20 /* Error.pb.h */,
@@ -1895,6 +1903,7 @@
 				7CCAC03B1AE129B4007F4326 /* plus@2x.png in Resources */,
 				7CCF5B781AF361210091F3A7 /* story_detail_share@3x.png in Resources */,
 				7CBBB61B1ADFF7EC00AD2CA6 /* backarrow@3x.png in Resources */,
+				7CBDFB4E1B32E95900DEC655 /* Blessing.proto in Resources */,
 				7CCEF7D01AF518C200D5BC65 /* creat_feed_topic@3x.png in Resources */,
 				7C4F464D1AFCEBD70050152F /* guide_page_01@2x.png in Resources */,
 				7CD41D6E1B28732500D40BFB /* about_logo@3x.png in Resources */,
@@ -2058,6 +2067,7 @@
 				7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */,
 				7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */,
 				7CC1EF4D1B2BC48200982FB6 /* RequestCodeController.m in Sources */,
+				7CBDFB511B32EBDF00DEC655 /* Blessing.pb.m in Sources */,
 				7C54C2C01ADC0A5E002A32E2 /* UIView+DefaultView.m in Sources */,
 				7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */,
 				7CBD2D201AEBCDCB0091EB20 /* DeviceDetection.m in Sources */,

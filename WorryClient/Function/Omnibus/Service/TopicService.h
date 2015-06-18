@@ -16,6 +16,7 @@
 }
 DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
+//  该方法暂时不会开放给用户
 - (void)creatTopicWithTitle:(NSString *)title
                       image:(UIImage *)image
                       block:(ServiceErrorResultBlock)block;

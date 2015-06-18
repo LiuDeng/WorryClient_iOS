@@ -276,7 +276,7 @@ NSString *NSStringFromPBSignUpAndLogInType(PBSignUpAndLogInType value) {
     self.password = @"";
     self.nick = @"";
     self.avatar = @"";
-    self.gender = NO;
+    self.gender = YES;
     self.bgImage = @"";
     self.signature = @"";
     self.location = @"";
@@ -1286,7 +1286,7 @@ static PBUser* defaultPBUserInstance = nil;
 }
 - (PBUserBuilder*) clearGender {
   resultPbuser.hasGender = NO;
-  resultPbuser.gender = NO;
+  resultPbuser.gender = YES;
   return self;
 }
 - (BOOL) hasBgImage {
