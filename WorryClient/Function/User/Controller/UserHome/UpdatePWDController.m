@@ -11,9 +11,6 @@
 
 #import "UpdatePWDController.h"
 #import "UIViewController+LogInSignUp.h"
-//#import "RequestCodeController.h"
-//#import "EditController.h"
-//#import "LogInController.h"
 
 @interface UpdatePWDController ()
 
@@ -33,7 +30,7 @@
     
     self.oldPWDField = [UITextField defaultTextField:@"请输入旧密码" superView:self.view];
     [self.oldPWDField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).with.offset(+kTextFieldHeight);
+        make.top.equalTo(self.view).with.offset(+kVerticalPadding*2);
     }];
     
     self.pwdField = [UITextField defaultTextField:@"请输入新密码" superView:self.view];

@@ -275,6 +275,32 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
+- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block
+{
+//    AVUser *avUser = [AVUser currentUser];
+//    AVUser *avUser = [AVUser ob];
+//    [self updatePWD:avUser.password newPWD:password block:block];
+    AVQuery *query = [AVQuery queryWithClassName:@"_User"];
+    [query whereKey:@"username" equalTo:@"15626460272"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // 检索成功
+            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
+            //  无法修改，还是得依赖LeanCloud中的一套方法，上线之前加上去吧。
+            AVUser *avUser = (AVUser *)objects[0];
+            avUser.password = @"11";
+            [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    JDDebug(@"success");
+                }
+            }];
+        } else {
+            // 输出错误信息
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
 #pragma mark - Uitls
 
 - (void)updateObject:(id)object forKey:(NSString *)key block:(ServiceErrorResultBlock)block

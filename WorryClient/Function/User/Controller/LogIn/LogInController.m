@@ -15,6 +15,7 @@
 #import "ViewDefault.h"
 #import "UIView+DefaultView.h"
 #import "UIViewController+LogInSignUp.h"
+#import "UIViewController+Update.h"
 
 #import "SignUpByEmailController.h"
 
@@ -231,7 +232,8 @@
 //    [self.forgetSheet showInView:self.view];
     
     //  find by phone
-    
+//    [self phoneResetPWD];
+    POST_ERROR_MSG(@"该功能暂未完善");
 }
 
 - (void)clickSignUpButton

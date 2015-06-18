@@ -63,6 +63,8 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
            newPWD:(NSString *)newPassword
             block:(ServiceErrorResultBlock)block;
 
+- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block;
+
 
 - (BOOL)ifLogIn;
 @end

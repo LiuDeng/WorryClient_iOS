@@ -10,39 +10,36 @@
 #import "RequestCodeController.h"
 #import "LogInController.h"
 #import "EditController.h"
+#import "UIViewController+LogInSignUp.h"
 
 @implementation UIViewController (Update)
 
-//  除了个人资料中使用，还有忘记密码中使用
+//  忘记密码中使用
 
 - (void)phoneResetPWD
 {
-    //  TODO    记录手机号，areaCode
-    RequestCodeController *vc = [[RequestCodeController alloc]initWithVerifySuccessAction:^(NSString *phone, NSString *areaCode) {
-        EditController *vc = [[EditController alloc]initWithText:nil placeholder:@"请输入密码" tips:nil isMulti:NO saveActionBlock:^(NSString *text) {
-            
-            //  TODO save the password
-            //  check password
-            
-            LogInController *logInC = [[LogInController alloc]init];
-            NSArray *childControllers = self.navigationController.childViewControllers;
-            BOOL hasLogInController = NO;
-            for (UIViewController *controller in childControllers) {
-                if ([controller class]==[LogInController class]) {
-                    hasLogInController = YES;
-                }
-            }
-            if (hasLogInController) {
-                [self.navigationController popToViewController:logInC animated:YES];
-            }else{
-                [self.navigationController pushViewController:logInC animated:YES];
-            }
-            
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    
-    [self.navigationController pushViewController:vc animated:YES];
+//    //  TODO    记录手机号，areaCode
+//    RequestCodeController *vc = [[RequestCodeController alloc]initWithVerifySuccessAction:^(NSString *phone, NSString *areaCode) {
+//        EditController *editControler = [[EditController alloc]initWithText:nil
+//                                                     placeholder:@"请输入密码"
+//                                                            tips:nil
+//                                                         isMulti:NO
+//                                                 saveActionBlock:^(NSString *text) {
+//                                                     [[UserService sharedInstance]phoneResetPWD:text block:^(NSError *error) {
+//                                                         if (error) {
+//                                                             POST_ERROR_MSG(@"修改失败");
+//                                                         }else{
+//                                                             POST_SUCCESS_MSG(@"修改成功");
+//                                                             [self goToLogIn];
+//                                                         }
+//                                                     }];
+//                                                 }];
+//        editControler.textField.secureTextEntry = YES;
+//        [self.navigationController pushViewController:editControler animated:YES];
+//    }];
+//    
+//    [self.navigationController pushViewController:vc animated:YES];
+    [[UserService sharedInstance]phoneResetPWD:@"111111" block:nil];    //  测试代码
 }
 
 - (BOOL)isValidPWD:(NSString *)pwd
