@@ -10,6 +10,8 @@
 #import "CommonService.h"
 #import "Feed.pb.h"
 
+#define kFeedClassName @"Feed"
+
 @class PBTopic;
 
 @interface FeedService : CommonService
@@ -36,5 +38,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block;
 - (PBFeed *)pbFeedWithFeedId:(NSString *)feedId;
+//  得有一个根据Topic找到大量Feed的方法，只不过这个方法要放哪？FeedService or TopicService
 
 @end

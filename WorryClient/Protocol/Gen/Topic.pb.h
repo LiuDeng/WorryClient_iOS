@@ -2,15 +2,10 @@
 
 #import <ProtocolBuffers/ProtocolBuffers.h>
 
-#import "User.pb.h"
 // @@protoc_insertion_point(imports)
 
-@class PBDevice;
-@class PBDeviceBuilder;
 @class PBTopic;
 @class PBTopicBuilder;
-@class PBUser;
-@class PBUserBuilder;
 #ifndef __has_feature
   #define __has_feature(x) 0 // Compatibility with non-clang compilers.
 #endif // __has_feature
@@ -36,32 +31,36 @@
   BOOL hasUpdatedAt_:1;
   BOOL hasTopicId_:1;
   BOOL hasTitle_:1;
+  BOOL hasDecription_:1;
+  BOOL hasCreatUserId_:1;
   BOOL hasIcon_:1;
-  BOOL hasCreatUser_:1;
   SInt32 createdAt;
   SInt32 updatedAt;
   NSString* topicId;
   NSString* title;
+  NSString* decription;
+  NSString* creatUserId;
   NSString* icon;
-  PBUser* creatUser;
+  NSMutableArray * followerIdArray;
   NSMutableArray * feedIdArray;
-  NSMutableArray * followersArray;
 }
 - (BOOL) hasTopicId;
 - (BOOL) hasTitle;
-- (BOOL) hasCreatUser;
+- (BOOL) hasDecription;
+- (BOOL) hasCreatUserId;
 - (BOOL) hasIcon;
 - (BOOL) hasCreatedAt;
 - (BOOL) hasUpdatedAt;
 @property (readonly, strong) NSString* topicId;
 @property (readonly, strong) NSString* title;
-@property (readonly, strong) PBUser* creatUser;
-@property (readonly, strong) NSArray * followers;
+@property (readonly, strong) NSString* decription;
+@property (readonly, strong) NSString* creatUserId;
+@property (readonly, strong) NSArray * followerId;
 @property (readonly, strong) NSString* icon;
 @property (readonly, strong) NSArray * feedId;
 @property (readonly) SInt32 createdAt;
 @property (readonly) SInt32 updatedAt;
-- (PBUser*)followersAtIndex:(NSUInteger)index;
+- (NSString*)followerIdAtIndex:(NSUInteger)index;
 - (NSString*)feedIdAtIndex:(NSUInteger)index;
 
 + (instancetype) defaultInstance;
@@ -109,18 +108,21 @@
 - (PBTopicBuilder*) setTitle:(NSString*) value;
 - (PBTopicBuilder*) clearTitle;
 
-- (BOOL) hasCreatUser;
-- (PBUser*) creatUser;
-- (PBTopicBuilder*) setCreatUser:(PBUser*) value;
-- (PBTopicBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue;
-- (PBTopicBuilder*) mergeCreatUser:(PBUser*) value;
-- (PBTopicBuilder*) clearCreatUser;
+- (BOOL) hasDecription;
+- (NSString*) decription;
+- (PBTopicBuilder*) setDecription:(NSString*) value;
+- (PBTopicBuilder*) clearDecription;
 
-- (NSMutableArray *)followers;
-- (PBUser*)followersAtIndex:(NSUInteger)index;
-- (PBTopicBuilder *)addFollowers:(PBUser*)value;
-- (PBTopicBuilder *)setFollowersArray:(NSArray *)array;
-- (PBTopicBuilder *)clearFollowers;
+- (BOOL) hasCreatUserId;
+- (NSString*) creatUserId;
+- (PBTopicBuilder*) setCreatUserId:(NSString*) value;
+- (PBTopicBuilder*) clearCreatUserId;
+
+- (NSMutableArray *)followerId;
+- (NSString*)followerIdAtIndex:(NSUInteger)index;
+- (PBTopicBuilder *)addFollowerId:(NSString*)value;
+- (PBTopicBuilder *)setFollowerIdArray:(NSArray *)array;
+- (PBTopicBuilder *)clearFollowerId;
 
 - (BOOL) hasIcon;
 - (NSString*) icon;

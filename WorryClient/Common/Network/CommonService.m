@@ -18,9 +18,9 @@
     NSData *imageData = UIImageJPEGRepresentation(image, 0.5f);
     AVFile *avFile = [AVFile fileWithName:imageName data:imageData];
     [avFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
+//        if (succeeded) {
             EXECUTE_BLOCK(block,error,avFile.url);
-        }
+//        }
     }];
 }
 

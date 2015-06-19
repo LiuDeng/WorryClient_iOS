@@ -13,7 +13,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [TopicRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [UserRoot registerAllExtensions:registry];
     extensionRegistry = registry;
   }
 }
@@ -24,8 +23,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface PBTopic ()
 @property (strong) NSString* topicId;
 @property (strong) NSString* title;
-@property (strong) PBUser* creatUser;
-@property (strong) NSMutableArray * followersArray;
+@property (strong) NSString* decription;
+@property (strong) NSString* creatUserId;
+@property (strong) NSMutableArray * followerIdArray;
 @property (strong) NSString* icon;
 @property (strong) NSMutableArray * feedIdArray;
 @property SInt32 createdAt;
@@ -48,15 +48,22 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTitle_ = !!_value_;
 }
 @synthesize title;
-- (BOOL) hasCreatUser {
-  return !!hasCreatUser_;
+- (BOOL) hasDecription {
+  return !!hasDecription_;
 }
-- (void) setHasCreatUser:(BOOL) _value_ {
-  hasCreatUser_ = !!_value_;
+- (void) setHasDecription:(BOOL) _value_ {
+  hasDecription_ = !!_value_;
 }
-@synthesize creatUser;
-@synthesize followersArray;
-@dynamic followers;
+@synthesize decription;
+- (BOOL) hasCreatUserId {
+  return !!hasCreatUserId_;
+}
+- (void) setHasCreatUserId:(BOOL) _value_ {
+  hasCreatUserId_ = !!_value_;
+}
+@synthesize creatUserId;
+@synthesize followerIdArray;
+@dynamic followerId;
 - (BOOL) hasIcon {
   return !!hasIcon_;
 }
@@ -84,7 +91,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if ((self = [super init])) {
     self.topicId = @"";
     self.title = @"";
-    self.creatUser = [PBUser defaultInstance];
+    self.decription = @"";
+    self.creatUserId = @"";
     self.icon = @"";
     self.createdAt = 0;
     self.updatedAt = 0;
@@ -103,11 +111,11 @@ static PBTopic* defaultPBTopicInstance = nil;
 - (instancetype) defaultInstance {
   return defaultPBTopicInstance;
 }
-- (NSArray *)followers {
-  return followersArray;
+- (NSArray *)followerId {
+  return followerIdArray;
 }
-- (PBUser*)followersAtIndex:(NSUInteger)index {
-  return [followersArray objectAtIndex:index];
+- (NSString*)followerIdAtIndex:(NSUInteger)index {
+  return [followerIdArray objectAtIndex:index];
 }
 - (NSArray *)feedId {
   return feedIdArray;
@@ -116,19 +124,9 @@ static PBTopic* defaultPBTopicInstance = nil;
   return [feedIdArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (self.hasCreatUser) {
-    if (!self.creatUser.isInitialized) {
-      return NO;
-    }
+  if (!self.hasTopicId) {
+    return NO;
   }
-  __block BOOL isInitfollowers = YES;
-   [self.followers enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    if (!element.isInitialized) {
-      isInitfollowers = NO;
-      *stop = YES;
-    }
-  }];
-  if (!isInitfollowers) return isInitfollowers;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -138,11 +136,14 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     [output writeString:2 value:self.title];
   }
-  if (self.hasCreatUser) {
-    [output writeMessage:4 value:self.creatUser];
+  if (self.hasDecription) {
+    [output writeString:3 value:self.decription];
   }
-  [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    [output writeMessage:10 value:element];
+  if (self.hasCreatUserId) {
+    [output writeString:4 value:self.creatUserId];
+  }
+  [self.followerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+    [output writeString:10 value:element];
   }];
   if (self.hasIcon) {
     [output writeString:20 value:self.icon];
@@ -171,12 +172,21 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     size_ += computeStringSize(2, self.title);
   }
-  if (self.hasCreatUser) {
-    size_ += computeMessageSize(4, self.creatUser);
+  if (self.hasDecription) {
+    size_ += computeStringSize(3, self.decription);
   }
-  [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    size_ += computeMessageSize(10, element);
-  }];
+  if (self.hasCreatUserId) {
+    size_ += computeStringSize(4, self.creatUserId);
+  }
+  {
+    __block SInt32 dataSize = 0;
+    const NSUInteger count = self.followerIdArray.count;
+    [self.followerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
+      dataSize += computeStringSizeNoTag(element);
+    }];
+    size_ += dataSize;
+    size_ += (SInt32)(1 * count);
+  }
   if (self.hasIcon) {
     size_ += computeStringSize(20, self.icon);
   }
@@ -236,17 +246,14 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     [output appendFormat:@"%@%@: %@\n", indent, @"title", self.title];
   }
-  if (self.hasCreatUser) {
-    [output appendFormat:@"%@%@ {\n", indent, @"creatUser"];
-    [self.creatUser writeDescriptionTo:output
-                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
+  if (self.hasDecription) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"decription", self.decription];
   }
-  [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
-    [output appendFormat:@"%@%@ {\n", indent, @"followers"];
-    [element writeDescriptionTo:output
-                     withIndent:[NSString stringWithFormat:@"%@  ", indent]];
-    [output appendFormat:@"%@}\n", indent];
+  if (self.hasCreatUserId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"creatUserId", self.creatUserId];
+  }
+  [self.followerIdArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"followerId", obj];
   }];
   if (self.hasIcon) {
     [output appendFormat:@"%@%@: %@\n", indent, @"icon", self.icon];
@@ -275,9 +282,11 @@ static PBTopic* defaultPBTopicInstance = nil;
       (!self.hasTopicId || [self.topicId isEqual:otherMessage.topicId]) &&
       self.hasTitle == otherMessage.hasTitle &&
       (!self.hasTitle || [self.title isEqual:otherMessage.title]) &&
-      self.hasCreatUser == otherMessage.hasCreatUser &&
-      (!self.hasCreatUser || [self.creatUser isEqual:otherMessage.creatUser]) &&
-      [self.followersArray isEqualToArray:otherMessage.followersArray] &&
+      self.hasDecription == otherMessage.hasDecription &&
+      (!self.hasDecription || [self.decription isEqual:otherMessage.decription]) &&
+      self.hasCreatUserId == otherMessage.hasCreatUserId &&
+      (!self.hasCreatUserId || [self.creatUserId isEqual:otherMessage.creatUserId]) &&
+      [self.followerIdArray isEqualToArray:otherMessage.followerIdArray] &&
       self.hasIcon == otherMessage.hasIcon &&
       (!self.hasIcon || [self.icon isEqual:otherMessage.icon]) &&
       [self.feedIdArray isEqualToArray:otherMessage.feedIdArray] &&
@@ -295,10 +304,13 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (self.hasTitle) {
     hashCode = hashCode * 31 + [self.title hash];
   }
-  if (self.hasCreatUser) {
-    hashCode = hashCode * 31 + [self.creatUser hash];
+  if (self.hasDecription) {
+    hashCode = hashCode * 31 + [self.decription hash];
   }
-  [self.followersArray enumerateObjectsUsingBlock:^(PBUser *element, NSUInteger idx, BOOL *stop) {
+  if (self.hasCreatUserId) {
+    hashCode = hashCode * 31 + [self.creatUserId hash];
+  }
+  [self.followerIdArray enumerateObjectsUsingBlock:^(NSString *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
   if (self.hasIcon) {
@@ -362,14 +374,17 @@ static PBTopic* defaultPBTopicInstance = nil;
   if (other.hasTitle) {
     [self setTitle:other.title];
   }
-  if (other.hasCreatUser) {
-    [self mergeCreatUser:other.creatUser];
+  if (other.hasDecription) {
+    [self setDecription:other.decription];
   }
-  if (other.followersArray.count > 0) {
-    if (resultPbtopic.followersArray == nil) {
-      resultPbtopic.followersArray = [[NSMutableArray alloc] initWithArray:other.followersArray];
+  if (other.hasCreatUserId) {
+    [self setCreatUserId:other.creatUserId];
+  }
+  if (other.followerIdArray.count > 0) {
+    if (resultPbtopic.followerIdArray == nil) {
+      resultPbtopic.followerIdArray = [[NSMutableArray alloc] initWithArray:other.followerIdArray];
     } else {
-      [resultPbtopic.followersArray addObjectsFromArray:other.followersArray];
+      [resultPbtopic.followerIdArray addObjectsFromArray:other.followerIdArray];
     }
   }
   if (other.hasIcon) {
@@ -417,19 +432,16 @@ static PBTopic* defaultPBTopicInstance = nil;
         [self setTitle:[input readString]];
         break;
       }
+      case 26: {
+        [self setDecription:[input readString]];
+        break;
+      }
       case 34: {
-        PBUserBuilder* subBuilder = [PBUser builder];
-        if (self.hasCreatUser) {
-          [subBuilder mergeFrom:self.creatUser];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCreatUser:[subBuilder buildPartial]];
+        [self setCreatUserId:[input readString]];
         break;
       }
       case 82: {
-        PBUserBuilder* subBuilder = [PBUser builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addFollowers:[subBuilder buildPartial]];
+        [self addFollowerId:[input readString]];
         break;
       }
       case 162: {
@@ -483,55 +495,57 @@ static PBTopic* defaultPBTopicInstance = nil;
   resultPbtopic.title = @"";
   return self;
 }
-- (BOOL) hasCreatUser {
-  return resultPbtopic.hasCreatUser;
+- (BOOL) hasDecription {
+  return resultPbtopic.hasDecription;
 }
-- (PBUser*) creatUser {
-  return resultPbtopic.creatUser;
+- (NSString*) decription {
+  return resultPbtopic.decription;
 }
-- (PBTopicBuilder*) setCreatUser:(PBUser*) value {
-  resultPbtopic.hasCreatUser = YES;
-  resultPbtopic.creatUser = value;
+- (PBTopicBuilder*) setDecription:(NSString*) value {
+  resultPbtopic.hasDecription = YES;
+  resultPbtopic.decription = value;
   return self;
 }
-- (PBTopicBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue {
-  return [self setCreatUser:[builderForValue build]];
+- (PBTopicBuilder*) clearDecription {
+  resultPbtopic.hasDecription = NO;
+  resultPbtopic.decription = @"";
+  return self;
 }
-- (PBTopicBuilder*) mergeCreatUser:(PBUser*) value {
-  if (resultPbtopic.hasCreatUser &&
-      resultPbtopic.creatUser != [PBUser defaultInstance]) {
-    resultPbtopic.creatUser =
-      [[[PBUser builderWithPrototype:resultPbtopic.creatUser] mergeFrom:value] buildPartial];
-  } else {
-    resultPbtopic.creatUser = value;
+- (BOOL) hasCreatUserId {
+  return resultPbtopic.hasCreatUserId;
+}
+- (NSString*) creatUserId {
+  return resultPbtopic.creatUserId;
+}
+- (PBTopicBuilder*) setCreatUserId:(NSString*) value {
+  resultPbtopic.hasCreatUserId = YES;
+  resultPbtopic.creatUserId = value;
+  return self;
+}
+- (PBTopicBuilder*) clearCreatUserId {
+  resultPbtopic.hasCreatUserId = NO;
+  resultPbtopic.creatUserId = @"";
+  return self;
+}
+- (NSMutableArray *)followerId {
+  return resultPbtopic.followerIdArray;
+}
+- (NSString*)followerIdAtIndex:(NSUInteger)index {
+  return [resultPbtopic followerIdAtIndex:index];
+}
+- (PBTopicBuilder *)addFollowerId:(NSString*)value {
+  if (resultPbtopic.followerIdArray == nil) {
+    resultPbtopic.followerIdArray = [[NSMutableArray alloc]init];
   }
-  resultPbtopic.hasCreatUser = YES;
+  [resultPbtopic.followerIdArray addObject:value];
   return self;
 }
-- (PBTopicBuilder*) clearCreatUser {
-  resultPbtopic.hasCreatUser = NO;
-  resultPbtopic.creatUser = [PBUser defaultInstance];
+- (PBTopicBuilder *)setFollowerIdArray:(NSArray *)array {
+  resultPbtopic.followerIdArray = [[NSMutableArray alloc] initWithArray:array];
   return self;
 }
-- (NSMutableArray *)followers {
-  return resultPbtopic.followersArray;
-}
-- (PBUser*)followersAtIndex:(NSUInteger)index {
-  return [resultPbtopic followersAtIndex:index];
-}
-- (PBTopicBuilder *)addFollowers:(PBUser*)value {
-  if (resultPbtopic.followersArray == nil) {
-    resultPbtopic.followersArray = [[NSMutableArray alloc]init];
-  }
-  [resultPbtopic.followersArray addObject:value];
-  return self;
-}
-- (PBTopicBuilder *)setFollowersArray:(NSArray *)array {
-  resultPbtopic.followersArray = [[NSMutableArray alloc]initWithArray:array];
-  return self;
-}
-- (PBTopicBuilder *)clearFollowers {
-  resultPbtopic.followersArray = nil;
+- (PBTopicBuilder *)clearFollowerId {
+  resultPbtopic.followerIdArray = nil;
   return self;
 }
 - (BOOL) hasIcon {

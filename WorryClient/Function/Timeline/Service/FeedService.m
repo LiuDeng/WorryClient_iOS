@@ -15,7 +15,7 @@
 //#import "UserManager.h"
 
 #define kFeedKey @"pbFeed"
-#define kFeedClassName @"Feed"
+//#define kFeedClassName @"Feed"
 #define kCreateUserIdKey @"createUserId"
 
 const NSInteger kDataCount = 50;
@@ -56,7 +56,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
         if (succeeded) {
             //  update topic
             for (PBTopic *pbTopic in topicArray) {
-                [[TopicService sharedInstance]updatePBTopic:pbTopic addFeedId:feed.objectId block:^(NSError *error) {
+                [[TopicService sharedInstance]topicFrom:pbTopic addFeedFrom:pbFeed block:^(NSError *error) {
                     EXECUTE_BLOCK(block,error);
                 }];
             }

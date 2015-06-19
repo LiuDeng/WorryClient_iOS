@@ -15,6 +15,13 @@
 #define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon.jpeg"
 
+#define kCreateUser             @"createUser"
+#define kTitle                  @"title"
+#define kDecription             @"decription"
+#define kFollowerId             @"followers"
+#define kIcon                   @"icon"
+#define kFeed                   @"feed"   //  id or feed?
+
 const NSUInteger kTopicCount = 9;
 
 @implementation TopicService
@@ -23,32 +30,27 @@ const NSUInteger kTopicCount = 9;
 
 IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 
-- (void)creatTopicWithTitle:(NSString *)title
-                      image:(UIImage *)image
-                      block:(ServiceErrorResultBlock)block
-{    
-    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *url) {
-        if (error == nil) {
-            AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
-            AVUser *avCurrentUser = [AVUser currentUser];
-            PBTopicBuilder *pbTopicBuilder = [PBTopic builder];
-            [pbTopicBuilder setTitle:title];
-            [pbTopicBuilder setIcon:url];
-            [pbTopicBuilder setCreatedAt:(int)time(0)];
-            PBTopic *pbTopic = [pbTopicBuilder build];
-            NSData *pbTopicData = [pbTopic data];
-            
-            [topic setObject:pbTopicData forKey:kTopicKey];
-            [topic setObject:avCurrentUser.objectId forKey:kCreateUserIdKey];
-        
-            [topic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    EXECUTE_BLOCK(block,error);
-                }
-            }];
-        }
-    }];    
-}
+//- (void)creatTopicWithTitle:(NSString *)title
+//                      image:(UIImage *)image
+//                      block:(ServiceErrorResultBlock)block
+//{    
+//    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *url) {
+//        if (error == nil) {
+//            AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
+//            AVUser *avCurrentUser = [AVUser currentUser];
+//            
+//            [topic setObject:avCurrentUser forKey:kCreateUser];
+//            [topic setObject:title forKey:kTitle];
+//            [topic setObject:url forKey:kIcon];
+//        
+//            [topic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                if (succeeded) {
+//                    EXECUTE_BLOCK(block,error);
+//                }
+//            }];
+//        }
+//    }];
+//}
 
 - (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block
 {
@@ -64,18 +66,15 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     } Block:block];
 }
 
-- (void)updatePBTopic:(PBTopic *)pbTopic addFeedId:(NSString *)feedId block:(ServiceErrorResultBlock)block
+- (void)topicFrom:(PBTopic *)pbTopic addFeedFrom:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block
 {
-    NSMutableArray *feedIdArray = (NSMutableArray *)pbTopic.feedId;
-    if (feedIdArray == nil) {
-        feedIdArray = [[NSMutableArray alloc]init];
-    }
-    
-    [feedIdArray addObject:feedId];
-    [self updateTopic:pbTopic updatePBTopicBlock:^(PBTopicBuilder *pbTopicBuilder) {
-        [pbTopicBuilder setFeedIdArray:feedIdArray];
-        [pbTopicBuilder setUpdatedAt:(int)time(0)];
-    } block:block];
+    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopic.topicId];
+    AVObject *feed = [AVQuery getObjectOfClass:kFeedClassName objectId:pbFeed.feedId];
+    AVRelation *relation = [topic relationforKey:kFeed];
+    [relation addObject:feed];
+    [topic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
 }
 
 - (void)refreshPBTopic:(PBTopic *)pbTopic
@@ -96,7 +95,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
                              Block:(ServiceErrorResultBlock)block
 {
     [self requireSpecificTopicsFrom:firstIndex requireSpecificBlock:^(AVQuery *avQuery) {
-        [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
+//        [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
+        [avQuery whereKeyExists:kCreateUser];
     } requireTopicsBlock:requireTopicsBlock Block:block];
 }
 
@@ -133,55 +133,54 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             NSUInteger dataCount = objects.count > kTopicCount ? kTopicCount : objects.count;
             for (NSUInteger i = firstIndex; i<dataCount; i++) {
                 AVObject *avObject = [objects objectAtIndex:i];
-                NSData *webTopicData = [avObject objectForKey:kTopicKey];
-                
-                PBTopic *webPBTopic = [PBTopic parseFromData:webTopicData];
-                PBTopicBuilder *pbTopicBuilder = [webPBTopic toBuilder];
-                [pbTopicBuilder setTopicId:avObject.objectId];
-                PBTopic *pbTopic = [pbTopicBuilder build];
-                NSData *pbTopicData = [pbTopic data];
-                
+                NSData *pbTopicData = [self pbTopicDataWithTopicId:avObject.objectId];
                 [pbTopicDataArray addObject:pbTopicData];
                 requireTopicsBlock();
             }
             [[TopicManager sharedInstance]storePBTopicDataArray:pbTopicDataArray];
-        }//else{
-            EXECUTE_BLOCK(block,error);
-//        }
+        }
+        EXECUTE_BLOCK(block,error);
     }];
 }
 
-- (void)updateTopic:(PBTopic *)pbTopic
- updatePBTopicBlock:(void(^)(PBTopicBuilder *pbTopicBuilder))updatePBTopicBlock
-              block:(ServiceErrorResultBlock)block
+
+- (NSData *)pbTopicDataWithTopicId:(NSString *)topicId
 {
-    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopic.topicId];
-    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
-    pbTopic = [PBTopic parseFromData:webTopicData];
-    PBTopicBuilder *pbTopicBuilder = [pbTopic toBuilder];
-    
-    updatePBTopicBlock(pbTopicBuilder);
-    
-    pbTopic = [pbTopicBuilder build];
-    NSData *data = [pbTopic data];
-    [avTopic setObject:data forKey:kTopicKey];
-    [avTopic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        EXECUTE_BLOCK(block,error);
-    }];
+    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
+    PBTopic *pbTopic = [self pbTopicWithTopic:avTopic];
+    return [pbTopic data];
 }
 
 - (PBTopic *)pbTopicWithTopicId:(NSString *)topicId
 {
     AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
-    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
-    return [PBTopic parseFromData:webTopicData];
+    return [self pbTopicWithTopic:avTopic];
 }
 
-- (NSData *)pbTopicDataWithTopicId:(NSString *)topicId
+- (PBTopic *)pbTopicWithTopic:(AVObject *)topic
 {
-    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
-    NSData *webTopicData = [avTopic objectForKey:kTopicKey];
-    return webTopicData;
+    NSString *title = [topic objectForKey:kTitle];
+    NSString *decription = [topic objectForKey:kDecription];
+//    NSString *creatUserId = [topic objectForKey:kCreateUserId];   //  createUser 暂时不存储
+//    NSArray *followerIds =
+    NSString *icon = [topic objectForKey:kIcon];
+//    NSArray *feedIds
+    int32_t createAt = topic.createdAt.timeIntervalSince1970;
+    int32_t updateAt = topic.updatedAt.timeIntervalSince1970;
+    
+    PBTopicBuilder *builder = [PBTopic builder];
+    [builder setTopicId:topic.objectId];
+    [builder setTitle:title];
+    [builder setDecription:decription];
+//    [builder setCreatUserId:creatUserId];
+//    builder setFollowerIdArray:<#(NSArray *)#>
+    [builder setIcon:icon];
+//    builder setFeedIdArray:<#(NSArray *)#>
+    [builder setCreatedAt:createAt];
+    [builder setUpdatedAt:updateAt];
+ 
+    return [builder build];
 }
+
 
 @end

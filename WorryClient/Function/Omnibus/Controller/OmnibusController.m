@@ -47,7 +47,7 @@
 - (void)loadView
 {
     [super loadView];
-    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
+//    [self addRightButtonWithImageName:@"plus" target:self action:@selector(clickPlusButton)];
     [self loadCollectionView];
     [self loadImagePlayerView];
 

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CommonService.h"
 #import "Topic.pb.h"
+#import "FeedService.h"
 
 @interface TopicService : CommonService
 {
@@ -17,13 +18,13 @@
 DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
 //  该方法暂时不会开放给用户
-- (void)creatTopicWithTitle:(NSString *)title
-                      image:(UIImage *)image
-                      block:(ServiceErrorResultBlock)block;
+//- (void)creatTopicWithTitle:(NSString *)title
+//                      image:(UIImage *)image
+//                      block:(ServiceErrorResultBlock)block;
 
 - (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block;
 - (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block;
 
-- (void)updatePBTopic:(PBTopic *)pbTopic addFeedId:(NSString *)feedId block:(ServiceErrorResultBlock)block;
+- (void)topicFrom:(PBTopic *)pbTopic addFeedFrom:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block;
 
 @end
