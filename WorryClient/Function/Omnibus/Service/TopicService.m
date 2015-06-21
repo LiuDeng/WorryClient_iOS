@@ -188,10 +188,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     return [[self pbTopicBuilderWithTopic:topic] build];
 }
 
-//- (AVObject *)feedInTopic:(AVObject *)topic
-//{
-//    return [topic objectForKey:kFeed];
-//}
 
 - (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId
 {
