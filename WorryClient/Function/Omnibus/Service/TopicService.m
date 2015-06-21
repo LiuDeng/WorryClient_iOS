@@ -7,15 +7,8 @@
 //
 
 #import "TopicService.h"
-#import "Utils.h"
-#import "TopicManager.h"
-#import "FeedManager.h"
 
-#define kTopicKey               @"pbTopicData"
-
-#define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon.jpeg"
-
 #define kCreateUser             @"createUser"
 #define kTitle                  @"title"
 #define kDecription             @"decription"
@@ -23,7 +16,7 @@
 #define kIcon                   @"icon"
 #define kFeed                   @"feed"   //  id or feed?
 
-const NSUInteger kTopicCount = 9;
+NSUInteger const kTopicCount = 9;
 
 @implementation TopicService
 
@@ -31,40 +24,21 @@ const NSUInteger kTopicCount = 9;
 
 IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 
-//- (void)creatTopicWithTitle:(NSString *)title
-//                      image:(UIImage *)image
-//                      block:(ServiceErrorResultBlock)block
-//{    
-//    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *url) {
-//        if (error == nil) {
-//            AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
-//            AVUser *avCurrentUser = [AVUser currentUser];
-//            
-//            [topic setObject:avCurrentUser forKey:kCreateUser];
-//            [topic setObject:title forKey:kTitle];
-//            [topic setObject:url forKey:kIcon];
-//        
-//            [topic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                if (succeeded) {
-//                    EXECUTE_BLOCK(block,error);
-//                }
-//            }];
-//        }
-//    }];
-//}
-
-- (void)requireNewTopicsWithBlock:(ServiceErrorResultBlock)block
+- (void)getPBTopicsWithBlock:(ServiceArrayResultBlock)block
 {
-    [self requirePublicTopicsWithFrom:0 requireTopicsBlock:^{
-        [[TopicManager sharedInstance]deleteCache];
-    } Block:block];
+    [self getPBTopicsWithAVQueryBlock:^(AVQuery *avQuery) {
+        [avQuery whereKeyExists:kCreateUser];
+        avQuery.limit = kTopicCount;
+    } block:block];
 }
 
-- (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block
+- (void)getMorePBTopicsWithBlock:(ServiceArrayResultBlock)block
 {
-    [self requirePublicTopicsWithFrom: _requiredTopicsCount requireTopicsBlock:^{
-        _requiredTopicsCount += kTopicCount;
-    } Block:block];
+    _requiredTopicsCount += kTopicCount;
+    [self getPBTopicsWithAVQueryBlock:^(AVQuery *avQuery) {
+        [avQuery whereKeyExists:kCreateUser];
+        avQuery.limit = _requiredTopicsCount;
+    } block:block];
 }
 
 - (void)topicFrom:(PBTopic *)pbTopic addFeedFrom:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block
@@ -78,94 +52,54 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     }];
 }
 
-- (void)refreshPBTopic:(PBTopic *)pbTopic
+- (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId
 {
-    NSData *pbTopicData = [self pbTopicDataWithTopicId:pbTopic.topicId];
-    // store pbTopic into cache
-    [[TopicManager sharedInstance]storePBTopicData:pbTopicData];
+    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
+    AVRelation *relation = [topic relationforKey:kFeed];
+    NSArray *feeds = [[relation query]findObjects];
+    NSMutableArray *pbFeeds = [[NSMutableArray alloc]init];
+    
+    for (AVObject *feed in feeds) {
+        //  feed -> pbFeed
+        PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeed:feed];
+        [pbFeeds addObject:pbFeed];
+    }
+    return pbFeeds;
 }
 
 #pragma mark - Uitls
 
 /*
- require public topics from 'firstIndex'.
- In general, change the 'firstIndex' in 'requireTopicsBlock' when invoked.
+ *  custom the avQuery in avQueryBlock.
  */
-- (void)requirePublicTopicsWithFrom:(NSUInteger)firstIndex
-                 requireTopicsBlock:(void (^)())requireTopicsBlock
-                             Block:(ServiceErrorResultBlock)block
-{
-    [self requireSpecificTopicsFrom:firstIndex requireSpecificBlock:^(AVQuery *avQuery) {
-//        [avQuery whereKey:kCreateUserIdKey notEqualTo:@""];
-        [avQuery whereKeyExists:kCreateUser];
-    } requireTopicsBlock:requireTopicsBlock Block:block];
-}
-
-/*
- In general,make custom 'avQuery' by changing 'wherekey:...' in the 'requireSpecificBlock' when invoked.
- */
-- (void)requireSpecificTopicsFrom:(NSUInteger)firstIndex
-            requireSpecificBlock:(void (^)(AVQuery *avQuery))requireSpecificBlock
-               requireTopicsBlock:(void (^)())requireTopicsBlock
-                           Block:(ServiceErrorResultBlock)block
+- (void)getPBTopicsWithAVQueryBlock:(void (^)(AVQuery *avQuery))avQueryBlock
+                           block:(ServiceArrayResultBlock)block
 {
     AVQuery *avQuery = [AVQuery queryWithClassName:kTopicClassName];
     
-    requireSpecificBlock(avQuery);
+    avQueryBlock(avQuery);
     
     avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
     avQuery.maxCacheAge = kMaxCacheAge;
-    [self requireTopicsWithQuery:avQuery from:firstIndex requireTopicsBlock:requireTopicsBlock block:block];
-}
 
-/*
- With the help of AVQuery,require public topics from 'firstIndex'.
- In general,change the 'firstIndex' in the 'requireTopicsBlock' when invoked.
- The block return the result of finding topics from the service,referring to 'AVBooleanResultBlock'.
- */
-- (void)requireTopicsWithQuery:(AVQuery *)avQuery
-                         from:(NSUInteger)firstIndex
-            requireTopicsBlock:(void (^)())requireTopicsBlock
-                        block:(ServiceErrorResultBlock)block
-{
+    NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error == nil) {
-            NSMutableArray *pbTopicDataArray = [[NSMutableArray alloc]init];
-            NSUInteger dataCount = objects.count > kTopicCount ? kTopicCount : objects.count;
-            for (NSUInteger i = firstIndex; i<dataCount; i++) {
-                AVObject *avObject = [objects objectAtIndex:i];
-                NSData *pbTopicData = [self pbTopicDataWithTopicId:avObject.objectId];
-                [pbTopicDataArray addObject:pbTopicData];
-                requireTopicsBlock();
-            }
-            [[TopicManager sharedInstance]storePBTopicDataArray:pbTopicDataArray];
+        for (AVObject *topic in objects) {
+            PBTopic *pbTopic = [self pbTopicWithTopic:topic];
+            [pbTopics addObject:pbTopic];
         }
-        EXECUTE_BLOCK(block,error);
+        EXECUTE_BLOCK(block,pbTopics,error);
     }];
 }
 
-
-- (NSData *)pbTopicDataWithTopicId:(NSString *)topicId
-{
-    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
-    PBTopic *pbTopic = [self pbTopicWithTopic:avTopic];
-    return [pbTopic data];
-}
-
-- (PBTopic *)pbTopicWithTopicId:(NSString *)topicId
-{
-    AVObject *avTopic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
-    return [self pbTopicWithTopic:avTopic];
-}
-
-- (PBTopicBuilder *)pbTopicBuilderWithTopic:(AVObject *)topic
+- (PBTopic *)pbTopicWithTopic:(AVObject *)topic
 {
     NSString *title = [topic objectForKey:kTitle];
     NSString *decription = [topic objectForKey:kDecription];
-//    NSString *creatUserId = [topic objectForKey:kCreateUserId];   //  createUser 暂时不存储
-//    NSArray *followerIds =
+    //    NSString *creatUserId = [topic objectForKey:kCreateUserId];   //  createUser 暂时不存储
+    //    NSArray *followerIds =
     NSString *icon = [topic objectForKey:kIcon];
-//    NSArray *feedIds
+    //    NSArray *feedIds
     int32_t createAt = topic.createdAt.timeIntervalSince1970;
     int32_t updateAt = topic.updatedAt.timeIntervalSince1970;
     
@@ -173,48 +107,35 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     [builder setTopicId:topic.objectId];
     [builder setTitle:title];
     [builder setDecription:decription];
-//    [builder setCreatUserId:creatUserId];
-//    builder setFollowerIdArray:<#(NSArray *)#>
+    //    [builder setCreatUserId:creatUserId];
+    //    builder setFollowerIdArray:<#(NSArray *)#>
     [builder setIcon:icon];
-//    builder setFeedIdArray:<#(NSArray *)#>
+    //    builder setFeedIdArray:<#(NSArray *)#>
     [builder setCreatedAt:createAt];
     [builder setUpdatedAt:updateAt];
- 
-    return builder;
+    return [builder build];
 }
 
-- (PBTopic *)pbTopicWithTopic:(AVObject *)topic
-{
-    return [[self pbTopicBuilderWithTopic:topic] build];
-}
-
-
-- (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId
-{
-    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
-    AVRelation *relation = [topic relationforKey:kFeed];
-    NSArray *feeds = [[relation query]findObjects];
-    NSMutableArray *pbFeeds = [[NSMutableArray alloc]init];
-    NSMutableArray *feedIds = [[NSMutableArray alloc]init];
-    
-    //  update pbTopic.feedIdArray and store it.
-    PBTopicBuilder *builder = [self pbTopicBuilderWithTopic:topic];
-    for (AVObject *feed in feeds) {
-        [feedIds addObject:feed.objectId];
-        //  feed -> pbFeed
-        PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeed:feed];
-        [pbFeeds addObject:pbFeed];
-    }
-    [builder setFeedIdArray:feeds];
-    
-    PBTopic *pbTopic = [builder build];
-    NSData *data = [pbTopic data];
-    [[TopicManager sharedInstance]storePBTopicData:data];
-    
-    //  store pbFeed
-    [[FeedManager sharedInstance]storePBFeedArray:pbFeeds];
-    
-    return pbFeeds;
-}
+//- (void)creatTopicWithTitle:(NSString *)title
+//                      image:(UIImage *)image
+//                      block:(ServiceErrorResultBlock)block
+//{
+//    [self updateImage:image imageName:kImageName block:^(NSError *error, NSString *url) {
+//        if (error == nil) {
+//            AVObject *topic = [[AVObject alloc]initWithClassName:kTopicClassName];
+//            AVUser *avCurrentUser = [AVUser currentUser];
+//
+//            [topic setObject:avCurrentUser forKey:kCreateUser];
+//            [topic setObject:title forKey:kTitle];
+//            [topic setObject:url forKey:kIcon];
+//
+//            [topic saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                if (succeeded) {
+//                    EXECUTE_BLOCK(block,error);
+//                }
+//            }];
+//        }
+//    }];
+//}
 
 @end

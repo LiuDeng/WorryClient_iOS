@@ -111,17 +111,23 @@
     self.collectionView.backgroundColor = OPAQUE_COLOR(0xee, 0xee, 0xee);
     __weak typeof(self) weakSelf = self;
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
-        [[TopicService sharedInstance]requireNewTopicsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf afterRefresh];
+        [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                //  failed in loading data from server and cache
+                POST_ERROR_MSG(@"加载失败");
+            }else{
+                [weakSelf refreshPBTopicWith:pbObjects];
             }
-        }];
+        }];;
     }];
 
     [self.collectionView addLegendFooterWithRefreshingBlock:^{
-        [[TopicService sharedInstance]requireMoreTopicsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf afterRefresh];
+        [[TopicService sharedInstance]getMorePBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                //  failed in loading data from server and cache
+                POST_ERROR_MSG(@"加载失败");
+            }else{
+                [weakSelf refreshPBTopicWith:pbObjects];
             }
         }];
     }];
@@ -143,9 +149,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)afterRefresh
+- (void)refreshPBTopicWith:(NSArray *)pbObjects
 {
-    self.pbTopicArray = [[TopicManager sharedInstance]pbTopicArray];
+    self.pbTopicArray = pbObjects;
     [self.collectionView reloadData];
     if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
         [self.collectionView.header endRefreshing];
