@@ -10,7 +10,6 @@
 #import "FeedManager.h"
 #import "Utils.h"
 #import "TopicManager.h"
-#import "TopicService.h"
 //#import "UserService.h"
 //#import "UserManager.h"
 
@@ -99,17 +98,17 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block
 {
-    NSUInteger dataCount = pbTopic.feedId.count;
-    NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i < dataCount; i++) {
-        NSString *pbFeedId = [pbTopic.feedId objectAtIndex:i];
-        AVObject *avFeed = [AVQuery getObjectOfClass:kFeedClassName objectId:pbFeedId];
-        NSData *data = [avFeed objectForKey:kFeedKey];
-        [pbFeedDataArray addObject:data];
-    }
-    if (pbFeedDataArray.count > 0) {
-        [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
-    }
+//    NSArray *feeds = [[TopicService sharedInstance]feedsInTopicWithId:pbTopic.topicId];
+//    NSMutableArray *pbFeedDataArray = [[NSMutableArray alloc]init];
+//
+//    for (AVObject *feed in feeds) {
+//        NSData *data = [feed objectForKey:kFeedKey];
+//        [pbFeedDataArray addObject:data];
+//    }
+//    
+//    if (pbFeedDataArray.count > 0) {
+//        [[FeedManager sharedInstance]storePBFeedDataArray:pbFeedDataArray];
+//    }
 }
 
 //  TODO
@@ -126,6 +125,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     AVObject *avFeed = [query getObjectWithId:feedId];
     //  TODO maybe need to add block
     NSData *data = [avFeed objectForKey:kFeedKey];
+    PBFeed *pbFeed = [PBFeed parseFromData:data];
+    return pbFeed;
+}
+
+- (PBFeed *)pbFeedWithFeed:(AVObject *)feed
+{
+    NSData *data = [feed objectForKey:kFeedKey];
     PBFeed *pbFeed = [PBFeed parseFromData:data];
     return pbFeed;
 }
@@ -202,4 +208,5 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
         }
     }];
 }
+
 @end

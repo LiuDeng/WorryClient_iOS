@@ -48,11 +48,41 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
     return _pbTopicArray;
 }
 
+//- (void)storePBTopicDataArray:(NSArray *)pbTopicDataArray
+//{
+//    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
+//    
+//    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kTopicTable,kTopicTableFieldTopic,kTopicTableFieldTopic];
+//    
+//    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kTopicTable,kTopicTableFieldId,kTopicTableFieldTopic];
+//    [queue inDatabase:^(FMDatabase *db) {
+//        for (NSData *pbTopicData in pbTopicDataArray) {
+//            FMResultSet *results;
+//            
+//            PBTopic  *pbTopic = [PBTopic parseFromData:pbTopicData];
+//            NSString *querySql;
+//            if ([pbTopic hasTopicId]) {
+//                querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kTopicTable,kTopicTableFieldId,pbTopic.topicId];
+//                results = [db executeQuery:querySql];
+//                if ( results.next) {
+//                    [db executeUpdate:updateSql,pbTopicData,pbTopic.topicId];
+//                }else{
+//                    [db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
+//                }
+//            }
+//            
+//            [results close];
+//        }
+//    }];
+//    
+//}
+
 - (void)storePBTopicDataArray:(NSArray *)pbTopicDataArray
 {
+    [self deleteCache];
+    
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
     
-    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kTopicTable,kTopicTableFieldTopic,kTopicTableFieldTopic];
     
     NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kTopicTable,kTopicTableFieldId,kTopicTableFieldTopic];
     [queue inDatabase:^(FMDatabase *db) {
@@ -60,22 +90,23 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
             FMResultSet *results;
             
             PBTopic  *pbTopic = [PBTopic parseFromData:pbTopicData];
-            NSString *querySql;
-            if ([pbTopic hasTopicId]) {
-                querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kTopicTable,kTopicTableFieldId,pbTopic.topicId];
-                results = [db executeQuery:querySql];
-                if ( results.next) {
-                    [db executeUpdate:updateSql,pbTopicData,pbTopic.topicId];
-                }else{
-                    [db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
-                }
-            }
-            
+//            NSString *querySql;
+//            if ([pbTopic hasTopicId]) {
+//                querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kTopicTable,kTopicTableFieldId,pbTopic.topicId];
+//                results = [db executeQuery:querySql];
+//                if ( results.next) {
+//                    [db executeUpdate:updateSql,pbTopicData,pbTopic.topicId];
+//                }else{
+//                    [db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
+//                }
+//            }
+            [db executeUpdate:insertSql,pbTopic.topicId,pbTopicData];
             [results close];
         }
     }];
     
 }
+
 
 - (void)storePBTopicData:(NSData *)pbTopicData
 {

@@ -88,6 +88,35 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedManager)
     
 }
 
+- (void)storePBFeedArray:(NSArray *)pbFeedArray
+{
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
+    
+    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? where %@ = ?",kFeedTable,kFeedTableFieldFeed,kFeedTableFieldFeed];
+    
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO %@ (%@,%@) VALUES (?,?)",kFeedTable,kFeedTableFieldId,kFeedTableFieldFeed];
+    [queue inDatabase:^(FMDatabase *db) {
+        for (PBFeed *pbFeed in pbFeedArray) {
+            FMResultSet *results;
+            
+            NSData *pbFeedData = [pbFeed data];
+            
+            NSString *querySql;
+            if ([pbFeed hasFeedId]) {
+                querySql =[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = '%@'",kFeedTable,kFeedTableFieldId,pbFeed.feedId];
+                results = [db executeQuery:querySql];
+                if ( results.next) {
+                    [db executeUpdate:updateSql,pbFeedData,pbFeed.feedId];
+                }else{
+                    [db executeUpdate:insertSql,pbFeed.feedId,pbFeedData];
+                }
+            }
+            [results close];
+        }
+    }];
+    
+}
+
 - (void)deleteOldDatabase
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];

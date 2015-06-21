@@ -11,6 +11,8 @@
 #import "Topic.pb.h"
 #import "FeedService.h"
 
+#define kTopicClassName         @"Topic"
+
 @interface TopicService : CommonService
 {
     NSUInteger _requiredTopicsCount;
@@ -26,5 +28,5 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
 - (void)requireMoreTopicsWithBlock:(ServiceErrorResultBlock)block;
 
 - (void)topicFrom:(PBTopic *)pbTopic addFeedFrom:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block;
-
+- (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId;
 @end

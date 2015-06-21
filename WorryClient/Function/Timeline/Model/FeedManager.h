@@ -21,6 +21,7 @@
 DEFINE_SINGLETON_FOR_CLASS(FeedManager)
 
 - (void)storePBFeedDataArray:(NSArray *)pbFeedDataArray;
+- (void)storePBFeedArray:(NSArray *)pbFeedArray;
 - (NSArray *)pbFeedArray;
 - (NSArray *)pbFeedArrayWithPBTopic:(PBTopic *)pbTopic;
 - (void)deleteOldDatabase;

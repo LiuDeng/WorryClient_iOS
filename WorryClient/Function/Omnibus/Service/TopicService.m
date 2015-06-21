@@ -9,9 +9,10 @@
 #import "TopicService.h"
 #import "Utils.h"
 #import "TopicManager.h"
+#import "FeedManager.h"
 
 #define kTopicKey               @"pbTopicData"
-#define kTopicClassName         @"Topic"
+
 #define kCreateUserIdKey        @"createUserId"
 #define kImageName              @"topicIcon.jpeg"
 
@@ -157,7 +158,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     return [self pbTopicWithTopic:avTopic];
 }
 
-- (PBTopic *)pbTopicWithTopic:(AVObject *)topic
+- (PBTopicBuilder *)pbTopicBuilderWithTopic:(AVObject *)topic
 {
     NSString *title = [topic objectForKey:kTitle];
     NSString *decription = [topic objectForKey:kDecription];
@@ -179,8 +180,45 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     [builder setCreatedAt:createAt];
     [builder setUpdatedAt:updateAt];
  
-    return [builder build];
+    return builder;
 }
 
+- (PBTopic *)pbTopicWithTopic:(AVObject *)topic
+{
+    return [[self pbTopicBuilderWithTopic:topic] build];
+}
+
+//- (AVObject *)feedInTopic:(AVObject *)topic
+//{
+//    return [topic objectForKey:kFeed];
+//}
+
+- (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId
+{
+    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topicId];
+    AVRelation *relation = [topic relationforKey:kFeed];
+    NSArray *feeds = [[relation query]findObjects];
+    NSMutableArray *pbFeeds = [[NSMutableArray alloc]init];
+    NSMutableArray *feedIds = [[NSMutableArray alloc]init];
+    
+    //  update pbTopic.feedIdArray and store it.
+    PBTopicBuilder *builder = [self pbTopicBuilderWithTopic:topic];
+    for (AVObject *feed in feeds) {
+        [feedIds addObject:feed.objectId];
+        //  feed -> pbFeed
+        PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeed:feed];
+        [pbFeeds addObject:pbFeed];
+    }
+    [builder setFeedIdArray:feeds];
+    
+    PBTopic *pbTopic = [builder build];
+    NSData *data = [pbTopic data];
+    [[TopicManager sharedInstance]storePBTopicData:data];
+    
+    //  store pbFeed
+    [[FeedManager sharedInstance]storePBFeedArray:pbFeeds];
+    
+    return pbFeeds;
+}
 
 @end
