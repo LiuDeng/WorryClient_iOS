@@ -181,7 +181,7 @@
     [self.tableView reloadData];
     if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
         [self.tableView.header endRefreshing];
-    }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
+    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
         [self.tableView.footer endRefreshing];
     }
 }

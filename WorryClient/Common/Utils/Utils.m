@@ -77,7 +77,7 @@
     return dateString;
 }
 
-+ (NSString *)dateStringCompareTo:(int64_t)timestamp
++ (NSString *)dateStringCompareTo:(int32_t)timestamp
 {
    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
     return [self dateStringCompareToDate:date];

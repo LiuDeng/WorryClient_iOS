@@ -658,7 +658,7 @@
 		7CE987281AF5B1BA00D270EC /* TopicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicManager.m; sourceTree = "<group>"; };
 		7CE9872B1AF5B23A00D270EC /* TopicService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicService.h; sourceTree = "<group>"; };
 		7CE9872C1AF5B23A00D270EC /* TopicService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicService.m; sourceTree = "<group>"; };
-		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateTopicController.h; path = ../Controller/CreateTopicController.h; sourceTree = "<group>"; };
+		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTopicController.h; sourceTree = "<group>"; };
 		7CE9872F1AF5B57600D270EC /* CreateTopicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTopicController.m; sourceTree = "<group>"; };
 		7CE987351AF6502C00D270EC /* creat_feed_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_checked@2x.png"; sourceTree = "<group>"; };
 		7CE987361AF6502C00D270EC /* creat_feed_unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "creat_feed_unchecked@2x.png"; sourceTree = "<group>"; };
@@ -1179,6 +1179,7 @@
 				7CC0EAC31AF06B9300ED7FC7 /* OmnibusDetailController.h */,
 				7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */,
 				7CE9872F1AF5B57600D270EC /* CreateTopicController.m */,
+				7CE9872E1AF5B57600D270EC /* CreateTopicController.h */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1205,7 +1206,6 @@
 		7C5A37D91ADB9E3000CFA176 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7CE9872E1AF5B57600D270EC /* CreateTopicController.h */,
 				7C5A37DA1ADB9E3000CFA176 /* TopicCollectionViewCell.h */,
 				7C5A37DB1ADB9E3000CFA176 /* TopicCollectionViewCell.m */,
 				7CC0EAC61AF09F8900ED7FC7 /* StoryCollectionViewCell.h */,

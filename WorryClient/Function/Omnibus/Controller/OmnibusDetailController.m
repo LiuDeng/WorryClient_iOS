@@ -13,6 +13,7 @@
 #import "Feed.pb.h"
 #import "FeedManager.h"
 #import "FeedService.h"
+#import "MJRefresh.h"
 
 #define kStoryTitle @"心事"
 #define kWorryTitle @"心结"
@@ -31,13 +32,13 @@
  *  there used to have worryHolderView,but it only has tableView,so it is canceled.
  */
 
-
 @property (nonatomic,strong) UIView *storyHolderView;
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) UIImageView *recommendImageView;
 @property (nonatomic,strong) PBTopic *pbTopic;
-
+@property (nonatomic,strong) NSMutableArray *storyFeeds;
+@property (nonatomic,strong) NSMutableArray *worryFeeds;
 
 @end
 
@@ -59,6 +60,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = self.pbTopic.title;
+    [self.collectionView.header beginRefreshing];
 }
 
 - (void)loadView
@@ -87,6 +89,7 @@
     self.storyHolderView = [[UIView alloc]init];
     [self.holderViews addObject:self.storyHolderView];
     [self.holderViews addObject:self.tableView];
+
 }
 
 #pragma  mark - Private methods
@@ -100,6 +103,18 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kWorryCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+//    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRefreshingAction)];
+//    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRefreshingAction)];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf afterRefresh];
+    }];
+    
+    [self.tableView addLegendFooterWithRefreshingBlock:^{
+        [weakSelf afterRefresh];
+    }];
 }
 
 #pragma mark Story holder view
@@ -136,6 +151,9 @@
         make.width.equalTo(self.storyHolderView);
         make.height.equalTo(@(_collectionViewHeight));
     }];
+    
+    [self.collectionView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRefreshingAction)];
+    [self.collectionView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRefreshingAction)];
 }
 
 - (void)loadRecommendImageView
@@ -153,50 +171,33 @@
     self.recommendImageView.image = [UIImage imageNamed:@"image3.jpg"];
 }
 
-#pragma mark - Utils
-
-- (void)test
-{
-    [[FeedService sharedInstance]requireNewFeedsWithPBTopic:self.pbTopic block:^(NSError *error) {
-//        if (error == nil) {
-        
-//        }
-    }];
-//    NSArray *pbFeedArray = [[FeedManager sharedInstance]pbFeedArrayWithPBTopic:self.pbTopic];
-    
-}
-
 #pragma mark - UITableViewDatasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;   //  TODO
+    return self.worryFeeds.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PBFeed *pbFeed = self.worryFeeds[indexPath.row];
     TimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryCell forIndexPath:indexPath];
-    cell.titleLabel.text = @"成绩提不上去，怎么办？";
-    cell.shortTextLabel.text = @"连续几次考试，成绩一直不好啊，明明有认真听课啊";
-    NSString *replyTitle = @"1";
+    cell.titleLabel.text = pbFeed.title;
+    cell.shortTextLabel.text = pbFeed.text;
+    NSString *replyTitle = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.comment.count];
     [cell.replyButton setTitle:replyTitle forState:UIControlStateNormal];
-    NSString *blessingTitle = @"1";
+    NSString *blessingTitle = [NSString stringWithFormat:@"%lu",(unsigned long)pbFeed.blessing.count];
     [cell.blessingButton setTitle:blessingTitle forState:UIControlStateNormal];
-    NSString *topicTitle = @"爱情";
+    NSString *topicTitle = self.pbTopic.title;  //  TODO maybe cancel it.
     [cell.topicButton setTitle:topicTitle forState:UIControlStateNormal];
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGRectGetHeight(self.view.bounds)*0.24;
+    return 167;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -206,20 +207,20 @@
 
 #pragma mark - UICollectionViewDataSource
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return self.storyFeeds.count;
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    PBFeed *pbFeed = self.storyFeeds[indexPath.row];
+    
     StoryCollectionViewCell *storyCollectionViewCell = (StoryCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kStoryCell forIndexPath:indexPath];
-    storyCollectionViewCell.titleLabel.text = @"金鱼女生的暗恋";
-    storyCollectionViewCell.authorLabel.text = @"金鱼";
-    storyCollectionViewCell.dateLabel.text = @"2015.04.20";//@"金鱼女生喜欢上了一个男生，于是有了心事，只是一直都是独角戏。";
+    storyCollectionViewCell.titleLabel.text = pbFeed.title;
+    storyCollectionViewCell.authorLabel.text = pbFeed.createUser.nick;
+    
+    NSString *dateStr = [Utils dateStringCompareTo:pbFeed.createdAt];   //  TODO
+    storyCollectionViewCell.dateLabel.text = dateStr;//@"金鱼女生喜欢上了一个男生，于是有了心事，只是一直都是独角戏。";
     
     return storyCollectionViewCell;
 }
@@ -228,6 +229,67 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //  TODO
+}
+
+#pragma mark - Utils
+
+- (void)headerRefreshingAction
+{
+    __weak typeof(self) weakSelf = self;
+    [[TopicService sharedInstance]getPBFeedsWithPBTopicId:weakSelf.pbTopic.topicId block:^(NSArray *pbObjects, NSError *error) {
+        [weakSelf refreshWithPBObjects:pbObjects error:error];
+    }];
+}
+
+- (void)footerRefreshingAction
+{
+    __weak typeof(self) weakSelf = self;
+    [[TopicService sharedInstance]getMorePBFeedsWithPBTopicId:weakSelf.pbTopic.topicId block:^(NSArray *pbObjects, NSError *error) {
+        [weakSelf refreshWithPBObjects:pbObjects error:error];
+    }];
+}
+
+- (void)refreshWithPBObjects:(NSArray *)pbObjects error:(NSError *)error
+{
+    if (error) {
+        //  failed in loading data from server and cache
+        POST_ERROR_MSG(@"加载失败");
+    }else{
+        NSArray *pbFeeds = pbObjects;
+        self.storyFeeds = [[NSMutableArray alloc]init];
+        self.worryFeeds = [[NSMutableArray alloc]init];
+        for (PBFeed *pbFeed in pbFeeds) {
+            NSInteger type = pbFeed.type;
+            switch (type) {
+                case PBFeedTypeStory:
+                    [self.storyFeeds addObject:pbFeed];
+                    break;
+                case PBFeedTypeWorry:
+                    [self.worryFeeds addObject:pbFeed];
+                    break;
+                default:
+                    break;
+            }
+        }
+        [self.collectionView reloadData];
+        [self.tableView reloadData];
+    }
+    [self afterRefresh];
+}
+
+- (void)afterRefresh
+{
+    if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
+        [self.collectionView.header endRefreshing];
+    }else if (self.collectionView.footer.state != MJRefreshFooterStateIdle){
+        [self.collectionView.footer endRefreshing];
+    }
+    
+    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.tableView.header endRefreshing];
+    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
+        [self.tableView.footer endRefreshing];
+    }
 }
 
 @end

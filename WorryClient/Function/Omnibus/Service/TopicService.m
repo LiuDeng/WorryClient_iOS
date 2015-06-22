@@ -14,9 +14,10 @@
 #define kDecription             @"decription"
 #define kFollowerId             @"followers"
 #define kIcon                   @"icon"
-#define kFeed                   @"feed"   //  id or feed?
+#define kFeed                   @"feeds"   //  id or feed?
 
 NSUInteger const kTopicCount = 9;
+NSUInteger const kFeedCount = 40;
 
 @implementation TopicService
 
@@ -65,6 +66,45 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
         [pbFeeds addObject:pbFeed];
     }
     return pbFeeds;
+}
+
+- (void)getPBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block
+{
+    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopicId];
+    AVRelation *relation = [topic relationforKey:kFeed];
+    AVQuery *avQuery = [relation query];
+    avQuery.limit = kFeedCount;
+    
+    //  the follow should be support by the FeedService.
+    NSMutableArray *pbFeeds = [[NSMutableArray alloc]init];
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (AVObject *feed in objects) {
+            //  feed -> pbFeed
+            PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeed:feed];
+            [pbFeeds addObject:pbFeed];
+        }
+        EXECUTE_BLOCK(block,pbFeeds,error);
+    }];
+}
+
+- (void)getMorePBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block
+{
+    AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopicId];
+    AVRelation *relation = [topic relationforKey:kFeed];
+    AVQuery *avQuery = [relation query];
+    _pbFeedsCount += kFeedCount;
+    avQuery.limit = _pbFeedsCount;
+    
+    //  the follow should be support by the FeedService.
+    NSMutableArray *pbFeeds = [[NSMutableArray alloc]init];
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (AVObject *feed in objects) {
+            //  feed -> pbFeed
+            PBFeed *pbFeed = [[FeedService sharedInstance]pbFeedWithFeed:feed];
+            [pbFeeds addObject:pbFeed];
+        }
+        EXECUTE_BLOCK(block,pbFeeds,error);
+    }];
 }
 
 #pragma mark - Uitls

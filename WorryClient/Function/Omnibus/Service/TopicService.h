@@ -18,6 +18,7 @@ typedef void (^ServiceArrayResultBlock)(NSArray *pbObjects, NSError *error);
 @interface TopicService : CommonService
 {
     NSUInteger _requiredTopicsCount;
+    NSUInteger _pbFeedsCount;
 }
 DEFINE_SINGLETON_FOR_CLASS(TopicService)
 
@@ -25,7 +26,8 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
 - (void)getPBTopicsWithBlock:(ServiceArrayResultBlock)block;
 - (void)topicFrom:(PBTopic *)pbTopic addFeedFrom:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block;
 - (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId;
-
+- (void)getPBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block;
+- (void)getMorePBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block;
 //  该方法暂时不会开放给用户
 //- (void)creatTopicWithTitle:(NSString *)title
 //                      image:(UIImage *)image
