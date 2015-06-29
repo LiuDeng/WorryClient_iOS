@@ -8,7 +8,6 @@
 
 #import "SettingController.h"
 #import "UserService.h"
-#import "FeedManager.h"
 #import "AboutController.h"
 
 #define kAboutTitle @"关于"
@@ -68,7 +67,7 @@
 
 - (void)clearCache
 {
-    [[FeedManager sharedInstance]dropTable];    //  TODO
+//    [[FeedManager sharedInstance]dropTable];    //  TODO
 }
 #pragma mark - UITableViewDelegate
 

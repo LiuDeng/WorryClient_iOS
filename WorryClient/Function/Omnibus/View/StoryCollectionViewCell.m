@@ -31,14 +31,9 @@
     self.contentView.layer.borderWidth = 0.5f;
    
     [self.contentView.layer setBorderColor:[OPAQUE_COLOR(0xE7, 0xE9, 0xE9)CGColor]];
-    [self loadData];
     [self loadTitleLabel];
     [self loadAuthorLabel];
     [self loadDateLabel];
-}
-- (void)loadData
-{
-
 }
 
 - (void)loadTitleLabel

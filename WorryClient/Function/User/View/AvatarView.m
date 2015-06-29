@@ -12,6 +12,7 @@
 #import "UserInfoController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "TGRImageViewController.h"
+#import "UIImageView+Worry.h"
 
 @implementation AvatarView
 
@@ -31,8 +32,13 @@
 {
     self = [self initWithBorderWidth:1.0f];
     self.pbUser = pbUser;
-    NSURL *url = [NSURL URLWithString:pbUser.avatar];
-    [self sd_setImageWithURL:url];
+    
+    if (pbUser.avatar.length>0) {
+        NSURL *url = [NSURL URLWithString:pbUser.avatar];
+        [self sd_setImageWithURL:url];
+    }else{
+        [self setAvatarWithPBUser:pbUser];
+    }
     [self addTapGestureWithClickType:AvatarViewClickTypeUserInfo];
     return self;
 }

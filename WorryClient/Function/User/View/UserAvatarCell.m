@@ -41,9 +41,9 @@
     [super layoutSubviews];
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.contentView);
-        make.top.equalTo(self.contentView.mas_bottom).with.multipliedBy(0.1);
-        make.height.equalTo(self.contentView).with.multipliedBy(0.4);
-        make.width.equalTo(self.contentView.mas_height).with.multipliedBy(0.4);
+        make.top.equalTo(self.contentView.mas_bottom).with.multipliedBy(0.2);
+//        make.height.equalTo(self.contentView).with.multipliedBy(0.4);
+//        make.width.equalTo(self.contentView.mas_height).with.multipliedBy(0.4);
     }];
     
     [self.nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -7,11 +7,9 @@
 //
 
 #import "FeedService.h"
-#import "FeedManager.h"
 #import "Utils.h"
 #import "TopicManager.h"
 //#import "UserService.h"
-//#import "UserManager.h"
 
 #define kFeedKey @"pbFeed"
 #define kCreateUserIdKey @"createUserId"
@@ -23,8 +21,9 @@
 #define kText           @"text"
 #define kFeedState      @"feedState"
 #define kTopics         @"topics"
+#define kUpdatedAt      @"updatedAt"
 
-const NSInteger kDataCount = 50;
+const NSInteger kDataCount = 100;
 
 @implementation FeedService
 
@@ -75,8 +74,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 {
     AVQuery *query = [AVQuery queryWithClassName:kFeedClassName];
     [query whereKeyExists:kCreateUser];
-    query.limit = kDataCount;
-    query.skip = _getFeedsCount;    //  再加载100个到底该怎么做？
+    query.limit += kDataCount;
     [self getFeedsWithQuery:query block:block];
 }
 
@@ -104,7 +102,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     //  avUser -> pbUser in UserService
     NSString *text = [feed objectForKey:kText];
     NSArray *topics = [feed objectForKey:kTopics];
-    //  pointers 指向，取出来时要重新查？
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     for (int i=0 ; i<topics.count; i++) {
         AVObject *topic = topics[i];
@@ -113,11 +110,15 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
         [pbTopics addObject:pbTopic];
     }
     
+    NSNumber *typeNum = [feed objectForKey:kFeedType];
+    int type = [typeNum intValue];
+    
     PBFeedBuilder *pbFeedBuilder = [PBFeed builder];
     pbFeedBuilder.feedId = feed.objectId;
     pbFeedBuilder.title = title;
     pbFeedBuilder.text = text;
     pbFeedBuilder.topicArray  = pbTopics;
+    pbFeedBuilder.type = type;
     
     PBFeed *pbFeed = [pbFeedBuilder build];
     
@@ -129,12 +130,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block
 {
     avQuery.maxCacheAge = kMaxCacheAge;
+    avQuery.cachePolicy = kAVCachePolicyNetworkElseCache;
+    [avQuery orderByDescending:kUpdatedAt];
     NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error==nil) {
-            
-//            _getFeedsCount += objects.count;    //  maybe a mistake
-            
+        
             //  objects->object->pbObject->pbObjects
             for (AVObject *avObject in objects) {
                 PBFeed *pbFeed = [self pbFeedWithFeed:avObject];

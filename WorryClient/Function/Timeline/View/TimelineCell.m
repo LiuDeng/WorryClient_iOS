@@ -34,7 +34,7 @@
         [self loadShortTextLabel];
         [self loadTopicButton];
         [self loadReplyButton];
-        [self loadBlessingButton];
+//        [self loadBlessingButton];    hide terminally
     }
     return self;
 }

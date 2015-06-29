@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 #import "Feed.pb.h"
 
-const CGFloat strokeSize = 1.0f;
+const CGFloat strokeSize = 0.1f;
 
 @interface StoryDetailController ()
 {
@@ -31,7 +31,6 @@ const CGFloat strokeSize = 1.0f;
 @property (nonatomic,strong) UIImageView *blessingImageView;
 @property (nonatomic,strong) PBFeed *pbFeed;
 
-
 @end
 
 @implementation StoryDetailController
@@ -48,16 +47,6 @@ const CGFloat strokeSize = 1.0f;
 }
 
 #pragma mark - Default methods
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -80,9 +69,9 @@ const CGFloat strokeSize = 1.0f;
     [self loadDateLabel];
     
     [self loadTextView];
-    [self loadShareWeiboImageView];
-    [self loadShareWxTimelineImageView];
-    [self loadBlessingImageView];
+//    [self loadShareWeiboImageView];
+//    [self loadShareWxTimelineImageView];
+//    [self loadBlessingImageView];
     
     [self loadEditImageView];
 }
@@ -96,13 +85,13 @@ const CGFloat strokeSize = 1.0f;
 
 - (void)loadNavigationBar
 {
-    UIImage *moreImage = [UIImage imageNamed:@"story_detail_more"];
+//    UIImage *moreImage = [UIImage imageNamed:@"story_detail_more"];
     UIImage *shareImage = [UIImage imageNamed:@"story_detail_share"];
-    UIImage *favoriteImage = [UIImage imageNamed:@"plus"];
+    UIImage *favoriteImage = [UIImage imageNamed:@"omnibus_normal"];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:shareImage style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
     UIBarButtonItem *favoriteItem = [[UIBarButtonItem alloc]initWithImage:favoriteImage style:UIBarButtonItemStylePlain target:self action:@selector(clickShareButton)];
-    UIBarButtonItem *moreItem = [[UIBarButtonItem alloc]initWithImage:moreImage style:UIBarButtonItemStylePlain target:self action:@selector(clickMoreButton)];
-    NSArray *barButtonArray = @[moreItem,shareItem,favoriteItem];
+//    UIBarButtonItem *moreItem = [[UIBarButtonItem alloc]initWithImage:moreImage style:UIBarButtonItemStylePlain target:self action:@selector(clickMoreButton)];
+    NSArray *barButtonArray = @[shareItem,favoriteItem];
     [self.navigationItem setRightBarButtonItems:barButtonArray];
     
     
@@ -138,7 +127,7 @@ const CGFloat strokeSize = 1.0f;
 {
     self.titleLabel = [[THLabel alloc]init];
     [self.bgImageView addSubview:self.titleLabel];
-    self.titleLabel.text = self.pbFeed.title;//@"金鱼女生的暗恋";
+    self.titleLabel.text = self.pbFeed.title;
     self.titleLabel.font = [UIFont systemFontOfSize:24];
     self.titleLabel.strokeSize = strokeSize;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -161,9 +150,8 @@ const CGFloat strokeSize = 1.0f;
 
 - (void)loadCreatUserAvatarView
 {
-    self.creatUserAvatarView = [[AvatarView alloc]initWithBorderWidth:1.0f];
+    self.creatUserAvatarView = [[AvatarView alloc]initWithPBUser:self.pbFeed.createUser];
     [self.bgImageView addSubview:self.creatUserAvatarView];
-    self.creatUserAvatarView.image = [UIImage imageNamed:@"avatar01"];    //  TODO
     
     [self.creatUserAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.bgImageView.mas_centerX).with.multipliedBy(kRightScale);
@@ -273,7 +261,8 @@ const CGFloat strokeSize = 1.0f;
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.bgImageView.mas_bottom);
         make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
-        make.height.equalTo(self.view).with.multipliedBy(0.5);
+//        make.height.equalTo(self.view).with.multipliedBy(0.5);
+        make.bottom.equalTo(self.view);
     }];
 }
 

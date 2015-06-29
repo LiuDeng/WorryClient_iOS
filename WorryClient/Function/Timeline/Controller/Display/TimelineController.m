@@ -10,7 +10,6 @@
 #import "TimelineCell.h"
 #import "Feed.pb.h"
 #import "CreateFeedController.h"
-#import "FeedManager.h"
 #import "MJRefresh.h"
 #import "FeedService.h"
 #import "StoryDetailController.h"
@@ -108,7 +107,8 @@
 
 #pragma mark - UITableViewDelegate
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     TimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:kTimelineCell forIndexPath:indexPath];
     PBFeed *pbFeed = [self.pbFeedArray objectAtIndex:indexPath.row];
     cell.titleLabel.text = pbFeed.title;
