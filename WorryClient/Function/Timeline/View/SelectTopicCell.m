@@ -25,8 +25,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-//    CGFloat height = self.contentView.bounds.size.height;
-    [self.contentView setAsRound];
+    CGFloat height = self.contentView.bounds.size.height;
+    [self.contentView setRoundCornerWithRadius:height/2];
     self.contentView.layer.borderColor = [kLayerColor CGColor];
     self.contentView.layer.borderWidth = kLayerBorderWidth;
     

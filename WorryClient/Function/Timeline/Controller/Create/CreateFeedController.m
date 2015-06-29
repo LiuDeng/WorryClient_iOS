@@ -214,19 +214,18 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
     }else if (topicArray == nil || topicArray.count == 0){
         POST_ERROR_MSG(@"请选择话题");
     }else{
-        PBUser *pbUser = [[UserManager sharedInstance]pbUser];
-        [[FeedService sharedInstance]creatFeedWithTitle:title
-                                                   text:text
-                                             createUser:pbUser
-                                            isAnonymous:isAnonymous
-                                                  topic:topicArray
-                                               feedType:self.feedType
-                                                  block:^(NSError *error) {
-            if (error == nil) {
-                POST_SUCCESS_MSG(@"发表成功");
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
+        [[FeedService sharedInstance]createFeedWithTitle:title
+                                                    text:text
+                                             isAnonymous:isAnonymous
+                                                pbTopics:topicArray
+                                                feedType:_feedType block:^(NSError *error) {
+                                                    if (error) {
+                                                        POST_ERROR_MSG(@"发表失败");
+                                                    }else{
+                                                        POST_SUCCESS_MSG(@"发表成功");
+                                                        [self.navigationController popViewControllerAnimated:YES];
+                                                    }
+                                                }];
     }
 }
 

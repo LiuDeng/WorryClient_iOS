@@ -15,6 +15,7 @@
 typedef void (^ServiceErrorResultBlock) (NSError *error);
 typedef void (^ServiceImageBlock) (NSError *error,NSString *url);
 typedef void (^ServiceBooleanResultBlock) (BOOL succeed);
+typedef void (^ServiceArrayResultBlock)(NSArray *pbObjects, NSError *error);
 
 @interface CommonService : NSObject
 

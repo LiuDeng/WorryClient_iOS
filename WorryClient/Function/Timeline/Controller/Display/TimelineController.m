@@ -64,17 +64,24 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     __weak typeof(self) weakSelf = self;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [[FeedService sharedInstance]requireNewFeedsWithBlock:^(NSError *error) {
-            if(error==nil){
-                [weakSelf afterRefresh];
+        [[FeedService sharedInstance]getNewFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"加载失败");
+            }else{
+                [weakSelf refreshPBFeedsWith:pbObjects];
             }
+            [weakSelf afterRefresh];
         }];
     }];
+
     [self.tableView addLegendFooterWithRefreshingBlock:^{
-        [[FeedService sharedInstance]requireMoreFeedsWithBlock:^(NSError *error) {
-            if(error==nil){
-                [weakSelf afterRefresh];
+        [[FeedService sharedInstance]getMoreFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"加载失败");
+            }else{
+                [weakSelf refreshPBFeedsWith:pbObjects];
             }
+            [weakSelf afterRefresh];
         }];
     }];
 }
@@ -177,13 +184,22 @@
 
 - (void)afterRefresh
 {
-    self.pbFeedArray = [[FeedManager sharedInstance]pbFeedArray];
-    [self.tableView reloadData];
     if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
         [self.tableView.header endRefreshing];
     }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
         [self.tableView.footer endRefreshing];
     }
+}
+
+- (void)refreshPBFeedsWith:(NSArray *)pbObjects
+{
+    self.pbFeedArray = pbObjects;
+    [self.tableView reloadData];
+//    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+//        [self.tableView.header endRefreshing];
+//    }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
+//        [self.tableView.footer endRefreshing];
+//    }
 }
 
 - (void)clickTopicButton:(id)sender

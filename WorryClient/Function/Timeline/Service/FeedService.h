@@ -17,27 +17,21 @@
 
 @interface FeedService : CommonService
 {
-    NSUInteger _requiredFeedsCount;
-    NSUInteger _myRequireFeedsCount;
-    NSUInteger _requireFeedsByTopicCount;
+    NSUInteger _getFeedsCount;
 }
 
 DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
-- (void)creatFeedWithTitle:(NSString *)title
-                      text:(NSString *)text
-                createUser:(PBUser *)createUser
-               isAnonymous:(BOOL)isAnonymous
-                     topic:(NSArray *)topicArray
-                  feedType:(PBFeedType)feedType
-                     block:(ServiceErrorResultBlock)block;
+- (void)createFeedWithTitle:(NSString *)title
+                       text:(NSString *)text
+                isAnonymous:(BOOL)isAnonymous
+                   pbTopics:(NSArray *)pbTopics
+                   feedType:(PBFeedType)feedType
+                      block:(ServiceErrorResultBlock)block;
 
-- (void)requireMyNewFeedsWithBlock:(ServiceErrorResultBlock)block;
-- (void)requireMyMoreFeedsWithBlock:(ServiceErrorResultBlock)block;
-- (void)requireNewFeedsWithBlock:(ServiceErrorResultBlock)block;
-- (void)requireMoreFeedsWithBlock:(ServiceErrorResultBlock)block;
+- (void)getNewFeedsWithBlock:(ServiceArrayResultBlock)block;
+- (void)getMoreFeedsWithBlock:(ServiceArrayResultBlock)block;
 
-- (void)requireNewFeedsWithPBTopic:(PBTopic *)pbTopic block:(ServiceErrorResultBlock)block;
 - (PBFeed *)pbFeedWithFeedId:(NSString *)feedId;
 //  得有一个根据Topic找到大量Feed的方法，只不过这个方法要放哪？FeedService or TopicService
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed;

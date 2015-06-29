@@ -73,17 +73,15 @@
     
     __weak typeof(self) weakSelf = self;
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
-        [[TopicService sharedInstance]requireNewTopicsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf afterRefresh];
+        [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"加载失败");
+            }else{
+                weakSelf.pbTopicArray = pbObjects;
+                [weakSelf.collectionView reloadData];
             }
-        }];
-    }];
-    
-    [self.collectionView addLegendFooterWithRefreshingBlock:^{
-        [[TopicService sharedInstance]requireMoreTopicsWithBlock:^(NSError *error) {
-            if (error == nil) {
-                [weakSelf afterRefresh];
+            if (weakSelf.collectionView.header.state != MJRefreshHeaderStateIdle) {
+                [weakSelf.collectionView.header endRefreshing];
             }
         }];
     }];
