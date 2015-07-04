@@ -61,6 +61,7 @@
 		7C5A38141ADB9E3000CFA176 /* UserAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37EE1ADB9E3000CFA176 /* UserAvatarCell.m */; };
 		7C5A38161ADB9E3000CFA176 /* User.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37F41ADB9E3000CFA176 /* User.pb.m */; };
 		7C5A38181ADB9E3000CFA176 /* User.proto in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37F61ADB9E3000CFA176 /* User.proto */; };
+		7C62FD331B45208700AD3D80 /* FeedService+Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C62FD321B45208700AD3D80 /* FeedService+Comment.m */; };
 		7C6EB6E01B1C4E4D00355F06 /* user_detail_email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C6EB6DB1B1C4E4D00355F06 /* user_detail_email@2x.png */; };
 		7C6EB6E11B1C4E4D00355F06 /* user_detail_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C6EB6DC1B1C4E4D00355F06 /* user_detail_phone@2x.png */; };
 		7C6EB6E21B1C4E4D00355F06 /* user_detail_qq@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C6EB6DD1B1C4E4D00355F06 /* user_detail_qq@2x.png */; };
@@ -391,6 +392,8 @@
 		7C5A37F31ADB9E3000CFA176 /* User.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.pb.h; sourceTree = "<group>"; };
 		7C5A37F41ADB9E3000CFA176 /* User.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.pb.m; sourceTree = "<group>"; };
 		7C5A37F61ADB9E3000CFA176 /* User.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.proto; sourceTree = "<group>"; };
+		7C62FD311B45208700AD3D80 /* FeedService+Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FeedService+Comment.h"; sourceTree = "<group>"; };
+		7C62FD321B45208700AD3D80 /* FeedService+Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FeedService+Comment.m"; sourceTree = "<group>"; };
 		7C6EB6DB1B1C4E4D00355F06 /* user_detail_email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_detail_email@2x.png"; sourceTree = "<group>"; };
 		7C6EB6DC1B1C4E4D00355F06 /* user_detail_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_detail_phone@2x.png"; sourceTree = "<group>"; };
 		7C6EB6DD1B1C4E4D00355F06 /* user_detail_qq@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_detail_qq@2x.png"; sourceTree = "<group>"; };
@@ -1574,6 +1577,8 @@
 			children = (
 				7CC3369A1ADFA6A20084D891 /* FeedService.h */,
 				7CC3369B1ADFA6A20084D891 /* FeedService.m */,
+				7C62FD311B45208700AD3D80 /* FeedService+Comment.h */,
+				7C62FD321B45208700AD3D80 /* FeedService+Comment.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1754,6 +1759,7 @@
 				TargetAttributes = {
 					7C5A37701ADB9D6A00CFA176 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 52268EK4NF;
 					};
 					7C5A378C1ADB9D6B00CFA176 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -2058,6 +2064,7 @@
 				7CC0EAC51AF06B9300ED7FC7 /* OmnibusDetailController.m in Sources */,
 				7CBC17F61B1EF58B00FDB196 /* UserInfoController.m in Sources */,
 				7CD11BBB1B17F598000514BD /* FavoriteController.m in Sources */,
+				7C62FD331B45208700AD3D80 /* FeedService+Comment.m in Sources */,
 				7CBD2D111AEB88EB0091EB20 /* UserDetailAvatarCell.m in Sources */,
 				7CBB51471B0582A80052A5B2 /* RecommendationService.m in Sources */,
 				7CC1EF4D1B2BC48200982FB6 /* RequestCodeController.m in Sources */,
@@ -2227,6 +2234,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Connection",
@@ -2244,6 +2253,7 @@
 					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2254,6 +2264,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Connection",
@@ -2271,6 +2283,7 @@
 					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

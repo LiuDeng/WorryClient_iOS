@@ -7,7 +7,7 @@
 //
 
 #import "UIViewController+Worry.h"
-#import "FeedService.h"
+#import "FeedService+Comment.h"
 
 @interface CommentController : UIViewController
 

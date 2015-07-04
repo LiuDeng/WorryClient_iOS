@@ -31,20 +31,10 @@
 
 #pragma mark - Default methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)loadView
 {
     [super loadView];
-    self.title = @"添加回答";
+    self.title = @"添加评论";
     [self addRightButtonWithTitle:@"发布" target:self action:@selector(clickReleaseButton)];
     [self loadTextView];
     
@@ -54,7 +44,7 @@
 
 - (void)loadTextView
 {
-    NSString *placeholder = @"请添加回答";
+    NSString *placeholder = @"请添加评论";
     self.textView = [[PlaceholderTextView alloc]initWithPlaceholder:placeholder];
     [self.view addSubview:self.textView];
     
@@ -70,7 +60,24 @@
 
 - (void)clickReleaseButton
 {
-    //  TODO
+    NSString *text = self.textView.text;
+    BOOL isAnonymous = NO;  //
+    if (text.length>0) {
+        [[FeedService sharedInstance]addCommentForFeed:self.pbFeed.feedId
+                                                  text:text
+                                           isAnonymous:isAnonymous block:^(NSError *error) {
+                                               if (error) {
+                                                   POST_ERROR_MSG(@"发表失败");
+                                               }else{
+                                                   POST_SUCCESS_MSG(@"发表成功");
+                                                   //   pop controller
+                                               }
+                                           }];
+    }else{
+        POST_ERROR_MSG(@"请输入评论内容");
+    }
+    
+
 }
 
 @end

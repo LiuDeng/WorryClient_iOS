@@ -8,20 +8,10 @@
 
 #import "FeedService.h"
 #import "Utils.h"
-#import "TopicManager.h"
-//#import "UserService.h"
 
-#define kFeedKey @"pbFeed"
-#define kCreateUserIdKey @"createUserId"
-
-#define kFeedType       @"feedType"
-#define kCreateUser     @"createUser"
 #define kTitle          @"title"
-#define kIsAnonymous    @"isAnonymous"
-#define kText           @"text"
-#define kFeedState      @"feedState"
+#define kFeedState      @"state"
 #define kTopics         @"topics"
-#define kUpdatedAt      @"updatedAt"
 
 const NSInteger kDataCount = 100;
 
@@ -41,10 +31,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     AVUser *avCurrentUser = [AVUser currentUser];
     [feed setObject:title forKey:kTitle];
-    [feed setObject:avCurrentUser forKey:kCreateUser];
+    [feed setObject:avCurrentUser forKey:kCreatedUser];
     [feed setObject:text forKey:kText];
     NSNumber *type = [NSNumber numberWithInt:feedType];
-    [feed setObject:type forKey:kFeedType];
+    [feed setObject:type forKey:kType];
     NSNumber *anonymous = [NSNumber numberWithBool:isAnonymous];
     [feed setObject:anonymous forKey:kIsAnonymous];
     
@@ -65,7 +55,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)getNewFeedsWithBlock:(ServiceArrayResultBlock)block
 {
     AVQuery *query = [AVQuery queryWithClassName:kFeedClassName];
-    [query whereKeyExists:kCreateUser];
+    [query whereKeyExists:kCreatedUser];
     query.limit = kDataCount;
     [self getFeedsWithQuery:query block:block];
 }
@@ -73,7 +63,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (void)getMoreFeedsWithBlock:(ServiceArrayResultBlock)block
 {
     AVQuery *query = [AVQuery queryWithClassName:kFeedClassName];
-    [query whereKeyExists:kCreateUser];
+    [query whereKeyExists:kCreatedUser];
     query.limit += kDataCount;
     [self getFeedsWithQuery:query block:block];
 }
@@ -98,19 +88,20 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed
 {
     NSString *title = [feed objectForKey:kTitle];
-    AVUser *createUser = [feed objectForKey:kCreateUser];
+    AVUser *createUser = [feed objectForKey:kCreatedUser];
     //  avUser -> pbUser in UserService
     NSString *text = [feed objectForKey:kText];
     NSArray *topics = [feed objectForKey:kTopics];
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     for (int i=0 ; i<topics.count; i++) {
         AVObject *topic = topics[i];
+//        topic = [topic fetchIfNeeded];
         topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topic.objectId];
         PBTopic *pbTopic = [[TopicService sharedInstance]pbTopicWithTopic:topic];
         [pbTopics addObject:pbTopic];
     }
     
-    NSNumber *typeNum = [feed objectForKey:kFeedType];
+    NSNumber *typeNum = [feed objectForKey:kType];
     int type = [typeNum intValue];
     
     PBFeedBuilder *pbFeedBuilder = [PBFeed builder];

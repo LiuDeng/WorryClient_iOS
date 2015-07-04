@@ -12,6 +12,13 @@
 #import "TopicService.h"
 
 #define kFeedClassName @"Feed"
+#define kCreatedUser    @"createdUser"
+#define kIsAnonymous    @"isAnonymous"
+#define kText           @"text"
+#define kUpdatedAt      @"updatedAt"
+#define kCreatedUser    @"createdUser"
+#define kType           @"type"
+
 
 @class PBTopic;
 

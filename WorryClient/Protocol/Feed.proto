@@ -19,22 +19,24 @@ enum PBFeedState{
 enum PBCommentType{
     toAnswer = 1;                                                               //  对回答的评论
     toFeed = 2;                                                                 //  对故事的评论
+    reply = 3;                                                                  //  回复
 }
 
 message PBComment{
-    optional string comment_id = 1;
-    optional PBUser create_user = 2;                                            //  创建者，保存基础信息
+    required string comment_id = 1;
+    optional PBUser created_user = 2;                                            //  创建者，保存基础信息
     optional string text = 3;                                                   //  内容，后期如果变为富文本，考虑一下如何存储？
     optional bool is_anonymous = 4 [default=false];                             //  是否匿名，默认是不匿名
     repeated PBComment reply = 5;                                               //  对评论的回复
+    optional PBCommentType type = 6;
 
     optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
     optional int32 updated_at = 41;                                             //  更新时间，服务器上是date类型
 }
 
 message PBAnswer{
-    optional string answer_id = 1;
-    optional PBUser creat_user = 2;                                             //  创建用户，保存基础信息
+    required string answer_id = 1;
+    optional PBUser created_user = 2;                                             //  创建用户，保存基础信息
     optional bool is_anonymous = 5 [default=false];                             //  是否匿名，默认是不匿名
     optional string text = 10;                                                  //  内容，后期如果变为富文本，考虑一下如何存储？
     optional PBComment comment = 20;
@@ -46,9 +48,9 @@ message PBAnswer{
 }
 
 message PBFeed{
-    optional string feed_id = 1;
+    required string feed_id = 1;
     optional PBFeedType type = 2;                                               //  根据PBFeedType决定
-    optional PBUser create_user =3;                                             //  创建用户，保存基础信息
+    optional PBUser created_user =3;                                             //  创建用户，保存基础信息
     optional string title = 4;                                                  //  标题
     optional bool is_anonymous = 5 [default=false];                             //  是否匿名，默认是不匿名
 

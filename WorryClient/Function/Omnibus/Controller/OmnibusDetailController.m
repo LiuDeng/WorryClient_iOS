@@ -11,7 +11,7 @@
 #import "StoryCollectionViewCell.h"
 #import "Topic.pb.h"
 #import "Feed.pb.h"
-#import "FeedManager.h"
+
 #import "FeedService.h"
 #import "MJRefresh.h"
 
