@@ -67,4 +67,6 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 
 
 - (BOOL)ifLogIn;
+
+- (PBUser *)simplePBUserWithUser:(AVUser *)user;
 @end

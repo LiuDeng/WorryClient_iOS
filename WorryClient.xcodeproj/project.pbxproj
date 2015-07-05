@@ -160,6 +160,7 @@
 		7CBE57B61B2A75FB0068786C /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CBE57B21B2A75FB0068786C /* SMS_SDKLocalizable.strings */; };
 		7CBE57B71B2A75FB0068786C /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBE57B41B2A75FB0068786C /* SMS_SDK.framework */; };
 		7CBE57B91B2A76970068786C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBE57B81B2A76970068786C /* libz.dylib */; };
+		7CBE58141B478E7F0082FBAD /* FeedService+Answer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBE58131B478E7F0082FBAD /* FeedService+Answer.m */; };
 		7CBF03E01ADE560C0001C31A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBF03DF1ADE560C0001C31A /* Utils.m */; };
 		7CC0EAC51AF06B9300ED7FC7 /* OmnibusDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0EAC41AF06B9300ED7FC7 /* OmnibusDetailController.m */; };
 		7CC0EAC81AF09F8900ED7FC7 /* StoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0EAC71AF09F8900ED7FC7 /* StoryCollectionViewCell.m */; };
@@ -517,6 +518,8 @@
 		7CBE57B41B2A75FB0068786C /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
 		7CBE57B51B2A75FB0068786C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SMS_SDKLocalizable.strings"; sourceTree = "<group>"; };
 		7CBE57B81B2A76970068786C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		7CBE58121B478E7F0082FBAD /* FeedService+Answer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FeedService+Answer.h"; sourceTree = "<group>"; };
+		7CBE58131B478E7F0082FBAD /* FeedService+Answer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FeedService+Answer.m"; sourceTree = "<group>"; };
 		7CBF03DE1ADE560C0001C31A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		7CBF03DF1ADE560C0001C31A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		7CC0EAC31AF06B9300ED7FC7 /* OmnibusDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OmnibusDetailController.h; sourceTree = "<group>"; };
@@ -1579,6 +1582,8 @@
 				7CC3369B1ADFA6A20084D891 /* FeedService.m */,
 				7C62FD311B45208700AD3D80 /* FeedService+Comment.h */,
 				7C62FD321B45208700AD3D80 /* FeedService+Comment.m */,
+				7CBE58121B478E7F0082FBAD /* FeedService+Answer.h */,
+				7CBE58131B478E7F0082FBAD /* FeedService+Answer.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2028,6 +2033,7 @@
 				7C5A37FB1ADB9E3000CFA176 /* NetworkRequest.m in Sources */,
 				7CDA5D531AFAE5EA001D16F9 /* SelectTopicController.m in Sources */,
 				7CC268431B15D6D3003F42E7 /* UserController.m in Sources */,
+				7CBE58141B478E7F0082FBAD /* FeedService+Answer.m in Sources */,
 				7CC555F51B146C3D000149BB /* CommentController.m in Sources */,
 				7CC0EAC81AF09F8900ED7FC7 /* StoryCollectionViewCell.m in Sources */,
 				7CBC17F91B1F223600FDB196 /* THLabel+Utils.m in Sources */,

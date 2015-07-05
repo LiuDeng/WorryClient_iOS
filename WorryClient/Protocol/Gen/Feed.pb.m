@@ -70,6 +70,7 @@ BOOL PBCommentTypeIsValidValue(PBCommentType value) {
   switch (value) {
     case PBCommentTypeToAnswer:
     case PBCommentTypeToFeed:
+    case PBCommentTypeReply:
       return YES;
     default:
       return NO;
@@ -81,6 +82,8 @@ NSString *NSStringFromPBCommentType(PBCommentType value) {
       return @"PBCommentTypeToAnswer";
     case PBCommentTypeToFeed:
       return @"PBCommentTypeToFeed";
+    case PBCommentTypeReply:
+      return @"PBCommentTypeReply";
     default:
       return nil;
   }
@@ -88,10 +91,11 @@ NSString *NSStringFromPBCommentType(PBCommentType value) {
 
 @interface PBComment ()
 @property (strong) NSString* commentId;
-@property (strong) PBUser* createUser;
+@property (strong) PBUser* createdUser;
 @property (strong) NSString* text;
 @property BOOL isAnonymous;
 @property (strong) NSMutableArray * replyArray;
+@property PBCommentType type;
 @property SInt32 createdAt;
 @property SInt32 updatedAt;
 @end
@@ -105,13 +109,13 @@ NSString *NSStringFromPBCommentType(PBCommentType value) {
   hasCommentId_ = !!_value_;
 }
 @synthesize commentId;
-- (BOOL) hasCreateUser {
-  return !!hasCreateUser_;
+- (BOOL) hasCreatedUser {
+  return !!hasCreatedUser_;
 }
-- (void) setHasCreateUser:(BOOL) _value_ {
-  hasCreateUser_ = !!_value_;
+- (void) setHasCreatedUser:(BOOL) _value_ {
+  hasCreatedUser_ = !!_value_;
 }
-@synthesize createUser;
+@synthesize createdUser;
 - (BOOL) hasText {
   return !!hasText_;
 }
@@ -133,6 +137,13 @@ NSString *NSStringFromPBCommentType(PBCommentType value) {
 }
 @synthesize replyArray;
 @dynamic reply;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) _value_ {
+  hasType_ = !!_value_;
+}
+@synthesize type;
 - (BOOL) hasCreatedAt {
   return !!hasCreatedAt_;
 }
@@ -150,9 +161,10 @@ NSString *NSStringFromPBCommentType(PBCommentType value) {
 - (instancetype) init {
   if ((self = [super init])) {
     self.commentId = @"";
-    self.createUser = [PBUser defaultInstance];
+    self.createdUser = [PBUser defaultInstance];
     self.text = @"";
     self.isAnonymous = NO;
+    self.type = PBCommentTypeToAnswer;
     self.createdAt = 0;
     self.updatedAt = 0;
   }
@@ -177,8 +189,11 @@ static PBComment* defaultPBCommentInstance = nil;
   return [replyArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (self.hasCreateUser) {
-    if (!self.createUser.isInitialized) {
+  if (!self.hasCommentId) {
+    return NO;
+  }
+  if (self.hasCreatedUser) {
+    if (!self.createdUser.isInitialized) {
       return NO;
     }
   }
@@ -196,8 +211,8 @@ static PBComment* defaultPBCommentInstance = nil;
   if (self.hasCommentId) {
     [output writeString:1 value:self.commentId];
   }
-  if (self.hasCreateUser) {
-    [output writeMessage:2 value:self.createUser];
+  if (self.hasCreatedUser) {
+    [output writeMessage:2 value:self.createdUser];
   }
   if (self.hasText) {
     [output writeString:3 value:self.text];
@@ -208,6 +223,9 @@ static PBComment* defaultPBCommentInstance = nil;
   [self.replyArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
     [output writeMessage:5 value:element];
   }];
+  if (self.hasType) {
+    [output writeEnum:6 value:self.type];
+  }
   if (self.hasCreatedAt) {
     [output writeInt32:40 value:self.createdAt];
   }
@@ -226,8 +244,8 @@ static PBComment* defaultPBCommentInstance = nil;
   if (self.hasCommentId) {
     size_ += computeStringSize(1, self.commentId);
   }
-  if (self.hasCreateUser) {
-    size_ += computeMessageSize(2, self.createUser);
+  if (self.hasCreatedUser) {
+    size_ += computeMessageSize(2, self.createdUser);
   }
   if (self.hasText) {
     size_ += computeStringSize(3, self.text);
@@ -238,6 +256,9 @@ static PBComment* defaultPBCommentInstance = nil;
   [self.replyArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
     size_ += computeMessageSize(5, element);
   }];
+  if (self.hasType) {
+    size_ += computeEnumSize(6, self.type);
+  }
   if (self.hasCreatedAt) {
     size_ += computeInt32Size(40, self.createdAt);
   }
@@ -282,9 +303,9 @@ static PBComment* defaultPBCommentInstance = nil;
   if (self.hasCommentId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"commentId", self.commentId];
   }
-  if (self.hasCreateUser) {
-    [output appendFormat:@"%@%@ {\n", indent, @"createUser"];
-    [self.createUser writeDescriptionTo:output
+  if (self.hasCreatedUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"createdUser"];
+    [self.createdUser writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -300,6 +321,9 @@ static PBComment* defaultPBCommentInstance = nil;
                      withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }];
+  if (self.hasType) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"type", NSStringFromPBCommentType(self.type)];
+  }
   if (self.hasCreatedAt) {
     [output appendFormat:@"%@%@: %@\n", indent, @"createdAt", [NSNumber numberWithInteger:self.createdAt]];
   }
@@ -319,13 +343,15 @@ static PBComment* defaultPBCommentInstance = nil;
   return
       self.hasCommentId == otherMessage.hasCommentId &&
       (!self.hasCommentId || [self.commentId isEqual:otherMessage.commentId]) &&
-      self.hasCreateUser == otherMessage.hasCreateUser &&
-      (!self.hasCreateUser || [self.createUser isEqual:otherMessage.createUser]) &&
+      self.hasCreatedUser == otherMessage.hasCreatedUser &&
+      (!self.hasCreatedUser || [self.createdUser isEqual:otherMessage.createdUser]) &&
       self.hasText == otherMessage.hasText &&
       (!self.hasText || [self.text isEqual:otherMessage.text]) &&
       self.hasIsAnonymous == otherMessage.hasIsAnonymous &&
       (!self.hasIsAnonymous || self.isAnonymous == otherMessage.isAnonymous) &&
       [self.replyArray isEqualToArray:otherMessage.replyArray] &&
+      self.hasType == otherMessage.hasType &&
+      (!self.hasType || self.type == otherMessage.type) &&
       self.hasCreatedAt == otherMessage.hasCreatedAt &&
       (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
       self.hasUpdatedAt == otherMessage.hasUpdatedAt &&
@@ -337,8 +363,8 @@ static PBComment* defaultPBCommentInstance = nil;
   if (self.hasCommentId) {
     hashCode = hashCode * 31 + [self.commentId hash];
   }
-  if (self.hasCreateUser) {
-    hashCode = hashCode * 31 + [self.createUser hash];
+  if (self.hasCreatedUser) {
+    hashCode = hashCode * 31 + [self.createdUser hash];
   }
   if (self.hasText) {
     hashCode = hashCode * 31 + [self.text hash];
@@ -349,6 +375,9 @@ static PBComment* defaultPBCommentInstance = nil;
   [self.replyArray enumerateObjectsUsingBlock:^(PBComment *element, NSUInteger idx, BOOL *stop) {
     hashCode = hashCode * 31 + [element hash];
   }];
+  if (self.hasType) {
+    hashCode = hashCode * 31 + self.type;
+  }
   if (self.hasCreatedAt) {
     hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createdAt] hash];
   }
@@ -401,8 +430,8 @@ static PBComment* defaultPBCommentInstance = nil;
   if (other.hasCommentId) {
     [self setCommentId:other.commentId];
   }
-  if (other.hasCreateUser) {
-    [self mergeCreateUser:other.createUser];
+  if (other.hasCreatedUser) {
+    [self mergeCreatedUser:other.createdUser];
   }
   if (other.hasText) {
     [self setText:other.text];
@@ -416,6 +445,9 @@ static PBComment* defaultPBCommentInstance = nil;
     } else {
       [resultPbcomment.replyArray addObjectsFromArray:other.replyArray];
     }
+  }
+  if (other.hasType) {
+    [self setType:other.type];
   }
   if (other.hasCreatedAt) {
     [self setCreatedAt:other.createdAt];
@@ -450,11 +482,11 @@ static PBComment* defaultPBCommentInstance = nil;
       }
       case 18: {
         PBUserBuilder* subBuilder = [PBUser builder];
-        if (self.hasCreateUser) {
-          [subBuilder mergeFrom:self.createUser];
+        if (self.hasCreatedUser) {
+          [subBuilder mergeFrom:self.createdUser];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCreateUser:[subBuilder buildPartial]];
+        [self setCreatedUser:[subBuilder buildPartial]];
         break;
       }
       case 26: {
@@ -469,6 +501,15 @@ static PBComment* defaultPBCommentInstance = nil;
         PBCommentBuilder* subBuilder = [PBComment builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addReply:[subBuilder buildPartial]];
+        break;
+      }
+      case 48: {
+        PBCommentType value = (PBCommentType)[input readEnum];
+        if (PBCommentTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
         break;
       }
       case 320: {
@@ -498,34 +539,34 @@ static PBComment* defaultPBCommentInstance = nil;
   resultPbcomment.commentId = @"";
   return self;
 }
-- (BOOL) hasCreateUser {
-  return resultPbcomment.hasCreateUser;
+- (BOOL) hasCreatedUser {
+  return resultPbcomment.hasCreatedUser;
 }
-- (PBUser*) createUser {
-  return resultPbcomment.createUser;
+- (PBUser*) createdUser {
+  return resultPbcomment.createdUser;
 }
-- (PBCommentBuilder*) setCreateUser:(PBUser*) value {
-  resultPbcomment.hasCreateUser = YES;
-  resultPbcomment.createUser = value;
+- (PBCommentBuilder*) setCreatedUser:(PBUser*) value {
+  resultPbcomment.hasCreatedUser = YES;
+  resultPbcomment.createdUser = value;
   return self;
 }
-- (PBCommentBuilder*) setCreateUserBuilder:(PBUserBuilder*) builderForValue {
-  return [self setCreateUser:[builderForValue build]];
+- (PBCommentBuilder*) setCreatedUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setCreatedUser:[builderForValue build]];
 }
-- (PBCommentBuilder*) mergeCreateUser:(PBUser*) value {
-  if (resultPbcomment.hasCreateUser &&
-      resultPbcomment.createUser != [PBUser defaultInstance]) {
-    resultPbcomment.createUser =
-      [[[PBUser builderWithPrototype:resultPbcomment.createUser] mergeFrom:value] buildPartial];
+- (PBCommentBuilder*) mergeCreatedUser:(PBUser*) value {
+  if (resultPbcomment.hasCreatedUser &&
+      resultPbcomment.createdUser != [PBUser defaultInstance]) {
+    resultPbcomment.createdUser =
+      [[[PBUser builderWithPrototype:resultPbcomment.createdUser] mergeFrom:value] buildPartial];
   } else {
-    resultPbcomment.createUser = value;
+    resultPbcomment.createdUser = value;
   }
-  resultPbcomment.hasCreateUser = YES;
+  resultPbcomment.hasCreatedUser = YES;
   return self;
 }
-- (PBCommentBuilder*) clearCreateUser {
-  resultPbcomment.hasCreateUser = NO;
-  resultPbcomment.createUser = [PBUser defaultInstance];
+- (PBCommentBuilder*) clearCreatedUser {
+  resultPbcomment.hasCreatedUser = NO;
+  resultPbcomment.createdUser = [PBUser defaultInstance];
   return self;
 }
 - (BOOL) hasText {
@@ -581,6 +622,22 @@ static PBComment* defaultPBCommentInstance = nil;
   resultPbcomment.replyArray = nil;
   return self;
 }
+- (BOOL) hasType {
+  return resultPbcomment.hasType;
+}
+- (PBCommentType) type {
+  return resultPbcomment.type;
+}
+- (PBCommentBuilder*) setType:(PBCommentType) value {
+  resultPbcomment.hasType = YES;
+  resultPbcomment.type = value;
+  return self;
+}
+- (PBCommentBuilder*) clearType {
+  resultPbcomment.hasType = NO;
+  resultPbcomment.type = PBCommentTypeToAnswer;
+  return self;
+}
 - (BOOL) hasCreatedAt {
   return resultPbcomment.hasCreatedAt;
 }
@@ -617,7 +674,7 @@ static PBComment* defaultPBCommentInstance = nil;
 
 @interface PBAnswer ()
 @property (strong) NSString* answerId;
-@property (strong) PBUser* creatUser;
+@property (strong) PBUser* createdUser;
 @property BOOL isAnonymous;
 @property (strong) NSString* text;
 @property (strong) PBComment* comment;
@@ -635,13 +692,13 @@ static PBComment* defaultPBCommentInstance = nil;
   hasAnswerId_ = !!_value_;
 }
 @synthesize answerId;
-- (BOOL) hasCreatUser {
-  return !!hasCreatUser_;
+- (BOOL) hasCreatedUser {
+  return !!hasCreatedUser_;
 }
-- (void) setHasCreatUser:(BOOL) _value_ {
-  hasCreatUser_ = !!_value_;
+- (void) setHasCreatedUser:(BOOL) _value_ {
+  hasCreatedUser_ = !!_value_;
 }
-@synthesize creatUser;
+@synthesize createdUser;
 - (BOOL) hasIsAnonymous {
   return !!hasIsAnonymous_;
 }
@@ -692,7 +749,7 @@ static PBComment* defaultPBCommentInstance = nil;
 - (instancetype) init {
   if ((self = [super init])) {
     self.answerId = @"";
-    self.creatUser = [PBUser defaultInstance];
+    self.createdUser = [PBUser defaultInstance];
     self.isAnonymous = NO;
     self.text = @"";
     self.comment = [PBComment defaultInstance];
@@ -715,8 +772,11 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   return defaultPBAnswerInstance;
 }
 - (BOOL) isInitialized {
-  if (self.hasCreatUser) {
-    if (!self.creatUser.isInitialized) {
+  if (!self.hasAnswerId) {
+    return NO;
+  }
+  if (self.hasCreatedUser) {
+    if (!self.createdUser.isInitialized) {
       return NO;
     }
   }
@@ -731,8 +791,8 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if (self.hasAnswerId) {
     [output writeString:1 value:self.answerId];
   }
-  if (self.hasCreatUser) {
-    [output writeMessage:2 value:self.creatUser];
+  if (self.hasCreatedUser) {
+    [output writeMessage:2 value:self.createdUser];
   }
   if (self.hasIsAnonymous) {
     [output writeBool:5 value:self.isAnonymous];
@@ -764,8 +824,8 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if (self.hasAnswerId) {
     size_ += computeStringSize(1, self.answerId);
   }
-  if (self.hasCreatUser) {
-    size_ += computeMessageSize(2, self.creatUser);
+  if (self.hasCreatedUser) {
+    size_ += computeMessageSize(2, self.createdUser);
   }
   if (self.hasIsAnonymous) {
     size_ += computeBoolSize(5, self.isAnonymous);
@@ -823,9 +883,9 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if (self.hasAnswerId) {
     [output appendFormat:@"%@%@: %@\n", indent, @"answerId", self.answerId];
   }
-  if (self.hasCreatUser) {
-    [output appendFormat:@"%@%@ {\n", indent, @"creatUser"];
-    [self.creatUser writeDescriptionTo:output
+  if (self.hasCreatedUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"createdUser"];
+    [self.createdUser writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -863,8 +923,8 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   return
       self.hasAnswerId == otherMessage.hasAnswerId &&
       (!self.hasAnswerId || [self.answerId isEqual:otherMessage.answerId]) &&
-      self.hasCreatUser == otherMessage.hasCreatUser &&
-      (!self.hasCreatUser || [self.creatUser isEqual:otherMessage.creatUser]) &&
+      self.hasCreatedUser == otherMessage.hasCreatedUser &&
+      (!self.hasCreatedUser || [self.createdUser isEqual:otherMessage.createdUser]) &&
       self.hasIsAnonymous == otherMessage.hasIsAnonymous &&
       (!self.hasIsAnonymous || self.isAnonymous == otherMessage.isAnonymous) &&
       self.hasText == otherMessage.hasText &&
@@ -884,8 +944,8 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if (self.hasAnswerId) {
     hashCode = hashCode * 31 + [self.answerId hash];
   }
-  if (self.hasCreatUser) {
-    hashCode = hashCode * 31 + [self.creatUser hash];
+  if (self.hasCreatedUser) {
+    hashCode = hashCode * 31 + [self.createdUser hash];
   }
   if (self.hasIsAnonymous) {
     hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isAnonymous] hash];
@@ -951,8 +1011,8 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if (other.hasAnswerId) {
     [self setAnswerId:other.answerId];
   }
-  if (other.hasCreatUser) {
-    [self mergeCreatUser:other.creatUser];
+  if (other.hasCreatedUser) {
+    [self mergeCreatedUser:other.createdUser];
   }
   if (other.hasIsAnonymous) {
     [self setIsAnonymous:other.isAnonymous];
@@ -999,11 +1059,11 @@ static PBAnswer* defaultPBAnswerInstance = nil;
       }
       case 18: {
         PBUserBuilder* subBuilder = [PBUser builder];
-        if (self.hasCreatUser) {
-          [subBuilder mergeFrom:self.creatUser];
+        if (self.hasCreatedUser) {
+          [subBuilder mergeFrom:self.createdUser];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCreatUser:[subBuilder buildPartial]];
+        [self setCreatedUser:[subBuilder buildPartial]];
         break;
       }
       case 40: {
@@ -1054,34 +1114,34 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   resultPbanswer.answerId = @"";
   return self;
 }
-- (BOOL) hasCreatUser {
-  return resultPbanswer.hasCreatUser;
+- (BOOL) hasCreatedUser {
+  return resultPbanswer.hasCreatedUser;
 }
-- (PBUser*) creatUser {
-  return resultPbanswer.creatUser;
+- (PBUser*) createdUser {
+  return resultPbanswer.createdUser;
 }
-- (PBAnswerBuilder*) setCreatUser:(PBUser*) value {
-  resultPbanswer.hasCreatUser = YES;
-  resultPbanswer.creatUser = value;
+- (PBAnswerBuilder*) setCreatedUser:(PBUser*) value {
+  resultPbanswer.hasCreatedUser = YES;
+  resultPbanswer.createdUser = value;
   return self;
 }
-- (PBAnswerBuilder*) setCreatUserBuilder:(PBUserBuilder*) builderForValue {
-  return [self setCreatUser:[builderForValue build]];
+- (PBAnswerBuilder*) setCreatedUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setCreatedUser:[builderForValue build]];
 }
-- (PBAnswerBuilder*) mergeCreatUser:(PBUser*) value {
-  if (resultPbanswer.hasCreatUser &&
-      resultPbanswer.creatUser != [PBUser defaultInstance]) {
-    resultPbanswer.creatUser =
-      [[[PBUser builderWithPrototype:resultPbanswer.creatUser] mergeFrom:value] buildPartial];
+- (PBAnswerBuilder*) mergeCreatedUser:(PBUser*) value {
+  if (resultPbanswer.hasCreatedUser &&
+      resultPbanswer.createdUser != [PBUser defaultInstance]) {
+    resultPbanswer.createdUser =
+      [[[PBUser builderWithPrototype:resultPbanswer.createdUser] mergeFrom:value] buildPartial];
   } else {
-    resultPbanswer.creatUser = value;
+    resultPbanswer.createdUser = value;
   }
-  resultPbanswer.hasCreatUser = YES;
+  resultPbanswer.hasCreatedUser = YES;
   return self;
 }
-- (PBAnswerBuilder*) clearCreatUser {
-  resultPbanswer.hasCreatUser = NO;
-  resultPbanswer.creatUser = [PBUser defaultInstance];
+- (PBAnswerBuilder*) clearCreatedUser {
+  resultPbanswer.hasCreatedUser = NO;
+  resultPbanswer.createdUser = [PBUser defaultInstance];
   return self;
 }
 - (BOOL) hasIsAnonymous {
@@ -1196,10 +1256,478 @@ static PBAnswer* defaultPBAnswerInstance = nil;
 }
 @end
 
+@interface PBThanks ()
+@property (strong) NSString* thanksId;
+@property (strong) PBUser* fromUser;
+@property (strong) PBUser* toUser;
+@property (strong) PBAnswer* forAnswer;
+@property SInt32 createdAt;
+@end
+
+@implementation PBThanks
+
+- (BOOL) hasThanksId {
+  return !!hasThanksId_;
+}
+- (void) setHasThanksId:(BOOL) _value_ {
+  hasThanksId_ = !!_value_;
+}
+@synthesize thanksId;
+- (BOOL) hasFromUser {
+  return !!hasFromUser_;
+}
+- (void) setHasFromUser:(BOOL) _value_ {
+  hasFromUser_ = !!_value_;
+}
+@synthesize fromUser;
+- (BOOL) hasToUser {
+  return !!hasToUser_;
+}
+- (void) setHasToUser:(BOOL) _value_ {
+  hasToUser_ = !!_value_;
+}
+@synthesize toUser;
+- (BOOL) hasForAnswer {
+  return !!hasForAnswer_;
+}
+- (void) setHasForAnswer:(BOOL) _value_ {
+  hasForAnswer_ = !!_value_;
+}
+@synthesize forAnswer;
+- (BOOL) hasCreatedAt {
+  return !!hasCreatedAt_;
+}
+- (void) setHasCreatedAt:(BOOL) _value_ {
+  hasCreatedAt_ = !!_value_;
+}
+@synthesize createdAt;
+- (instancetype) init {
+  if ((self = [super init])) {
+    self.thanksId = @"";
+    self.fromUser = [PBUser defaultInstance];
+    self.toUser = [PBUser defaultInstance];
+    self.forAnswer = [PBAnswer defaultInstance];
+    self.createdAt = 0;
+  }
+  return self;
+}
+static PBThanks* defaultPBThanksInstance = nil;
++ (void) initialize {
+  if (self == [PBThanks class]) {
+    defaultPBThanksInstance = [[PBThanks alloc] init];
+  }
+}
++ (instancetype) defaultInstance {
+  return defaultPBThanksInstance;
+}
+- (instancetype) defaultInstance {
+  return defaultPBThanksInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasThanksId) {
+    return NO;
+  }
+  if (self.hasFromUser) {
+    if (!self.fromUser.isInitialized) {
+      return NO;
+    }
+  }
+  if (self.hasToUser) {
+    if (!self.toUser.isInitialized) {
+      return NO;
+    }
+  }
+  if (self.hasForAnswer) {
+    if (!self.forAnswer.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasThanksId) {
+    [output writeString:1 value:self.thanksId];
+  }
+  if (self.hasFromUser) {
+    [output writeMessage:2 value:self.fromUser];
+  }
+  if (self.hasToUser) {
+    [output writeMessage:3 value:self.toUser];
+  }
+  if (self.hasForAnswer) {
+    [output writeMessage:4 value:self.forAnswer];
+  }
+  if (self.hasCreatedAt) {
+    [output writeInt32:40 value:self.createdAt];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (SInt32) serializedSize {
+  __block SInt32 size_ = memoizedSerializedSize;
+  if (size_ != -1) {
+    return size_;
+  }
+
+  size_ = 0;
+  if (self.hasThanksId) {
+    size_ += computeStringSize(1, self.thanksId);
+  }
+  if (self.hasFromUser) {
+    size_ += computeMessageSize(2, self.fromUser);
+  }
+  if (self.hasToUser) {
+    size_ += computeMessageSize(3, self.toUser);
+  }
+  if (self.hasForAnswer) {
+    size_ += computeMessageSize(4, self.forAnswer);
+  }
+  if (self.hasCreatedAt) {
+    size_ += computeInt32Size(40, self.createdAt);
+  }
+  size_ += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size_;
+  return size_;
+}
++ (PBThanks*) parseFromData:(NSData*) data {
+  return (PBThanks*)[[[PBThanks builder] mergeFromData:data] build];
+}
++ (PBThanks*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBThanks*)[[[PBThanks builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PBThanks*) parseFromInputStream:(NSInputStream*) input {
+  return (PBThanks*)[[[PBThanks builder] mergeFromInputStream:input] build];
+}
++ (PBThanks*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBThanks*)[[[PBThanks builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PBThanks*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PBThanks*)[[[PBThanks builder] mergeFromCodedInputStream:input] build];
+}
++ (PBThanks*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PBThanks*)[[[PBThanks builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PBThanksBuilder*) builder {
+  return [[PBThanksBuilder alloc] init];
+}
++ (PBThanksBuilder*) builderWithPrototype:(PBThanks*) prototype {
+  return [[PBThanks builder] mergeFrom:prototype];
+}
+- (PBThanksBuilder*) builder {
+  return [PBThanks builder];
+}
+- (PBThanksBuilder*) toBuilder {
+  return [PBThanks builderWithPrototype:self];
+}
+- (void) writeDescriptionTo:(NSMutableString*) output withIndent:(NSString*) indent {
+  if (self.hasThanksId) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"thanksId", self.thanksId];
+  }
+  if (self.hasFromUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"fromUser"];
+    [self.fromUser writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasToUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"toUser"];
+    [self.toUser writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasForAnswer) {
+    [output appendFormat:@"%@%@ {\n", indent, @"forAnswer"];
+    [self.forAnswer writeDescriptionTo:output
+                         withIndent:[NSString stringWithFormat:@"%@  ", indent]];
+    [output appendFormat:@"%@}\n", indent];
+  }
+  if (self.hasCreatedAt) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"createdAt", [NSNumber numberWithInteger:self.createdAt]];
+  }
+  [self.unknownFields writeDescriptionTo:output withIndent:indent];
+}
+- (BOOL) isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (![other isKindOfClass:[PBThanks class]]) {
+    return NO;
+  }
+  PBThanks *otherMessage = other;
+  return
+      self.hasThanksId == otherMessage.hasThanksId &&
+      (!self.hasThanksId || [self.thanksId isEqual:otherMessage.thanksId]) &&
+      self.hasFromUser == otherMessage.hasFromUser &&
+      (!self.hasFromUser || [self.fromUser isEqual:otherMessage.fromUser]) &&
+      self.hasToUser == otherMessage.hasToUser &&
+      (!self.hasToUser || [self.toUser isEqual:otherMessage.toUser]) &&
+      self.hasForAnswer == otherMessage.hasForAnswer &&
+      (!self.hasForAnswer || [self.forAnswer isEqual:otherMessage.forAnswer]) &&
+      self.hasCreatedAt == otherMessage.hasCreatedAt &&
+      (!self.hasCreatedAt || self.createdAt == otherMessage.createdAt) &&
+      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+}
+- (NSUInteger) hash {
+  __block NSUInteger hashCode = 7;
+  if (self.hasThanksId) {
+    hashCode = hashCode * 31 + [self.thanksId hash];
+  }
+  if (self.hasFromUser) {
+    hashCode = hashCode * 31 + [self.fromUser hash];
+  }
+  if (self.hasToUser) {
+    hashCode = hashCode * 31 + [self.toUser hash];
+  }
+  if (self.hasForAnswer) {
+    hashCode = hashCode * 31 + [self.forAnswer hash];
+  }
+  if (self.hasCreatedAt) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.createdAt] hash];
+  }
+  hashCode = hashCode * 31 + [self.unknownFields hash];
+  return hashCode;
+}
+@end
+
+@interface PBThanksBuilder()
+@property (strong) PBThanks* resultPbthanks;
+@end
+
+@implementation PBThanksBuilder
+@synthesize resultPbthanks;
+- (instancetype) init {
+  if ((self = [super init])) {
+    self.resultPbthanks = [[PBThanks alloc] init];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return resultPbthanks;
+}
+- (PBThanksBuilder*) clear {
+  self.resultPbthanks = [[PBThanks alloc] init];
+  return self;
+}
+- (PBThanksBuilder*) clone {
+  return [PBThanks builderWithPrototype:resultPbthanks];
+}
+- (PBThanks*) defaultInstance {
+  return [PBThanks defaultInstance];
+}
+- (PBThanks*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PBThanks*) buildPartial {
+  PBThanks* returnMe = resultPbthanks;
+  self.resultPbthanks = nil;
+  return returnMe;
+}
+- (PBThanksBuilder*) mergeFrom:(PBThanks*) other {
+  if (other == [PBThanks defaultInstance]) {
+    return self;
+  }
+  if (other.hasThanksId) {
+    [self setThanksId:other.thanksId];
+  }
+  if (other.hasFromUser) {
+    [self mergeFromUser:other.fromUser];
+  }
+  if (other.hasToUser) {
+    [self mergeToUser:other.toUser];
+  }
+  if (other.hasForAnswer) {
+    [self mergeForAnswer:other.forAnswer];
+  }
+  if (other.hasCreatedAt) {
+    [self setCreatedAt:other.createdAt];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PBThanksBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PBThanksBuilder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSetBuilder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    SInt32 tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setThanksId:[input readString]];
+        break;
+      }
+      case 18: {
+        PBUserBuilder* subBuilder = [PBUser builder];
+        if (self.hasFromUser) {
+          [subBuilder mergeFrom:self.fromUser];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFromUser:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        PBUserBuilder* subBuilder = [PBUser builder];
+        if (self.hasToUser) {
+          [subBuilder mergeFrom:self.toUser];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setToUser:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        PBAnswerBuilder* subBuilder = [PBAnswer builder];
+        if (self.hasForAnswer) {
+          [subBuilder mergeFrom:self.forAnswer];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setForAnswer:[subBuilder buildPartial]];
+        break;
+      }
+      case 320: {
+        [self setCreatedAt:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasThanksId {
+  return resultPbthanks.hasThanksId;
+}
+- (NSString*) thanksId {
+  return resultPbthanks.thanksId;
+}
+- (PBThanksBuilder*) setThanksId:(NSString*) value {
+  resultPbthanks.hasThanksId = YES;
+  resultPbthanks.thanksId = value;
+  return self;
+}
+- (PBThanksBuilder*) clearThanksId {
+  resultPbthanks.hasThanksId = NO;
+  resultPbthanks.thanksId = @"";
+  return self;
+}
+- (BOOL) hasFromUser {
+  return resultPbthanks.hasFromUser;
+}
+- (PBUser*) fromUser {
+  return resultPbthanks.fromUser;
+}
+- (PBThanksBuilder*) setFromUser:(PBUser*) value {
+  resultPbthanks.hasFromUser = YES;
+  resultPbthanks.fromUser = value;
+  return self;
+}
+- (PBThanksBuilder*) setFromUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setFromUser:[builderForValue build]];
+}
+- (PBThanksBuilder*) mergeFromUser:(PBUser*) value {
+  if (resultPbthanks.hasFromUser &&
+      resultPbthanks.fromUser != [PBUser defaultInstance]) {
+    resultPbthanks.fromUser =
+      [[[PBUser builderWithPrototype:resultPbthanks.fromUser] mergeFrom:value] buildPartial];
+  } else {
+    resultPbthanks.fromUser = value;
+  }
+  resultPbthanks.hasFromUser = YES;
+  return self;
+}
+- (PBThanksBuilder*) clearFromUser {
+  resultPbthanks.hasFromUser = NO;
+  resultPbthanks.fromUser = [PBUser defaultInstance];
+  return self;
+}
+- (BOOL) hasToUser {
+  return resultPbthanks.hasToUser;
+}
+- (PBUser*) toUser {
+  return resultPbthanks.toUser;
+}
+- (PBThanksBuilder*) setToUser:(PBUser*) value {
+  resultPbthanks.hasToUser = YES;
+  resultPbthanks.toUser = value;
+  return self;
+}
+- (PBThanksBuilder*) setToUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setToUser:[builderForValue build]];
+}
+- (PBThanksBuilder*) mergeToUser:(PBUser*) value {
+  if (resultPbthanks.hasToUser &&
+      resultPbthanks.toUser != [PBUser defaultInstance]) {
+    resultPbthanks.toUser =
+      [[[PBUser builderWithPrototype:resultPbthanks.toUser] mergeFrom:value] buildPartial];
+  } else {
+    resultPbthanks.toUser = value;
+  }
+  resultPbthanks.hasToUser = YES;
+  return self;
+}
+- (PBThanksBuilder*) clearToUser {
+  resultPbthanks.hasToUser = NO;
+  resultPbthanks.toUser = [PBUser defaultInstance];
+  return self;
+}
+- (BOOL) hasForAnswer {
+  return resultPbthanks.hasForAnswer;
+}
+- (PBAnswer*) forAnswer {
+  return resultPbthanks.forAnswer;
+}
+- (PBThanksBuilder*) setForAnswer:(PBAnswer*) value {
+  resultPbthanks.hasForAnswer = YES;
+  resultPbthanks.forAnswer = value;
+  return self;
+}
+- (PBThanksBuilder*) setForAnswerBuilder:(PBAnswerBuilder*) builderForValue {
+  return [self setForAnswer:[builderForValue build]];
+}
+- (PBThanksBuilder*) mergeForAnswer:(PBAnswer*) value {
+  if (resultPbthanks.hasForAnswer &&
+      resultPbthanks.forAnswer != [PBAnswer defaultInstance]) {
+    resultPbthanks.forAnswer =
+      [[[PBAnswer builderWithPrototype:resultPbthanks.forAnswer] mergeFrom:value] buildPartial];
+  } else {
+    resultPbthanks.forAnswer = value;
+  }
+  resultPbthanks.hasForAnswer = YES;
+  return self;
+}
+- (PBThanksBuilder*) clearForAnswer {
+  resultPbthanks.hasForAnswer = NO;
+  resultPbthanks.forAnswer = [PBAnswer defaultInstance];
+  return self;
+}
+- (BOOL) hasCreatedAt {
+  return resultPbthanks.hasCreatedAt;
+}
+- (SInt32) createdAt {
+  return resultPbthanks.createdAt;
+}
+- (PBThanksBuilder*) setCreatedAt:(SInt32) value {
+  resultPbthanks.hasCreatedAt = YES;
+  resultPbthanks.createdAt = value;
+  return self;
+}
+- (PBThanksBuilder*) clearCreatedAt {
+  resultPbthanks.hasCreatedAt = NO;
+  resultPbthanks.createdAt = 0;
+  return self;
+}
+@end
+
 @interface PBFeed ()
 @property (strong) NSString* feedId;
 @property PBFeedType type;
-@property (strong) PBUser* createUser;
+@property (strong) PBUser* createdUser;
 @property (strong) NSString* title;
 @property BOOL isAnonymous;
 @property (strong) NSString* text;
@@ -1228,13 +1756,13 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   hasType_ = !!_value_;
 }
 @synthesize type;
-- (BOOL) hasCreateUser {
-  return !!hasCreateUser_;
+- (BOOL) hasCreatedUser {
+  return !!hasCreatedUser_;
 }
-- (void) setHasCreateUser:(BOOL) _value_ {
-  hasCreateUser_ = !!_value_;
+- (void) setHasCreatedUser:(BOOL) _value_ {
+  hasCreatedUser_ = !!_value_;
 }
-@synthesize createUser;
+@synthesize createdUser;
 - (BOOL) hasTitle {
   return !!hasTitle_;
 }
@@ -1294,7 +1822,7 @@ static PBAnswer* defaultPBAnswerInstance = nil;
   if ((self = [super init])) {
     self.feedId = @"";
     self.type = PBFeedTypeWorry;
-    self.createUser = [PBUser defaultInstance];
+    self.createdUser = [PBUser defaultInstance];
     self.title = @"";
     self.isAnonymous = NO;
     self.text = @"";
@@ -1341,8 +1869,11 @@ static PBFeed* defaultPBFeedInstance = nil;
   return [answerArray objectAtIndex:index];
 }
 - (BOOL) isInitialized {
-  if (self.hasCreateUser) {
-    if (!self.createUser.isInitialized) {
+  if (!self.hasFeedId) {
+    return NO;
+  }
+  if (self.hasCreatedUser) {
+    if (!self.createdUser.isInitialized) {
       return NO;
     }
   }
@@ -1387,8 +1918,8 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasType) {
     [output writeEnum:2 value:self.type];
   }
-  if (self.hasCreateUser) {
-    [output writeMessage:3 value:self.createUser];
+  if (self.hasCreatedUser) {
+    [output writeMessage:3 value:self.createdUser];
   }
   if (self.hasTitle) {
     [output writeString:4 value:self.title];
@@ -1435,8 +1966,8 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasType) {
     size_ += computeEnumSize(2, self.type);
   }
-  if (self.hasCreateUser) {
-    size_ += computeMessageSize(3, self.createUser);
+  if (self.hasCreatedUser) {
+    size_ += computeMessageSize(3, self.createdUser);
   }
   if (self.hasTitle) {
     size_ += computeStringSize(4, self.title);
@@ -1509,9 +2040,9 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasType) {
     [output appendFormat:@"%@%@: %@\n", indent, @"type", NSStringFromPBFeedType(self.type)];
   }
-  if (self.hasCreateUser) {
-    [output appendFormat:@"%@%@ {\n", indent, @"createUser"];
-    [self.createUser writeDescriptionTo:output
+  if (self.hasCreatedUser) {
+    [output appendFormat:@"%@%@ {\n", indent, @"createdUser"];
+    [self.createdUser writeDescriptionTo:output
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
@@ -1572,8 +2103,8 @@ static PBFeed* defaultPBFeedInstance = nil;
       (!self.hasFeedId || [self.feedId isEqual:otherMessage.feedId]) &&
       self.hasType == otherMessage.hasType &&
       (!self.hasType || self.type == otherMessage.type) &&
-      self.hasCreateUser == otherMessage.hasCreateUser &&
-      (!self.hasCreateUser || [self.createUser isEqual:otherMessage.createUser]) &&
+      self.hasCreatedUser == otherMessage.hasCreatedUser &&
+      (!self.hasCreatedUser || [self.createdUser isEqual:otherMessage.createdUser]) &&
       self.hasTitle == otherMessage.hasTitle &&
       (!self.hasTitle || [self.title isEqual:otherMessage.title]) &&
       self.hasIsAnonymous == otherMessage.hasIsAnonymous &&
@@ -1600,8 +2131,8 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (self.hasType) {
     hashCode = hashCode * 31 + self.type;
   }
-  if (self.hasCreateUser) {
-    hashCode = hashCode * 31 + [self.createUser hash];
+  if (self.hasCreatedUser) {
+    hashCode = hashCode * 31 + [self.createdUser hash];
   }
   if (self.hasTitle) {
     hashCode = hashCode * 31 + [self.title hash];
@@ -1682,8 +2213,8 @@ static PBFeed* defaultPBFeedInstance = nil;
   if (other.hasType) {
     [self setType:other.type];
   }
-  if (other.hasCreateUser) {
-    [self mergeCreateUser:other.createUser];
+  if (other.hasCreatedUser) {
+    [self mergeCreatedUser:other.createdUser];
   }
   if (other.hasTitle) {
     [self setTitle:other.title];
@@ -1767,11 +2298,11 @@ static PBFeed* defaultPBFeedInstance = nil;
       }
       case 26: {
         PBUserBuilder* subBuilder = [PBUser builder];
-        if (self.hasCreateUser) {
-          [subBuilder mergeFrom:self.createUser];
+        if (self.hasCreatedUser) {
+          [subBuilder mergeFrom:self.createdUser];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCreateUser:[subBuilder buildPartial]];
+        [self setCreatedUser:[subBuilder buildPartial]];
         break;
       }
       case 34: {
@@ -1862,34 +2393,34 @@ static PBFeed* defaultPBFeedInstance = nil;
   resultPbfeed.type = PBFeedTypeWorry;
   return self;
 }
-- (BOOL) hasCreateUser {
-  return resultPbfeed.hasCreateUser;
+- (BOOL) hasCreatedUser {
+  return resultPbfeed.hasCreatedUser;
 }
-- (PBUser*) createUser {
-  return resultPbfeed.createUser;
+- (PBUser*) createdUser {
+  return resultPbfeed.createdUser;
 }
-- (PBFeedBuilder*) setCreateUser:(PBUser*) value {
-  resultPbfeed.hasCreateUser = YES;
-  resultPbfeed.createUser = value;
+- (PBFeedBuilder*) setCreatedUser:(PBUser*) value {
+  resultPbfeed.hasCreatedUser = YES;
+  resultPbfeed.createdUser = value;
   return self;
 }
-- (PBFeedBuilder*) setCreateUserBuilder:(PBUserBuilder*) builderForValue {
-  return [self setCreateUser:[builderForValue build]];
+- (PBFeedBuilder*) setCreatedUserBuilder:(PBUserBuilder*) builderForValue {
+  return [self setCreatedUser:[builderForValue build]];
 }
-- (PBFeedBuilder*) mergeCreateUser:(PBUser*) value {
-  if (resultPbfeed.hasCreateUser &&
-      resultPbfeed.createUser != [PBUser defaultInstance]) {
-    resultPbfeed.createUser =
-      [[[PBUser builderWithPrototype:resultPbfeed.createUser] mergeFrom:value] buildPartial];
+- (PBFeedBuilder*) mergeCreatedUser:(PBUser*) value {
+  if (resultPbfeed.hasCreatedUser &&
+      resultPbfeed.createdUser != [PBUser defaultInstance]) {
+    resultPbfeed.createdUser =
+      [[[PBUser builderWithPrototype:resultPbfeed.createdUser] mergeFrom:value] buildPartial];
   } else {
-    resultPbfeed.createUser = value;
+    resultPbfeed.createdUser = value;
   }
-  resultPbfeed.hasCreateUser = YES;
+  resultPbfeed.hasCreatedUser = YES;
   return self;
 }
-- (PBFeedBuilder*) clearCreateUser {
-  resultPbfeed.hasCreateUser = NO;
-  resultPbfeed.createUser = [PBUser defaultInstance];
+- (PBFeedBuilder*) clearCreatedUser {
+  resultPbfeed.hasCreatedUser = NO;
+  resultPbfeed.createdUser = [PBUser defaultInstance];
   return self;
 }
 - (BOOL) hasTitle {

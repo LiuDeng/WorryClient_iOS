@@ -47,6 +47,15 @@ message PBAnswer{
 
 }
 
+message PBThanks{
+    required string thanks_id = 1;
+    optional PBUser from_user = 2;                                             //  创建用户，保存基础信息
+    optional PBUser to_user = 3;
+    optional PBAnswer for_answer = 4;
+
+    optional int32 created_at =40;                                              //  创建时间，服务器上是date类型
+}
+
 message PBFeed{
     required string feed_id = 1;
     optional PBFeedType type = 2;                                               //  根据PBFeedType决定

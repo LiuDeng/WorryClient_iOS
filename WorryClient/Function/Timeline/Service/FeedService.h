@@ -10,6 +10,7 @@
 #import "CommonService.h"
 #import "Feed.pb.h"
 #import "TopicService.h"
+#import "UserService.h"
 
 #define kFeedClassName @"Feed"
 #define kCreatedUser    @"createdUser"
@@ -19,6 +20,7 @@
 #define kCreatedUser    @"createdUser"
 #define kType           @"type"
 
+#define kCreatedFor     @"createdFor"
 
 @class PBTopic;
 

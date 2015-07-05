@@ -88,14 +88,15 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed
 {
     NSString *title = [feed objectForKey:kTitle];
-    AVUser *createUser = [feed objectForKey:kCreatedUser];
-    //  avUser -> pbUser in UserService
+    AVUser *createdUser = [feed objectForKey:kCreatedUser];
+    //  pbUser from avUser,but only get the base info:id,avatar,nick
+    PBUser *pbUser = [[UserService sharedInstance]simplePBUserWithUser:createdUser];
     NSString *text = [feed objectForKey:kText];
     NSArray *topics = [feed objectForKey:kTopics];
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     for (int i=0 ; i<topics.count; i++) {
         AVObject *topic = topics[i];
-//        topic = [topic fetchIfNeeded];
+//       TODO topic = [topic fetchIfNeeded];
         topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topic.objectId];
         PBTopic *pbTopic = [[TopicService sharedInstance]pbTopicWithTopic:topic];
         [pbTopics addObject:pbTopic];
@@ -110,6 +111,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     pbFeedBuilder.text = text;
     pbFeedBuilder.topicArray  = pbTopics;
     pbFeedBuilder.type = type;
+    pbFeedBuilder.createdUser = pbUser;
     
     PBFeed *pbFeed = [pbFeedBuilder build];
     
@@ -136,5 +138,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
         EXECUTE_BLOCK(block,pbObjects,error);
     }];
 }
+
+
 
 @end

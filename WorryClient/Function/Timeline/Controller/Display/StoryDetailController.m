@@ -150,7 +150,7 @@ const CGFloat strokeSize = 0.1f;
 
 - (void)loadCreatUserAvatarView
 {
-    self.creatUserAvatarView = [[AvatarView alloc]initWithPBUser:self.pbFeed.createUser];
+    self.creatUserAvatarView = [[AvatarView alloc]initWithPBUser:self.pbFeed.createdUser];
     [self.bgImageView addSubview:self.creatUserAvatarView];
     
     [self.creatUserAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {

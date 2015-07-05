@@ -10,6 +10,7 @@
 
 #define kCommentClassName   @"Comment"
 
+
 @interface FeedService (Comment)
 
 - (void)addCommentForFeed:(NSString *)feedId

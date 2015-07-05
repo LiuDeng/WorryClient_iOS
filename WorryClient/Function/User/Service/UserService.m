@@ -361,4 +361,24 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     NSData *pbUserData = [pbUser data];
     [[UserManager sharedInstance]storeUser:pbUserData];
 }
+
+/*
+ @param user AVUser
+ @return pbUser with the basic info:id,nick,avatar
+ */
+- (PBUser *)simplePBUserWithUser:(AVUser *)user
+{
+    //  TODO maybe need fetch.
+    NSString *nick = [user objectForKey:kNickKey];
+    NSString *avatar = [user objectForKey:kAvatarKey];
+    PBUserBuilder *builder = [PBUser builder];
+    
+    builder.userId = user.objectId;
+    builder.nick = nick;
+    builder.avatar = avatar;
+    
+    return [builder build];
+}
+
+
 @end

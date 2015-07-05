@@ -184,16 +184,19 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
     self.worryButton.otherButtons = @[self.storyButton];
     self.worryButton.selected = YES;
     
+    CGFloat buttonWidth = 75.0f;
     [self.storyButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.selectionHolderView.mas_centerX);
         make.centerY.equalTo(self.topicButton);
-        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
+        make.width.equalTo(@(buttonWidth));
+//        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
     }];
     
     [self.worryButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.selectionHolderView.mas_centerX);
         make.centerY.equalTo(self.topicButton);
-        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
+        make.width.equalTo(@(buttonWidth));
+//        make.width.equalTo(self.selectionHolderView).with.multipliedBy(buttonWithScale);
     }];
 }
 
