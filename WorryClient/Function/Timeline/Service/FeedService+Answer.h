@@ -13,4 +13,12 @@
 
 @interface FeedService (Answer)
 
+
+- (void)addAnswerForFeed:(NSString *)feedId
+                    text:(NSString *)text
+             isAnonymous:(BOOL)isAnonymous
+                   block:(ServiceErrorResultBlock)block;
+- (void)getPBAnswersFromFeed:(NSString *)feedId
+                       block:(ServiceArrayResultBlock)block;
+
 @end

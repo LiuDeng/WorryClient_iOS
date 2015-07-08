@@ -24,5 +24,6 @@
                       block:(ServiceErrorResultBlock)block;
 
 - (NSArray *)pbCommentsFromFeed:(NSString *)feedId;
+- (void)getPBCommentsFromFeed:(NSString *)feedId block:(ServiceArrayResultBlock)block;
 
 @end

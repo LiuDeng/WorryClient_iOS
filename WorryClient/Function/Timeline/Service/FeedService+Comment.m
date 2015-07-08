@@ -64,7 +64,27 @@ typedef void (^TypeBlock) (AVObject *comment);
 
 #pragma mark - Get comments
 
-- (NSArray *)pbCommentsFromFeed:(NSString *)feedId
+//- (NSArray *)pbCommentsFromFeed:(NSString *)feedId
+//{
+//    AVQuery *query = [AVQuery queryWithClassName:kCommentClassName];
+//    AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
+//    [query whereKey:kCreatedFor equalTo:feed];
+//    
+//    NSMutableArray *pbComments = [[NSMutableArray alloc]init];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        //  object from objects
+//        for (AVObject *object in objects) {
+//            //  pbComment from object
+//            PBComment *pbComment = [self pbCommentWithComment:object];
+//            //  pbComments add pbComment
+//            [pbComments addObject:pbComment];
+//        }
+//    }];
+//    
+//    return pbComments;
+//}
+
+- (void)getPBCommentsFromFeed:(NSString *)feedId block:(ServiceArrayResultBlock)block
 {
     AVQuery *query = [AVQuery queryWithClassName:kCommentClassName];
     AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
@@ -79,9 +99,9 @@ typedef void (^TypeBlock) (AVObject *comment);
             //  pbComments add pbComment
             [pbComments addObject:pbComment];
         }
+        EXECUTE_BLOCK(block,pbComments,error);
     }];
     
-    return pbComments;
 }
 
 #pragma mark - Utils

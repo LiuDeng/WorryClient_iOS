@@ -11,11 +11,12 @@
 
 @interface WorryAnswerCell : UITableViewCell
 {
-    UIView *_nickHolderView;
+    UIView *_nickHolderView;    //  TODO maybe remove
 }
 @property (nonatomic,strong) AvatarView *avatarView;
 @property (nonatomic,strong) UIButton *thanksButton;
 @property (nonatomic,strong) UILabel *nickLabel;
 @property (nonatomic,strong) UILabel *shortTextLabel;
+//@property (nonatomic,strong) UITextView *textView;      //  show the text of answer
 
 @end

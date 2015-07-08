@@ -369,6 +369,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 - (PBUser *)simplePBUserWithUser:(AVUser *)user
 {
     //  TODO maybe need fetch.
+    user = (AVUser *)[user fetchIfNeeded];
     NSString *nick = [user objectForKey:kNickKey];
     NSString *avatar = [user objectForKey:kAvatarKey];
     PBUserBuilder *builder = [PBUser builder];

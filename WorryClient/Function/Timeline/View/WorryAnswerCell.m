@@ -13,19 +13,13 @@
 
 #pragma mark - Default methods
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self loadView];
     }
     return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)layoutSubviews
@@ -35,19 +29,15 @@
     [_nickHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView);
         make.width.equalTo(self.contentView).with.multipliedBy(0.9);
-        make.top.equalTo(self.contentView);
+//        make.top.equalTo(self.contentView);
+        make.top.equalTo(self.avatarView);
         make.height.equalTo(self.contentView).with.multipliedBy(0.3);
     }];
     
-    [self.thanksButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_nickHolderView);
-        make.centerY.equalTo(_nickHolderView);
-    }];
-    
     [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_nickHolderView);
-        make.left.equalTo(self.thanksButton.mas_right);
-        make.right.equalTo(_nickHolderView);
+//        make.centerY.equalTo(_nickHolderView);
+        make.top.equalTo(_nickHolderView);
+        make.left.equalTo(_nickHolderView);
     }];
     
     [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -55,6 +45,11 @@
         make.width.equalTo(self.contentView.mas_height).with.multipliedBy(0.38);
         make.top.equalTo(self.contentView.mas_bottom).with.multipliedBy(0.1);
         make.left.equalTo(self.contentView);
+    }];
+    
+    [self.thanksButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.avatarView.mas_bottom).with.offset(+kVerticalPadding);
+        make.centerX.equalTo(self.avatarView);
     }];
     
     [self.shortTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -96,10 +91,11 @@
 {
     self.thanksButton = [[UIButton alloc]init];
     [_nickHolderView addSubview:self.thanksButton];
-    [self.thanksButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.thanksButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     UIImage *image = [UIImage imageNamed:@"worry_detail_thanks"];
     [self.thanksButton setBackgroundImage:image forState:UIControlStateNormal];
-    self.thanksButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    self.thanksButton.titleLabel.font = [UIFont systemFontOfSize:5];
+
 
 }
 
@@ -116,7 +112,7 @@
     [self.contentView addSubview:self.shortTextLabel];
     self.shortTextLabel.numberOfLines = 0;
     self.shortTextLabel.textColor = kLabelBlackColor;
-    self.shortTextLabel.font = [UIFont systemFontOfSize:14];
+    self.shortTextLabel.font = kMiddleLabelFont;
 }
 
 

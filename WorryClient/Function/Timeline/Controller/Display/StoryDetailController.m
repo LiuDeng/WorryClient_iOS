@@ -11,6 +11,7 @@
 #import "THLabel.h"
 #import "AppDelegate.h"
 #import "Feed.pb.h"
+#import "CommentListController.h"
 
 const CGFloat strokeSize = 0.1f;
 
@@ -73,7 +74,7 @@ const CGFloat strokeSize = 0.1f;
 //    [self loadShareWxTimelineImageView];
 //    [self loadBlessingImageView];
     
-    [self loadEditImageView];
+    [self loadEditButton];
 }
 
 - (void)loadData
@@ -266,14 +267,13 @@ const CGFloat strokeSize = 0.1f;
     }];
 }
 
-- (void)loadEditImageView
+- (void)loadEditButton
 {
     UIImage *image = [UIImage imageNamed:@"story_detail_edit"];
-//    self.editImageView = [[UIImageView alloc]initWithImage:image];
-//    [self.textView addSubview:self.editImageView];
     self.editButton = [[UIButton alloc]init];
     [self.textView addSubview:self.editButton];
     [self.editButton setImage:image forState:UIControlStateNormal];
+    [self.editButton addTarget:self action:@selector(clickEditBtn) forControlEvents:UIControlEventTouchUpInside];
     
     [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.textView).with.multipliedBy(1.8);
@@ -286,12 +286,17 @@ const CGFloat strokeSize = 0.1f;
 
 - (void)clickMoreButton
 {
-    
+    //  TODO
 }
 - (void)clickShareButton
 {
-    
+    //  TODO    
 }
 
+- (void)clickEditBtn
+{
+    CommentListController *vc = [[CommentListController alloc]initWithPBFeed:self.pbFeed];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

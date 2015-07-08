@@ -12,6 +12,7 @@
 @interface CommentController ()
 
 @property (nonatomic,strong) PBFeed *pbFeed;
+@property (nonatomic,strong) PBAnswer *pbAnswer;
 @property (nonatomic,strong) UITextView *textView;
 
 @end
@@ -25,6 +26,15 @@
     self = [super init];
     if (self) {
         self.pbFeed = pbFeed;
+    }
+    return self;
+}
+
+- (id)initWithPBAnswer:(PBAnswer *)pbAnswer
+{
+    self = [super init];
+    if (self) {
+        self.pbAnswer = pbAnswer;
     }
     return self;
 }
@@ -63,21 +73,36 @@
     NSString *text = self.textView.text;
     BOOL isAnonymous = NO;  //
     if (text.length>0) {
-        [[FeedService sharedInstance]addCommentForFeed:self.pbFeed.feedId
-                                                  text:text
-                                           isAnonymous:isAnonymous block:^(NSError *error) {
-                                               if (error) {
-                                                   POST_ERROR_MSG(@"发表失败");
-                                               }else{
-                                                   POST_SUCCESS_MSG(@"发表成功");
-                                                   //   pop controller
-                                               }
-                                           }];
+        if (self.pbFeed) {
+            [[FeedService sharedInstance]addCommentForFeed:self.pbFeed.feedId
+                                                      text:text
+                                               isAnonymous:isAnonymous
+                                                     block:^(NSError *error) {
+                                                         [self afterReleaseWith:error];
+                                                     }];
+        }else {
+            [[FeedService sharedInstance]addCommentForAnswer:self.pbAnswer.answerId
+                                                      text:text
+                                               isAnonymous:isAnonymous
+                                                     block:^(NSError *error) {
+                                                         [self afterReleaseWith:error];
+                                                     }];
+        }
     }else{
         POST_ERROR_MSG(@"请输入评论内容");
     }
     
 
+}
+
+- (void)afterReleaseWith:(NSError *)error
+{
+    if (error) {
+        POST_ERROR_MSG(@"发表失败");
+    }else{
+        POST_SUCCESS_MSG(@"发表成功");
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

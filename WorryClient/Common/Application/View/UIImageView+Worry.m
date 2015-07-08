@@ -19,11 +19,21 @@
 
 - (void)setAvatarWithPBUser:(PBUser *)pbUser
 {
+//    if (pbUser.avatar.length>0) {
+//        NSURL *url = [NSURL URLWithString:pbUser.avatar];
+//        [self sd_setImageWithURL:url];
+//    }else{
+//        //  YES:male,NO:female
+//        BOOL isMale = pbUser.gender;
+//        NSString *imageName;
+//        imageName = isMale ?  @"avatar_male" : @"avatar_female";
+//        [self setImageWithURLStr:pbUser.avatar placeholderImageName:imageName];
+//    }
     BOOL isMale = pbUser.gender;
-    NSString *urlStr = pbUser.avatar;
     NSString *imageName;
     imageName = isMale ?  @"avatar_male" : @"avatar_female";
-    [self setImageWithURLStr:urlStr placeholderImageName:imageName];
+    [self setImageWithURLStr:pbUser.avatar placeholderImageName:imageName];
+
 }
 
 - (void)setBGImageWithPBUser:(PBUser *)pbUser

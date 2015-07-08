@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "User.pb.h"
+#import "UIImageView+Worry.h"
 
 typedef NS_ENUM(NSInteger, AvatarViewClickType){
     AvatarViewClickTypeZoom,

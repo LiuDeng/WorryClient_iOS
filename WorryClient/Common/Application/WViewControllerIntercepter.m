@@ -45,7 +45,7 @@
         [UIViewController aspect_hookSelector:@selector(viewWillAppear:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo>aspectInfo){
             [self viewWillAppear:[aspectInfo instance]];
         }error:nil];
-        
+
     }
     return self;
 }

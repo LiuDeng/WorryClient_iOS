@@ -8,6 +8,7 @@
 //  这个页面还得添加@机制，textview的位置得变换。
 #import "AnswerController.h"
 #import "PlaceholderTextView.h"
+#import "FeedService+Answer.h"
 
 @interface AnswerController ()
 
@@ -30,16 +31,6 @@
 }
 
 #pragma mark - Default methods
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)loadView
 {
@@ -70,7 +61,24 @@
 
 - (void)clickReleaseButton
 {
-        //  TODO
+    NSString *text = self.textView.text;
+    BOOL isAnonymous = NO;
+    if (text.length>0) {
+        [[FeedService sharedInstance]addAnswerForFeed:self.pbFeed.feedId
+                                                 text:text
+                                          isAnonymous:isAnonymous
+                                                block:^(NSError *error) {
+                                                    if (error) {
+                                                        POST_ERROR_MSG(@"添加回答失败");
+                                                    }else{
+                                                        POST_SUCCESS_MSG(@"添加回答成功");
+                                                        [self.navigationController popViewControllerAnimated:YES];
+                                                    }
+                                                }];
+    }else{
+        POST_ERROR_MSG(@"请输入内容");
+    }
+
 }
 
 @end

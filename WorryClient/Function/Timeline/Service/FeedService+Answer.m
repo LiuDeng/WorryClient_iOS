@@ -65,7 +65,7 @@
     }];
 }
 
-#pragma mark - Get comments
+#pragma mark - Get answers
 
 - (void)getPBAnswersFromFeed:(NSString *)feedId block:(ServiceArrayResultBlock)block
 {

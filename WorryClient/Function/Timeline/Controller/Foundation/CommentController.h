@@ -13,4 +13,6 @@
 
 - (id)initWithPBFeed:(PBFeed *)pbFeed;
 
+- (id)initWithPBAnswer:(PBAnswer *)pbAnswer;
+
 @end

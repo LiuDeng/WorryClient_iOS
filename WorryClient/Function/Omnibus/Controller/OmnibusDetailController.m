@@ -217,7 +217,7 @@
     
     StoryCollectionViewCell *storyCollectionViewCell = (StoryCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kStoryCell forIndexPath:indexPath];
     storyCollectionViewCell.titleLabel.text = pbFeed.title;
-    storyCollectionViewCell.authorLabel.text = pbFeed.createUser.nick;
+    storyCollectionViewCell.authorLabel.text = pbFeed.createdUser.nick;
     
     NSString *dateStr = [Utils dateStringCompareTo:pbFeed.createdAt];   //  TODO
     storyCollectionViewCell.dateLabel.text = dateStr;//@"金鱼女生喜欢上了一个男生，于是有了心事，只是一直都是独角戏。";
