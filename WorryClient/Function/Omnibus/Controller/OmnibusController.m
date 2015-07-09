@@ -10,7 +10,6 @@
 #import "TopicCollectionViewCell.h"
 #import "OmnibusDetailController.h"
 #import "CreateTopicController.h"
-#import "TopicManager.h"
 #import "TopicService.h"
 #import "MJRefresh.h"
 #import "RecommendationService.h"
@@ -118,7 +117,7 @@
             }else{
                 [weakSelf refreshPBTopicWith:pbObjects];
             }
-        }];;
+        }];
     }];
 
     [self.collectionView addLegendFooterWithRefreshingBlock:^{

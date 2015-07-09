@@ -8,7 +8,6 @@
 
 #import "SelectTopicController.h"
 #import "Topic.pb.h"
-#import "TopicManager.h"
 #import "TopicService.h"
 #import "SelectTopicCell.h"
 #import "MJRefresh.h"
@@ -140,7 +139,15 @@
 
 - (void)afterRefresh
 {
-    self.pbTopicArray = [[TopicManager sharedInstance]pbTopicArray];
+//    self.pbTopicArray = [[TopicManager sharedInstance]pbTopicArray];
+    [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
+        if (error) {
+            //  failed in loading data from server and cache
+            POST_ERROR_MSG(@"加载失败");
+        }else{
+            self.pbTopicArray = pbObjects;
+        }
+    }];
     [self.collectionView reloadData];
     if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
         [self.collectionView.header endRefreshing];
