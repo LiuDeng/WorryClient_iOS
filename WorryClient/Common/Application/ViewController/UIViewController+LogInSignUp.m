@@ -17,26 +17,19 @@
 
 - (void)phoneSignUp
 {
-    RequestCodeController *vc = [[RequestCodeController alloc]initWithVerifySuccessAction:^(NSString *phone, NSString *areaCode) {
+    RequestCodeController *vc = [[RequestCodeController alloc]initWithVerifySuccessAction:^(NSString *phone, NSString *smsCode) {
         EditController *vc = [[EditController alloc]initWithText:nil
                                                      placeholder:@"请输入密码"
                                                             tips:nil
                                                          isMulti:NO
                                                  saveActionBlock:^(NSString *text) {
-            
-                                                    //  TODO sign up the new user
-                                                     [[UserService sharedInstance]phoneSignUp:phone
-                                                                                     password:text
-                                                                                        block:^(NSError *error) {
-                                                                                            if (error) {
-                                                                                                POST_ERROR_MSG(@"注册失败，请稍候尝试");
-                                                                                            }else{
-                                                                                                POST_SUCCESS_MSG(@"注册成功");
-                                                                                                [self goToUser];
-                                                                                            }
-                                                                                        }];
-            
-
+                                                     [[UserService sharedInstance]phoneSignUp:phone password:text smsCode:smsCode block:^(NSError *error) {
+                                                             if (error) {
+                                                                 POST_ERROR_MSG(@"注册失败，请稍候尝试");
+                                                             }else{
+                                                                 [self afterSignUpSuccess];
+                                                             }
+                                                     }];
                                                  }];
         vc.textField.secureTextEntry = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -98,6 +91,7 @@
 
 - (void)goToUser
 {
+    //  应该得用tab bar，跳转到userController
     NSArray *childControllers = self.navigationController.childViewControllers;
     NSInteger count = childControllers.count;
     for (int i = 0;i<count;i++) {
@@ -113,6 +107,14 @@
     }
 }
 
-
+- (void)afterSignUpSuccess
+{
+    //  TODO 等待测试
+   [self goToUser];
+    NSString *title = @"注册成功，用户名为手机号码\n请点击背景，设置个人资料";
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:nil delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
+ 
+}
 
 @end

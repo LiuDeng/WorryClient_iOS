@@ -23,7 +23,11 @@
                 isAnonymous:(BOOL)isAnonymous
                       block:(ServiceErrorResultBlock)block;
 
-- (NSArray *)pbCommentsFromFeed:(NSString *)feedId;
+- (void)addCommentForComment:(NSString *)commentId
+                       text:(NSString *)text
+                isAnonymous:(BOOL)isAnonymous
+                      block:(ServiceErrorResultBlock)block;
+
 - (void)getPBCommentsFromFeed:(NSString *)feedId block:(ServiceArrayResultBlock)block;
 
 @end

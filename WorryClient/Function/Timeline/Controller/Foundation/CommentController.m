@@ -14,6 +14,7 @@
 @property (nonatomic,strong) PBFeed *pbFeed;
 @property (nonatomic,strong) PBAnswer *pbAnswer;
 @property (nonatomic,strong) UITextView *textView;
+@property (nonatomic,strong) PBComment *pbComment;
 
 @end
 
@@ -35,6 +36,15 @@
     self = [super init];
     if (self) {
         self.pbAnswer = pbAnswer;
+    }
+    return self;
+}
+
+- (id)initWithPBComment:(PBComment *)pbComment
+{
+    self = [super init];
+    if (self) {
+        self.pbComment = pbComment;
     }
     return self;
 }
@@ -80,13 +90,20 @@
                                                      block:^(NSError *error) {
                                                          [self afterReleaseWith:error];
                                                      }];
-        }else {
+        }else if (self.pbAnswer){
             [[FeedService sharedInstance]addCommentForAnswer:self.pbAnswer.answerId
                                                       text:text
                                                isAnonymous:isAnonymous
                                                      block:^(NSError *error) {
                                                          [self afterReleaseWith:error];
                                                      }];
+        }else{
+            [[FeedService sharedInstance]addCommentForComment:self.pbComment.commentId
+                                                        text:text
+                                                 isAnonymous:isAnonymous
+                                                       block:^(NSError *error) {
+                                                           [self afterReleaseWith:error];
+                                                       }];
         }
     }else{
         POST_ERROR_MSG(@"请输入评论内容");

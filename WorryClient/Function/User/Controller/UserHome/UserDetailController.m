@@ -8,7 +8,6 @@
 
 #import "UserDetailController.h"
 #import "User.pb.h"
-#import "UserManager.h"
 #import "UserDetailAvatarCell.h"
 #import "UserDetailBGImageCell.h"
 #import "UserService.h"
@@ -69,8 +68,9 @@
     self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSignatureTitle];
     self.sectionMiscItems = @[kGenderTitle,kChangePwdTitle];
     
-    [[UserService sharedInstance]refreshUser];
-    self.pbUser = [[UserManager sharedInstance] pbUser];
+//    [[UserService sharedInstance]refreshUser];
+//    self.pbUser = [[UserManager sharedInstance] pbUser];
+    self.pbUser = [[UserService sharedInstance]currentPBUser];
     
     self.sectionContactImages = [[NSMutableArray alloc]init];
     self.sectionContactItems = [[NSMutableArray alloc]init];

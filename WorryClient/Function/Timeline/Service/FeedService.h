@@ -12,7 +12,7 @@
 #import "TopicService.h"
 #import "UserService.h"
 
-#define kFeedClassName @"Feed"
+#define kFeedClassName  @"Feed"
 #define kCreatedUser    @"createdUser"
 #define kIsAnonymous    @"isAnonymous"
 #define kText           @"text"
@@ -40,6 +40,8 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)getNewFeedsWithBlock:(ServiceArrayResultBlock)block;
 - (void)getMoreFeedsWithBlock:(ServiceArrayResultBlock)block;
+//  TODO 修改feed的方法
+
 
 - (PBFeed *)pbFeedWithFeedId:(NSString *)feedId;
 //  得有一个根据Topic找到大量Feed的方法，只不过这个方法要放哪？FeedService or TopicService

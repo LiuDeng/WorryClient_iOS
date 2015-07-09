@@ -7,9 +7,9 @@
 //
 
 #import "TopicManager.h"
-#import "UserManager.h"
 #import "WorryConfigManager.h"
 #import "Topic.pb.h"
+#import "UserService.h"
 
 #define kTopicTable              @"kTopicTable"
 #define kTopicTableFieldId       @"id"
@@ -25,7 +25,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicManager)
 {
     self = [super init];
     if (self) {
-        NSString *userId = [[UserManager sharedInstance]pbUser].userId;
+        NSString *userId = [[UserService sharedInstance]currentPBUser].userId;
         if (userId.length>0) {
             _dbPath = [NSString stringWithFormat:@"/tmp/%@_%@",kDBName,userId];   //  /tmp不能缺少
         }else{

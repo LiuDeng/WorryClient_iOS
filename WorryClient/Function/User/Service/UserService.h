@@ -10,44 +10,49 @@
 #import <ShareSDK/ShareSDK.h>
 #import <SMS_SDK/SMS_SDK.h>
 
-@interface UserService : CommonService
+typedef void (^ServicePBUserBlock) (PBUser *pbUser,NSError *error);
 
+@interface UserService : CommonService
+{
+    PBUser *_currentPBUser;
+}
 DEFINE_SINGLETON_FOR_CLASS(UserService)
 
-- (void)requestSmsCodeWithPhone:(NSString *)phone
-                      callback:(ServiceErrorResultBlock)block;
-- (void)verifySmsCode:(NSString *)code
-    mobilePhoneNumber:(NSString *)phoneNumber
-             callback:(ServiceErrorResultBlock)block;
+- (PBUser *)currentPBUser;
+
+#pragma mark - Sign up
+- (void)emailSignUp:(NSString *)email
+           password:(NSString *)password
+              block:(ServiceErrorResultBlock)block;
+- (void)phoneSignUp:(NSString *)phone
+           password:(NSString *)password
+            smsCode:code
+              block:(ServiceErrorResultBlock)block;
+
+#pragma mark - Log in
+- (void)verifyCode:(NSString *)code
+             phone:(NSString *)phone
+          callback:(ServiceErrorResultBlock)block;
+- (void)getCodeWithPhone:(NSString *)phone
+                callback:(ServiceErrorResultBlock)block;
 
 - (void)requestEmailVerify:(NSString*)email
                  withBlock:(ServiceErrorResultBlock)block;
 
-- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone
-                                   smsCode:(NSString *)code
-                                     block:(ServiceErrorResultBlock)block;
-- (void)signUpByEmail:(NSString *)email
-             password:(NSString *)password
-                block:(ServiceBooleanResultBlock)block; //  change to emailSignUp?
-- (void)phoneSignUp:(NSString *)phone
-           password:(NSString *)password
-              block:(ServiceErrorResultBlock)block;
-
-- (void)logInByValue:(NSString *)value
-            password:(NSString *)password
-               block:(ServiceErrorResultBlock)block;
-- (void)refreshUser;
+- (void)logInWithUsername:(NSString *)username
+                 password:(NSString *)password
+                    block:(ServicePBUserBlock)block;
 - (void)logOut;
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block;
 - (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block;
 
-- (void)requireVerifyCodeWithPhone:(NSString *)phone
-                          areaCode:(NSString *)areaCode
-                       resultBlock:(ServiceErrorResultBlock)resultBlock;
-- (void)commitVerifyCode:(NSString *)code
-                  result:(CommitVerifyCodeBlock)result;
+//- (void)requireVerifyCodeWithPhone:(NSString *)phone
+//                          areaCode:(NSString *)areaCode
+//                       resultBlock:(ServiceErrorResultBlock)resultBlock;
+//- (void)commitVerifyCode:(NSString *)code
+//                  result:(CommitVerifyCodeBlock)result;
 
-
+#pragma mark - Update
 - (void)updateAvatar:(UIImage *)image block:(ServiceErrorResultBlock) block;
 - (void)updateBGImage:(UIImage *)image block:(ServiceErrorResultBlock) block;
 - (void)updateNick:(NSString *)nick block:(ServiceErrorResultBlock)block;
@@ -65,8 +70,10 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 
 - (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block;
 
-
+#pragma mark - Else
 - (BOOL)ifLogIn;
 
 - (PBUser *)simplePBUserWithUser:(AVUser *)user;
+
+//  请求验证邮箱
 @end

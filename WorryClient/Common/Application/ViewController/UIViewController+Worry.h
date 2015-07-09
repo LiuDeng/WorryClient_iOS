@@ -16,7 +16,6 @@
 #import "UIViewController+Utils.h"
 #import "ViewDefault.h"
 #import "LocaleUtils.h"
-#import "UserManager.h"
 #import "UserService.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "RDVTabBarController.h"

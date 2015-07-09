@@ -8,7 +8,7 @@
 
 #import "UIViewController+Worry.h"
 
-typedef void(^VerifySuccessAction) (NSString *phone,NSString *areaCode);
+typedef void(^VerifySuccessAction) (NSString *phone,NSString *smsCode);
 
 @interface VerifyCodeController : UIViewController
 

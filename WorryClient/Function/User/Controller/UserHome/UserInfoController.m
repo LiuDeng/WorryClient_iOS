@@ -45,7 +45,7 @@
 {
     self = [super init];
     if (self) {
-        self.pbUser = [[UserManager sharedInstance]pbUser]; //  TODO
+        self.pbUser = [[UserService sharedInstance]currentPBUser];  //  TODO
     }
     return self;
 }

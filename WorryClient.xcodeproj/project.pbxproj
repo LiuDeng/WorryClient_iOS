@@ -55,7 +55,6 @@
 		7C5A380C1ADB9E3000CFA176 /* image2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37D71ADB9E3000CFA176 /* image2.jpg */; };
 		7C5A380D1ADB9E3000CFA176 /* image3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7C5A37D81ADB9E3000CFA176 /* image3.jpg */; };
 		7C5A380E1ADB9E3000CFA176 /* TopicCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37DB1ADB9E3000CFA176 /* TopicCollectionViewCell.m */; };
-		7C5A38101ADB9E3000CFA176 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37E21ADB9E3000CFA176 /* UserManager.m */; };
 		7C5A38111ADB9E3000CFA176 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37E71ADB9E3000CFA176 /* UserService.m */; };
 		7C5A38121ADB9E3000CFA176 /* AvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37EA1ADB9E3000CFA176 /* AvatarView.m */; };
 		7C5A38141ADB9E3000CFA176 /* UserAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A37EE1ADB9E3000CFA176 /* UserAvatarCell.m */; };
@@ -384,8 +383,6 @@
 		7C5A37D81ADB9E3000CFA176 /* image3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image3.jpg; sourceTree = "<group>"; };
 		7C5A37DA1ADB9E3000CFA176 /* TopicCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCollectionViewCell.h; sourceTree = "<group>"; };
 		7C5A37DB1ADB9E3000CFA176 /* TopicCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCollectionViewCell.m; sourceTree = "<group>"; };
-		7C5A37E11ADB9E3000CFA176 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
-		7C5A37E21ADB9E3000CFA176 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
 		7C5A37E61ADB9E3000CFA176 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		7C5A37E71ADB9E3000CFA176 /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		7C5A37E91ADB9E3000CFA176 /* AvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarView.h; sourceTree = "<group>"; };
@@ -1248,8 +1245,6 @@
 		7C5A37E01ADB9E3000CFA176 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7C5A37E11ADB9E3000CFA176 /* UserManager.h */,
-				7C5A37E21ADB9E3000CFA176 /* UserManager.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2069,7 +2064,6 @@
 				7CC5A48C1B18386C00484B5C /* ThanksController.m in Sources */,
 				7C5A37F91ADB9E3000CFA176 /* WorryConfigManager.m in Sources */,
 				7CBD2D0A1AEB75EC0091EB20 /* Error.pb.m in Sources */,
-				7C5A38101ADB9E3000CFA176 /* UserManager.m in Sources */,
 				7C5A38111ADB9E3000CFA176 /* UserService.m in Sources */,
 				7C5177F11B24322F00EB1EE7 /* UserInfoAvatarCell.m in Sources */,
 				7C999BD31B2320270088A60B /* WViewControllerIntercepter.m in Sources */,

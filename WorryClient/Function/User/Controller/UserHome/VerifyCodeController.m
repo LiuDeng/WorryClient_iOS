@@ -5,7 +5,7 @@
 //  Created by 蔡少武 on 15/6/12.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
-
+//  并没有验证！
 #import "VerifyCodeController.h"
 #import "UserDetailController.h"
 #import "LogInController.h"
@@ -73,7 +73,7 @@
 
 - (void)loadTextField
 {
-    self.textField = [UITextField defaultTextField:@"请输入4位验证码" superView:self.view];
+    self.textField = [UITextField defaultTextField:@"请输入6位验证码" superView:self.view];
     
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tipsLabel.mas_bottom).with.offset(kVerticalPadding);
@@ -82,6 +82,7 @@
 
 - (void)loadNoCodeBtn
 {
+    //  TODO 这个按钮可能要一直隐藏
     self.noCodeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.view addSubview:self.noCodeBtn];
     [self.noCodeBtn setTitle:@"收不到短信验证码?" forState:UIControlStateNormal];
@@ -93,7 +94,7 @@
         make.top.equalTo(self.textField.mas_bottom).with.offset(kVerticalPadding);
     }];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:30
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:60
                                                   target:self
                                                 selector:@selector(timeOver)
                                                 userInfo:nil
@@ -117,7 +118,8 @@
 
 - (void)clickSubmitBtn
 {
-    if(self.textField.text.length!=4)
+    NSString *smsCode = self.textField.text;
+    if(smsCode.length!=6)
     {
         self.codeErrorAlert = [[UIAlertView alloc] initWithTitle:kNoticeTitle
                                                          message:@"验证码格式错误，请重新填写"
@@ -126,20 +128,20 @@
                                                otherButtonTitles:nil];
         [self.codeErrorAlert show];
     }else{
-        [[UserService sharedInstance]commitVerifyCode:self.textField.text result:^(enum SMS_ResponseState state) {
-            if (state==SMS_ResponseStateSuccess){
-                POST_SUCCESS_MSG(@"验证成功");
-                EXECUTE_BLOCK(self.verifySuccessAction,self.phone,self.areaCode);
-            }else if(state==SMS_ResponseStateFail){
-                NSString* str=[NSString stringWithFormat:kNoticeTitle];
-                self.verifyFailedAlert =[[UIAlertView alloc] initWithTitle:str
-                                                                   message:@"验证码无效，请重新输入验证码"
-                                                                  delegate:self
-                                                         cancelButtonTitle:@"确定"
-                                                         otherButtonTitles:nil, nil];
-                [self.verifyFailedAlert show];
-            }
-        }];
+//        [[UserService sharedInstance]verifyCode:smsCode phone:self.phone callback:^(NSError *error) {
+//            if (error) {
+//                NSString* str=[NSString stringWithFormat:kNoticeTitle];
+//                self.verifyFailedAlert =[[UIAlertView alloc] initWithTitle:str
+//                                                                   message:@"验证码无效，请重新输入验证码"
+//                                                                  delegate:self
+//                                                         cancelButtonTitle:@"确定"
+//                                                         otherButtonTitles:nil, nil];
+//                [self.verifyFailedAlert show];
+//            }else{
+//                POST_SUCCESS_MSG(@"验证成功");
+                EXECUTE_BLOCK(self.verifySuccessAction,self.phone,smsCode);
+//            }
+//        }];
     }
 }
 
@@ -165,7 +167,7 @@
         //  self.codeErrorAlert and self.verifyFailedAlert only have cancel button
         if (alertView==self.noCodeAlert) {
             //  no code
-            [[UserService sharedInstance]requireVerifyCodeWithPhone:self.phone areaCode:self.areaCode resultBlock:^(NSError *error) {
+            [[UserService sharedInstance]getCodeWithPhone:self.phone callback:^(NSError *error) {
                 if (error==nil) {
                     POST_SUCCESS_MSG(@"发送成功");
                 }else{
@@ -181,6 +183,8 @@
 - (void)timeOver
 {
     self.noCodeBtn.hidden = NO;
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 @end

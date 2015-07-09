@@ -12,7 +12,7 @@
 @interface CommentController : UIViewController
 
 - (id)initWithPBFeed:(PBFeed *)pbFeed;
-
 - (id)initWithPBAnswer:(PBAnswer *)pbAnswer;
+- (id)initWithPBComment:(PBComment *)pbComment;
 
 @end

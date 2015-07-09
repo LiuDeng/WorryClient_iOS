@@ -7,11 +7,9 @@
 //
 
 #import "UserService.h"
-#import "UserManager.h"
 #import "WorryConfigManager.h"
 #import "Utils.h"
 
-#define kPBUserKey      @"pbUserData"
 #define kAvatarName     @"avatar.jpeg"
 #define kBGImageName    @"BGImage.jpeg"
 
@@ -19,22 +17,19 @@
 #define kDefaultSignature      @"这个人很懒"
 
 //  暂时不用和User.proto中的一样
+#define kNick        @"nick"
+#define kAvatar      @"avatar"
+#define kGender      @"gender"
+#define kBGImage     @"BGImage"
+#define kSignature   @"signature"
+#define kLocation    @"location"
+#define kCredit      @"credit"
+#define kLevel       @"level"
+#define kThanksNum   @"thanksNum"
+#define kAgreeNum    @"agreeNum"
 
-#define kNickKey        @"nick"
-#define kAvatarKey      @"avatar"
-#define kGenderKey      @"gender"
-#define kBGImageKey     @"BGImage"
-#define kSignatureKey   @"signature"
-#define kLocationKey    @"location"
-#define kCreditKey      @"credit"
-#define kLevelKey       @"level"
-#define kThanksNumKey   @"thanksNum"
-#define kAgreeNumKey    @"agreeNum"
-#define kPhoneKey       @"phone"
-#define kPhoneVerified  @"phoneVerified"
-
-#define kQQIdKey        @"QQId"
-#define kSinaIdKey      @"sinaId"
+#define kQQId        @"QQId"
+#define kSinaId      @"sinaId"
 
 
 #define kEmailVerified  @"emailVerified"
@@ -48,24 +43,30 @@ const CGFloat kUpdateImageQuality = 0.5f;
 
 IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
-- (void)requestSmsCodeWithPhone:(NSString *)phone
-                       callback:(ServiceErrorResultBlock)block
+- (PBUser *)currentPBUser
 {
-    //  TODO换成mob的短信验证码
+    [self refreshCurrentPBUser];
+    return _currentPBUser;
+}
+
+- (void)getCodeWithPhone:(NSString *)phone
+                callback:(ServiceErrorResultBlock)block
+{
     [AVOSCloud requestSmsCodeWithPhoneNumber:phone callback:^(BOOL succeeded, NSError *error) {
         EXECUTE_BLOCK(block,error);
     }];
 }
 
-- (void)verifySmsCode:(NSString *)code mobilePhoneNumber:(NSString *)phoneNumber callback:(ServiceErrorResultBlock)block
+- (void)verifyCode:(NSString *)code
+             phone:(NSString *)phone
+          callback:(ServiceErrorResultBlock)block
 {
-    //  TODO换成mob的短信验证码
-    [AVOSCloud verifySmsCode:code mobilePhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [self updatePhone:phoneNumber block:block];
-        }else{
+    [AVOSCloud verifySmsCode:code mobilePhoneNumber:phone callback:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            [self updatePhone:phone block:block]; //  可能不需要？？
+//        }else{
             EXECUTE_BLOCK(block,error);
-        }
+//        }
     }];
 }
 
@@ -77,66 +78,53 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
-- (void)signUpOrLogInWithPhoneInBackground:(NSString *)phone smsCode:(NSString *)code block:(ServiceErrorResultBlock)block
-{
-    [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
-        if (error == nil) {
-            [self refreshPBUserWithAVUser:user];
-        }
-        EXECUTE_BLOCK(block,error);
-    }];
-}
-
-- (void)signUpByEmail:(NSString *)email password:(NSString *)password block:(ServiceBooleanResultBlock)block
+- (void)emailSignUp:(NSString *)email
+           password:(NSString *)password
+              block:(ServiceErrorResultBlock)block
 {
     AVUser *avUser = [AVUser user];
     avUser.username = email;
     avUser.email = email;
     avUser.password = password;
-//    [avUser signUpInBackgroundWithBlock:block];   //  修改了ServiceBooleanResultBlock，需要做相应调整
-}
-
-- (void)phoneSignUp:(NSString *)phone password:(NSString *)password block:(ServiceErrorResultBlock)block
-{
-    AVUser *avUser = [AVUser user];
-    avUser.username = phone;
-    avUser.password = password;
     [avUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error==nil) {
-            [avUser setObject:phone forKey:kPhoneKey];
-            NSNumber *num = [NSNumber numberWithBool:YES];
-            [avUser setObject:num forKey:kPhoneVerified];
-            
-            [avUser setObject:kDefaultNick forKey:kNickKey];
-            [avUser setObject:kDefaultSignature forKey:kSignatureKey];
-            
-            [avUser saveEventually];
-            [self refreshPBUserWithAVUser:avUser];
-        }
         EXECUTE_BLOCK(block,error);
     }];
 }
 
-- (void)logInByValue:(NSString *)value password:(NSString *)password block:(ServiceErrorResultBlock)block
+//  只留下sign up with mobile phone number 的功能，不开放log in with mobile phone number的功能
+- (void)phoneSignUp:(NSString *)phone
+           password:(NSString *)password
+            smsCode:code
+              block:(ServiceErrorResultBlock)block
 {
-    [AVUser logInWithUsernameInBackground:value password:password block:^(AVUser *user, NSError *error) {
+    [AVUser signUpOrLoginWithMobilePhoneNumberInBackground:phone smsCode:code block:^(AVUser *user, NSError *error) {
         if (error == nil) {
-            [self refreshPBUserWithAVUser:user];
+            user.username = phone;
+            user.password = password;
+            //  TODO  测试一下 current user 是否存在
+            [self refreshCurrentPBUser];    //  TODO current user == user?
         }
         EXECUTE_BLOCK(block,error);
     }];
 }
 
-- (void)refreshUser
+- (void)logInWithUsername:(NSString *)username
+                 password:(NSString *)password
+                    block:(ServicePBUserBlock)block
 {
-    AVUser *avUser = [AVUser currentUser];
-    [self refreshPBUserWithAVUser:avUser];
+    [AVUser logInWithUsernameInBackground:username password:password block:^(AVUser *user, NSError *error) {
+        if (error == nil) {
+            //  user -> pbUser
+            [self refreshCurrentPBUser];
+        }
+        EXECUTE_BLOCK(block,_currentPBUser,error);  //  TODO _currentPBUser maybe nil
+    }];
 }
+
 
 - (void)logOut
 {
     [AVUser logOut];
-    [[UserManager sharedInstance]removeUser];
 }
 
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block
@@ -166,18 +154,18 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 }
 
-- (void)requireVerifyCodeWithPhone:(NSString *)phone
-                          areaCode:(NSString *)areaCode
-                       resultBlock:(ServiceErrorResultBlock)resultBlock
-{
-    [SMS_SDK getVerificationCodeBySMSWithPhone:phone zone:areaCode result:resultBlock]; //  may have trouble
-}
-
-- (void)commitVerifyCode:(NSString *)code
-                  result:(CommitVerifyCodeBlock)result
-{
-    [SMS_SDK commitVerifyCode:code result:result];
-}
+//- (void)requireVerifyCodeWithPhone:(NSString *)phone
+//                          areaCode:(NSString *)areaCode
+//                       resultBlock:(ServiceErrorResultBlock)resultBlock
+//{
+//    [SMS_SDK getVerificationCodeBySMSWithPhone:phone zone:areaCode result:resultBlock]; //  may have trouble
+//}
+//
+//- (void)commitVerifyCode:(NSString *)code
+//                  result:(CommitVerifyCodeBlock)result
+//{
+//    [SMS_SDK commitVerifyCode:code result:result];
+//}
 
 #pragma mark - Update
 
@@ -185,7 +173,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 {
     [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
         if (error == nil) {
-            [self updateObject:url forKey:kAvatarKey block:block];
+            [self updateObject:url forKey:kAvatar block:block];
         }else{
             //  TODO update image error
         }
@@ -196,7 +184,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 {
     [self updateImage:image imageName:kBGImageName block:^(NSError *error, NSString *url) {
         if (error == nil) {
-            [self updateObject:url forKey:kBGImageKey block:block];
+            [self updateObject:url forKey:kBGImage block:block];
         }else{
             //  TODO update image error
         }
@@ -206,21 +194,21 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)updateNick:(NSString *)nick block:(ServiceErrorResultBlock)block
 {
-    [self updateObject:nick forKey:kNickKey block:block];
+    [self updateObject:nick forKey:kNick block:block];
 }
 
 - (void)updateSignature:(NSString *)signature block:(ServiceErrorResultBlock)block
 {
-    [self updateObject:signature forKey:kSignatureKey block:block];
+    [self updateObject:signature forKey:kSignature block:block];
 }
 
 - (void)updateGender:(BOOL)gender block:(ServiceErrorResultBlock)block
 {
-    [self updateObject:[NSNumber numberWithBool:gender] forKey:kGenderKey block:block];}
+    [self updateObject:[NSNumber numberWithBool:gender] forKey:kGender block:block];}
 
 - (void)updateLocation:(NSString *)location block:(ServiceErrorResultBlock)block
 {
-    [self updateObject:location forKey:kLocationKey block:block];
+    [self updateObject:location forKey:kLocation block:block];
 }
 
 - (void)updateQQ:(NSString *)QQ block:(ServiceErrorResultBlock)block
@@ -244,27 +232,28 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     avUser.email = email;
     [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self refreshPBUserWithAVUser:avUser];
+            [self refreshCurrentPBUser];
         }
         EXECUTE_BLOCK(block,error);
     }];
 }
 
-- (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block
-{
-    AVUser *avUser = [AVUser currentUser];
-    [avUser setObject:phone forKey:kPhoneKey];
-    NSNumber *num = [NSNumber numberWithBool:YES];
-    [avUser setObject:num forKey:kPhoneVerified];
-    
-    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [self refreshPBUserWithAVUser:avUser];
-        }
-        EXECUTE_BLOCK(block,error);
-    }];
-}
+//- (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block
+//{
+//    AVUser *avUser = [AVUser currentUser];
+//    [avUser setObject:phone forKey:kPhoneKey];
+//    NSNumber *num = [NSNumber numberWithBool:YES];
+//    [avUser setObject:num forKey:kPhoneVerified];
+//    
+//    [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            [self refreshPBUserWithAVUser:avUser];
+//        }
+//        EXECUTE_BLOCK(block,error);
+//    }];
+//}
 
+//  可能用不上
 - (void)updatePWD:(NSString *)password
            newPWD:(NSString *)newPassword
             block:(ServiceErrorResultBlock)block
@@ -275,31 +264,31 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
-- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block
-{
-//    AVUser *avUser = [AVUser currentUser];
-//    AVUser *avUser = [AVUser ob];
-//    [self updatePWD:avUser.password newPWD:password block:block];
-    AVQuery *query = [AVQuery queryWithClassName:@"_User"];
-    [query whereKey:@"username" equalTo:@"15626460272"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // 检索成功
-            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
-            //  无法修改，还是得依赖LeanCloud中的一套方法，上线之前加上去吧。
-            AVUser *avUser = (AVUser *)objects[0];
-            avUser.password = @"11";
-            [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    JDDebug(@"success");
-                }
-            }];
-        } else {
-            // 输出错误信息
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-}
+//- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block
+//{
+////    AVUser *avUser = [AVUser currentUser];
+////    AVUser *avUser = [AVUser ob];
+////    [self updatePWD:avUser.password newPWD:password block:block];
+//    AVQuery *query = [AVQuery queryWithClassName:@"_User"];
+//    [query whereKey:@"username" equalTo:@"15626460272"];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (!error) {
+//            // 检索成功
+//            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
+//            //  无法修改，还是得依赖LeanCloud中的一套方法，上线之前加上去吧。
+//            AVUser *avUser = (AVUser *)objects[0];
+//            avUser.password = @"11";
+//            [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                if (succeeded) {
+//                    JDDebug(@"success");
+//                }
+//            }];
+//        } else {
+//            // 输出错误信息
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+//        }
+//    }];
+//}
 
 #pragma mark - Uitls
 
@@ -309,7 +298,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [avUser setObject:object forKey:key];
     [avUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self refreshPBUserWithAVUser:avUser];
+            [self refreshCurrentPBUser];
         }
         EXECUTE_BLOCK(block,error);
     }];
@@ -320,23 +309,33 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     return [AVUser currentUser] == nil ? NO : YES;
 }
 
-- (void)refreshPBUserWithAVUser:(AVUser *)user
+- (void)refreshCurrentPBUser
 {
-    NSString *nick  = [user objectForKey:kNickKey];
-    NSString *avatar = [user objectForKey:kAvatarKey];
-    NSNumber *genderNum = [user objectForKey:kGenderKey];
+    AVUser *currentUser = [AVUser currentUser]; //  TODO if need to fetch?
+    _currentPBUser = [self perfectPBUserWithAVUser:currentUser];
+}
+
+/*
+ @param user AVUser
+ @return current pbUser with all info
+ */
+- (PBUser *)perfectPBUserWithAVUser:(AVUser *)user
+{
+    NSString *nick  = [user objectForKey:kNick];
+    NSString *avatar = [user objectForKey:kAvatar];
+    NSNumber *genderNum = [user objectForKey:kGender];
     BOOL gender = genderNum.boolValue;
-    NSString *BGImage = [user objectForKey:kBGImageKey];
-    NSString *signature = [user objectForKey:kSignatureKey];
-    NSString *location = [user objectForKey:kLocationKey];
+    NSString *BGImage = [user objectForKey:kBGImage];
+    NSString *signature = [user objectForKey:kSignature];
+    NSString *location = [user objectForKey:kLocation];
 //    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server.
 //    BOOL emailVerified = emailVerifiedNum.boolValue;
-    int credit = (int)[user objectForKey:kCreditKey];
+    int credit = (int)[user objectForKey:kCredit];
     int32_t creatAt = user.createdAt.timeIntervalSince1970;   //  may be false.
     int32_t updateAt = user.updatedAt.timeIntervalSince1970;
-    NSString *phone = [user objectForKey:kPhoneKey];
-    NSNumber *phoneVerifiedNum = [user objectForKey:kPhoneVerified];
-    BOOL phoneVerified = phoneVerifiedNum.boolValue;
+//    NSString *phone = [user objectForKey:kPhone];
+//    NSNumber *phoneVerifiedNum = [user objectForKey:kPhoneVerified];
+//    BOOL phoneVerified = phoneVerifiedNum.boolValue;
     
     PBUserBuilder *pbUserBuilder = [PBUser builder];
     
@@ -348,30 +347,29 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [pbUserBuilder setBgImage:BGImage];
     [pbUserBuilder setSignature:signature];
     [pbUserBuilder setLocation:location];
-    [pbUserBuilder setPhone:phone];
+    [pbUserBuilder setPhone:user.mobilePhoneNumber];
+//    [pbUserBuilder setPhone:phone];
 //    [pbUserBuilder setEmail:user.email];
     [pbUserBuilder setCreatedAt:creatAt];
     [pbUserBuilder setUpatedAt:updateAt];
     
-    [pbUserBuilder setPhoneVerified:phoneVerified];
+//    [pbUserBuilder setPhoneVerified:phoneVerified];
 //    [pbUserBuilder setEmailVerified:emailVerified];
+    [pbUserBuilder setPhoneVerified:user.mobilePhoneVerified];
     [pbUserBuilder setCredit:credit];
     
-    PBUser *pbUser = [pbUserBuilder build];
-    NSData *pbUserData = [pbUser data];
-    [[UserManager sharedInstance]storeUser:pbUserData];
+    return [pbUserBuilder build];
 }
 
 /*
- @param user AVUser
+ @param user AVUser without data
  @return pbUser with the basic info:id,nick,avatar
  */
 - (PBUser *)simplePBUserWithUser:(AVUser *)user
 {
-    //  TODO maybe need fetch.
     user = (AVUser *)[user fetchIfNeeded];
-    NSString *nick = [user objectForKey:kNickKey];
-    NSString *avatar = [user objectForKey:kAvatarKey];
+    NSString *nick = [user objectForKey:kNick];
+    NSString *avatar = [user objectForKey:kAvatar];
     PBUserBuilder *builder = [PBUser builder];
     
     builder.userId = user.objectId;
@@ -381,5 +379,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     return [builder build];
 }
 
+- (void)setUserDefault:(AVUser *)user
+{
+    [user setObject:kDefaultNick forKey:kNick];
+    [user setObject:kDefaultSignature forKey:kNick];
+}
 
 @end

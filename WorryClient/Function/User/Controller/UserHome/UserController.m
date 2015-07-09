@@ -9,7 +9,6 @@
 #import "UserController.h"
 #import "UserAvatarCell.h"
 #import "ViewInfo.h"
-#import "UserManager.h"
 #import "AVOSCloud/AVOSCloud.h"
 #import "User.pb.h"
 #import "LogInController.h"
@@ -58,7 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.pbUser = [[UserManager sharedInstance]pbUser];
+    self.pbUser = [[UserService sharedInstance]currentPBUser];
     [self.tableView reloadData];
     if ([[UserService sharedInstance]ifLogIn]) {
         //

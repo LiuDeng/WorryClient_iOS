@@ -254,7 +254,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AnswerDetailController *vc = [[AnswerDetailController alloc]init];
+    PBAnswer *pbAnswer = self.answers[indexPath.row];
+    AnswerDetailController *vc = [[AnswerDetailController alloc]initWithPBAnswer:pbAnswer];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

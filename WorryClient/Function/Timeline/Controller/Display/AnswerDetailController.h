@@ -7,8 +7,11 @@
 //
 //  回答详情页面
 //  点击题目，将题目描述显示出来，模态视图方式
-#import <UIKit/UIKit.h>
+#import "UIViewController+Worry.h"
+#import "CommentController.h"
 
 @interface AnswerDetailController : UIViewController
+
+- (instancetype)initWithPBAnswer:(PBAnswer *)pbAnswer;
 
 @end

@@ -237,7 +237,7 @@
 
 - (BOOL)canCreateFeed
 {
-    PBUser *pbUser = [[UserManager sharedInstance]pbUser];
+    PBUser *pbUser = [[UserService sharedInstance]currentPBUser];
     if (pbUser.gender && pbUser.level < 10) {
         return NO;
     }else{

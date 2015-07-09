@@ -58,7 +58,22 @@ typedef void (^TypeBlock) (AVObject *comment);
 {
     AVObject *answer = [AVObject objectWithoutDataWithClassName:kAnswerClassName objectId:answerId];
     [self createCommentWithText:text isAnonymous:isAnonymous typeBlock:^(AVObject *comment) {
+        NSNumber *typeNum = [NSNumber numberWithInt:PBCommentTypeToAnswer];
+        [comment setObject:typeNum forKey:kType];
         [comment setObject:answer forKey:kCreatedFor];
+    } block:block];
+}
+
+- (void)addCommentForComment:(NSString *)commentId
+                       text:(NSString *)text
+                isAnonymous:(BOOL)isAnonymous
+                      block:(ServiceErrorResultBlock)block
+{
+    AVObject *toComment = [AVObject objectWithoutDataWithClassName:kCommentClassName objectId:commentId];
+    [self createCommentWithText:text isAnonymous:isAnonymous typeBlock:^(AVObject *comment) {
+        NSNumber *typeNum = [NSNumber numberWithInt:PBCommentTypeReply];
+        [comment setObject:typeNum forKey:kType];
+        [comment setObject:toComment forKey:kCreatedFor];
     } block:block];
 }
 

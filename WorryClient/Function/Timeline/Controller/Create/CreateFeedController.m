@@ -9,7 +9,6 @@
 #import "CreateFeedController.h"
 #import "PlaceholderTextView.h"
 #import "FeedService.h"
-#import "UserManager.h"
 #import "UIView+DefaultView.h"
 #import "ViewInfo.h"
 #import "ColorInfo.h"

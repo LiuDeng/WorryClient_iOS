@@ -16,7 +16,7 @@
 @property (nonatomic,strong) UIAlertView *frequentNextAlert;    //  click next step frequently
 @property (nonatomic,strong) UIAlertView *confirmRequestAlert;  //  confirm the request of sending code
 @property (nonatomic,copy) NSString *phone;
-@property (nonatomic,copy) NSString *areaCode;
+@property (nonatomic,copy) NSString *areaCode;  //  虽然没有使用sms，但是保留这个变量，以后可能用得上
 
 @end
 
@@ -75,14 +75,16 @@
 
 - (void)clickNextStepBtn
 {
+    NSLog(@"%d",self.timer.valid);
     NSString *text = self.textField.text;
     BOOL valid = [Utils isValidMobile:text];
     
     if (valid) {
         self.phone = text;
         self.areaCode = kAreaCode;  //  目前只有+86，往后会增加选择器，不会让用户手动输入的
-        
-        if (self.timer.valid) {  //  30s内
+
+        //  TODO
+        if (self.timer) {  //  60s内
             self.frequentNextAlert = [[UIAlertView alloc]initWithTitle:@"操作过于频繁，请稍候再试"
                                                                message:nil
                                                               delegate:self
@@ -131,16 +133,24 @@
 
 - (void)requestCode
 {
-    [[UserService sharedInstance]requireVerifyCodeWithPhone:self.phone areaCode:self.areaCode resultBlock:^(NSError *error) {
-        if (error==nil) {
-            self.timer = [NSTimer timerWithTimeInterval:30 invocation:nil repeats:NO];
-            VerifyCodeController *vc = [[VerifyCodeController alloc]initWithPhone:self.phone
-                                                                         areaCode:self.areaCode
-                                                              verifySuccessAction:self.verifySuccessAction];
-            [self.navigationController pushViewController:vc animated:YES];
-        }else{
-            POST_ERROR_MSG(@"发送验证码失败，请稍候再试");
-        }
-    }];
+    [[UserService sharedInstance]getCodeWithPhone:self.phone
+                                         callback:^(NSError *error) {
+                                            if (error==nil) {
+                                                self.timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timeOver) userInfo:nil repeats:NO];
+                                                VerifyCodeController *vc = [[VerifyCodeController alloc]initWithPhone:self.phone
+                                                                                                             areaCode:self.areaCode
+                                                                                                  verifySuccessAction:self.verifySuccessAction];
+                                                [self.navigationController pushViewController:vc animated:YES];
+                                            }else{
+                                                POST_ERROR_MSG(@"发送验证码失败，请稍候再试");
+                                            }
+                                        }];
 }
+
+- (void)timeOver
+{
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
 @end

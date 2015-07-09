@@ -28,7 +28,7 @@
         if (image) {
             [[UserService sharedInstance]updateAvatar:image block:^(NSError *error) {
                 if (error == nil) {
-                    self.pbUser = [[UserManager sharedInstance]pbUser];
+                    self.pbUser = [[UserService sharedInstance]currentPBUser];
                     [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
@@ -45,7 +45,7 @@
         if (image) {
             [[UserService sharedInstance]updateBGImage:image block:^(NSError *error) {
                 if (error == nil) {
-                    self.pbUser = [[UserManager sharedInstance]pbUser];
+                    self.pbUser = [[UserService sharedInstance]currentPBUser];
                     [self.tableView reloadData];
                     POST_SUCCESS_MSG(kUpdateSuccessMSG);    //  TODO
                 }
@@ -163,8 +163,9 @@
 
 - (void)refreshData
 {
-    [[UserService sharedInstance]refreshUser];
-    self.pbUser = [[UserManager sharedInstance] pbUser];
+//    [[UserService sharedInstance]refreshUser];
+//    self.pbUser = [[UserManager sharedInstance] pbUser];
+    self.pbUser = [[UserService sharedInstance]currentPBUser];
     [self.tableView reloadData];
 }
 
