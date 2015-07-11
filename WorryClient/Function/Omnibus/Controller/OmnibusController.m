@@ -56,13 +56,20 @@
 {
     [super loadData];
 //    self.isHideTabBar = NO;
-    [[RecommendationService sharedInstance]requireRecommendationWithBlock:^(NSError *error) {
-        if (error == nil) {
-            self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
-            if (self.imagePlayerView) {
-                [self.imagePlayerView reloadData];
-            }
-        }
+//    [[RecommendationService sharedInstance]requireRecommendationWithBlock:^(NSError *error) {
+//        if (error == nil) {
+//            self.pbRecommendationArray = [[RecommendationService sharedInstance]pbRecommendationArray];
+//            if (self.imagePlayerView) {
+//                [self.imagePlayerView reloadData];
+//            }
+//        }
+//    }];
+    [[RecommendationService sharedInstance]getRecommendationWithBlock:^(NSArray *pbObjects, NSError *error){if (error == nil){
+         self.pbRecommendationArray = pbObjects;
+         if (self.imagePlayerView) {
+             [self.imagePlayerView reloadData];
+         }
+     }
     }];
 }
 

@@ -10,17 +10,20 @@
 #import "Recommendation.pb.h"
 
 @interface RecommendationService : CommonService
-{
-    NSMutableArray *_PBRecommendationArray;
-}
+//{
+//    NSMutableArray *_PBRecommendationArray;
+//}
 
 DEFINE_SINGLETON_FOR_CLASS(RecommendationService)
 
-- (void)requireRecommendationWithBlock:(ServiceErrorResultBlock)block;
+//- (void)requireRecommendationWithBlock:(ServiceErrorResultBlock)block;
+//
+///*
+// *  called after 'requireRecommendation'
+// */
+//- (NSArray *)pbRecommendationArray;
 
-/*
- *  called after 'requireRecommendation'
- */
-- (NSArray *)pbRecommendationArray;
+- (void)getRecommendationWithBlock:(ServiceArrayResultBlock)block;
+
 
 @end
