@@ -33,8 +33,6 @@
 #define kSinaId      @"sinaId"
 
 #define kCollector  @"collector"    //  story和answer中的字段，收藏者
-#define kFavoriteAnswers    @"favoriteAnswers"
-#define kFavoriteFeeds      @"favoriteFeeds"
 
 #define kEmailVerified  @"emailVerified"
 
@@ -417,43 +415,8 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     }];
 }
 
-- (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block
-{
-    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
-    AVRelation *relation = [user relationforKey:kFavoriteFeeds];
-    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
-        if (error==nil) {
-            // objects 包含了当前用户收藏的所有回答
-            for (AVObject *object in objects) {
-                //  object -> pbObject
-                PBFeed *pbFeed = [[FeedService sharedInstance]simplePBFeedWithFeed:object];
-                //  pbObjectds add pbObject
-                [pbObjects addObject:pbFeed];
-            }
-        }
-        EXECUTE_BLOCK(block,pbObjects,error);
-    }];
-}
 
-- (void)getUser:(NSString *)userId favoriteAnswers:(ServiceArrayResultBlock)block
-{
-    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
-    AVRelation *relation = [user relationforKey:kFavoriteAnswers];
-    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
-        if (error==nil) {
-            // objects 包含了当前用户收藏的所有回答
-            for (AVObject *object in objects) {
-                //  object -> pbObject
-                PBAnswer *pbAnswer = [[FeedService sharedInstance]simplePBAnswerWithAnswer:object];
-                //  pbObjectds add pbObject
-                [pbObjects addObject:pbAnswer];
-            }
-        }
-        EXECUTE_BLOCK(block,pbObjects,error);
-    }];
-}
+
 
 //- (void)avObject:(AVObject *)avObject relationBlock:(CollectorRelationBlock) relationBlock block:(ServiceErrorResultBlock)block
 //{
@@ -463,6 +426,30 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 //        EXECUTE_BLOCK(block,error);
 //    }];
 //}
+
+#pragma mark - Follow topic and feed
+//  关注之后，一有更新，应该如何提醒？
+- (void)followTopic:(NSString *)topicId block:(ServiceErrorResultBlock)block
+{
+    AVObject *topic = [AVObject objectWithoutDataWithClassName:kTopicClassName objectId:topicId];
+    AVRelation *relation = [[AVUser currentUser]relationforKey:kFollowTopic];
+    [relation addObject:topic];
+    [[AVUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)unfollowTopic:(NSString *)topicId block:(ServiceErrorResultBlock)block
+{
+    AVObject *topic = [AVObject objectWithoutDataWithClassName:kTopicClassName objectId:topicId];
+    AVRelation *relation = [[AVUser currentUser]relationforKey:kFollowTopic];
+    [relation removeObject:topic];
+    [[AVUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+
 
 #pragma mark - Uitls
 

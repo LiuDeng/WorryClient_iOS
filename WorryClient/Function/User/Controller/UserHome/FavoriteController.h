@@ -10,4 +10,6 @@
 
 @interface FavoriteController : WSegmentController
 
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
+
 @end

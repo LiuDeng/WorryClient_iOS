@@ -12,7 +12,7 @@
 #define kCreateUser             @"createUser"
 #define kTitle                  @"title"
 #define kDecription             @"decription"
-#define kFollowerId             @"followers"
+#define kFollowers              @"followers"
 #define kIcon                   @"icon"
 #define kFeed                   @"feeds"   //  id or feed?
 
@@ -104,6 +104,24 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
             [pbFeeds addObject:pbFeed];
         }
         EXECUTE_BLOCK(block,pbFeeds,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId topics:(ServiceArrayResultBlock)block;
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVRelation *relation = [user relationforKey:kFollowTopic];
+    AVQuery *avQuery = [relation query];
+    avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    avQuery.maxCacheAge = kMaxCacheAge;
+    
+    NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
+    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (AVObject *topic in objects) {
+            PBTopic *pbTopic = [self pbTopicWithTopic:topic];
+            [pbTopics addObject:pbTopic];
+        }
+        EXECUTE_BLOCK(block,pbTopics,error);
     }];
 }
 

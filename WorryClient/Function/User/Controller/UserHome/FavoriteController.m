@@ -9,6 +9,8 @@
 #import "FavoriteController.h"
 #import "FavoriteWorryCell.h"
 #import "FavoriteStoryCell.h"
+#import "MJRefresh.h"
+#import "FeedService.h"
 
 #define kWorryCell      @"worryCell"
 #define kStoryCell      @"storyCell"
@@ -19,16 +21,31 @@
 
 @property (nonatomic,strong) UITableView *storyTableView;
 @property (nonatomic,strong) UITableView *worryTableView;
+@property (nonatomic,strong) NSArray *storys;
+@property (nonatomic,strong) NSArray *worrys;
+@property (nonatomic,strong) PBUser *pbUser;
 
 @end
 
 @implementation FavoriteController
 
+#pragma mark - Public methods
+
+- (instancetype)initWithPBUser:(PBUser *)pbUser
+{
+    self = [super init];
+    if (self) {
+        self.pbUser = pbUser;
+    }
+    return self;
+}
 #pragma mark - Default methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    //  TODO maybe remove one of them
+    [self.storyTableView.header beginRefreshing];
+    [self.worryTableView.header beginRefreshing];
 }
 
 
@@ -47,7 +64,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;  //  TODO
+    if (tableView == self.worryTableView) {
+        return self.worrys.count;
+    }else{
+        return self.storys.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -60,25 +81,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PBFeed *pbFeed;
     if (tableView == self.worryTableView) {
-        FavoriteWorryCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryCell forIndexPath:indexPath];
-        
-        cell.titleLabel.text = @"题目";
-        cell.answerLabel.text = @"一定要多加几个程序员啊啊一定要多加几个程序员啊啊一定要多加几个程序员啊啊一定要多加几个程序员啊啊";
-        cell.thanksLabel.text = @"感谢：3";
-        cell.commentLabel.text = @"评论：10";
-        
-        return cell;
+        pbFeed = self.worrys[indexPath.row];
     }else{
-        FavoriteStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:kStoryCell forIndexPath:indexPath];
-        
-        cell.titleLabel.text = @"成绩怎么提不上去啊";
-        cell.contentLabel.text = @"成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊";
-        cell.thanksLabel.text = @"感谢：3";
-        cell.commentLabel.text = @"评论：10";
-        
-        return cell;
+        pbFeed = self.storys[indexPath.row];
     }
+    FavoriteStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:kStoryCell forIndexPath:indexPath];
+    
+//    cell.titleLabel.text = @"成绩怎么提不上去啊";
+//    cell.contentLabel.text = @"成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊";
+//        cell.thanksLabel.text = @"感谢：3";
+//        cell.commentLabel.text = @"评论：10";
+    cell.titleLabel.text = pbFeed.title;
+    cell.textLabel.text = pbFeed.text;
+    return cell;
+
 }
 
 #pragma mark - Private methods
@@ -103,5 +121,39 @@
     }
     self.worryTableView = (UITableView *)[self.holderViews objectAtIndex:0];
     self.storyTableView = (UITableView *)[self.holderViews objectAtIndex:1];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.worryTableView addLegendHeaderWithRefreshingBlock:^{
+        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId worryFeeds:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"网络慢，请稍候再试");
+            }else{
+                weakSelf.worrys = pbObjects;
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
+    
+    [self.storyTableView addLegendHeaderWithRefreshingBlock:^{
+        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId storyFeeds:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"网络慢，请稍候再试");
+            }else{
+                weakSelf.storys = pbObjects;
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
+}
+
+#pragma mark - Utils
+
+- (void)afterRefresh
+{
+    if (self.worryTableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.worryTableView.header endRefreshing];
+    }else if (self.storyTableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.storyTableView.header endRefreshing];
+    }
 }
 @end

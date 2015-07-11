@@ -10,4 +10,6 @@
 
 @interface WorryController : WTableViewController
 
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
+
 @end

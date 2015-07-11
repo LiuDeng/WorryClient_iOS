@@ -22,8 +22,8 @@
         [self loadBackgroundView];
         [self loadTitleLabel];
         [self loadAnswerLabel];
-        [self loadThanksLabel];
-        [self loadCommentLabel];
+//        [self loadThanksLabel];
+//        [self loadCommentLabel];
     }
     return self;
 }

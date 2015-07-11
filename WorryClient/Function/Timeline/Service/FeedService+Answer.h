@@ -24,4 +24,6 @@
 //- (void)getMyPBAnswersWithBlock:(ServiceArrayResultBlock)block;
 
 - (PBAnswer *)simplePBAnswerWithAnswer:(AVObject *)answer;
+- (void)getUser:(NSString *)userId favoriteAnswers:(ServiceArrayResultBlock)block;
+- (void)getUser:(NSString *)userId pbThanksArray:(ServiceArrayResultBlock)block;
 @end

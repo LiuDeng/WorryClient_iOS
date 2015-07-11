@@ -9,5 +9,5 @@
 #import "WTableViewController.h"
 
 @interface StoryController : WTableViewController
-
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
 @end

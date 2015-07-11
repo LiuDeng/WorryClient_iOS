@@ -11,6 +11,9 @@
 #import <SMS_SDK/SMS_SDK.h>
 
 #define kUserClassName  @"User"
+#define kFavoriteAnswers    @"favoriteAnswers"
+#define kFavoriteFeeds      @"favoriteFeeds"
+#define kFollowTopic        @"followTopic"
 
 typedef void(^ServicePBUserBlock)(PBUser *pbUser,NSError *error);
 typedef void(^FollowersAndFolloweesBlock)(NSArray *pbFollowers,NSArray *pbFollowees,NSError *error);
@@ -79,6 +82,9 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)unfavoriteFeed:(NSString *)feedId block:(ServiceErrorResultBlock)block;
 - (void)favoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block;
 - (void)unfavoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block;
+#pragma mark - Follow topic and feed
+- (void)followTopic:(NSString *)topicId block:(ServiceErrorResultBlock)block;
+- (void)unfollowTopic:(NSString *)topicId block:(ServiceErrorResultBlock)block;
 #pragma mark - Else
 - (BOOL)ifLogIn;
 

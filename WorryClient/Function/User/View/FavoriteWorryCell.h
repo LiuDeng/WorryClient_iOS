@@ -13,7 +13,7 @@
 
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) UILabel *answerLabel;
-@property (nonatomic,strong) UILabel *thanksLabel;
-@property (nonatomic,strong) UILabel *commentLabel;
+@property (nonatomic,strong) UILabel *thanksLabel;  //  暂时隐藏
+@property (nonatomic,strong) UILabel *commentLabel; //  暂时隐藏
 
 @end

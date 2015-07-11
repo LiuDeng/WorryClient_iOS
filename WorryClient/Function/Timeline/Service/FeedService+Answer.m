@@ -47,10 +47,16 @@
     }];
     
 }
-
-- (void)getMyPBThanksArray:(ServiceArrayResultBlock)block
+//  待测试
+- (void)getUser:(NSString *)userId pbThanksArray:(ServiceArrayResultBlock)block
 {
     AVQuery *query = [AVQuery queryWithClassName:kThanksClassName];
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    //  找到create user与user匹配的answer
+    AVQuery *answerQuery = [AVQuery queryWithClassName:kAnswerClassName];
+    [answerQuery whereKey:kCreatedUser equalTo:user];
+    //  找到forAnswer与answer匹配的thanks
+    [query whereKey:kForAnswer equalTo:answerQuery];
     
     NSMutableArray *pbThanksArray = [[NSMutableArray alloc]init];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -104,6 +110,25 @@
     builder.answerId = answer.objectId;
     builder.text = text;
     return [builder build];
+}
+
+- (void)getUser:(NSString *)userId favoriteAnswers:(ServiceArrayResultBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVRelation *relation = [user relationforKey:kFavoriteAnswers];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
+        if (error==nil) {
+            // objects 包含了当前用户收藏的所有回答
+            for (AVObject *object in objects) {
+                //  object -> pbObject
+                PBAnswer *pbAnswer = [[FeedService sharedInstance]simplePBAnswerWithAnswer:object];
+                //  pbObjectds add pbObject
+                [pbObjects addObject:pbAnswer];
+            }
+        }
+        EXECUTE_BLOCK(block,pbObjects,error);
+    }];
 }
 
 #pragma mark - Utils

@@ -157,8 +157,56 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     
     return pbFeed;
 }
-#pragma mark - Utils
 
+
+- (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVRelation *relation = [user relationforKey:kFavoriteFeeds];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
+        if (error==nil) {
+            // objects 包含了当前用户收藏的所有回答
+            for (AVObject *object in objects) {
+                //  object -> pbObject
+                PBFeed *pbFeed = [[FeedService sharedInstance]simplePBFeedWithFeed:object];
+                //  pbObjectds add pbObject
+                [pbObjects addObject:pbFeed];
+            }
+        }
+        EXECUTE_BLOCK(block,pbObjects,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId storyFeeds:(ServiceArrayResultBlock)block
+{
+    [self getUser:userId typeBlock:^(AVQuery *query) {
+        NSNumber *typeNum = [NSNumber numberWithInt:PBFeedTypeStory];
+        [query whereKey:kType equalTo:typeNum];
+    } feeds:block];
+}
+
+- (void)getUser:(NSString *)userId worryFeeds:(ServiceArrayResultBlock)block
+{
+    [self getUser:userId typeBlock:^(AVQuery *query) {
+        NSNumber *typeNum = [NSNumber numberWithInt:PBFeedTypeWorry];
+        [query whereKey:kType equalTo:typeNum];
+    } feeds:block];
+}
+
+- (void)getUser:(NSString *)userId
+      typeBlock:(QueryTypeBlock)queryTypeBlock
+          feeds:(ServiceArrayResultBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVQuery *query = [AVQuery queryWithClassName:kFeedClassName];
+    [query whereKey:kCreatedUser equalTo:user];
+    EXECUTE_BLOCK(queryTypeBlock,query);
+    [self getFeedsWithQuery:query block:block];
+}
+
+#pragma mark - Utils
+//  TODO 如果只是获取消息流的feeds，不用所有信息都获取，只需获取一部分
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block
 {
     avQuery.maxCacheAge = kMaxCacheAge;

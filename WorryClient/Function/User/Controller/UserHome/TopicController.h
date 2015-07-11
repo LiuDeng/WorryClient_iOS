@@ -9,5 +9,5 @@
 #import "WTableViewController.h"
 
 @interface TopicController : WTableViewController
-
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
 @end

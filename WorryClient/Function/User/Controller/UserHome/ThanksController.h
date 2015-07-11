@@ -10,4 +10,6 @@
 
 @interface ThanksController : WTableViewController
 
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
+
 @end

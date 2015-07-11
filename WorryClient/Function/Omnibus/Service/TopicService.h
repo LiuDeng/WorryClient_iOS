@@ -26,6 +26,7 @@ DEFINE_SINGLETON_FOR_CLASS(TopicService)
 - (NSArray *)pbFeedsInTopicWithId:(NSString *)topicId;
 - (void)getPBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block;
 - (void)getMorePBFeedsWithPBTopicId:(NSString *)pbTopicId block:(ServiceArrayResultBlock)block;
+- (void)getUser:(NSString *)userId topics:(ServiceArrayResultBlock)block;
 - (PBTopic *)pbTopicWithTopic:(AVObject *)topic;
 //  该方法暂时不会开放给用户
 //- (void)creatTopicWithTitle:(NSString *)title

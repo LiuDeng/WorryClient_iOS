@@ -22,6 +22,8 @@
 
 #define kCreatedFor     @"createdFor"
 
+typedef void(^QueryTypeBlock)(AVQuery *query);  //  查询时，在这个block中，设置type
+
 @class PBTopic;
 
 @interface FeedService : CommonService
@@ -47,4 +49,8 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 //  得有一个根据Topic找到大量Feed的方法，只不过这个方法要放哪？FeedService or TopicService
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed;
 - (PBFeed *)simplePBFeedWithFeed:(AVObject *)feed;
+
+- (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block;
+- (void)getUser:(NSString *)userId storyFeeds:(ServiceArrayResultBlock)block;
+- (void)getUser:(NSString *)userId worryFeeds:(ServiceArrayResultBlock)block;
 @end

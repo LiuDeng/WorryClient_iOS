@@ -8,26 +8,49 @@
 
 #import "TopicController.h"
 #import "CommonCell.h"
+#import "TopicService.h"
 
 #define kTopicCell      @"storyCell"
 
 @interface TopicController ()
-
+@property (nonatomic,strong) NSArray *pbTopics;
+@property (nonatomic,strong) PBUser *pbUser;
 @end
 
 @implementation TopicController
+#pragma mark - Public methods
+
+- (instancetype)initWithPBUser:(PBUser *)pbUser
+{
+    self = [super init];
+    if (self) {
+        self.pbUser = pbUser;
+    }
+    return self;
+}
 
 #pragma mark - Default methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)loadTableView
 {
     [super loadTableView];
     [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kTopicCell];
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [[TopicService sharedInstance]getUser:weakSelf.pbUser.userId topics:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"网络慢，请稍候再试");
+            }else{
+                weakSelf.pbTopics = pbObjects;
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
 }
 
 #pragma mark - Private methods
@@ -47,7 +70,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;   //  TODO
+    return self.pbTopics.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

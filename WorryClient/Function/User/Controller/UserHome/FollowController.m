@@ -9,6 +9,7 @@
 #import "FollowController.h"
 #import "CommonCell.h"
 #import "MJRefresh.h"
+#import "UIImageView+Worry.h"
 
 #define kFollowingCell      @"followingCell"
 #define kFollowerCell       @"followerCell"
@@ -102,24 +103,29 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowerCell forIndexPath:indexPath];
+    PBUser *pbUser;
     if ([tableView isEqual:self.followerTableView]) {
-        CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowerCell forIndexPath:indexPath];
-        cell.descriptionLabel.text = @"中中";
-        cell.imageView.image = [UIImage imageNamed:@"avatar_female"];
-        return cell;
+        pbUser = self.pbFollowers[indexPath.row];
     }else{
-        CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowingCell forIndexPath:indexPath];
-        
-        cell.imageView.image = [UIImage imageNamed:@"avatar_male"];
-        return cell;
+        pbUser = self.pbFollowees[indexPath.row];
     }
+    cell.contentLabel.text = pbUser.nick;
+    cell.descriptionLabel.text = pbUser.signature;
+    [cell.imageView setAvatarWithPBUser:pbUser];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;   //  todo
+    if ([tableView isEqual:self.followerTableView]) {
+        return self.pbFollowers.count;
+    }else{
+        return self.pbFollowees.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
