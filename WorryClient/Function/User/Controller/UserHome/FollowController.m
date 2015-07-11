@@ -8,6 +8,7 @@
 
 #import "FollowController.h"
 #import "CommonCell.h"
+#import "MJRefresh.h"
 
 #define kFollowingCell      @"followingCell"
 #define kFollowerCell       @"followerCell"
@@ -16,18 +17,34 @@
 
 @interface FollowController ()<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,strong) UITableView *followingTableView;
+@property (nonatomic,strong) UITableView *followeeTableView;
 @property (nonatomic,strong) UITableView *followerTableView;
+@property (nonatomic,strong) NSArray *pbFollowees;
+@property (nonatomic,strong) NSArray *pbFollowers;
+@property (nonatomic,strong) PBUser *pbUser;
 
 @end
 
 @implementation FollowController
 
+#pragma mark - Public methods
+
+- (instancetype)initWithPBUser:(PBUser *)pbUser
+{
+    self = [super init];
+    if (self) {
+        self.pbUser = pbUser;
+    }
+    return self;
+}
+
 #pragma mark - Default methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    //  TODO maybe remove one of them
+    [self.followeeTableView.header beginRefreshing];
+    [self.followerTableView.header beginRefreshing];
 }
 
 - (void)loadData
@@ -53,8 +70,32 @@
         [self.holderViews addObject:tableView];
     }
     
-    self.followingTableView = (UITableView *)[self.holderViews objectAtIndex:0];
+    self.followeeTableView = (UITableView *)[self.holderViews objectAtIndex:0];
     self.followerTableView = (UITableView *)[self.holderViews objectAtIndex:1];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.followeeTableView addLegendHeaderWithRefreshingBlock:^{
+        [[UserService sharedInstance]getUser:weakSelf.pbUser.userId followees:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                //
+            }else{
+                weakSelf.pbFollowees = pbObjects;
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
+    
+    [self.followerTableView addLegendHeaderWithRefreshingBlock:^{
+        [[UserService sharedInstance]getUser:weakSelf.pbUser.userId followers:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                //
+            }else{
+                weakSelf.pbFollowers = pbObjects;
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
+    
 }
 
 #pragma mark - UITableViewDataSource
@@ -90,4 +131,17 @@
 {
     return kCommonCellRowHeight;
 }
+
+#pragma mark - Utils
+
+- (void)afterRefresh
+{
+    if (self.followeeTableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.followeeTableView.header endRefreshing];
+    }else if (self.followerTableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.followerTableView.header endRefreshing];
+    }
+}
+
+
 @end

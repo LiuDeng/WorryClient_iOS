@@ -69,31 +69,50 @@
 
 - (void)getPBAnswersFromFeed:(NSString *)feedId block:(ServiceArrayResultBlock)block
 {
-    AVQuery *query = [AVQuery queryWithClassName:kAnswerClassName];
-    AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
-    [query whereKey:kCreatedFor equalTo:feed];
+    [self getPBAnswersWithQueryBlock:^(AVQuery *avQuery) {
+        AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
+        [avQuery whereKey:kCreatedFor equalTo:feed];
+    } block:block];
+}
+
+- (void)getPBAnswersFromPBUser:(NSString *)pbUserId
+                         block:(ServiceArrayResultBlock)block
+{
+    [self getPBAnswersWithQueryBlock:^(AVQuery *avQuery) {
+        AVUser *user = [AVUser objectWithoutDataWithObjectId:pbUserId];
+        [avQuery whereKey:kCreatedUser equalTo:user];
+    } block:block];
+}
+
+//- (void)getMyPBAnswersWithBlock:(ServiceArrayResultBlock)block
+//{
+//    [self getPBAnswersWithQueryBlock:^(AVQuery *avQuery) {
+//        [avQuery whereKey:kCreatedUser equalTo:[AVUser currentUser]];
+//    } block:block];
+//}
+
+/*
+ @param answer AVObject
+ @return PBAnswer with base info:objectId,text
+ */
+
+- (PBAnswer *)simplePBAnswerWithAnswer:(AVObject *)answer
+{
+    NSString *text = [answer objectForKey:kText];
     
-    NSMutableArray *pbAnswers = [[NSMutableArray alloc]init];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        //  object from objects
-        for (AVObject *object in objects) {
-            //  pbComment from object
-            PBAnswer *pbAnswer = [self pbAnswerWithAnswer:object];
-            //  pbComments add pbComment
-            [pbAnswers addObject:pbAnswer];
-        }
-        EXECUTE_BLOCK(block,pbAnswers,error);
-    }];
-    
+    PBAnswerBuilder *builder = [PBAnswer builder];
+    builder.answerId = answer.objectId;
+    builder.text = text;
+    return [builder build];
 }
 
 #pragma mark - Utils
 
 /*
- *  @param answer An AVObject with kCommentClassName
- *  @return pbAnswer The pbComment with the base info:??
+ *  @param answer An AVObject with kAnswerClassName
+ *  @return pbAnswer
  */
-- (PBAnswer *)pbAnswerWithAnswer:(AVObject *)answer
+- (PBAnswer *)perfectPBAnswerWithAnswer:(AVObject *)answer
 {
     NSString *text = [answer objectForKey:kText];
     AVUser *createdUser = [answer objectForKey:kCreatedUser];
@@ -117,20 +136,7 @@
     return [builder build];
 }
 
-/*
- @param answer AVObject
- @return PBAnswer with base info:objectId,text
- */
 
-- (PBAnswer *)simplePBAnswerWithAnswer:(AVObject *)answer
-{
-    NSString *text = [answer objectForKey:kText];
-
-    PBAnswerBuilder *builder = [PBAnswer builder];
-    builder.answerId = answer.objectId;
-    builder.text = text;
-    return [builder build];
-}
 
 - (PBThanks *)pbThanksWithThanks:(AVObject *)thanks
 {
@@ -156,6 +162,24 @@
     return [builder build];
 }
 
+- (void)getPBAnswersWithQueryBlock:(ServiceAVQueryBlock)queryBlock block:(ServiceArrayResultBlock)block
+{
+    AVQuery *query = [AVQuery queryWithClassName:kAnswerClassName];
+    
+    EXECUTE_BLOCK(queryBlock,query);
+    
+    NSMutableArray *pbAnswers = [[NSMutableArray alloc]init];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        //  object from objects
+        for (AVObject *object in objects) {
+            //  pbAnswer from object
+            PBAnswer *pbAnswer = [self perfectPBAnswerWithAnswer:object];
+            //  pbAnswers add pbAnswer
+            [pbAnswers addObject:pbAnswer];
+        }
+        EXECUTE_BLOCK(block,pbAnswers,error);
+    }];
+}
 
 
 @end

@@ -9,6 +9,7 @@
 #import "UserService.h"
 #import "WorryConfigManager.h"
 #import "Utils.h"
+#import "FeedService+Answer.h"
 
 #define kAvatarName     @"avatar.jpeg"
 #define kBGImageName    @"BGImage.jpeg"
@@ -31,6 +32,9 @@
 #define kQQId        @"QQId"
 #define kSinaId      @"sinaId"
 
+#define kCollector  @"collector"    //  story和answer中的字段，收藏者
+#define kFavoriteAnswers    @"favoriteAnswers"
+#define kFavoriteFeeds      @"favoriteFeeds"
 
 #define kEmailVerified  @"emailVerified"
 
@@ -290,6 +294,176 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 //    }];
 //}
 
+
+#pragma mark - Followee and Follower
+- (void)follow:(NSString *)userId block:(ServiceErrorResultBlock)block
+{
+    //关注
+    [[AVUser currentUser] follow:userId andCallback:^(BOOL succeeded, NSError *error) {
+//        if (error.code==kAVErrorDuplicateValue) {
+//            //重复关注
+//        }
+        EXECUTE_BLOCK(block,error);
+    }];
+    
+}
+
+- (void)unfollow:(NSString *)userId block:(ServiceErrorResultBlock)block
+{
+    //  取消关注
+    [[AVUser currentUser] unfollow:userId andCallback:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId followersAndFollowees:(FollowersAndFolloweesBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithObjectId:userId];
+    [user getFollowersAndFollowees:^(NSDictionary *dict, NSError *error) {
+        NSArray *followers=dict[@"followers"];
+        NSArray *followees=dict[@"followees"];
+        
+        NSMutableArray *pbFollowers = [[NSMutableArray alloc]init];
+        NSMutableArray *pbFollowees = [[NSMutableArray alloc]init];
+        
+        for (AVUser *user in followees) {
+            //  测试user是否只是objectId有内容？
+            
+            PBUser *pbFollowee = [self simplePBUserWithUser:user];
+            [pbFollowees addObject:pbFollowee];
+        }
+        for (AVUser *user in followers) {
+            //  测试user是否只是objectId有内容？
+            
+            PBUser *pbFollower = [self simplePBUserWithUser:user];
+            [pbFollowers addObject:pbFollower];
+        }
+        
+        EXECUTE_BLOCK(block,pbFollowers,pbFollowees,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId followers:(ServiceArrayResultBlock)block
+{
+    AVQuery *query= [AVUser followerQuery:userId];
+    [self query:query findUsers:block];
+}
+
+- (void)getUser:(NSString *)userId followees:(ServiceArrayResultBlock)block
+{
+    AVQuery *query= [AVUser followeeQuery:userId];
+    [self query:query findUsers:block];
+}
+
+#pragma mark - Favorite
+/* 
+ 收藏feed，只针对story类型的feed
+ @param feedId
+ @param block with error
+ */
+- (void)favoriteFeed:(NSString *)feedId block:(ServiceErrorResultBlock)block
+{
+    AVUser *user = [AVUser currentUser];
+    AVRelation *relation = [user relationforKey:kFavoriteFeeds];
+    AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
+    [relation addObject:feed];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+/*
+ 取消收藏feed，只针对story类型的feed
+ @param feedId
+ @param block with error
+ */
+- (void)unfavoriteFeed:(NSString *)feedId block:(ServiceErrorResultBlock)block
+{
+    AVUser *user = [AVUser currentUser];
+    AVRelation *relation = [user relationforKey:kFavoriteFeeds];
+    AVObject *feed = [AVObject objectWithoutDataWithClassName:kFeedClassName objectId:feedId];
+    [relation removeObject:feed];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+/*
+ 收藏answer
+ @param answerId
+ @param block with error
+ */
+- (void)favoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block
+{
+    AVUser *user = [AVUser currentUser];
+    AVRelation *relation = [user relationforKey:kFavoriteAnswers];
+    AVObject *answer = [AVObject objectWithoutDataWithClassName:kAnswerClassName objectId:answerId];
+    [relation addObject:answer];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+/*
+ 取消收藏answer
+ @param answerId
+ @param block with error
+ */
+- (void)unfavoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block
+{
+    AVUser *user = [AVUser currentUser];
+    AVRelation *relation = [user relationforKey:kFavoriteAnswers];
+    AVObject *answer = [AVObject objectWithoutDataWithClassName:kAnswerClassName objectId:answerId];
+    [relation removeObject:answer];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        EXECUTE_BLOCK(block,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVRelation *relation = [user relationforKey:kFavoriteFeeds];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
+        if (error==nil) {
+            // objects 包含了当前用户收藏的所有回答
+            for (AVObject *object in objects) {
+                //  object -> pbObject
+                PBFeed *pbFeed = [[FeedService sharedInstance]simplePBFeedWithFeed:object];
+                //  pbObjectds add pbObject
+                [pbObjects addObject:pbFeed];
+            }
+        }
+        EXECUTE_BLOCK(block,pbObjects,error);
+    }];
+}
+
+- (void)getUser:(NSString *)userId favoriteAnswers:(ServiceArrayResultBlock)block
+{
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVRelation *relation = [user relationforKey:kFavoriteAnswers];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
+        if (error==nil) {
+            // objects 包含了当前用户收藏的所有回答
+            for (AVObject *object in objects) {
+                //  object -> pbObject
+                PBAnswer *pbAnswer = [[FeedService sharedInstance]simplePBAnswerWithAnswer:object];
+                //  pbObjectds add pbObject
+                [pbObjects addObject:pbAnswer];
+            }
+        }
+        EXECUTE_BLOCK(block,pbObjects,error);
+    }];
+}
+
+//- (void)avObject:(AVObject *)avObject relationBlock:(CollectorRelationBlock) relationBlock block:(ServiceErrorResultBlock)block
+//{
+//    AVRelation *relation = [avObject relationforKey:kCollector];
+//    EXECUTE_BLOCK(relationBlock,relation);
+//    [avObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        EXECUTE_BLOCK(block,error);
+//    }];
+//}
+
 #pragma mark - Uitls
 
 - (void)updateObject:(id)object forKey:(NSString *)key block:(ServiceErrorResultBlock)block
@@ -367,7 +541,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
  */
 - (PBUser *)simplePBUserWithUser:(AVUser *)user
 {
-    user = (AVUser *)[user fetchIfNeeded];
+    user = (AVUser *)[user fetchIfNeeded];  //  TODO    这个要去掉，因为并不需要查询所有信息，用[query includeKey:@"xx"]解决这个问题。
     NSString *nick = [user objectForKey:kNick];
     NSString *avatar = [user objectForKey:kAvatar];
     PBUserBuilder *builder = [PBUser builder];
@@ -384,5 +558,28 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [user setObject:kDefaultNick forKey:kNick];
     [user setObject:kDefaultSignature forKey:kNick];
 }
+
+/*
+ get simple users with query
+ @param query to find users
+ @param block with pbObjects
+ */
+- (void)query:(AVQuery *)query findUsers:(ServiceArrayResultBlock)block
+{
+    [query includeKey:kNick];
+    [query includeKey:kAvatar];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSMutableArray *pbUsers = [[NSMutableArray alloc]init];
+        if (error==nil) {
+            for (AVUser *user in objects) {
+                PBUser *pbUser = [self simplePBUserWithUser:user];
+                [pbUsers addObject:pbUser];
+            }
+        }
+        EXECUTE_BLOCK(block,pbUsers,error);
+    }];
+}
+
 
 @end

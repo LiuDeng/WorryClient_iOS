@@ -16,7 +16,7 @@ typedef void (^ServiceErrorResultBlock) (NSError *error);
 typedef void (^ServiceImageBlock) (NSError *error,NSString *url);
 typedef void (^ServiceBooleanResultBlock) (BOOL succeed);
 typedef void (^ServiceArrayResultBlock)(NSArray *pbObjects, NSError *error);
-
+typedef void (^ServiceAVQueryBlock) (AVQuery *avQuery);
 @interface CommonService : NSObject
 
 - (void)updateImage:(UIImage *)image imageName:(NSString *)imageName block:(ServiceImageBlock)block;

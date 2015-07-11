@@ -10,7 +10,11 @@
 #import <ShareSDK/ShareSDK.h>
 #import <SMS_SDK/SMS_SDK.h>
 
-typedef void (^ServicePBUserBlock) (PBUser *pbUser,NSError *error);
+#define kUserClassName  @"User"
+
+typedef void(^ServicePBUserBlock)(PBUser *pbUser,NSError *error);
+typedef void(^FollowersAndFolloweesBlock)(NSArray *pbFollowers,NSArray *pbFollowees,NSError *error);
+typedef void(^CollectorRelationBlock)(AVRelation *relation);
 
 @interface UserService : CommonService
 {
@@ -46,12 +50,6 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block;
 - (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block;
 
-//- (void)requireVerifyCodeWithPhone:(NSString *)phone
-//                          areaCode:(NSString *)areaCode
-//                       resultBlock:(ServiceErrorResultBlock)resultBlock;
-//- (void)commitVerifyCode:(NSString *)code
-//                  result:(CommitVerifyCodeBlock)result;
-
 #pragma mark - Update
 - (void)updateAvatar:(UIImage *)image block:(ServiceErrorResultBlock) block;
 - (void)updateBGImage:(UIImage *)image block:(ServiceErrorResultBlock) block;
@@ -59,7 +57,7 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
 - (void)updateSignature:(NSString *)signature block:(ServiceErrorResultBlock)block;
 - (void)updateGender:(BOOL)gender block:(ServiceErrorResultBlock)block;
 - (void)updateLocation:(NSString *)location block:(ServiceErrorResultBlock)block;
-- (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block;
+//- (void)updatePhone:(NSString *)phone block:(ServiceErrorResultBlock)block;
 - (void)updateEmail:(NSString *)email block:(ServiceErrorResultBlock)block;
 - (void)updateQQ:(NSString *)QQ block:(ServiceErrorResultBlock)block;
 - (void)updateWeixinId:(NSString *)WeixinId block:(ServiceErrorResultBlock)block;
@@ -68,12 +66,25 @@ DEFINE_SINGLETON_FOR_CLASS(UserService)
            newPWD:(NSString *)newPassword
             block:(ServiceErrorResultBlock)block;
 
-- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block;
+//- (void)phoneResetPWD:(NSString *)password block:(ServiceErrorResultBlock)block;
 
+#pragma mark - Followee and Follower
+- (void)follow:(NSString *)userId block:(ServiceErrorResultBlock)block;
+- (void)unfollow:(NSString *)userId block:(ServiceErrorResultBlock)block;
+- (void)getUser:(NSString *)userId followersAndFollowees:(FollowersAndFolloweesBlock)block; //  暂时未使用
+- (void)getUser:(NSString *)userId followers:(ServiceArrayResultBlock)block;    //  获得关注的人
+- (void)getUser:(NSString *)userId followees:(ServiceArrayResultBlock)block;    //  获得粉丝
+#pragma mark - Favorite
+- (void)favoriteFeed:(NSString *)feedId block:(ServiceErrorResultBlock)block;
+- (void)unfavoriteFeed:(NSString *)feedId block:(ServiceErrorResultBlock)block;
+- (void)favoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block;
+- (void)unfavoriteAnswer:(NSString *)answerId block:(ServiceErrorResultBlock)block;
 #pragma mark - Else
 - (BOOL)ifLogIn;
 
 - (PBUser *)simplePBUserWithUser:(AVUser *)user;
 
 //  请求验证邮箱
+
+
 @end

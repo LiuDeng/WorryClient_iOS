@@ -10,4 +10,6 @@
 
 @interface FollowController : WSegmentController
 
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
+
 @end

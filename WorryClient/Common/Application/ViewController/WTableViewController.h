@@ -9,11 +9,13 @@
 //  改成GroupTableViewController可能会更好    -- 蔡少武 15/6/6
 
 #import "UIViewController+Worry.h"
+#import "MJRefresh.h"
 
 @interface WTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
 
 - (void)loadTableView;
+- (void)afterRefresh;
 
 @end

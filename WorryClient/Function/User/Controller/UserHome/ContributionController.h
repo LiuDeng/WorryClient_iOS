@@ -10,4 +10,6 @@
 
 @interface ContributionController : WTableViewController
 
+- (instancetype)initWithPBUser:(PBUser *)pbUser;
+
 @end

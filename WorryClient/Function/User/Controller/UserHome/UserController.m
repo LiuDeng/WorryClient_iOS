@@ -99,21 +99,21 @@
             NSString *title = [self.sectionBasicItems objectAtIndex:indexPath.row];
             
             if ([title isEqualToString:kContributionTitle]) {
-                vc = (ContributionController*)[[ContributionController alloc]init];
+                vc = [[ContributionController alloc]init];
             }else if ([title isEqualToString:kFavoritesTitle]){
-                vc = (FavoriteController *)[[FavoriteController alloc]init];
+                vc = [[FavoriteController alloc]init];
             }else if ([title isEqualToString:kThanksTitle]){
-                vc = (ThanksController *)[[ThanksController alloc]init];
+                vc = [[ThanksController alloc]init];
             }else if ([title isEqualToString:kBlessingTitle]){
-                vc = [(BlessingController *)[BlessingController alloc]init];
+                vc = [[BlessingController alloc]init];
             }else if ([title isEqualToString:kFollowingTitle]){
-                vc = [(FollowController *)[FollowController alloc]init];
+                vc = [[FollowController alloc]init];
             }else if ([title isEqualToString:kWorryTitle]){
-                vc = [(WorryController *)[WorryController alloc]init];
+                vc = [[WorryController alloc]init];
             }else if ([title isEqualToString:kStoryTitle]){
-                vc = [(StoryController *)[StoryController alloc]init];
+                vc = [[StoryController alloc]init];
             }else if ([title isEqualToString:kTopicTitle]){
-                vc = [(TopicController *)[TopicController alloc]init];
+                vc = [[TopicController alloc]init];
             }
             [self.navigationController pushViewController:vc animated:YES];
         }

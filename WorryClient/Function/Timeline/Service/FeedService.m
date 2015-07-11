@@ -84,7 +84,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     PBFeed *pbFeed = [self pbFeedWithFeed:feed];
     return pbFeed;
 }
-
+/*
+ @param feed AVObject
+ @return pbFeed with all info
+ */
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed
 {
     NSString *title = [feed objectForKey:kTitle];
@@ -118,6 +121,42 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     return pbFeed;
 }
 
+/*
+ @param feed AVObject
+ @return pbFeed with basic info:id,title,type
+ */
+- (PBFeed *)simplePBFeedWithFeed:(AVObject *)feed
+{
+    NSString *title = [feed objectForKey:kTitle];
+//    AVUser *createdUser = [feed objectForKey:kCreatedUser];
+    //  pbUser from avUser,but only get the base info:id,avatar,nick
+//    PBUser *pbUser = [[UserService sharedInstance]simplePBUserWithUser:createdUser];
+    NSString *text = [feed objectForKey:kText];
+//    NSArray *topics = [feed objectForKey:kTopics];
+//    NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
+//    for (int i=0 ; i<topics.count; i++) {
+//        AVObject *topic = topics[i];
+//        //       TODO topic = [topic fetchIfNeeded];
+//        topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topic.objectId];
+//        PBTopic *pbTopic = [[TopicService sharedInstance]pbTopicWithTopic:topic];
+//        [pbTopics addObject:pbTopic];
+//    }
+    
+    NSNumber *typeNum = [feed objectForKey:kType];
+    int type = [typeNum intValue];
+    
+    PBFeedBuilder *pbFeedBuilder = [PBFeed builder];
+    pbFeedBuilder.feedId = feed.objectId;
+    pbFeedBuilder.title = title;
+    pbFeedBuilder.text = text;
+//    pbFeedBuilder.topicArray  = pbTopics;
+    pbFeedBuilder.type = type;
+//    pbFeedBuilder.createdUser = pbUser;
+    
+    PBFeed *pbFeed = [pbFeedBuilder build];
+    
+    return pbFeed;
+}
 #pragma mark - Utils
 
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block

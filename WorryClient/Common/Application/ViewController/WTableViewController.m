@@ -23,6 +23,15 @@
     [self loadTableView];
 }
 
+- (void)afterRefresh
+{
+    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+        [self.tableView.header endRefreshing];
+    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
+        [self.tableView.footer endRefreshing];
+    }
+}
+
 #pragma mark - Private methods
 
 - (void)loadTableView

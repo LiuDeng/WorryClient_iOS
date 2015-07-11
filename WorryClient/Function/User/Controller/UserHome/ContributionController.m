@@ -8,32 +8,57 @@
 
 #import "ContributionController.h"
 #import "CommonCell.h"
+#import "MJRefresh.h"
+#import "FeedService+Answer.h"
 
 #define kContributionCell   @"contributionCell"
 
 @interface ContributionController ()
 
+@property (nonatomic,strong) PBUser *pbUser;
+@property (nonatomic,strong) NSArray *pbAnswers;
+
 @end
 
 @implementation ContributionController
 
-#pragma mark - Default methods
+#pragma mark - Public methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+- (instancetype)initWithPBUser:(PBUser *)pbUser
+{
+    self = [super init];
+    if (self) {
+        self.pbUser = pbUser;
+    }
+    return self;
 }
 
-- (void)loadView
+#pragma mark - Default methods
+
+- (void)viewDidLoad
 {
-    [super loadView];
-    
+    [super viewDidLoad];
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)loadTableView
 {
     [super loadTableView];
     [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kContributionCell];
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        //  TODO get answers where id = pbUser.id
+        [[FeedService sharedInstance]getPBAnswersFromPBUser:weakSelf.pbUser.userId block:^(NSArray *pbObjects, NSError *error) {
+            if (error) {
+                //
+            }else{
+                weakSelf.pbAnswers = pbObjects;
+                [weakSelf.tableView reloadData];
+            }
+            [weakSelf afterRefresh];
+        }];
+    }];
+    
 }
 #pragma mark - Private methods
 
@@ -41,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;   //  todo
+    return self.pbAnswers.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -54,11 +79,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommonCell *cell = [tableView dequeueReusableCellWithIdentifier:kContributionCell forIndexPath:indexPath];
-    
-    cell.imageView.image = [UIImage imageNamed:@"reply_thanks"];
-    cell.descriptionLabel.text = @"题目";
-    cell.contentLabel.text = @"我的回答啊啊";
-    cell.additionalLabel.text = @"刚刚";
+    PBAnswer *pbAnswer = self.pbAnswers[indexPath.row];
+    //  get pbFeed from pbAnswer
+    PBFeed *pbFeed;
+    cell.imageView.image = [UIImage imageNamed:@"reply_thanks"];    //  话题图片，得先做个类似avatarView的topicView
+    cell.descriptionLabel.text = pbFeed.title;  //  title
+    cell.contentLabel.text = pbAnswer.text; // content
+    cell.additionalLabel.text = [Utils dateStringCompareTo:pbAnswer.updatedAt]; //  time
     return cell;
 }
 
