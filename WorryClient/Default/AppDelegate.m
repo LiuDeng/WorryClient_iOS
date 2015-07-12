@@ -23,6 +23,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
+#import "AVOSCloudSNS.h"
 
 #import <SMS_SDK/SMS_SDK.h>
 
@@ -31,7 +32,9 @@
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
 #import "GuidePageController.h"
+
 #endif
+
 
 @interface AppDelegate ()
 
@@ -67,7 +70,8 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [ShareSDK handleOpenURL:url wxDelegate:nil];
+//    return [ShareSDK handleOpenURL:url wxDelegate:nil];
+    return [AVOSCloudSNS handleOpenURL:url];    //  TODO    不知道这样能否行得通
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

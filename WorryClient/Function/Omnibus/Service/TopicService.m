@@ -112,7 +112,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
     AVRelation *relation = [user relationforKey:kFollowTopic];
     AVQuery *avQuery = [relation query];
-    avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    avQuery.cachePolicy = kAVCachePolicyNetworkElseCache;
     avQuery.maxCacheAge = kMaxCacheAge;
     
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
@@ -137,7 +137,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     
     avQueryBlock(avQuery);
     
-    avQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    avQuery.cachePolicy = kAVCachePolicyNetworkElseCache;
     avQuery.maxCacheAge = kMaxCacheAge;
 
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];

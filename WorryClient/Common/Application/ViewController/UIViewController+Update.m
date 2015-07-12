@@ -39,7 +39,7 @@
 //    }];
 //    
 //    [self.navigationController pushViewController:vc animated:YES];
-    [[UserService sharedInstance]phoneResetPWD:@"111111" block:nil];    //  测试代码
+//    [[UserService sharedInstance]phoneResetPWD:@"111111" block:nil];    //  测试代码
 }
 
 - (BOOL)isValidPWD:(NSString *)pwd

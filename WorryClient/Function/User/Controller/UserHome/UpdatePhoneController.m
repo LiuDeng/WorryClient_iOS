@@ -84,21 +84,21 @@
     __block NSTimer *timer;
     self.secondsCountDown = 60;    //  60s
     if (valid) {
-        [[UserService sharedInstance]requestSmsCodeWithPhone:text callback:^(NSError *error) {
-            if (error == nil) {
-                POST_SUCCESS_MSG(@"验证码已经发送");
-                [self.codeTextField becomeFirstResponder];
-                
-                timer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                         target:self
-                                                       selector:@selector(countDown)
-                                                       userInfo:nil
-                                                        repeats:YES];
-    
-            }else{
-                POST_ERROR_MSG(@"出错了，请稍候再试");
-            }
-        }];
+//        [[UserService sharedInstance]requestSmsCodeWithPhone:text callback:^(NSError *error) {
+//            if (error == nil) {
+//                POST_SUCCESS_MSG(@"验证码已经发送");
+//                [self.codeTextField becomeFirstResponder];
+//                
+//                timer = [NSTimer scheduledTimerWithTimeInterval:1
+//                                                         target:self
+//                                                       selector:@selector(countDown)
+//                                                       userInfo:nil
+//                                                        repeats:YES];
+//    
+//            }else{
+//                POST_ERROR_MSG(@"出错了，请稍候再试");
+//            }
+//        }];
     }else{
         POST_ERROR_MSG(@"请输入有效手机号码");
     }
@@ -109,14 +109,14 @@
 {
     NSString *code = self.codeTextField.text;
     NSString *phone = self.textField.text;
-    [[UserService sharedInstance]verifySmsCode:code mobilePhoneNumber:phone callback:^(NSError *error) {
-        if (error == nil) {
-            POST_SUCCESS_MSG(@"验证成功");
-            [self.navigationController popViewControllerAnimated:YES];
-        }else{
-            POST_ERROR_MSG(@"验证失败");
-        }
-    }];
+//    [[UserService sharedInstance]verifySmsCode:code mobilePhoneNumber:phone callback:^(NSError *error) {
+//        if (error == nil) {
+//            POST_SUCCESS_MSG(@"验证成功");
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }else{
+//            POST_ERROR_MSG(@"验证失败");
+//        }
+//    }];
 }
 
 - (void)valueChanged:(UITextField *)textField

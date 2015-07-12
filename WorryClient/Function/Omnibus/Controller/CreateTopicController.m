@@ -8,7 +8,6 @@
 
 #import "CreateTopicController.h"
 #import "Topic.pb.h"
-#import "TopicManager.h"
 #import "TopicService.h"
 
 @interface CreateTopicController ()

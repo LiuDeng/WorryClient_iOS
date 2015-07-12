@@ -10,6 +10,7 @@
 #import "WorryConfigManager.h"
 #import "Utils.h"
 #import "FeedService+Answer.h"
+#import <AVOSCloudSNS/AVUser+SNS.h>
 
 #define kAvatarName     @"avatar.jpeg"
 #define kBGImageName    @"BGImage.jpeg"
@@ -131,29 +132,54 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block
 {
-    [ShareSDK getUserInfoWithType:ShareTypeQQ
-                      authOptions:nil
-                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                               if (result) {
-//                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
-//                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-                               }
-                               EXECUTE_BLOCK(block,result);
-                           }];
+//    [ShareSDK getUserInfoWithType:ShareTypeQQ
+//                      authOptions:nil
+//                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+//                               if (result) {
+////                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
+////                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+////                                   AVUser loginwith
+//                                   NSDictionary *dic = [userInfo sourceData];
+//                                   [AVUser loginWithAuthData:dic platform:@"qq" block:^(AVUser *user, NSError *error) {
+//                           
+//                                   }];
+//                               }
+//                               EXECUTE_BLOCK(block,result);
+//                           }];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:kQQAppKey andAppSecret:kQQAppSecret andRedirectURI:@""];
+    
+    [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
+        //you code here
+        [AVUser loginWithAuthData:object platform:@"qq" block:^(AVUser *user, NSError *error) {
+            
+        }];
+        
+    } toPlatform:AVOSCloudSNSQQ];
 }
 
 - (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block
 {
-    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-                      authOptions:nil
-                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                               if (result) {
-//                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
-//                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-                                  EXECUTE_BLOCK(block,result);
-                               }
-                           }];
-
+//    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
+//                      authOptions:nil
+//                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+//                               if (result) {
+////                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
+////                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
+//                                   NSDictionary *dic = [userInfo sourceData];
+//                                   [AVUser loginWithAuthData:dic platform:@"weibo" block:^(AVUser *user, NSError *error) {
+//                                       
+//                                   }];
+//                                  EXECUTE_BLOCK(block,result);
+//                               }
+//                           }];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:kWeiboAppKey andAppSecret:kWeiboAppSecret andRedirectURI:@""];
+    
+    [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
+        //you code here
+        [AVUser loginWithAuthData:object platform:@"weibo" block:^(AVUser *user, NSError *error) {
+            
+        }];
+    } toPlatform:AVOSCloudSNSSinaWeibo];
 }
 
 //- (void)requireVerifyCodeWithPhone:(NSString *)phone

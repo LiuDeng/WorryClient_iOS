@@ -1,70 +1,75 @@
-//
-//  DLRadioButton.h
-//  DLRadioButtonExample
-//
-//  Created by Liu, Xingruo on 8/22/14.
-//
-
 #import <UIKit/UIKit.h>
 
 /**
- A hightly customizable Radio Button for iOS
+ A hightly customizable Radio Button for iOS.
 */
+IB_DESIGNABLE
 @interface DLRadioButton : UIButton
 
 /**@name Properties*/
 /**
- Container for holding other related radio buttons
+ Container for holding other buttons in same group.
 */
 @property (nonatomic) IBOutletCollection(DLRadioButton) NSArray *otherButtons;
-/**
- Image for radio button (optional)
-*/
-@property (nonatomic) UIImage *ButtonIcon;
-/**
- Image for radio button when selected (optional)
-*/
-@property (nonatomic) UIImage *ButtonIconSelected;
-/**
- Height of the radio button
-*/
-@property (nonatomic) CGFloat buttonSideLength;
-/**
- Margin width between button icon and button title
- */
-@property (nonatomic) CGFloat rightMarginWidth;
-/**
- Color of the circle button icon
-*/
-@property (nonatomic) UIColor *circleColor;
-/**
- Radius of the circle button icon
-*/
-@property (nonatomic) CGFloat circleRadius;
-/**
- Stroke width of circle button icon
- */
-@property (nonatomic) CGFloat circleStrokeWidth;
-/**
- Color of selection indicator
-*/
-@property (nonatomic) UIColor *indicatorColor;
-/**
- Radius of selection indicator
-*/
-@property (nonatomic) CGFloat indicatorRadius;
-/**
- Whether icon on the right side
-*/
-@property (nonatomic) BOOL iconOnRight;
 
 /**
- Clear selection for all the buttons
+ Size of icon, default is kDefaulIconSize
+*/
+@property (nonatomic) IBInspectable CGFloat iconSize;
+
+/**
+ Color of icon, default is title color for current UIControlState.
+ */
+@property (nonatomic) IBInspectable UIColor *iconColor;
+
+/**
+ Stroke width of icon, default is iconSize / 9.
+ */
+@property (nonatomic) IBInspectable CGFloat iconStrokeWidth;
+
+/**
+ Size of selection indicator, default is iconSize * 0.5.
+ */
+@property (nonatomic) IBInspectable CGFloat indicatorSize;
+
+/**
+ Color of selection indicator, default is title color for current UIControlState.
+*/
+@property (nonatomic) IBInspectable UIColor *indicatorColor;
+
+/**
+ Margin width between icon and title, default is kDefaultMarginWidth.
+ */
+@property (nonatomic) IBInspectable CGFloat marginWidth;
+
+/**
+ Whether icon on the right side.
+*/
+@property (nonatomic) IBInspectable BOOL isIconOnRight;
+
+/**
+ Whether use square icon.
+*/
+@property (nonatomic) IBInspectable BOOL isIconSquare;
+
+/**
+ Image for radio button icon (optional).
+ */
+@property (nonatomic) IBInspectable UIImage *icon;
+
+/**
+ Image for radio button icon when selected (optional).
+ */
+@property (nonatomic) IBInspectable UIImage *iconSelected;
+
+/**
+ @return Current selected button in same group.
+ */
+- (DLRadioButton *)selectedButton;
+
+/**
+ Clear selection for other buttons in in same group.
 */
 - (void)deselectOtherButtons;
-/**
- @return Current selected button
-*/
-- (DLRadioButton *)selectedButton;
 
 @end

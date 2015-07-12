@@ -3,7 +3,11 @@ This application makes use of the following third party libraries:
 
 ## AVOSCloud
 
-© Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html
+Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html
+
+## AVOSCloudSNS
+
+Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html
 
 ## ActionSheetPicker-3.0
 

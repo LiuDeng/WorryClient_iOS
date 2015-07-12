@@ -51,6 +51,7 @@
             [weakSelf afterRefresh];
         }];
     }];
+
 }
 
 #pragma mark - Private methods

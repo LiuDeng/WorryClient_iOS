@@ -11,7 +11,14 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 3.1.2.2.
+// Version: 3.1.2.6.
+
+// AVOSCloudSNS
+#define COCOAPODS_POD_AVAILABLE_AVOSCloudSNS
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 3.1.2.6.
 
 // ActionSheetPicker-3.0
 #define COCOAPODS_POD_AVAILABLE_ActionSheetPicker_3_0
@@ -40,8 +47,8 @@
 // DLRadioButton
 #define COCOAPODS_POD_AVAILABLE_DLRadioButton
 #define COCOAPODS_VERSION_MAJOR_DLRadioButton 1
-#define COCOAPODS_VERSION_MINOR_DLRadioButton 1
-#define COCOAPODS_VERSION_PATCH_DLRadioButton 1
+#define COCOAPODS_VERSION_MINOR_DLRadioButton 3
+#define COCOAPODS_VERSION_PATCH_DLRadioButton 2
 
 // FMDB
 #define COCOAPODS_POD_AVAILABLE_FMDB
@@ -65,13 +72,13 @@
 #define COCOAPODS_POD_AVAILABLE_HMSegmentedControl
 #define COCOAPODS_VERSION_MAJOR_HMSegmentedControl 1
 #define COCOAPODS_VERSION_MINOR_HMSegmentedControl 5
-#define COCOAPODS_VERSION_PATCH_HMSegmentedControl 1
+#define COCOAPODS_VERSION_PATCH_HMSegmentedControl 2
 
 // ImagePlayerView
 #define COCOAPODS_POD_AVAILABLE_ImagePlayerView
 #define COCOAPODS_VERSION_MAJOR_ImagePlayerView 1
 #define COCOAPODS_VERSION_MINOR_ImagePlayerView 0
-#define COCOAPODS_VERSION_PATCH_ImagePlayerView 2
+#define COCOAPODS_VERSION_PATCH_ImagePlayerView 3
 
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
@@ -89,7 +96,7 @@
 #define COCOAPODS_POD_AVAILABLE_Masonry
 #define COCOAPODS_VERSION_MAJOR_Masonry 0
 #define COCOAPODS_VERSION_MINOR_Masonry 6
-#define COCOAPODS_VERSION_PATCH_Masonry 1
+#define COCOAPODS_VERSION_PATCH_Masonry 2
 
 // ProtocolBuffers
 #define COCOAPODS_POD_AVAILABLE_ProtocolBuffers

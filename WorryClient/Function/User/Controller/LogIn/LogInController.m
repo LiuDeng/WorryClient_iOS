@@ -206,7 +206,7 @@
     if (account.length == 0 || password.length == 0) {
         POST_ERROR_MSG(@"请输入手机号和密码");
     }else{
-        [[UserService sharedInstance]logInWithUsername:account password:password block:^(NSError *error) {
+        [[UserService sharedInstance]logInWithUsername:account password:password block:^(PBUser *pbUser,NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"登录失败");
             }else{

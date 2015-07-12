@@ -171,8 +171,8 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        button.ButtonIcon = [UIImage imageNamed:@"creat_feed_unchecked"];
-        button.ButtonIconSelected = [UIImage imageNamed:@"creat_feed_checked"];
+        button.icon = [UIImage imageNamed:@"creat_feed_unchecked"];
+        button.iconSelected = [UIImage imageNamed:@"creat_feed_checked"];
         if ([title isEqualToString:kWorryButtonTitle]) {
             self.worryButton = button;
         }else if ([title isEqualToString:kStoryButtonTitle]){

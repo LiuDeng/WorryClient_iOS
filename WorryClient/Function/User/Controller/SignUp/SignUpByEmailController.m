@@ -74,11 +74,11 @@
     }else if ([Utils isValidEmail:email]){
         POST_ERROR_MSG(@"请输入有效的邮箱");
     }else{
-        [[UserService sharedInstance]signUpByEmail:email password:password block:^(BOOL succeed) {
-            if (succeed) {
-                //
-            }
-        }];
+//        [[UserService sharedInstance]signUpByEmail:email password:password block:^(BOOL succeed) {
+//            if (succeed) {
+//                //
+//            }
+//        }];
     }
 }
 @end
