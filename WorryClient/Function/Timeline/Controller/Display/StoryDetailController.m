@@ -10,7 +10,7 @@
 #import "AvatarView.h"
 #import "THLabel.h"
 #import "AppDelegate.h"
-#import "Feed.pb.h"
+#import "FeedService.h"
 #import "CommentListController.h"
 
 const CGFloat strokeSize = 0.1f;
@@ -290,7 +290,10 @@ const CGFloat strokeSize = 0.1f;
 }
 - (void)clickShareButton
 {
-    //  TODO    
+    //  TODO
+    [[FeedService sharedInstance]sharePBFeed:self.pbFeed block:^(NSError *error) {
+
+    }];
 }
 
 - (void)clickEditBtn

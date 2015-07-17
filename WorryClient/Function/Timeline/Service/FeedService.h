@@ -53,4 +53,6 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 - (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block;
 - (void)getUser:(NSString *)userId storyFeeds:(ServiceArrayResultBlock)block;
 - (void)getUser:(NSString *)userId worryFeeds:(ServiceArrayResultBlock)block;
+- (void)sharePBFeed:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block;
+
 @end

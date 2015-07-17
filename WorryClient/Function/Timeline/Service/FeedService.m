@@ -205,6 +205,10 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     [self getFeedsWithQuery:query block:block];
 }
 
+- (void)sharePBFeed:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block
+{
+    [self shareContent:pbFeed.text title:pbFeed.title];
+}
 #pragma mark - Utils
 //  TODO 如果只是获取消息流的feeds，不用所有信息都获取，只需获取一部分
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block
