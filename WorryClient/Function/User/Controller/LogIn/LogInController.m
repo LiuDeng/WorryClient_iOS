@@ -69,7 +69,7 @@
 
 - (void)loadSignUpAndLogInView
 {
-    self.signUpAndLogInView = [[SignUpAndLogInView alloc]initWithAccountPlaceholder:@"请输入11位手机号码"
+    self.signUpAndLogInView = [[SignUpAndLogInView alloc]initWithAccountPlaceholder:@"请输入用户名(手机号码、邮箱)"
                                                                 passwordPlaceholder:@"请输入密码"
                                                                         buttonTitle:@"登录"];
     [self.view addSubview:self.signUpAndLogInView];
@@ -207,7 +207,7 @@
     NSString *account = self.accountTextField.text;
     NSString *password = self.passwordTextField.text;
     if (account.length == 0 || password.length == 0) {
-        POST_ERROR_MSG(@"请输入手机号和密码");
+        POST_ERROR_MSG(@"请输入用户名和密码");
     }else{
         [[UserService sharedInstance]logInWithUsername:account password:password block:^(PBUser *pbUser,NSError *error) {
             if (error) {

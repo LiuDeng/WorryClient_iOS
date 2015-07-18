@@ -7,11 +7,11 @@
 //
 //  列表显示，但是cell的高度要根据文字多少变化
 //  右上角，“写评论”
-#import "UIViewController+Worry.h"
+#import "WTableViewController.h"
 
 @class PBFeed;
 
-@interface CommentListController : UIViewController
+@interface CommentListController : WTableViewController
 
 - (instancetype)initWithPBFeed:(PBFeed *)pbFeed;
 

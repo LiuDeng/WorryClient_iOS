@@ -17,6 +17,7 @@
 
 #define kDefaultNick           @"还没有昵称"
 #define kDefaultSignature      @"这个人很懒"
+#define kAnonymousNick         @"匿名用户"
 
 //  暂时不用和User.proto中的一样
 #define kNick        @"nick"
@@ -477,9 +478,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     _currentPBUser = [self perfectPBUserWithAVUser:currentUser];
 }
 
-/*
- @param user AVUser
- @return current pbUser with all info
+/**
+ *  获得带有全部信息的PBUser
+ *
+ *  @param user AVUser
+ *
+ *  @return pbUser with all info
  */
 - (PBUser *)perfectPBUserWithAVUser:(AVUser *)user
 {
@@ -490,15 +494,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     NSString *BGImage = [user objectForKey:kBGImage];
     NSString *signature = [user objectForKey:kSignature];
     NSString *location = [user objectForKey:kLocation];
-//    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server.
-//    BOOL emailVerified = emailVerifiedNum.boolValue;
+    NSNumber *emailVerifiedNum = [user objectForKey:kEmailVerified];    //  TODO always YES ,but emailVerified is false on the server
+    BOOL emailVerified = emailVerifiedNum.boolValue;
     int credit = (int)[user objectForKey:kCredit];
     int32_t creatAt = user.createdAt.timeIntervalSince1970;   //  may be false.
     int32_t updateAt = user.updatedAt.timeIntervalSince1970;
-//    NSString *phone = [user objectForKey:kPhone];
-//    NSNumber *phoneVerifiedNum = [user objectForKey:kPhoneVerified];
-//    BOOL phoneVerified = phoneVerifiedNum.boolValue;
-    
+
     PBUserBuilder *pbUserBuilder = [PBUser builder];
     
     [pbUserBuilder setUserId:user.objectId];
@@ -510,33 +511,36 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
     [pbUserBuilder setSignature:signature];
     [pbUserBuilder setLocation:location];
     [pbUserBuilder setPhone:user.mobilePhoneNumber];
-//    [pbUserBuilder setPhone:phone];
-//    [pbUserBuilder setEmail:user.email];
+    [pbUserBuilder setEmail:user.email];
     [pbUserBuilder setCreatedAt:creatAt];
     [pbUserBuilder setUpatedAt:updateAt];
     
-//    [pbUserBuilder setPhoneVerified:phoneVerified];
-//    [pbUserBuilder setEmailVerified:emailVerified];
+    [pbUserBuilder setEmailVerified:emailVerified];
     [pbUserBuilder setPhoneVerified:user.mobilePhoneVerified];
     [pbUserBuilder setCredit:credit];
     
     return [pbUserBuilder build];
 }
 
-/*
- @param user AVUser without data
- @return pbUser with the basic info:id,nick,avatar
+/**
+ *  获得带有基本信息的PBUser
+ *
+ *  @param user AVUser without data
+ *
+ *  @return pbUser with the basic info:id,nick,avatar
  */
 - (PBUser *)simplePBUserWithUser:(AVUser *)user
 {
     user = (AVUser *)[user fetchIfNeeded];  //  TODO    这个要去掉，因为并不需要查询所有信息，用[query includeKey:@"xx"]解决这个问题。
+    NSNumber *isAnonymousNum = [user objectForKey:kIsAnonymous];
+    BOOL isAnonymous = isAnonymousNum.boolValue;
     NSString *nick = [user objectForKey:kNick];
     NSString *avatar = [user objectForKey:kAvatar];
     PBUserBuilder *builder = [PBUser builder];
     
     builder.userId = user.objectId;
-    builder.nick = nick;
-    builder.avatar = avatar;
+    builder.nick = isAnonymous ? nick : kAnonymousNick;
+    builder.avatar = isAnonymous ? avatar : @"";
     
     return [builder build];
 }

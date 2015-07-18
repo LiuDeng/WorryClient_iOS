@@ -79,8 +79,10 @@
 - (void)loadData
 {
     [super loadData];
-    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
-    self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
+//    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+//    self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
+    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+    self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
 }

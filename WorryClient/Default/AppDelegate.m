@@ -24,14 +24,14 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import "AVOSCloudSNS.h"
-
+#import "GuidePageController.h"
 #import <SMS_SDK/SMS_SDK.h>
 
 #ifdef DEBUG
 //#import "QuickSignUpController.h"
 #import "SignUpByEmailController.h"
 #import "LogInController.h"
-#import "GuidePageController.h"
+
 
 #endif
 
