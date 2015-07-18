@@ -17,5 +17,7 @@
 - (void)emailSignUp;    //  Email
 
 - (void)goToLogIn;
+- (void)afterPhoneSignUpSuccess;
+- (void)afterEmailSignUpSuccess;
 
 @end

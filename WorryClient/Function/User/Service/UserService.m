@@ -104,6 +104,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
         if (error == nil) {
             user.username = phone;
             user.password = password;
+            [user saveEventually];
             //  TODO  测试一下 current user 是否存在
             [self refreshCurrentPBUser];    //  TODO current user == user?
         }
@@ -132,20 +133,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block
 {
-//    [ShareSDK getUserInfoWithType:ShareTypeQQ
-//                      authOptions:nil
-//                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-//                               if (result) {
-////                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
-////                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-////                                   AVUser loginwith
-//                                   NSDictionary *dic = [userInfo sourceData];
-//                                   [AVUser loginWithAuthData:dic platform:@"qq" block:^(AVUser *user, NSError *error) {
-//                           
-//                                   }];
-//                               }
-//                               EXECUTE_BLOCK(block,result);
-//                           }];
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:kQQAppKey andAppSecret:kQQAppSecret andRedirectURI:@""];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
@@ -159,19 +146,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)sinaLogInWithBlock:(ServiceBooleanResultBlock)block
 {
-//    [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo
-//                      authOptions:nil
-//                           result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-//                               if (result) {
-////                                   JDDebug(@"userInfo uid %@",[userInfo uid]);
-////                                   JDDebug(@"userInfo nickname %@",[userInfo nickname]);
-//                                   NSDictionary *dic = [userInfo sourceData];
-//                                   [AVUser loginWithAuthData:dic platform:@"weibo" block:^(AVUser *user, NSError *error) {
-//                                       
-//                                   }];
-//                                  EXECUTE_BLOCK(block,result);
-//                               }
-//                           }];
+
     [AVOSCloudSNS setupPlatform:AVOSCloudSNSSinaWeibo withAppKey:kWeiboAppKey andAppSecret:kWeiboAppSecret andRedirectURI:@""];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {

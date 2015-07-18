@@ -21,7 +21,7 @@
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,retain) NSArray *sectionMiscItems;
 @property (nonatomic,assign) int sectionMisc;
-@property (nonatomic,assign) int indexOfSection;
+@property (nonatomic,assign) int indexOfSection;    /**< kwkw*/
 
 @end
 
@@ -62,12 +62,12 @@
 - (void)logOut
 {
     [[UserService sharedInstance]logOut];
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)clearCache
 {
-//    [[FeedManager sharedInstance]dropTable];    //  TODO
+    //  TODO
 }
 #pragma mark - UITableViewDelegate
 
@@ -108,7 +108,7 @@
     }else{
         
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

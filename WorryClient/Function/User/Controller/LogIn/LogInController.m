@@ -87,6 +87,9 @@
     [self.logInButton addTarget:self
                          action:@selector(clickLogInButton)
                forControlEvents:UIControlEventTouchUpInside];
+    //  在iPhone5上，微博和QQ登录按钮被键盘挡住
+    [self.accountTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
 }
 
 //- (void)loadLogoImageView
@@ -239,19 +242,19 @@
 - (void)clickSignUpButton
 {
     //  actionSheet,show sign up by phone or email,now is only phone
-//    self.signUpSheetTitles = @[kSignUpEmailTitle,kSignUpPhoneTitle,kCancelTitle];
-//    
-//    self.signUpSheet = [[UIActionSheet alloc]init];
-//    self.signUpSheet.delegate = self;
-//    for (NSString *title in self.signUpSheetTitles) {
-//        [self.signUpSheet addButtonWithTitle:title];
-//    }
-//    [self.signUpSheet setCancelButtonIndex:[self.signUpSheetTitles indexOfObject:kCancelTitle]];
-//    [self.signUpSheet showInView:self.view];
+    self.signUpSheetTitles = @[kSignUpEmailTitle,kSignUpPhoneTitle,kCancelTitle];
+    
+    self.signUpSheet = [[UIActionSheet alloc]init];
+    self.signUpSheet.delegate = self;
+    for (NSString *title in self.signUpSheetTitles) {
+        [self.signUpSheet addButtonWithTitle:title];
+    }
+    [self.signUpSheet setCancelButtonIndex:[self.signUpSheetTitles indexOfObject:kCancelTitle]];
+    [self.signUpSheet showInView:self.view];
     
     
     //  sign up by phone
-    [self phoneSignUp];
+//    [self phoneSignUp];
 }
 
 #pragma mark - UIActionSheetDelegate

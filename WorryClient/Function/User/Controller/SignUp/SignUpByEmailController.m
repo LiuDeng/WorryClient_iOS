@@ -9,6 +9,7 @@
 #import "SignUpByEmailController.h"
 #import "SignUpAndLogInView.h"
 #import "UserService.h"
+#import "UIViewController+LogInSignUp.h"
 
 @interface SignUpByEmailController ()<UITextFieldDelegate>
 @property (nonatomic,strong) UITextField *emailTextField;
@@ -71,14 +72,17 @@
     
     if (email.length == 0 || password == 0) {
         POST_ERROR_MSG(@"请输入邮箱和密码");
-    }else if ([Utils isValidEmail:email]){
+    }else if (![Utils isValidEmail:email]){
         POST_ERROR_MSG(@"请输入有效的邮箱");
     }else{
-//        [[UserService sharedInstance]signUpByEmail:email password:password block:^(BOOL succeed) {
-//            if (succeed) {
-//                //
-//            }
-//        }];
+        [[UserService sharedInstance]emailSignUp:email password:password block:^(NSError *error) {
+            if (error) {
+                POST_ERROR_MSG(@"注册失败");
+            }else{
+                POST_SUCCESS_MSG(@"注册成功");
+                [self afterEmailSignUpSuccess];
+            }
+        }];
     }
 }
 @end

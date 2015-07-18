@@ -27,7 +27,7 @@
                                                              if (error) {
                                                                  POST_ERROR_MSG(@"注册失败，请稍候尝试");
                                                              }else{
-                                                                 [self afterSignUpSuccess];
+                                                                 [self afterPhoneSignUpSuccess];
                                                              }
                                                      }];
                                                  }];
@@ -65,7 +65,6 @@
 
 - (void)emailSignUp
 {
-    //  暂时不做
     SignUpByEmailController *vc = [[SignUpByEmailController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -91,30 +90,38 @@
 
 - (void)goToUser
 {
-    //  应该得用tab bar，跳转到userController
+    //  检测navigationController.childViewControllers中是否有userController
     NSArray *childControllers = self.navigationController.childViewControllers;
     NSInteger count = childControllers.count;
     for (int i = 0;i<count;i++) {
         UIViewController *controller = (UIViewController *)childControllers[i];
-        if ([controller class]==[UserController class]) {
+        if ([controller class]==[UserController class]) {   //  有userController
             [self.navigationController popToViewController:controller animated:YES];
             break;
-        }else if(i==count-1){
-            UserController *userC = [[UserController alloc]init];
-            [self.navigationController pushViewController:userC animated:YES];
-            break;
+        }else if(i==count-1){   //  到最后一个了，仍旧没有userController
+            self.rdv_tabBarController.selectedIndex = 2;    //  如果userController不是第三个，这里得修改，暂时没有好的方法
         }
     }
 }
 
-- (void)afterSignUpSuccess
+- (void)afterEmailSignUpSuccess
 {
     //  TODO 等待测试
    [self goToUser];
-    NSString *title = @"注册成功，用户名为手机号码\n请点击背景，设置个人资料";
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:nil delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    NSString *title = @"注册成功，用户名为邮箱";
+    NSString *msg = @"请点击背景，设置个人资料";
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:msg delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
     [alert show];
- 
+}
+
+- (void)afterPhoneSignUpSuccess
+{
+    //  TODO 等待测试
+    [self goToUser];
+    NSString *title = @"注册成功，用户名为手机号码";
+    NSString *msg = @"请点击背景，设置个人资料";
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:msg delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil];
+    [alert show];
 }
 
 @end
