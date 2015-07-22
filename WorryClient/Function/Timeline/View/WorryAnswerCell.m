@@ -25,38 +25,37 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    CGFloat padding = 5;
     
-    [_nickHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@(kAvatarWidth));
+        make.height.equalTo(@(kAvatarWidth));
+        make.top.equalTo(self.contentView).with.offset(+padding);
+        make.left.equalTo(self.contentView).with.offset(+padding);
+    }];
+    
+    [_titleHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView);
-        make.width.equalTo(self.contentView).with.multipliedBy(0.9);
-//        make.top.equalTo(self.contentView);
-        make.top.equalTo(self.avatarView);
-        make.height.equalTo(self.contentView).with.multipliedBy(0.3);
+        make.left.equalTo(self.avatarView.mas_right).with.offset(+padding);
+        make.top.equalTo(self.contentView);
+        make.height.equalTo(@kTitleHolderViewHeight);
     }];
     
     [self.nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_nickHolderView);
-        make.top.equalTo(_nickHolderView);
-        make.left.equalTo(_nickHolderView);
-    }];
-    
-    [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(self.contentView).with.multipliedBy(0.38);
-        make.width.equalTo(self.contentView.mas_height).with.multipliedBy(0.38);
-        make.top.equalTo(self.contentView.mas_bottom).with.multipliedBy(0.1);
-        make.left.equalTo(self.contentView);
+        make.top.equalTo(self.avatarView);
+        make.left.equalTo(_titleHolderView);
     }];
     
     [self.thanksButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.avatarView.mas_bottom).with.offset(+kVerticalPadding);
+        make.top.equalTo(self.avatarView.mas_bottom).with.offset(+padding);
         make.centerX.equalTo(self.avatarView);
     }];
     
     [self.shortTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView);
-        make.top.equalTo(_nickHolderView.mas_bottom);
+        make.right.equalTo(self.contentView).with.offset(-padding);
+        make.top.equalTo(_titleHolderView.mas_bottom);//.with.offset(+padding);
         make.bottom.equalTo(self.contentView);
-        make.left.equalTo(self.avatarView.mas_right);
+        make.left.equalTo(self.avatarView.mas_right).with.offset(+padding);
     }];
 }
 
@@ -68,6 +67,7 @@
     self.contentView.layer.borderWidth = 0.5;
     [self loadAvatarView];
     [self loadTitleHolderView];
+    [self loadThanksButton];
     [self loadShortTextLabel];
 }
 
@@ -75,36 +75,31 @@
 {
     self.avatarView = [[AvatarView alloc]initWithBorderWidth:kLayerBorderWidth];
     [self.contentView addSubview:self.avatarView];
-    
 }
 
 - (void)loadTitleHolderView
 {
-    _nickHolderView = [[UIView alloc]init];
-    [self.contentView addSubview:_nickHolderView];
+    _titleHolderView = [[UIView alloc]init];
+    [self.contentView addSubview:_titleHolderView];
 
-    [self loadThanksButton];
     [self loadNickLabel];
 }
 
 - (void)loadThanksButton
 {
     self.thanksButton = [[UIButton alloc]init];
-    [_nickHolderView addSubview:self.thanksButton];
+    [self.contentView addSubview:self.thanksButton];
     [self.thanksButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    UIImage *image = [UIImage imageNamed:@"worry_detail_thanks"];
+    UIImage *image = [UIImage imageNamed:@"thanks"];
     [self.thanksButton setBackgroundImage:image forState:UIControlStateNormal];
-    self.thanksButton.titleLabel.font = [UIFont systemFontOfSize:5];
-
-
+    self.thanksButton.titleLabel.font = [UIFont systemFontOfSize:8];
 }
 
 - (void)loadNickLabel
 {
     self.nickLabel = [[UILabel alloc]init];
-    [_nickHolderView addSubview:self.nickLabel];
+    [_titleHolderView addSubview:self.nickLabel];
 }
-
 
 - (void)loadShortTextLabel
 {
@@ -113,6 +108,7 @@
     self.shortTextLabel.numberOfLines = 0;
     self.shortTextLabel.textColor = kLabelBlackColor;
     self.shortTextLabel.font = kMiddleLabelFont;
+    self.shortTextLabel.lineBreakMode = NSLineBreakByCharWrapping;
 }
 
 

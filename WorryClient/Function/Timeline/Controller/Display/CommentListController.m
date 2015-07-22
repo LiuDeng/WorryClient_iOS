@@ -43,56 +43,44 @@
 - (void)loadTableView
 {
     [super loadTableView];
-    [self.tableView registerClass:[WorryAnswerCell class] forCellReuseIdentifier:kCommentCell];
-    
 }
 
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.pbComments.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self.tableView registerClass:[WorryAnswerCell class] forCellReuseIdentifier:kCommentCell];
-//    //  根据pbComment.text内容多少改变高度
-//    WorryAnswerCell *cell = (WorryAnswerCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    //  447换成width
-//    return 30 + [cell.shortTextLabel suggestedSizeForWidth:447].height;
-//    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-//    return cell.frame.size.height;
-    return 100;
+    //  动态高度
+    WorryAnswerCell *cell = (WorryAnswerCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+    CGFloat width = CGRectGetWidth(self.view.frame)-kAvatarWidth-15;    //  15是WorryAnswerCell里面的padding*3
+    NSDictionary *attrbute = @{NSFontAttributeName:kMiddleLabelFont};
+    NSAttributedString *attributeStr = [[NSAttributedString alloc]initWithString:cell.shortTextLabel.text attributes:attrbute];
+    CGFloat height = [cell.shortTextLabel suggestSizeForAttributedString:attributeStr width:width].height;
+    return kTitleHolderViewHeight+height;
 }
 
 #pragma mark - UITableViewDatasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WorryAnswerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentCell forIndexPath:indexPath];
+    WorryAnswerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentCell];
+    if (cell==nil) {
+        cell = [[WorryAnswerCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCommentCell];
+    }
     PBComment *pbComment = self.pbComments[indexPath.row];
     
     PBUser *pbUser = pbComment.createdUser;
     
     [cell.avatarView setAvatarWithPBUser:pbUser];
     [cell.avatarView addTapGestureWithClickType:AvatarViewClickTypeUserInfo];
-//
-//    NSString *text = [NSString stringWithFormat:@"%@\n\n",pbComment.text];   //  加2个"\n"的目的是，为了让文字置顶
-   NSString *text = @"其主要出发点就是我有一个label，然后我要把这个label展示出来，我根据字体的大小还有行数来获取一个高度，这样cell的高度就有啦。其主要出发点就是我有一个label，然后我要把这个label展示出来，我根据字体的大小还有行数来获取一个高度，这样cell的高度就有啦。";
+    NSString *text = [NSString stringWithFormat:@"%@\n",pbComment.text];   //  加"\n"的目的是，动态计算高度时，多一行，会好一点。
     cell.shortTextLabel.text = text;
     cell.nickLabel.text = pbUser.nick;
     cell.thanksButton.hidden = YES;
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentCell];
-//    cell = [[WorryAnswerCell alloc] initWithFrame:CGRectZero];
-//    CGRect cellFrame = [cell frame];
-////    cellFrame.origin = CGPointMake(0, 0);
-//    
-////    CGFloat totalHeight = [cell.shortTextLabel suggestedSizeForWidth:self.view.bounds.size.width].height;
-////    cellFrame.size.height = totalHeight+30;
-//    cellFrame.size.height = 100;
-//    [cell setFrame:cellFrame];
-//    
     return cell;
 }
 
