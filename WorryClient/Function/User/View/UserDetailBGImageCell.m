@@ -40,7 +40,7 @@
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(self.contentView.mas_height).with.multipliedBy(kCellHeightScale);
         make.height.equalTo(self.contentView).with.multipliedBy(kCellHeightScale);
-        make.right.equalTo(self.contentView).with.multipliedBy(kCellRightScale);
+        make.right.equalTo(self.contentView);
     }];
 }
 
@@ -50,7 +50,7 @@
 {
     self.BGImageView = [[UIImageView alloc]init];
     [self.contentView addSubview:self.BGImageView];
-    
+//    self.BGImageView.contentMode = UIViewContentModeRedraw;
 }
 
 @end

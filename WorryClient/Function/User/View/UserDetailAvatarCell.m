@@ -46,7 +46,7 @@
         make.centerY.equalTo(self.contentView);
         make.width.equalTo(self.contentView.mas_height).with.multipliedBy(avatarViewHeightScale);
         make.height.equalTo(self.contentView).with.multipliedBy(avatarViewHeightScale);
-        make.right.equalTo(self.contentView).with.multipliedBy(kCellRightScale);
+        make.right.equalTo(self.contentView);//.with.multipliedBy(kCellRightScale);
     }];
 }
 
