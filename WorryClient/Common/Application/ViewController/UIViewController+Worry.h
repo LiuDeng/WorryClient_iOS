@@ -27,5 +27,5 @@
 - (void)hideTabBar;
 - (void)showTabBar;
 - (void)customizeNavigationBar;
-
+- (void)showShareActionSheet:(UIView *)view;
 @end

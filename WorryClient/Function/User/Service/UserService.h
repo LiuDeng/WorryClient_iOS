@@ -7,8 +7,6 @@
 //
 #import "User.pb.h"
 #import "CommonService.h"
-#import <ShareSDK/ShareSDK.h>
-#import <SMS_SDK/SMS_SDK.h>
 
 #define kUserClassName  @"User"
 #define kFavoriteAnswers    @"favoriteAnswers"
