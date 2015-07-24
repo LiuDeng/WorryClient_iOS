@@ -252,17 +252,17 @@ const CGFloat strokeSize = 0.1f;
     self.textView = [[UITextView alloc]init];
     [self.view addSubview:self.textView];
     self.textView.editable = NO;    //  TODO 若是作者，可以修改？
-
-//    self.textView.font = [UIFont systemFontOfSize:15];
-    self.textView.textColor = OPAQUE_COLOR(0x69, 0x69, 0x69);
-//    self.textView.text = @"iOS系统自带的Switch开关是固定的大小,不能设置frame,这大大阻碍了我们的产品开发,所以小弟在闲暇时间写了这个自定义的Switch,不仅能够设置大小,也能设置左右开关颜色,文字,文字Font等等,对于系统的是否开关等Bool值属性也是应有尽有,可以说满足了我们对开关的所有需求,这是小弟第一次上传代码,希望大家多多支持";
+    self.textView.alwaysBounceVertical = YES;
+    self.textView.contentSize = CGSizeMake(0, 665); //  只能垂直方向滚动，不能水平方向滚动，665这个数不是惟一的，貌似只要不太小就行，这个参照UIScrollView
+    self.textView.font = kMiddleLabelFont;
+    self.textView.textColor = kLabelBlackColor;
     self.textView.text = self.pbFeed.text;
+    self.textView.textContainerInset = UIEdgeInsetsMake(10, 10, 0, 10);//设置页边距
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.bgImageView.mas_bottom);
-        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
-//        make.height.equalTo(self.view).with.multipliedBy(0.5);
+        make.width.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
 }
@@ -276,10 +276,8 @@ const CGFloat strokeSize = 0.1f;
     [self.editButton addTarget:self action:@selector(clickEditBtn) forControlEvents:UIControlEventTouchUpInside];
     
     [self.editButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.textView).with.multipliedBy(1.8);
-        make.centerY.equalTo(self.textView).with.multipliedBy(1.8);
-//        make.width.equalTo(self.textView.mas_height).with.multipliedBy(0.1);
-//        make.height.equalTo(self.textView).with.multipliedBy(0.1);
+        make.centerX.equalTo(self.view).with.multipliedBy(1.8);
+        make.centerY.equalTo(self.view).with.multipliedBy(1.8);
     }];
 }
 #pragma mark - Utils
@@ -291,9 +289,6 @@ const CGFloat strokeSize = 0.1f;
 - (void)clickShareButton
 {
     //  TODO
-//    [[FeedService sharedInstance]sharePBFeed:self.pbFeed block:^(NSError *error) {
-//
-//    }];
     [self showShareActionSheet:self.view];
 }
 

@@ -59,11 +59,11 @@
     [super viewWillAppear:animated];
     self.pbUser = [[UserService sharedInstance]currentPBUser];
     [self.tableView reloadData];
-    if ([[UserService sharedInstance]ifLogIn]) {
-        //
-    }else{
-        [self loadLogInAlertView];
-    }
+//    if ([[UserService sharedInstance]ifLogIn]) {
+//        //
+//    }else{
+//        [self loadLogInAlertView];
+//    }
 }
 - (void)loadView
 {

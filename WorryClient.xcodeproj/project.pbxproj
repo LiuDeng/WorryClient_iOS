@@ -2206,11 +2206,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Connection",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Core",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Extend/QQConnectSDK",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/UI",
 					"$(PROJECT_DIR)/WorryClient/SDK/SMS_SDK",
 					"$(PROJECT_DIR)/WorryClient/SDK/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/WorryClient/SDK/libraries",
@@ -2240,11 +2235,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Connection",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Core",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/Extend/QQConnectSDK",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK",
-					"$(PROJECT_DIR)/WorryClient/SDK/ShareSDK/UI",
 					"$(PROJECT_DIR)/WorryClient/SDK/SMS_SDK",
 					"$(PROJECT_DIR)/WorryClient/SDK/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/WorryClient/SDK/libraries",
