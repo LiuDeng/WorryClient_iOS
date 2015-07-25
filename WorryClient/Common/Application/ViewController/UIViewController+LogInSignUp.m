@@ -22,6 +22,7 @@
                                                      placeholder:@"请输入密码"
                                                             tips:nil
                                                          isMulti:NO
+                                                        needBack:NO
                                                  saveActionBlock:^(NSString *text) {
                                                      [[UserService sharedInstance]phoneSignUp:phone password:text smsCode:smsCode block:^(NSError *error) {
                                                              if (error) {

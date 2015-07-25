@@ -13,7 +13,7 @@
 @interface EditController ()<UITextViewDelegate>
 
 @property (nonatomic,assign)BOOL isMulti;
-
+@property (nonatomic,assign)BOOL needBack;  /**<是否需要返回*/
 @end
 
 @implementation EditController
@@ -24,6 +24,7 @@
        placeholder:(NSString *)placeholder
               tips:(NSString *)tips
            isMulti:(BOOL)isMulti
+          needBack:(BOOL)needBack
    saveActionBlock:(EditSaveBlock)saveActionBlock
 {
     self = [super init];
@@ -32,6 +33,7 @@
     self.tips = tips;
     self.saveActionBlock = saveActionBlock;
     self.isMulti = isMulti ? isMulti : NO;
+    self.needBack = needBack;
     return self;
 }
 
@@ -114,7 +116,9 @@
 {
     NSString *text = self.isMulti ? self.textView.text : self.textField.text;
     EXECUTE_BLOCK(self.saveActionBlock, text);
-    //    [self.navigationController popViewControllerAnimated:YES];
+    if (self.needBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)valueChanged:(UITextField *)textField

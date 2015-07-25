@@ -13,6 +13,7 @@
 #import "UserService.h"
 #import "UserDetailController+Utils.h"
 #import "UIImageView+Worry.h"
+#import "SettingController.h"
 
 #define kUserDetailCell     @"kUserDetailCell"
 #define kAvatarTitle        @"头像"
@@ -57,6 +58,7 @@
 {
     [super loadView];
     [self setTitle:@"个人资料"];
+    [self addRightButtonWithImageName:@"setting" target:self action:@selector(clickRightButton)];
 }
 
 - (void)loadData
@@ -65,11 +67,9 @@
     self.sectionBasic = self.indexOfSection++;
     self.sectionMisc = self.indexOfSection++;
     self.sectionContact = self.indexOfSection++;
-    self.sectionBasicItems = @[kAvatarTitle,kBackgroundTitle,kNickTitle,kSignatureTitle];
+    self.sectionBasicItems = @[kAvatarTitle,kNickTitle,kSignatureTitle];
     self.sectionMiscItems = @[kGenderTitle,kChangePwdTitle];
     
-//    [[UserService sharedInstance]refreshUser];
-//    self.pbUser = [[UserManager sharedInstance] pbUser];
     self.pbUser = [[UserService sharedInstance]currentPBUser];
     
     self.sectionContactImages = [[NSMutableArray alloc]init];
@@ -255,5 +255,10 @@
     cell.selected = NO;
 }
 
-
+#pragma mark - Utils
+- (void)clickRightButton
+{
+    SettingController *vc = [[SettingController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

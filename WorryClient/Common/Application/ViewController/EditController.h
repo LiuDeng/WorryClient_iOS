@@ -12,10 +12,11 @@ typedef void (^EditSaveBlock) (NSString* text);
 
 @interface EditController : UIViewController
 
-- (id)initWithText:(NSString*)editText
-       placeholder:(NSString*)placeholder
-              tips:(NSString*)tips
+- (id)initWithText:(NSString *)editText
+       placeholder:(NSString *)placeholder
+              tips:(NSString *)tips
            isMulti:(BOOL)isMulti
+          needBack:(BOOL)needBack
    saveActionBlock:(EditSaveBlock)saveActionBlock;
 
 @property (nonatomic,strong) NSString* editText;

@@ -60,6 +60,7 @@
                                                              placeholder:@"请输入昵称"
                                                                     tips:@"来吧，取个炫酷的名字！"
                                                                  isMulti:NO
+                                                                needBack:YES
                                                          saveActionBlock:^(NSString *text) {
                                                              [[UserService sharedInstance]updateNick:text block:^(NSError *error) {
                                                                  if (error) {
@@ -79,6 +80,7 @@
                                                              placeholder:@"请输入签名"
                                                                     tips:@"签名，签的就是我的心事"
                                                                  isMulti:NO
+                                                                needBack:YES
                                                          saveActionBlock:^(NSString *text) {
                                                              [[UserService sharedInstance]updateSignature:text block:^(NSError *error) {
                                                                  if (error) {
@@ -94,6 +96,7 @@
 
 - (void)updateGender
 {
+    //  TODO    性别只能修改一次，这个得先提醒
     NSArray *genderTexts = @[@"男",@"女"];
     BOOL gender = self.pbUser.gender;
     NSInteger selection = gender ? 0 : 1;
@@ -134,6 +137,7 @@
                                                  placeholder:placeholder
                                                         tips:tips
                                                      isMulti:NO
+                                                    needBack:YES
                                              saveActionBlock:^(NSString *text) {
                                                  [[UserService sharedInstance]updateEmail:text block:^(NSError *error) {
                                                      if (error) {
@@ -163,8 +167,6 @@
 
 - (void)refreshData
 {
-//    [[UserService sharedInstance]refreshUser];
-//    self.pbUser = [[UserManager sharedInstance] pbUser];
     self.pbUser = [[UserService sharedInstance]currentPBUser];
     [self.tableView reloadData];
 }

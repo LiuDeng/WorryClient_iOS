@@ -12,7 +12,6 @@
 #import "AVOSCloud/AVOSCloud.h"
 #import "User.pb.h"
 #import "LogInController.h"
-#import "SettingController.h"
 #import "UserDetailController.h"
 #import "UserService.h"
 #import "ContributionController.h"
@@ -23,6 +22,8 @@
 #import "WorryController.h"
 #import "StoryController.h"
 #import "TopicController.h"
+#import "UserDetailController+Utils.h"
+#import "UpdateImage.h"
 
 #import "UIImageView+Worry.h"
 
@@ -44,6 +45,7 @@
 @property (nonatomic,assign) int sectionAvatar;
 @property (nonatomic,assign) int sectionBasic;
 @property (nonatomic,strong) PBUser *pbUser;
+@property (nonatomic,strong) UpdateImage *updateImage;
 
 @end
 
@@ -52,6 +54,7 @@
 #pragma mark - Default methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addRightButtonWithImageName:@"user_detail" target:self action:@selector(enterUserDetail)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,16 +67,6 @@
 //    }else{
 //        [self loadLogInAlertView];
 //    }
-}
-- (void)loadView
-{
-    [super loadView];
-    [self addRightButtonWithImageName:@"setting" target:self action:@selector(clickRightButton)];
-}
-
-- (void)loadTableView
-{
-    [super loadTableView];
 }
 
 - (void)loadData
@@ -95,7 +88,7 @@
 {
     if([[UserService sharedInstance]ifLogIn]){
         if (indexPath.section == self.sectionAvatar) {
-            [self didSelectBackgroundImage];
+            [self updateBGImage];
         }else{
             UIViewController *vc;
             NSString *title = [self.sectionBasicItems objectAtIndex:indexPath.row];
@@ -174,17 +167,25 @@
 
 #pragma mark - Utils
 
-- (void)clickRightButton
+//  这部分不应该放在这的，但是又不能放在UserDetailController+Utils中，只能暂时放在这
+- (void)updateBGImage
 {
-    if([[UserService sharedInstance]ifLogIn]){
-        SettingController *vc = [[SettingController alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        [self loadLogInAlertView];
-    }
+    NSString *actionSheetTitle = @"请选择";
+    self.updateImage = [[UpdateImage alloc]init];
+    [self.updateImage showSelectionWithTitle:actionSheetTitle superViewController:self selectedImageBlock:^(UIImage *image) {
+        if (image) {
+            [[UserService sharedInstance]updateBGImage:image block:^(NSError *error) {
+                if (error == nil) {
+                    self.pbUser = [[UserService sharedInstance]currentPBUser];
+                    [self.tableView reloadData];
+                    POST_SUCCESS_MSG(@"修改成功");    //  TODO
+                }
+            }];
+        }
+    }];
 }
 
-- (void)didSelectBackgroundImage
+- (void)enterUserDetail
 {
     UserDetailController *vc = [[UserDetailController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];

@@ -257,6 +257,8 @@
 		7CDE27111B611736002E77D7 /* ShareSDKExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CDE27051B611736002E77D7 /* ShareSDKExtension.framework */; };
 		7CDE27121B611736002E77D7 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7CDE27061B611736002E77D7 /* ShareSDKUI.bundle */; };
 		7CDE27131B611736002E77D7 /* ShareSDKUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CDE27071B611736002E77D7 /* ShareSDKUI.framework */; };
+		7CE5A4D81B6333D60003CD76 /* user_detail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE5A4D61B6333D60003CD76 /* user_detail@2x.png */; };
+		7CE5A4D91B6333D60003CD76 /* user_detail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE5A4D71B6333D60003CD76 /* user_detail@3x.png */; };
 		7CE9872D1AF5B23A00D270EC /* TopicService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9872C1AF5B23A00D270EC /* TopicService.m */; };
 		7CE987301AF5B57600D270EC /* CreateTopicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE9872F1AF5B57600D270EC /* CreateTopicController.m */; };
 		7CE987371AF6502C00D270EC /* creat_feed_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE987351AF6502C00D270EC /* creat_feed_checked@2x.png */; };
@@ -655,6 +657,8 @@
 		7CDE27051B611736002E77D7 /* ShareSDKExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKExtension.framework; sourceTree = "<group>"; };
 		7CDE27061B611736002E77D7 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		7CDE27071B611736002E77D7 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
+		7CE5A4D61B6333D60003CD76 /* user_detail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_detail@2x.png"; sourceTree = "<group>"; };
+		7CE5A4D71B6333D60003CD76 /* user_detail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_detail@3x.png"; sourceTree = "<group>"; };
 		7CE9872B1AF5B23A00D270EC /* TopicService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicService.h; sourceTree = "<group>"; };
 		7CE9872C1AF5B23A00D270EC /* TopicService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicService.m; sourceTree = "<group>"; };
 		7CE9872E1AF5B57600D270EC /* CreateTopicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTopicController.h; sourceTree = "<group>"; };
@@ -1301,6 +1305,8 @@
 				7CC876911AE79E3700963450 /* favorites@3x.png */,
 				7CC876A21AE79E3F00963450 /* setting@2x.png */,
 				7CC876921AE79E3700963450 /* setting@3x.png */,
+				7CE5A4D61B6333D60003CD76 /* user_detail@2x.png */,
+				7CE5A4D71B6333D60003CD76 /* user_detail@3x.png */,
 				7CC876A31AE79E3F00963450 /* thanks@2x.png */,
 				7CC876931AE79E3700963450 /* thanks@3x.png */,
 				7CC876A41AE79E3F00963450 /* topic@2x.png */,
@@ -1807,6 +1813,7 @@
 				7CE987401AF659BA00D270EC /* worry_detail_thanks@2x.png in Resources */,
 				7CE987631AF672EF00D270EC /* story_detail_blessing@3x.png in Resources */,
 				7C5A380D1ADB9E3000CFA176 /* image3.jpg in Resources */,
+				7CE5A4D91B6333D60003CD76 /* user_detail@3x.png in Resources */,
 				7CE987641AF672EF00D270EC /* story_detail_sina@2x.png in Resources */,
 				7CDE27091B611736002E77D7 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				7CCBCAD11AE3E469006410BD /* omnibus_normal@2x.png in Resources */,
@@ -1836,6 +1843,7 @@
 				7CDE270B1B611736002E77D7 /* WeiboSDK.bundle in Resources */,
 				7CCF5B721AF361210091F3A7 /* story_detail_font@3x.png in Resources */,
 				7CCAC03C1AE129B4007F4326 /* plus@3x.png in Resources */,
+				7CE5A4D81B6333D60003CD76 /* user_detail@2x.png in Resources */,
 				7CC876A91AE79E3F00963450 /* favorites@2x.png in Resources */,
 				7CBDDF5C1AFE2776005C7354 /* news@3x.png in Resources */,
 				7CBDDF521AFDF2BF005C7354 /* guide_page_01@3x.png in Resources */,
