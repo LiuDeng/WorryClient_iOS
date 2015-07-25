@@ -94,7 +94,7 @@
     self.versionLabel.textColor = [UIColor grayColor];
     self.versionLabel.font = kMiddleLabelFont;
 
-    self.versionLabel.text = [NSString stringWithFormat:@"心事 %@",kWorryVersion];
+    self.versionLabel.text = [NSString stringWithFormat:@"心事 %@",kWorryVersion];    //  TODO version不是这样获得的
     
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.versionView);

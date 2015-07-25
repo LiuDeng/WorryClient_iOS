@@ -21,5 +21,4 @@ typedef void (^ServiceAVQueryBlock) (AVQuery *avQuery);
 @interface CommonService : NSObject
 
 - (void)updateImage:(UIImage *)image imageName:(NSString *)imageName block:(ServiceImageBlock)block;
-- (void)shareContent:(NSString *)content title:(NSString *)title;
 @end

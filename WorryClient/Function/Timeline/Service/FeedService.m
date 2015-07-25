@@ -84,9 +84,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     PBFeed *pbFeed = [self pbFeedWithFeed:feed];
     return pbFeed;
 }
-/*
- @param feed AVObject
- @return pbFeed with all info
+
+/**
+ *  Turn 'feed' to 'pbFeed' with all info
+ *
+ *  @param feed AVObject with class "Feed"
+ *
+ *  @return pbFeed with all info
  */
 - (PBFeed *)pbFeedWithFeed:(AVObject *)feed
 {
@@ -99,8 +103,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     for (int i=0 ; i<topics.count; i++) {
         AVObject *topic = topics[i];
-//       TODO topic = [topic fetchIfNeeded];
-        topic = [AVQuery getObjectOfClass:kTopicClassName objectId:topic.objectId];
         PBTopic *pbTopic = [[TopicService sharedInstance]pbTopicWithTopic:topic];
         [pbTopics addObject:pbTopic];
     }
@@ -207,15 +209,17 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)sharePBFeed:(PBFeed *)pbFeed block:(ServiceErrorResultBlock)block
 {
-    [self shareContent:pbFeed.text title:pbFeed.title];
+//    [self shareContent:pbFeed.text title:pbFeed.title];
 }
 #pragma mark - Utils
 //  TODO 如果只是获取消息流的feeds，不用所有信息都获取，只需获取一部分
+
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block
 {
     avQuery.maxCacheAge = kMaxCacheAge;
     avQuery.cachePolicy = kAVCachePolicyNetworkElseCache;
     [avQuery orderByDescending:kUpdatedAt];
+    [avQuery includeKey:kTopics];
     NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error==nil) {

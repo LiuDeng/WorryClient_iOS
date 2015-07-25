@@ -5,7 +5,6 @@
 //  Created by 蔡少武 on 15/5/3.
 //  Copyright (c) 2015年 jiandan. All rights reserved.
 //
-#warning topic doesn't save in cache
 #import "TopicService.h"
 
 #define kImageName              @"topicIcon.jpeg"
@@ -127,8 +126,11 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
 
 #pragma mark - Uitls
 
-/*
- *  custom the avQuery in avQueryBlock.
+/**
+ *  获得pbTopics
+ *
+ *  @param avQueryBlock 在该block中，自定义avQuery
+ *  @param block        返回pbTopics,error
  */
 - (void)getPBTopicsWithAVQueryBlock:(void (^)(AVQuery *avQuery))avQueryBlock
                            block:(ServiceArrayResultBlock)block
@@ -174,6 +176,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(TopicService)
     return [builder build];
 }
 
+//  该方法暂时不会开放给用户
 //- (void)creatTopicWithTitle:(NSString *)title
 //                      image:(UIImage *)image
 //                      block:(ServiceErrorResultBlock)block

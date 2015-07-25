@@ -41,22 +41,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WorryClient/Function/Timeline/Controller/Foundation/CommentController.m"
-            timestampString = "457950861.87492"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-clickReleaseButton"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WorryClient/Function/Timeline/Controller/Display/AnswerDetailController.m"
             timestampString = "458051614.025704"
             startingColumnNumber = "9223372036854775807"
@@ -90,12 +74,58 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WorryClient/Function/User/Service/UserService.m"
-            timestampString = "458378430.253837"
+            timestampString = "458880503.244906"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "-qqLogInWithBlock:"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "-sinaLogInWithBlock:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[UserService sinaLogInWithBlock:]_block_invoke"
+                  moduleName = "WorryClient"
+                  urlString = "file:///Users/caishaowu/GitHub_data/WorryClient_iOS/WorryClient/Function/User/Service/UserService.m"
+                  timestampString = "459477198.674986"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "155"
+                  endingLineNumber = "155"
+                  offsetFromSymbolStart = "103">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[UserService sinaLogInWithBlock:]_block_invoke_2"
+                  moduleName = "WorryClient"
+                  urlString = "file:///Users/caishaowu/GitHub_data/WorryClient_iOS/WorryClient/Function/User/Service/UserService.m"
+                  timestampString = "459477198.67549"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "155"
+                  endingLineNumber = "155"
+                  offsetFromSymbolStart = "81">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WorryClient/Function/Timeline/Controller/Display/StoryDetailController.m"
+            timestampString = "459441356.373863"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "-clickEditBtn"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
