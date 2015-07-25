@@ -117,7 +117,8 @@
     self.collectionView.showsVerticalScrollIndicator = NO;
     self.collectionView.backgroundColor = OPAQUE_COLOR(0xee, 0xee, 0xee);
     __weak typeof(self) weakSelf = self;
-    [self.collectionView addLegendHeaderWithRefreshingBlock:^{
+
+    self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 //  failed in loading data from server and cache
@@ -128,7 +129,7 @@
         }];
     }];
 
-    [self.collectionView addLegendFooterWithRefreshingBlock:^{
+    self.collectionView.footer = [MJRefreshFooter footerWithRefreshingBlock:^{
         [[TopicService sharedInstance]getMorePBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 //  failed in loading data from server and cache
@@ -160,9 +161,9 @@
 {
     self.pbTopicArray = pbObjects;
     [self.collectionView reloadData];
-    if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.collectionView.header.state != MJRefreshStateIdle) {
         [self.collectionView.header endRefreshing];
-    }else if (self.collectionView.footer.state != MJRefreshHeaderStateIdle){
+    }else if (self.collectionView.footer.state != MJRefreshStateIdle){
         [self.collectionView.footer endRefreshing];
     }
 }

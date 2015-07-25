@@ -41,7 +41,8 @@
     [super loadTableView];
     [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kStoryCell];
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+
+    self.tableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId storyFeeds:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
@@ -84,7 +85,7 @@
 
 - (void)afterRefresh
 {
-    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.tableView.header.state != MJRefreshStateIdle) {
         [self.tableView.header endRefreshing];
     }
 }

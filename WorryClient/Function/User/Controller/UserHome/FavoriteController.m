@@ -123,7 +123,8 @@
     self.storyTableView = (UITableView *)[self.holderViews objectAtIndex:1];
     
     __weak typeof(self) weakSelf = self;
-    [self.worryTableView addLegendHeaderWithRefreshingBlock:^{
+
+    self.worryTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId worryFeeds:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
@@ -134,7 +135,7 @@
         }];
     }];
     
-    [self.storyTableView addLegendHeaderWithRefreshingBlock:^{
+    self.storyTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId storyFeeds:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
@@ -150,9 +151,9 @@
 
 - (void)afterRefresh
 {
-    if (self.worryTableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.worryTableView.header.state != MJRefreshStateIdle) {
         [self.worryTableView.header endRefreshing];
-    }else if (self.storyTableView.header.state != MJRefreshHeaderStateIdle) {
+    }else if (self.storyTableView.header.state != MJRefreshStateIdle) {
         [self.storyTableView.header endRefreshing];
     }
 }

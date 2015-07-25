@@ -46,11 +46,11 @@
     [super loadTableView];
     [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kContributionCell];
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+    self.tableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         //  TODO get answers where id = pbUser.id
         [[FeedService sharedInstance]getPBAnswersFromPBUser:weakSelf.pbUser.userId block:^(NSArray *pbObjects, NSError *error) {
             if (error) {
-                //
+                POST_ERROR_MSG(@"加载失败");
             }else{
                 weakSelf.pbAnswers = pbObjects;
                 [weakSelf.tableView reloadData];

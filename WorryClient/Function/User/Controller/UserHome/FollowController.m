@@ -75,10 +75,11 @@
     self.followerTableView = (UITableView *)[self.holderViews objectAtIndex:1];
     
     __weak typeof(self) weakSelf = self;
-    [self.followeeTableView addLegendHeaderWithRefreshingBlock:^{
+
+    self.followeeTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[UserService sharedInstance]getUser:weakSelf.pbUser.userId followees:^(NSArray *pbObjects, NSError *error) {
             if (error) {
-                //
+                POST_ERROR_MSG(@"加载失败");
             }else{
                 weakSelf.pbFollowees = pbObjects;
             }
@@ -86,10 +87,10 @@
         }];
     }];
     
-    [self.followerTableView addLegendHeaderWithRefreshingBlock:^{
+    self.followerTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[UserService sharedInstance]getUser:weakSelf.pbUser.userId followers:^(NSArray *pbObjects, NSError *error) {
             if (error) {
-                //
+                POST_ERROR_MSG(@"加载失败");
             }else{
                 weakSelf.pbFollowers = pbObjects;
             }
@@ -142,9 +143,9 @@
 
 - (void)afterRefresh
 {
-    if (self.followeeTableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.followeeTableView.header.state != MJRefreshStateIdle) {
         [self.followeeTableView.header endRefreshing];
-    }else if (self.followerTableView.header.state != MJRefreshHeaderStateIdle) {
+    }else if (self.followerTableView.header.state != MJRefreshStateIdle) {
         [self.followerTableView.header endRefreshing];
     }
 }

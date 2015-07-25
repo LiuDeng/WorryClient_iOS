@@ -1,8 +1,8 @@
 PODS:
   - ActionSheetPicker-3.0 (1.5.1)
   - Aspects (1.4.1)
-  - AVOSCloud (3.1.2.6)
-  - AVOSCloudSNS (3.1.2.6):
+  - AVOSCloud (3.1.2.8)
+  - AVOSCloudSNS (3.1.2.8):
     - AVOSCloud
   - CLImageEditor (0.1.4):
     - CLImageEditor/Core (= 0.1.4)
@@ -17,12 +17,12 @@ PODS:
   - ImagePlayerView (1.0.3)
   - Masonry (0.6.2)
   - MBProgressHUD (0.9.1)
-  - MJRefresh (1.4.7)
+  - MJRefresh (2.3.2)
   - ProtocolBuffers (1.9.7)
   - RDVTabBarController (1.1.9)
-  - SDWebImage (3.7.2):
-    - SDWebImage/Core (= 3.7.2)
-  - SDWebImage/Core (3.7.2)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - THLabel (1.4.6)
   - Vertigo (0.1)
 
@@ -38,7 +38,7 @@ DEPENDENCIES:
   - ImagePlayerView
   - Masonry
   - MBProgressHUD (~> 0.9.1)
-  - MJRefresh (= 1.4.7)
+  - MJRefresh
   - ProtocolBuffers (= 1.9.7)
   - RDVTabBarController
   - SDWebImage (~> 3.7)
@@ -48,8 +48,8 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: de0f71e30495ed0192f7d16d0fddcab6882a0ca3
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  AVOSCloud: a2fc903a1aee5a346f0fb839f92617378fffd2ed
-  AVOSCloudSNS: 2310d5a478bfb31e1a2af85a93f5dcbe82d83023
+  AVOSCloud: 534bef9ffbf9d9acd7e96f74ca6faf590f4acf28
+  AVOSCloudSNS: 150f87ae8c5e0d7f49e848f220023e6c9699fbe6
   CLImageEditor: 9d388449af816729da67e68465e20462f181841d
   DLRadioButton: 99f4aba746ae10d727f885b64291d0318623fd28
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
@@ -57,10 +57,10 @@ SPEC CHECKSUMS:
   ImagePlayerView: c5db63e0548d711b16b2c7a3acae720216d0082b
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: 6b140993028fa30f1fcb88e82925a7c7911415cf
+  MJRefresh: 0f6f5e8387970607c26080b44058b229a23065d7
   ProtocolBuffers: 0682a66dec85e5a45bd53a2f44b8b987a0ba845f
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
-  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   THLabel: 27890d10123514ffe74b6e023b57b2ece55304af
   Vertigo: b971aa21e904512cfe387196ccba37df3f9a792e
 

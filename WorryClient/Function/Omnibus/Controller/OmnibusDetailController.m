@@ -104,15 +104,13 @@
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kWorryCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-//    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRefreshingAction)];
-//    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRefreshingAction)];
-    
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+
+self.tableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [weakSelf afterRefresh];
     }];
     
-    [self.tableView addLegendFooterWithRefreshingBlock:^{
+    self.tableView.footer = [MJRefreshFooter footerWithRefreshingBlock:^{
         [weakSelf afterRefresh];
     }];
 }
@@ -152,8 +150,8 @@
         make.height.equalTo(@(_collectionViewHeight));
     }];
     
-    [self.collectionView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRefreshingAction)];
-    [self.collectionView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRefreshingAction)];
+    self.collectionView.header = [MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshingAction)];
+    self.collectionView.footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshingAction)];
 }
 
 - (void)loadRecommendImageView
@@ -279,15 +277,15 @@
 
 - (void)afterRefresh
 {
-    if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.collectionView.header.state != MJRefreshStateIdle) {
         [self.collectionView.header endRefreshing];
-    }else if (self.collectionView.footer.state != MJRefreshFooterStateIdle){
+    }else if (self.collectionView.footer.state != MJRefreshStateIdle){
         [self.collectionView.footer endRefreshing];
     }
     
-    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.tableView.header.state != MJRefreshStateIdle) {
         [self.tableView.header endRefreshing];
-    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
+    }else if (self.tableView.footer.state != MJRefreshStateIdle){
         [self.tableView.footer endRefreshing];
     }
 }

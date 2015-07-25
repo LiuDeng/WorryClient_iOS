@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B71EE0E3CC3B095269BF11A0"
+               BlueprintIdentifier = "DDEEC22BFB15B0B2813808F3"
                BuildableName = "libPods-ImagePlayerView.a"
                BlueprintName = "Pods-ImagePlayerView"
                ReferencedContainer = "container:Pods.xcodeproj">

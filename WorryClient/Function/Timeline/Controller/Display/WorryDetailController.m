@@ -213,7 +213,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+    self.tableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getPBAnswersFromFeed:weakSelf.pbFeed.feedId block:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"更新失败");
@@ -311,7 +311,7 @@
 
 - (void)afterRefresh
 {
-    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.tableView.header.state != MJRefreshStateIdle) {
         [self.tableView.header endRefreshing];
     }
 }

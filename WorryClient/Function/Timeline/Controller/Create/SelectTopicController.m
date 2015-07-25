@@ -71,7 +71,8 @@
     self.collectionView.showsVerticalScrollIndicator = NO;
     
     __weak typeof(self) weakSelf = self;
-    [self.collectionView addLegendHeaderWithRefreshingBlock:^{
+
+self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"加载失败");
@@ -79,7 +80,7 @@
                 weakSelf.pbTopicArray = pbObjects;
                 [weakSelf.collectionView reloadData];
             }
-            if (weakSelf.collectionView.header.state != MJRefreshHeaderStateIdle) {
+            if (weakSelf.collectionView.header.state != MJRefreshStateIdle) {
                 [weakSelf.collectionView.header endRefreshing];
             }
         }];
@@ -139,7 +140,6 @@
 
 - (void)afterRefresh
 {
-//    self.pbTopicArray = [[TopicManager sharedInstance]pbTopicArray];
     [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
         if (error) {
             //  failed in loading data from server and cache
@@ -149,9 +149,9 @@
         }
     }];
     [self.collectionView reloadData];
-    if (self.collectionView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.collectionView.header.state != MJRefreshStateIdle) {
         [self.collectionView.header endRefreshing];
-    }else if (self.collectionView.footer.state != MJRefreshHeaderStateIdle){
+    }else if (self.collectionView.footer.state != MJRefreshStateIdle){
         [self.collectionView.footer endRefreshing];
     }
 }

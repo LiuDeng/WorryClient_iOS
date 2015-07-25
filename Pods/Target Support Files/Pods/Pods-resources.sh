@@ -47,9 +47,9 @@ install_resource()
       ;;
   esac
 }
-          install_resource "AVOSCloud/iOS/release-v3.1.2.6/AVOSCloud.framework/AVOSCloud.bundle"
+          install_resource "AVOSCloud/iOS/release-v3.1.2.8/AVOSCloud.framework/AVOSCloud.bundle"
                     install_resource "CLImageEditor/CLImageEditor/CLImageEditor.bundle"
-                    install_resource "MJRefresh/MJRefreshExample/MJRefreshExample/MJRefresh/MJRefresh.bundle"
+                    install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
                     install_resource "Vertigo/Vertigo/TGRImageViewController.xib"
           
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

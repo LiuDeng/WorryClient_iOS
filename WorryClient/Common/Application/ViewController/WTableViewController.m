@@ -25,9 +25,9 @@
 
 - (void)afterRefresh
 {
-    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.tableView.header.state != MJRefreshStateIdle) {
         [self.tableView.header endRefreshing];
-    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
+    }else if (self.tableView.footer.state != MJRefreshStateIdle){
         [self.tableView.footer endRefreshing];
     }
 }

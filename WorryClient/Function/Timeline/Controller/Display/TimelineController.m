@@ -10,7 +10,6 @@
 #import "TimelineCell.h"
 #import "Feed.pb.h"
 #import "CreateFeedController.h"
-#import "MJRefresh.h"
 #import "FeedService.h"
 #import "StoryDetailController.h"
 #import "WorryDetailController.h"
@@ -48,12 +47,6 @@
     self.navigationItem.rightBarButtonItems = @[createFeedItem,newsItem];
 }
 
-- (void)loadData
-{
-    [super loadData];
-//    self.isHideTabBar = NO;
-}
-
 #pragma mark - Private methods
 
 - (void)loadTableView
@@ -62,8 +55,10 @@
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
-        [[FeedService sharedInstance]getNewFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
+
+
+    self.tableView.footer = [MJRefreshFooter footerWithRefreshingBlock:^{
+        [[FeedService sharedInstance]getMoreFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"加载失败");
             }else{
@@ -72,9 +67,8 @@
             [weakSelf afterRefresh];
         }];
     }];
-
-    [self.tableView addLegendFooterWithRefreshingBlock:^{
-        [[FeedService sharedInstance]getMoreFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [[FeedService sharedInstance]getNewFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"加载失败");
             }else{
@@ -157,7 +151,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    return CGRectGetHeight(self.view.bounds)*0.012;
     return 16;
 }
 
@@ -184,9 +177,9 @@
 
 - (void)afterRefresh
 {
-    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
+    if (self.tableView.header.state != MJRefreshStateIdle) {
         [self.tableView.header endRefreshing];
-    }else if (self.tableView.footer.state != MJRefreshFooterStateIdle){
+    }else if (self.tableView.footer.state != MJRefreshStateIdle){
         [self.tableView.footer endRefreshing];
     }
 }
@@ -195,11 +188,6 @@
 {
     self.pbFeedArray = pbObjects;
     [self.tableView reloadData];
-//    if (self.tableView.header.state != MJRefreshHeaderStateIdle) {
-//        [self.tableView.header endRefreshing];
-//    }else if (self.tableView.footer.state != MJRefreshHeaderStateIdle){
-//        [self.tableView.footer endRefreshing];
-//    }
 }
 
 - (void)clickTopicButton:(id)sender

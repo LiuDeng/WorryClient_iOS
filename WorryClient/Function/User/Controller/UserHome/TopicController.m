@@ -41,7 +41,7 @@
     [super loadTableView];
     [self.tableView registerClass:[CommonCell class] forCellReuseIdentifier:kTopicCell];
     __weak typeof(self) weakSelf = self;
-    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+    self.tableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[TopicService sharedInstance]getUser:weakSelf.pbUser.userId topics:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
