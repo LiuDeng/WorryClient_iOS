@@ -15,45 +15,17 @@
 @implementation RecommendationService
 
 IMPLEMENT_SINGLETON_FOR_CLASS(RecommendationService)
-
-//- (void)requireRecommendationWithBlock:(ServiceErrorResultBlock)block
-//{
-//    int dataCount = 3;
-//    if (_PBRecommendationArray == nil) {
-//        _PBRecommendationArray = [[NSMutableArray alloc]init];
-//    }
-//    
-//    AVQuery *avQuery = [AVQuery queryWithClassName:kRecommendationClassName];
-//    [avQuery whereKey:kContentKey notEqualTo:@""];  //   TODO
-//    [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (error == nil) {
-//            NSUInteger count = dataCount < objects.count ? dataCount : objects.count;
-//            for (int i = 0; i < count ; i++) {
-//                AVObject *avObject = [objects objectAtIndex:i];
-//                NSString *imageUrl = [avObject objectForKey:kImageUrlKey];
-//                NSString *content = [avObject objectForKey:kContentKey];
-//                PBRecommendationBuilder *bulider = [PBRecommendation builder];
-//                [bulider setRecommendationId:avObject.objectId];
-//                [bulider setImage:imageUrl];
-//                [bulider setFeedId:content];
-//                PBRecommendation *pbRecommendation = [bulider build];
-//                [_PBRecommendationArray addObject:pbRecommendation];
-//            }
-//        }
-//        
-//        EXECUTE_BLOCK(block,error);
-//    }];
-//}
-//
-//- (NSArray *)pbRecommendationArray
-//{
-//    return _PBRecommendationArray;
-//}
-
-- (void)getRecommendationWithBlock:(ServiceArrayResultBlock)block
+/**
+ *  Get recommendations
+ *
+ *  @param block return the pbRecommendations
+ */
+- (void)getRecommendationsWithBlock:(ServiceArrayResultBlock)block
 {
     AVQuery *avQuery = [AVQuery queryWithClassName:kRecommendationClassName];
     [avQuery whereKey:kContentKey notEqualTo:@""];  //   TODO
+    avQuery.cachePolicy = kAVCachePolicyCacheElseNetwork;
+    avQuery.maxCacheAge = kMaxCacheAge;
     [avQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
         if (error == nil) {
@@ -65,7 +37,13 @@ IMPLEMENT_SINGLETON_FOR_CLASS(RecommendationService)
         EXECUTE_BLOCK(block,pbObjects,error);
     }];
 }
-
+/**
+ *  Get pbRecommendation with all info from avObject with className:Recommendation.
+ *
+ *  @param avObject AVObject with className "Recommendation"
+ *
+ *  @return pbRecommendation with all info
+ */
 - (PBRecommendation *)pbRecommendationWithAVObject:(AVObject *)avObject
 {
     NSString *imageUrl = [avObject objectForKey:kImageUrlKey];
@@ -76,7 +54,5 @@ IMPLEMENT_SINGLETON_FOR_CLASS(RecommendationService)
     [bulider setFeedId:content];
     return [bulider build];
 }
-
-
 
 @end

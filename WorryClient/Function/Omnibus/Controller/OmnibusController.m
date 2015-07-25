@@ -64,7 +64,8 @@
 //            }
 //        }
 //    }];
-    [[RecommendationService sharedInstance]getRecommendationWithBlock:^(NSArray *pbObjects, NSError *error){if (error == nil){
+    [[RecommendationService sharedInstance]getRecommendationsWithBlock:^(NSArray *pbObjects, NSError *error){
+        if (error == nil){
          self.pbRecommendationArray = pbObjects;
          if (self.imagePlayerView) {
              [self.imagePlayerView reloadData];

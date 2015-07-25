@@ -86,9 +86,9 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 }
 
 /**
- *  Turn 'feed' to 'pbFeed' with all info
+ *  Get pbFeed with all info from avObject with className:Feed.
  *
- *  @param feed AVObject with class "Feed"
+ *  @param feed AVObject with className "Feed"
  *
  *  @return pbFeed with all info
  */
