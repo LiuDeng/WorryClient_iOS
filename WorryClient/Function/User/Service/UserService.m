@@ -66,11 +66,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
           callback:(ServiceErrorResultBlock)block
 {
     [AVOSCloud verifySmsCode:code mobilePhoneNumber:phone callback:^(BOOL succeeded, NSError *error) {
-//        if (succeeded) {
-//            [self updatePhone:phone block:block]; //  可能不需要？？
-//        }else{
             EXECUTE_BLOCK(block,error);
-//        }
     }];
 }
 
