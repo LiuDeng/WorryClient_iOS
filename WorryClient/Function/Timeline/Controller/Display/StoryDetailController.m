@@ -294,7 +294,13 @@ const CGFloat strokeSize = 0.1f;
 
 - (void)clickFavoriteButton
 {
-    //  TODO
+    [[UserService sharedInstance]favoriteFeed:self.pbFeed.feedId block:^(NSError *error) {
+        if (error) {
+            POST_ERROR_MSG(@"收藏失败");
+        }else {
+            POST_SUCCESS_MSG(@"收藏成功");
+        }
+    }];
 }
 
 - (void)clickEditBtn

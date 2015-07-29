@@ -115,7 +115,10 @@
 - (void)getUser:(NSString *)userId favoriteAnswers:(ServiceArrayResultBlock)block
 {
     AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    NSArray *keys = @[kFavoriteAnswers];
+    user = (AVUser *)[user fetchIfNeededWithKeys:keys];  //  user without data can not init a relation.
     AVRelation *relation = [user relationforKey:kFavoriteAnswers];
+    
     [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
         if (error==nil) {

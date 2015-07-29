@@ -62,6 +62,7 @@
     self.scrollView.delegate = self;
     NSUInteger arrayCount = self.segmentTitles.count;
     self.scrollView.contentSize = CGSizeMake(_viewWidth * arrayCount, _scrollViewHeigth);
+    self.scrollView.scrollEnabled = NO; //  为了放在scrollView上的tableView能比较好滚动，设置scrollView不能滚动
     
     
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -163,12 +163,15 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 
 - (void)getUser:(NSString *)userId favoriteFeeds:(ServiceArrayResultBlock)block
 {
-    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    AVUser *user = (AVUser *)[AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
+    NSArray *keys = @[kFavoriteFeeds];
+    user = (AVUser *)[user fetchIfNeededWithKeys:keys];  //  user without data can not init a relation.
+    
     AVRelation *relation = [user relationforKey:kFavoriteFeeds];
     [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         NSMutableArray *pbObjects = [[NSMutableArray alloc]init];
         if (error==nil) {
-            // objects 包含了当前用户收藏的所有回答
+            // objects 包含了当前用户收藏的所有feed
             for (AVObject *object in objects) {
                 //  object -> pbObject
                 PBFeed *pbFeed = [[FeedService sharedInstance]simplePBFeedWithFeed:object];

@@ -8,7 +8,7 @@
 #import "User.pb.h"
 #import "CommonService.h"
 
-#define kUserClassName  @"User"
+#define kUserClassName  @"_User"
 #define kFavoriteAnswers    @"favoriteAnswers"
 #define kFavoriteFeeds      @"favoriteFeeds"
 #define kFollowTopic        @"followTopic"

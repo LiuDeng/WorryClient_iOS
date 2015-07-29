@@ -34,7 +34,7 @@
 #define kWorryTitle             @"心事"
 #define kContributionTitle      @"贡献"
 #define kFavoritesTitle         @"收藏"
-#define kFollowingTitle         @"关注"
+#define kFollowTitle         @"关注"
 
 @interface UserController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -74,7 +74,7 @@
     [super loadData];
 //    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kBlessingTitle,kWorryTitle,kStoryTitle,kTopicTitle];
 //    self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"user_blessing",@"worry",@"story",@"topic"];
-    self.sectionBasicItems = @[kContributionTitle,kFollowingTitle,kFavoritesTitle,kThanksTitle,kWorryTitle,kStoryTitle,kTopicTitle];
+    self.sectionBasicItems = @[kContributionTitle,kFollowTitle,kFavoritesTitle,kThanksTitle,kWorryTitle,kStoryTitle,kTopicTitle];
     self.sectionBasicImageNames = @[@"contribution",@"user_follow",@"favorites",@"thanks",@"worry",@"story",@"topic"];
     self.sectionAvatar = self.indexOfSection++;
     self.sectionBasic = self.indexOfSection++;
@@ -91,26 +91,60 @@
             [self updateBGImage];
         }else{
             UIViewController *vc;
-            NSString *title = [self.sectionBasicItems objectAtIndex:indexPath.row];
+//            NSString *title = [self.sectionBasicItems objectAtIndex:indexPath.row];
             
-            if ([title isEqualToString:kContributionTitle]) {
-                vc = [[ContributionController alloc]init];
-            }else if ([title isEqualToString:kFavoritesTitle]){
-                vc = [[FavoriteController alloc]init];
-            }else if ([title isEqualToString:kThanksTitle]){
-                vc = [[ThanksController alloc]init];
-            }else if ([title isEqualToString:kBlessingTitle]){
-                vc = [[BlessingController alloc]init];
-            }else if ([title isEqualToString:kFollowingTitle]){
-                vc = [[FollowController alloc]init];
-            }else if ([title isEqualToString:kWorryTitle]){
-                vc = [[WorryController alloc]init];
-            }else if ([title isEqualToString:kStoryTitle]){
-                vc = [[StoryController alloc]init];
-            }else if ([title isEqualToString:kTopicTitle]){
-                vc = [[TopicController alloc]init];
+            NSInteger index = indexPath.row;
+            switch (index) {
+                case 0:
+                    //  contribution
+                    vc = [[ContributionController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 1:
+                    //  follow
+                    vc = [[FollowController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 2:
+                    //  favorites
+                    vc = [[FavoriteController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 3:
+                    //  thanks
+                    vc = [[ThanksController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 4:
+                    //  worry
+                    vc = [[WorryController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 5:
+                    //  story
+                    vc = [[StoryController alloc]initWithPBUser:self.pbUser];
+                    break;
+                case 6:
+                    //  topic
+                    vc = [[TopicController alloc]initWithPBUser:self.pbUser];
+                    break;
+                default:
+                    break;
             }
-            [self.navigationController pushViewController:vc animated:YES];
+            if (vc) [self.navigationController pushViewController:vc animated:YES];
+//            if ([title isEqualToString:kContributionTitle]) {
+//                vc = [[ContributionController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kFavoritesTitle]){
+//                vc = [[FavoriteController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kThanksTitle]){
+//                vc = [[ThanksController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kBlessingTitle]){
+//                vc = [[BlessingController alloc]init];
+//            }else if ([title isEqualToString:kFollowTitle]){
+//                vc = [[FollowController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kWorryTitle]){
+//                vc = [[WorryController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kStoryTitle]){
+//                vc = [[StoryController alloc]initWithPBUser:self.pbUser];
+//            }else if ([title isEqualToString:kTopicTitle]){
+//                vc = [[TopicController alloc]initWithPBUser:self.pbUser];
+//            }
+//            [self.navigationController pushViewController:vc animated:YES];
         }
     }else{
         [self loadLogInAlertView];

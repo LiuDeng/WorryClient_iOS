@@ -11,6 +11,7 @@
 #import "FavoriteStoryCell.h"
 #import "MJRefresh.h"
 #import "FeedService.h"
+#import "FeedService+Answer.h"
 
 #define kWorryCell      @"worryCell"
 #define kStoryCell      @"storyCell"
@@ -22,7 +23,7 @@
 @property (nonatomic,strong) UITableView *storyTableView;
 @property (nonatomic,strong) UITableView *worryTableView;
 @property (nonatomic,strong) NSArray *storys;
-@property (nonatomic,strong) NSArray *worrys;
+@property (nonatomic,strong) NSArray *answers;
 @property (nonatomic,strong) PBUser *pbUser;
 
 @end
@@ -43,7 +44,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //  TODO maybe remove one of them
+    //  TODO 有可能出现一个加载成功，一个加载失败的情况，这样给用户的提示，就会出现重叠
     [self.storyTableView.header beginRefreshing];
     [self.worryTableView.header beginRefreshing];
 }
@@ -65,7 +66,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.worryTableView) {
-        return self.worrys.count;
+        return self.answers.count;
     }else{
         return self.storys.count;
     }
@@ -81,23 +82,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PBFeed *pbFeed;
-    if (tableView == self.worryTableView) {
-        pbFeed = self.worrys[indexPath.row];
-    }else{
-        pbFeed = self.storys[indexPath.row];
-    }
-    FavoriteStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:kStoryCell forIndexPath:indexPath];
-    
-//    cell.titleLabel.text = @"成绩怎么提不上去啊";
-//    cell.contentLabel.text = @"成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊成绩怎么提不上去啊";
-//        cell.thanksLabel.text = @"感谢：3";
-//        cell.commentLabel.text = @"评论：10";
-    cell.titleLabel.text = pbFeed.title;
-    cell.textLabel.text = pbFeed.text;
-    return cell;
 
+    if (tableView == self.worryTableView) {
+        PBAnswer *answer = self.answers[indexPath.row];
+        FavoriteWorryCell *cell = [tableView dequeueReusableCellWithIdentifier:kWorryCell forIndexPath:indexPath];
+        //  应该在answer里面存储forFeedTitle
+//        cell.titleLabel.text = ;
+        cell.answerLabel.text = answer.text;
+        return cell;
+    }else{
+        PBFeed *pbFeed = self.storys[indexPath.row];
+        FavoriteStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:kStoryCell forIndexPath:indexPath];
+        
+        cell.titleLabel.text = pbFeed.title;
+        cell.contentLabel.text = pbFeed.text;
+//        cell.commentLabel.text = pbFeed.comment.count;
+        
+        return cell;
+    }    
 }
+
 
 #pragma mark - Private methods
 
@@ -125,18 +129,18 @@
     __weak typeof(self) weakSelf = self;
 
     self.worryTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
-        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId worryFeeds:^(NSArray *pbObjects, NSError *error) {
+        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId favoriteAnswers:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
             }else{
-                weakSelf.worrys = pbObjects;
+                weakSelf.answers = pbObjects;
             }
             [weakSelf afterRefresh];
         }];
     }];
     
     self.storyTableView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
-        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId storyFeeds:^(NSArray *pbObjects, NSError *error) {
+        [[FeedService sharedInstance]getUser:weakSelf.pbUser.userId favoriteFeeds:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"网络慢，请稍候再试");
             }else{
@@ -153,8 +157,10 @@
 {
     if (self.worryTableView.header.state != MJRefreshStateIdle) {
         [self.worryTableView.header endRefreshing];
+        [self.worryTableView reloadData];
     }else if (self.storyTableView.header.state != MJRefreshStateIdle) {
         [self.storyTableView.header endRefreshing];
+        [self.storyTableView reloadData];
     }
 }
 @end
