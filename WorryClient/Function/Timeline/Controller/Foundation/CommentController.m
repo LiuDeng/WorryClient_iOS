@@ -67,11 +67,12 @@
     NSString *placeholder = @"请添加评论";
     self.textView = [[PlaceholderTextView alloc]initWithPlaceholder:placeholder];
     [self.view addSubview:self.textView];
-    
+    self.textView.textContainerInset = UIEdgeInsetsMake(10, 10, 0, 10);//设置页边距
+
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.view);
-        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
+        make.width.equalTo(self.view);
         make.height.equalTo(self.view).with.multipliedBy(0.5);
     }];
 }

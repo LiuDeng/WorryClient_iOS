@@ -28,6 +28,8 @@ const float kPlaceHolderTopPadding = 5.0f;
 {
     self = [super init];
     if (self) {
+        self.textContainerInset = UIEdgeInsetsMake(10, 10, 0, 10);//设置页边距
+        
         placeholderLabel=[[UILabel alloc]init];
         [self addSubview:placeholderLabel];
 

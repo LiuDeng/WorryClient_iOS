@@ -69,10 +69,11 @@
         make.top.equalTo(self.titleTextField.mas_bottom);
     }];
     
+    [self.titleTextField setValue:[NSNumber numberWithInt:5] forKey:@"paddingLeft"];    //设置左边距
     [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.centerX.equalTo(self.view);
-        make.width.equalTo(self.view).with.multipliedBy(kWidthScale);
+        make.width.equalTo(self.view);
         make.height.equalTo(self.view).with.multipliedBy(0.08);
     }];
 }
@@ -85,8 +86,7 @@
     
     [self.placeholderTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        //  +10是为了让placeholder 与 titleTextField的placeholder对齐
-        make.width.equalTo(self.view).with.multipliedBy(kWidthScale).with.offset(+10);
+        make.width.equalTo(self.view);
         make.height.equalTo(self.view).with.multipliedBy(0.3);
         make.top.equalTo(self.titleTextField.mas_bottom).with.offset(+2);
     }];
