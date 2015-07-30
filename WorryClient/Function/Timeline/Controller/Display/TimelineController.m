@@ -55,9 +55,8 @@
     [self.tableView registerClass:[TimelineCell class] forCellReuseIdentifier:kTimelineCell];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     __weak typeof(self) weakSelf = self;
-
-
-    self.tableView.footer = [MJRefreshFooter footerWithRefreshingBlock:^{
+    
+    self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getMoreFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"加载失败");
@@ -67,6 +66,7 @@
             [weakSelf afterRefresh];
         }];
     }];
+    
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [[FeedService sharedInstance]getNewFeedsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
@@ -175,14 +175,6 @@
     
 }
 
-- (void)afterRefresh
-{
-    if (self.tableView.header.state != MJRefreshStateIdle) {
-        [self.tableView.header endRefreshing];
-    }else if (self.tableView.footer.state != MJRefreshStateIdle){
-        [self.tableView.footer endRefreshing];
-    }
-}
 
 - (void)refreshPBFeedsWith:(NSArray *)pbObjects
 {
