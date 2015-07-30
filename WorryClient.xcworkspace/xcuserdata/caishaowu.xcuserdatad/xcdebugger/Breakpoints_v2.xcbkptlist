@@ -73,12 +73,12 @@
                   symbolName = "__34-[UserService sinaLogInWithBlock:]_block_invoke"
                   moduleName = "WorryClient"
                   urlString = "file:///Users/caishaowu/GitHub_data/WorryClient_iOS/WorryClient/Function/User/Service/UserService.m"
-                  timestampString = "459484149.772634"
+                  timestampString = "459959067.528895"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "151"
                   endingLineNumber = "151"
-                  offsetFromSymbolStart = "103">
+                  offsetFromSymbolStart = "18">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -87,12 +87,12 @@
                   symbolName = "__34-[UserService sinaLogInWithBlock:]_block_invoke_2"
                   moduleName = "WorryClient"
                   urlString = "file:///Users/caishaowu/GitHub_data/WorryClient_iOS/WorryClient/Function/User/Service/UserService.m"
-                  timestampString = "459484149.773126"
+                  timestampString = "459959067.529295"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "81">
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "4">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -110,6 +110,38 @@
             startingLineNumber = "300"
             endingLineNumber = "300"
             landmarkName = "-clickEditBtn"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WorryClient/Default/AppDelegate.m"
+            timestampString = "459958593.416604"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-addShareSDK"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WorryClient/Default/AppDelegate.m"
+            timestampString = "459958605.660088"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "-addShareSDK"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

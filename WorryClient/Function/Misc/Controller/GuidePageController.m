@@ -46,7 +46,7 @@
     [super loadView];
     self.navigationController.navigationBarHidden = YES;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    self.view.backgroundColor = OPAQUE_COLOR(0xff, 0xff, 0xde);
+    self.view.backgroundColor = OPAQUE_COLOR(238, 247,246);
     [self loadScollView];
     [self loadLogInButton];
     [self loadSignUpButton];
@@ -113,6 +113,8 @@
     [self.scrollView addSubview:self.logInButton];
     [self.logInButton setTitle:@"登录" forState:UIControlStateNormal];
     [self.logInButton setBackgroundColor:OPAQUE_COLOR(0xdd, 0xea, 0x1b)];
+    self 
+    self.logInButton addTarget:self action:@selector(<#selector#>) forControlEvents:<#(UIControlEvents)#>
     
     [self.logInButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).with.multipliedBy(0.9);
