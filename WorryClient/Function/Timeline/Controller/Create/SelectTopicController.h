@@ -9,11 +9,11 @@
 #import "UIViewController+Worry.h"
 
 
-typedef void (^SelectTopicBlock) (NSArray *selectedPBTopicArray);
+typedef void (^SelectTopicBlock) (NSArray *selectedTopicIds);
 
 @interface SelectTopicController : UIViewController
 
 @property (nonatomic,strong) SelectTopicBlock selectTopicBlock;
-@property (nonatomic,strong) NSMutableArray *selectedPBTopicArray;
+@property (nonatomic,strong) NSMutableArray *selectedTopicIds;
 
 @end

@@ -17,7 +17,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadView];
+        //  set up titile
+        self.titleLabel = [[UILabel alloc]init];
+        [self.contentView addSubview:self.titleLabel];
+        self.titleLabel.font = kLargeLabelFont;
     }
     return self;
 }
@@ -30,24 +33,9 @@
     self.contentView.layer.borderColor = [kLayerColor CGColor];
     self.contentView.layer.borderWidth = kLayerBorderWidth;
     
-    
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.contentView);
     }];
-}
-
-#pragma  mark - Private methods
-
-- (void)loadView
-{
-    [self loadTitleLabel];
-}
-
-- (void)loadTitleLabel
-{
-    self.titleLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:self.titleLabel];
-    self.titleLabel.font = kLargeLabelFont;
 }
 
 @end

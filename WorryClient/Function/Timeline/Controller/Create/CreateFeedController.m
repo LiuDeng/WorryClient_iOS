@@ -29,7 +29,7 @@
 @property (nonatomic,assign) PBFeedType feedType;
 @property (nonatomic,strong) DLRadioButton *storyButton;
 @property (nonatomic,strong) DLRadioButton *worryButton;
-@property (nonatomic,strong) NSArray *pbTopicArray;
+@property (nonatomic,strong) NSArray *topicIds;
 
 @end
 
@@ -40,11 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)loadView
@@ -204,7 +199,7 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
 {
     NSString *title = self.titleTextField.text;
     NSString *text = self.placeholderTextView.text;
-    NSArray *topicArray = self.pbTopicArray;
+    NSArray *topicIds = self.topicIds;
 
     BOOL isAnonymous = self.anonymousButton.selected;
     self.feedType = ([self.worryButton.selectedButton isEqual: self.worryButton]) ? PBFeedTypeWorry : PBFeedTypeStory;
@@ -213,13 +208,13 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
         POST_ERROR_MSG(@"请输入标题");
     }else if (text.length == 0){
         POST_ERROR_MSG(@"不能发表空白内容");
-    }else if (topicArray == nil || topicArray.count == 0){
+    }else if (topicIds == nil || topicIds.count == 0){
         POST_ERROR_MSG(@"请选择话题");
     }else{
         [[FeedService sharedInstance]createFeedWithTitle:title
                                                     text:text
                                              isAnonymous:isAnonymous
-                                                pbTopics:topicArray
+                                                  topics:topicIds
                                                 feedType:_feedType block:^(NSError *error) {
                                                     if (error) {
                                                         POST_ERROR_MSG(@"发表失败");
@@ -233,11 +228,10 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
 
 - (void)clickTopicButton
 {
-
     SelectTopicController *vc = [[SelectTopicController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
     vc.selectTopicBlock = ^(NSArray *selectedPBTopicArray){
-        self.pbTopicArray = selectedPBTopicArray;
+        self.topicIds = selectedPBTopicArray;
     };
 }
 
@@ -245,6 +239,5 @@ static  CGFloat buttonWithScale = 0.2;    //  refer to selection holderview
 {
     self.anonymousButton.selected = !self.anonymousButton.selected;
 }
-
 
 @end

@@ -36,7 +36,7 @@ DEFINE_SINGLETON_FOR_CLASS(FeedService)
 - (void)createFeedWithTitle:(NSString *)title
                        text:(NSString *)text
                 isAnonymous:(BOOL)isAnonymous
-                   pbTopics:(NSArray *)pbTopics
+                     topics:(NSArray *)topics
                    feedType:(PBFeedType)feedType
                       block:(ServiceErrorResultBlock)block;
 

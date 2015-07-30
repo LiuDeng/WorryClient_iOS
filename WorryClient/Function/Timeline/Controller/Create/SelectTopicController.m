@@ -28,12 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView.header beginRefreshing];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)loadView
@@ -46,7 +40,7 @@
 - (void)loadData
 {
     [super loadData];
-    self.selectedPBTopicArray = [[NSMutableArray alloc]init];
+    self.selectedTopicIds = [[NSMutableArray alloc]init];
 }
 
 #pragma mark - Private methods
@@ -72,7 +66,7 @@
     
     __weak typeof(self) weakSelf = self;
 
-self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
+    self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
         [[TopicService sharedInstance]getPBTopicsWithBlock:^(NSArray *pbObjects, NSError *error) {
             if (error) {
                 POST_ERROR_MSG(@"加载失败");
@@ -118,19 +112,13 @@ self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
 {
     SelectTopicCell *cell = (SelectTopicCell *)[collectionView cellForItemAtIndexPath:indexPath];
     PBTopic *pbTopic = self.pbTopicArray[indexPath.row];
+    NSString *topicId = pbTopic.topicId;
     
-    //  save pbTopic with basic info
-    PBTopicBuilder *pbTopicBuilder = [pbTopic builder];
-    [pbTopicBuilder clear];
-    [pbTopicBuilder setTopicId:pbTopic.topicId];
-    [pbTopicBuilder setTitle:pbTopic.title];
-    PBTopic *lightPBTopic = [pbTopicBuilder build];
-    
-    if ([self.selectedPBTopicArray containsObject:lightPBTopic]) {
-        [self.selectedPBTopicArray removeObject:lightPBTopic];
+    if ([self.selectedTopicIds containsObject:topicId]) {
+        [self.selectedTopicIds removeObject:topicId];
         cell.contentView.backgroundColor = [UIColor clearColor];
     }else{
-        [self.selectedPBTopicArray addObject:lightPBTopic];
+        [self.selectedTopicIds addObject:topicId];
         cell.contentView.backgroundColor = [UIColor greenColor];
     }
 }
@@ -158,8 +146,8 @@ self.collectionView.header = [MJRefreshHeader headerWithRefreshingBlock:^{
 
 - (void)clickSaveButton
 {
-    if (self.selectedPBTopicArray.count>0) {
-        EXECUTE_BLOCK(self.selectTopicBlock,self.selectedPBTopicArray);
+    if (self.selectedTopicIds.count>0) {
+        EXECUTE_BLOCK(self.selectTopicBlock,self.selectedTopicIds);
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         POST_ERROR_MSG(@"请至少选择一个话题");

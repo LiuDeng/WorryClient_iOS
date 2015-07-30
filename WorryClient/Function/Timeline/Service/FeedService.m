@@ -20,13 +20,22 @@ const NSInteger kDataCount = 100;
 #pragma mark - Public methods
 
 IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
-
+/**
+ *  创建feed
+ *
+ *  @param title       标题
+ *  @param text        内容
+ *  @param isAnonymous 是否匿名
+ *  @param topics      话题id数组
+ *  @param feedType    feed类型：PBFeedTypeStory，PBFeedTypeWorry
+ *  @param block       如果创建出错，会把错误返回给error
+ */
 - (void)createFeedWithTitle:(NSString *)title
-                      text:(NSString *)text
-               isAnonymous:(BOOL)isAnonymous
-                     pbTopics:(NSArray *)pbTopics
-                  feedType:(PBFeedType)feedType
-                     block:(ServiceErrorResultBlock)block
+                       text:(NSString *)text
+                isAnonymous:(BOOL)isAnonymous
+                     topics:(NSArray *)topics
+                   feedType:(PBFeedType)feedType
+                      block:(ServiceErrorResultBlock)block
 {
     AVObject *feed = [[AVObject alloc]initWithClassName:kFeedClassName];
     AVUser *avCurrentUser = [AVUser currentUser];
@@ -38,12 +47,12 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     NSNumber *anonymous = [NSNumber numberWithBool:isAnonymous];
     [feed setObject:anonymous forKey:kIsAnonymous];
     
-    NSMutableArray *topics = [[NSMutableArray alloc]init];
-    for (PBTopic *pbTopic in pbTopics) {
-        AVObject *topic = [AVQuery getObjectOfClass:kTopicClassName objectId:pbTopic.topicId];
-        [topics addObject:topic];
+    NSMutableArray *avTopics = [[NSMutableArray alloc]init];
+    for (NSString *topicId in topics) {
+        AVObject *topic = [AVObject objectWithoutDataWithClassName:kTopicClassName objectId:topicId];
+        [avTopics addObject:topic];
     }
-    [feed setObject:topics forKey:kTopics];
+    [feed setObject:avTopics forKey:kTopics];
     
     [feed saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         EXECUTE_BLOCK(block,error);
@@ -103,6 +112,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
     NSMutableArray *pbTopics = [[NSMutableArray alloc]init];
     for (int i=0 ; i<topics.count; i++) {
         AVObject *topic = topics[i];
+        topic = [topic fetchIfNeededWithKeys:@[kTitle]];
         PBTopic *pbTopic = [[TopicService sharedInstance]pbTopicWithTopic:topic];
         [pbTopics addObject:pbTopic];
     }
@@ -216,7 +226,6 @@ IMPLEMENT_SINGLETON_FOR_CLASS(FeedService)
 }
 #pragma mark - Utils
 //  TODO 如果只是获取消息流的feeds，不用所有信息都获取，只需获取一部分
-
 - (void)getFeedsWithQuery:(AVQuery *)avQuery block:(ServiceArrayResultBlock)block
 {
     avQuery.maxCacheAge = kMaxCacheAge;
