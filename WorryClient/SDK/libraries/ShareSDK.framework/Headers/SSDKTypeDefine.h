@@ -83,6 +83,18 @@ typedef NS_ENUM(NSUInteger, SSDKPlatformType){
      */
     SSDKPlatformTypeTwitter             = 11,
     /**
+     *  邮件
+     */
+    SSDKPlatformTypeMail                = 18,
+    /**
+     *  短信
+     */
+    SSDKPlatformTypeSMS                 = 19,
+    /**
+     *  拷贝
+     */
+    SSDKPlatformTypeCopy                = 21,
+    /**
      *  微信好友
      */
     SSDKPlatformSubTypeWechatSession    = 22,
@@ -162,34 +174,40 @@ typedef NS_ENUM(NSUInteger, SSDKResponseState){
 typedef NS_ENUM(NSUInteger, SSDKContentType){
     
     /**
+     *  自动适配类型，视传入的参数来决定
+     */
+    SSDKContentTypeAuto         = 0,
+    
+    /**
      *  文本
      */
-    SSDKContentTypeText         = 0,
+    SSDKContentTypeText         = 1,
     
     /**
      *  图片
      */
-    SSDKContentTypeImage        = 1,
+    SSDKContentTypeImage        = 2,
     
     /**
      *  网页
      */
-    SSDKContentTypeWebPage      = 2,
+    SSDKContentTypeWebPage      = 3,
     
     /**
      *  应用
      */
-    SSDKContentTypeApp          = 3,
+    SSDKContentTypeApp          = 4,
     
     /**
      *  音频
      */
-    SSDKContentTypeAudio        = 4,
+    SSDKContentTypeAudio        = 5,
     
     /**
      *  视频
      */
-    SSDKContentTypeVideo        = 5,
+    SSDKContentTypeVideo        = 6,
+
 };
 
 /**

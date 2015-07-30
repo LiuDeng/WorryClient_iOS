@@ -83,7 +83,7 @@
                                          images:nil
                                             url:[NSURL URLWithString:@"http://mob.com"]
                                           title:@"分享标题"
-                                           type:SSDKContentTypeImage];
+                                           type:SSDKContentTypeText];
         
         //1.1、QQ空间不支持SSDKContentTypeImage这种类型，所以需要定制下。
         [shareParams SSDKSetupQQParamsByText:@"QQ空间分享"

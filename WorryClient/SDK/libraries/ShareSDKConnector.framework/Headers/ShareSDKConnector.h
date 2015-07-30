@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ShareSDK/ShareSDK.h>
 
 /**
  *  ShareSDK连接器

@@ -130,7 +130,7 @@ IMPLEMENT_SINGLETON_FOR_CLASS(UserService)
 
 - (void)qqLogInWithBlock:(ServiceBooleanResultBlock)block
 {
-    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:kQQAppKey andAppSecret:kQQAppSecret andRedirectURI:@""];
+    [AVOSCloudSNS setupPlatform:AVOSCloudSNSQQ withAppKey:kQQAppId andAppSecret:kQQAppKey andRedirectURI:@""];
     
     [AVOSCloudSNS loginWithCallback:^(id object, NSError *error) {
         //you code here

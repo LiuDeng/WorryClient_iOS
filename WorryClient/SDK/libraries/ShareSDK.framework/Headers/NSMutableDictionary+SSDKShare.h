@@ -32,13 +32,14 @@
  *  设置分享参数
  *
  *  @param text     文本
- *  @param images   图片集合,元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage，如: @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
+ *  @param images   图片集合,传入参数可以为单张图片信息，也可以为一个NSArray，数组元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage，
+ *                  如: @"http://mob.com/Assets/images/logo.png?v=20150320" 或 @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
  *  @param url      网页路径/应用路径
  *  @param title    标题
  *  @param type     分享类型
  */
 - (void)SSDKSetupShareParamsByText:(NSString *)text
-                            images:(NSArray *)images
+                            images:(id)images
                                url:(NSURL *)url
                              title:(NSString *)title
                               type:(SSDKContentType)type;
@@ -53,7 +54,7 @@
  *  @param latitude  纬度
  *  @param longitude 经度
  *  @param objectID  对象ID，标识系统内内容唯一性，应传入系统中分享内容的唯一标识，没有时可以传入nil
- *  @param type      分享类型
+ *  @param type      分享类型，仅支持Text、Image、WebPage（客户端分享时）类型
  */
 - (void)SSDKSetupSinaWeiboShareParamsByText:(NSString *)text
                                       title:(NSString *)title
@@ -68,13 +69,14 @@
  *  设置腾讯微博分享参数
  *
  *  @param text      文本
- *  @param images    分享图片列表，元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
+ *  @param images    分享图片列表,传入参数可以为单张图片信息，也可以为一个NSArray，数组元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
+ *                   如: @"http://mob.com/Assets/images/logo.png?v=20150320" 或 @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
  *  @param latitude  纬度
  *  @param longitude 经度
- *  @param type      分享类型
+ *  @param type      分享类型, 仅支持Text、Image类型
  */
 - (void)SSDKSetupTencentWeiboShareParamsByText:(NSString *)text
-                                        images:(NSArray *)images
+                                        images:(id)images
                                       latitude:(double)latitude
                                      longitude:(double)longitude
                                           type:(SSDKContentType)type;
@@ -128,13 +130,14 @@
  *  设置Twitter分享参数
  *
  *  @param text      分享内容
- *  @param images    分享图片
+ *  @param images    分享图片列表,传入参数可以为单张图片信息，也可以为一个NSArray，数组元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
+ *                   如: @"http://mob.com/Assets/images/logo.png?v=20150320" 或 @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
  *  @param latitude  地理位置，纬度
  *  @param longitude 地理位置，经度
- *  @param type      分享类型
+ *  @param type      分享类型，仅支持Text、Image类型
  */
 - (void)SSDKSetupTwitterParamsByText:(NSString *)text
-                              images:(NSArray *)images
+                              images:(id)images
                             latitude:(double)latitude
                            longitude:(double)longitude
                                 type:(SSDKContentType)type;
@@ -147,7 +150,7 @@
  *  @param url             分享链接
  *  @param thumbImage      缩略图，可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
  *  @param image           图片，可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
- *  @param type            分享类型
+ *  @param type            分享类型, 仅支持Text（仅QQFriend）、Image（仅QQFriend）、WebPage、Audio、Video类型
  *  @param platformSubType 平台子类型，只能传入SSDKPlatformSubTypeQZone或者SSDKPlatformSubTypeQQFriend其中一个
  */
 - (void)SSDKSetupQQParamsByText:(NSString *)text
@@ -163,11 +166,51 @@
  *
  *  @param text  分享内容
  *  @param image 图片，可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
- *  @param type  分享类型
+ *  @param type  分享类型，仅支持Text、Image类型
  */
 - (void)SSDKSetupFacebookParamsByText:(NSString *)text
                                 image:(id)image
                                  type:(SSDKContentType)type;
+
+/**
+ *  设置短信分享参数
+ *
+ *  @param text        文本
+ *  @param title       标题
+ *  @param images      分享图片列表,传入参数可以为单张图片信息，也可以为一个NSArray，数组元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
+ *                   如: @"http://mob.com/Assets/images/logo.png?v=20150320" 或 @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
+ *  @param attachments 附件列表, 可以为单个附件也可以为一个数组，元素可以为NSData、UIImage、NSString、NSURL（文件路径）、SSDKData、SSDKImage，注：只允许指定本地资源
+ *  @param recipients  接收人信息，如：@[@"400-685-2216"]
+ *  @param type        分享类型，仅支持Text、Image类型
+ */
+- (void)SSDKSetupSMSParamsByText:(NSString *)text
+                           title:(NSString *)title
+                          images:(id)images
+                     attachments:(id)attachments
+                      recipients:(NSArray *)recipients
+                            type:(SSDKContentType)type;
+
+/**
+ *  设置邮件分享参数
+ *
+ *  @param text          文本
+ *  @param title         标题
+ *  @param images        分享图片列表,传入参数可以为单张图片信息，也可以为一个NSArray，数组元素可以为UIImage、NSString（图片路径）、NSURL（图片路径）、SSDKImage
+ *                   如: @"http://mob.com/Assets/images/logo.png?v=20150320" 或 @[@"http://mob.com/Assets/images/logo.png?v=20150320"]
+ *  @param attachments   附件列表, 可以为单个附件也可以为一个数组，元素可以为NSData、UIImage、NSString、NSURL（文件路径）、SSDKData、SSDKImage，注：只允许指定本地资源
+ *  @param recipients    接收人信息，如：@["tester@163.com"]
+ *  @param ccRecipients  抄送人信息，如：@["tester2@163.com"]
+ *  @param bccRecipients 密送人信息，如：@["tester3@163.com"]
+ *  @param type          分享类型，仅支持Text、Image类型
+ */
+- (void)SSDKSetupMailParamsByText:(NSString *)text
+                            title:(NSString *)title
+                           images:(id)images
+                      attachments:(id)attachments
+                       recipients:(NSArray *)recipients
+                     ccRecipients:(NSArray *)ccRecipients
+                    bccRecipients:(NSArray *)bccRecipients
+                             type:(SSDKContentType)type;
 
 
 @end
