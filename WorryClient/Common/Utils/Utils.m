@@ -8,6 +8,9 @@
 
 #import "Utils.h"
 
+#define kEverLaunched   @"everLaunched"
+#define kFirstLaunch    @"firstLaunch"
+
 @implementation Utils
 
 #pragma mark - Default methods
@@ -103,17 +106,30 @@
      * 电信：133,153,180,189
      */
     NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-    
     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
-    
-    if (([regextestmobile evaluateWithObject:checkString] == YES))
-    {
-        return YES;
+    return [regextestmobile evaluateWithObject:checkString];
+}
+/**
+ *  设置UserDefaults,改变isFirstLaunch的返回结果
+ */
++ (void)launchSetup
+{
+    //  判断是否首次启动应用
+    if ([self isFirstLaunch]) {    //  首次启动
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kEverLaunched];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kFirstLaunch];
+    }else{  //  非首次启动
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kFirstLaunch];
     }
-    else
-    {
-        return NO;
-    }
+}
+/**
+ *  判断是否首次启动
+ *
+ *  @return 是否首次启动
+ */
++ (BOOL)isFirstLaunch
+{
+    return ![[NSUserDefaults standardUserDefaults] boolForKey:kEverLaunched];
 }
 
 #pragma mark - Utils

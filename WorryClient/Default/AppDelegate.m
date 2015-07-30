@@ -14,26 +14,16 @@
 #import "ViewDefault.h"
 #import "WorryConfigManager.h"
 #import "TimelineController.h"
-
 #import <AVOSCloud/AVOSCloud.h>
-
+#import "AVOSCloudSNS.h"
+#import "GuidePageController.h"
+#import "Utils.h"
 //  ShareSDK
 #import <ShareSDK/ShareSDK.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
-#import "AVOSCloudSNS.h"
-#import "GuidePageController.h"
-
-#ifdef DEBUG
-//#import "QuickSignUpController.h"
-#import "SignUpByEmailController.h"
-#import "LogInController.h"
-
-
-#endif
-
 
 @interface AppDelegate ()
 
@@ -46,24 +36,28 @@
 #pragma mark - Default methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // setup init tab bar controller
+    //  创建window
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
+    // init and setup tab bar controller
     [self setupViewControllers];
+    //  set root view controller
     [self.window setRootViewController:self.viewController];
-    
     // show window now
     [self.window makeKeyAndVisible];
 
     //设置AVOSCloud
     [AVOSCloud setApplicationId:kAVOSCloudAppID
                       clientKey:kAVOSCloudAppKey];
-    
     //统计应用启动情况
     [AVAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
+    //  添加share SDK
     [self addShareSDK];
-//    [self loadGuidePage];
+    //  判断是否首次登录
+    if ([Utils isFirstLaunch]) {
+        [self loadGuidePage];   //  加载引导页
+    }
+    [Utils launchSetup];
+    
     return YES;
 }
 
@@ -101,6 +95,38 @@
 {
     [self.window setRootViewController:self.viewController];
 }
+- (void)addShareSDK
+{
+    /**
+     *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册，
+     *  在将生成的AppKey传入到此方法中。
+     *  方法中的第二个参数用于指定要使用哪些社交平台，以数组形式传入。第三个参数为需要连接社交平台SDK时触发，
+     *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
+     *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
+     */
+    [ShareSDK registerApp:kShareSDKAppKey
+          activePlatforms:@[@(SSDKPlatformTypeSinaWeibo)]
+                 onImport:nil
+          onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
+              
+              switch (platformType){
+                  case SSDKPlatformTypeSinaWeibo:
+                      //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+//                      [appInfo SSDKSetupSinaWeiboByAppKey:@"568898243"
+//                                                appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
+//                                              redirectUri:@"http://www.sharesdk.cn"
+//                                                 authType:SSDKAuthTypeBoth];
+                      [appInfo SSDKSetupSinaWeiboByAppKey:kWeiboAppKey
+                                                appSecret:kWeiboAppSecret
+                                              redirectUri:nil
+                                                 authType:SSDKAuthTypeBoth];
+                      break;
+                  default:
+                      break;
+              }
+              
+          }];
+}
 
 #pragma mark - Utils
 - (UINavigationController*)currentNavigationController
@@ -123,8 +149,8 @@
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     return appDelegate;
 }
-#pragma mark - Tab Bar Controller Methods
 
+#pragma mark - Tab Bar Controller Methods
 - (void)setupViewControllers {
     UIViewController *firstViewController = [[TimelineController alloc]init];
     firstViewController.title = @"心事";
@@ -179,37 +205,4 @@
         index++;
     }
 }
-
-- (void)addShareSDK
-{
-    /**
-     *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册，
-     *  在将生成的AppKey传入到此方法中。
-     *  方法中的第二个参数用于指定要使用哪些社交平台，以数组形式传入。第三个参数为需要连接社交平台SDK时触发，
-     *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
-     *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
-     */
-    [ShareSDK registerApp:kShareSDKAppKey
-          activePlatforms:@[@(SSDKPlatformTypeSinaWeibo)]
-                 onImport:nil
-          onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
-              
-              switch (platformType)
-              {
-                  case SSDKPlatformTypeSinaWeibo:
-                      //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-                      [appInfo SSDKSetupSinaWeiboByAppKey:@"568898243"
-                                                appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-                                              redirectUri:@"http://www.sharesdk.cn"
-                                                 authType:SSDKAuthTypeBoth];
-                      break;
-                  default:
-                      break;
-              }
-              
-          }];
-
-    
-}
-
 @end

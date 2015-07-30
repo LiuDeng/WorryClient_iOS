@@ -21,5 +21,6 @@
 + (NSString *)dateStringCompareTo:(int32_t)timestamp;
 + (BOOL)isValidEmail:(NSString *)checkString;
 + (BOOL)isValidMobile:(NSString *)checkString;
-
++ (void)launchSetup;
++ (BOOL)isFirstLaunch;
 @end
