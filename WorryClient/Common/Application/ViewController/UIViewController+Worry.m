@@ -75,12 +75,12 @@
     //1、创建分享参数
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     
-    NSArray* imageArray = @[[UIImage imageNamed:@"avatar_male"]];
+//    NSArray* imageArray = @[[UIImage imageNamed:@"avatar_male"]];
     
-    if (imageArray) {
-        
+//    if (imageArray) {
+    
         [shareParams SSDKSetupShareParamsByText:@"分享内容"
-                                         images:imageArray
+                                         images:nil
                                             url:[NSURL URLWithString:@"http://mob.com"]
                                           title:@"分享标题"
                                            type:SSDKContentTypeImage];
@@ -114,6 +114,7 @@
                                
                            case SSDKResponseStateBegin:
                            {
+                               //   显示加载进度条
 //                               [theController showLoadingView:YES];
                                break;
                            }
@@ -159,7 +160,7 @@
                        
                    }];
         
-    }
+//    }
     
 }
 

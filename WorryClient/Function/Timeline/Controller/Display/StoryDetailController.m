@@ -95,16 +95,16 @@ const CGFloat strokeSize = 0.1f;
     NSArray *barButtonArray = @[shareItem,favoriteItem];
     [self.navigationItem setRightBarButtonItems:barButtonArray];
     
-    
-    UIImage *navigationBGImage = [UIImage imageNamed:@"barbg64_white"];
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    NSDictionary *textAttributes = @{
-                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
-                                     NSForegroundColorAttributeName: [UIColor whiteColor],
-                                     };
-    [navigationBar setBackgroundImage:navigationBGImage forBarMetrics:UIBarMetricsDefault];
-    [navigationBar setTitleTextAttributes:textAttributes];
-    [navigationBar setTintColor:OPAQUE_COLOR(0x87, 0x87, 0x87)];
+    //  改变navigationBar的颜色
+//    UIImage *navigationBGImage = [UIImage imageNamed:@"barbg64_white"];
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    NSDictionary *textAttributes = @{
+//                                     NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+//                                     NSForegroundColorAttributeName: [UIColor whiteColor],
+//                                     };
+//    [navigationBar setBackgroundImage:navigationBGImage forBarMetrics:UIBarMetricsDefault];
+//    [navigationBar setTitleTextAttributes:textAttributes];
+//    [navigationBar setTintColor:OPAQUE_COLOR(0x87, 0x87, 0x87)];
     
 }
 
