@@ -113,8 +113,6 @@
     [self.scrollView addSubview:self.logInButton];
     [self.logInButton setTitle:@"登录" forState:UIControlStateNormal];
     [self.logInButton setBackgroundColor:OPAQUE_COLOR(0xdd, 0xea, 0x1b)];
-    self 
-    self.logInButton addTarget:self action:@selector(<#selector#>) forControlEvents:<#(UIControlEvents)#>
     
     [self.logInButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).with.multipliedBy(0.9);
