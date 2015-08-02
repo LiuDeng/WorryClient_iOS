@@ -39,9 +39,9 @@
 {
     AVObject *answer = [AVObject objectWithoutDataWithClassName:kAnswerClassName objectId:pbAnswer.answerId];
     AVObject *thanks = [AVObject objectWithClassName:kThanksClassName];
-    
+    [thanks setObject:[AVUser currentUser] forKey:kCreatedUser];
     [thanks setObject:answer forKey:kForAnswer];
-    
+
     [thanks saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         EXECUTE_BLOCK(block,error);
     }];
@@ -50,13 +50,14 @@
 //  待测试
 - (void)getUser:(NSString *)userId pbThanksArray:(ServiceArrayResultBlock)block
 {
-    AVQuery *query = [AVQuery queryWithClassName:kThanksClassName];
-    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
-    //  找到create user与user匹配的answer
+    //  找到user创建的answer
     AVQuery *answerQuery = [AVQuery queryWithClassName:kAnswerClassName];
+    AVUser *user = [AVUser objectWithoutDataWithClassName:kUserClassName objectId:userId];
     [answerQuery whereKey:kCreatedUser equalTo:user];
+    
+    AVQuery *query = [AVQuery queryWithClassName:kThanksClassName];
     //  找到forAnswer与answer匹配的thanks
-    [query whereKey:kForAnswer equalTo:answerQuery];
+    [query whereKey:kForAnswer matchesQuery:answerQuery];
     
     NSMutableArray *pbThanksArray = [[NSMutableArray alloc]init];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -67,7 +68,7 @@
             //  pbThanksArray add pbObject
             [pbThanksArray addObject:pbThanks];
         }
-        
+        EXECUTE_BLOCK(block,pbThanksArray,error);
     }];
 }
 
