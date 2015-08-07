@@ -52,15 +52,15 @@ const CGFloat strokeSize = 0.1f;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    [self customizeNavigationBar];
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self customizeNavigationBar];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)loadView
 {
     [super loadView];
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-//    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     [self loadNavigationBar];
     [self loadBGImageView];
     [self loadTitleLabel];

@@ -107,10 +107,10 @@
      *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
      */
     [ShareSDK registerApp:kShareSDKAppKey
-          activePlatforms:@[@(SSDKPlatformTypeCopy),
-                            @(SSDKPlatformTypeSinaWeibo),
+          activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),
+                            @(SSDKPlatformTypeWechat),
                             @(SSDKPlatformTypeQQ),
-                            @(SSDKPlatformTypeWechat)]
+                            @(SSDKPlatformTypeCopy)]
                  onImport:^(SSDKPlatformType platformType) {
                      
                      switch (platformType)
@@ -134,21 +134,18 @@
                       //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
                       [appInfo SSDKSetupSinaWeiboByAppKey:kWeiboAppKey
                                                 appSecret:kWeiboAppSecret
-                                              redirectUri:@"https://api.weibo.com/oauth2/default.html"
+                                              redirectUri:@"http://www.sharesdk.cn" //TODO
                                                  authType:SSDKAuthTypeBoth];
                       break;
                   case SSDKPlatformTypeWechat:
                       [appInfo SSDKSetupWeChatByAppId:kWeixinAppId
                                             appSecret:kWeixinAppSecret];
                       break;
-                  case SSDKPlatformSubTypeQZone:
                   case SSDKPlatformTypeQQ:
                       [appInfo SSDKSetupQQByAppId:kQQAppId
                                            appKey:kQQAppKey
                                          authType:SSDKAuthTypeSSO];
                       break;
-                  
-                    
                   default:
                       break;
               }
