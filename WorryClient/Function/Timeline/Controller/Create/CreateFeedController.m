@@ -52,11 +52,6 @@
     [self loadSelectionHolderView];
 }
 
-- (void)loadData
-{
-    [super loadData];
-}
-
 #pragma mark - Private methods
 - (void)loadTitleTextField
 {

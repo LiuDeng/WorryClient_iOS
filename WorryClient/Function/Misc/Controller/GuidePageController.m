@@ -24,16 +24,6 @@
 
 #pragma mark - Default methods
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -113,8 +103,6 @@
     [self.scrollView addSubview:self.logInButton];
     [self.logInButton setTitle:@"登录" forState:UIControlStateNormal];
     [self.logInButton setBackgroundColor:OPAQUE_COLOR(0xdd, 0xea, 0x1b)];
-    self 
-    self.logInButton addTarget:self action:@selector(<#selector#>) forControlEvents:<#(UIControlEvents)#>
     
     [self.logInButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).with.multipliedBy(0.9);
@@ -130,10 +118,13 @@
     [self.exploreButton setTitle:@"体验一下" forState:UIControlStateNormal];
     self.exploreButton.hidden = YES;
     self.exploreButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.exploreButton setTitleColor:kLabelGrayColor forState:UIControlStateNormal];
+    [self.exploreButton setTitleColor:kLabelGrayColor
+                             forState:UIControlStateNormal];
 //    [UIView setRoundCorner:self.exploreButton];
     [self.exploreButton setRoundCorner];
-    [self.exploreButton addTarget:self action:@selector(clickExploreButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.exploreButton addTarget:self
+                           action:@selector(clickExploreButton)
+                 forControlEvents:UIControlEventTouchUpInside];
     
     [self.exploreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view).with.multipliedBy(kRightScale);

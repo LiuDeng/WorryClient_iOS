@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView.header beginRefreshing];
+    self.selectedTopicIds = [[NSMutableArray alloc]init];
 }
 
 - (void)loadView
@@ -35,12 +36,6 @@
     [super loadView];
     [self loadCollectionView];
     [self addRightButtonWithImageName:@"create_feed_save" target:self action:@selector(clickSaveButton)];
-}
-
-- (void)loadData
-{
-    [super loadData];
-    self.selectedTopicIds = [[NSMutableArray alloc]init];
 }
 
 #pragma mark - Private methods

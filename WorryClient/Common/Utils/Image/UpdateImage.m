@@ -14,15 +14,6 @@
 #define kTakePhotoTitle         @"拍照"
 #define kCancelTitle            @"取消"
 
-#define kClippingToolTitle      @"裁剪"
-#define kAdjustmentToolTitle    @"微调"
-#define kFilterToolTitle        @"滤镜"
-#define kEffectToolTitle        @"调色"
-#define kBlurToolTitle          @"模糊"
-#define kRotateToolTitle        @"旋转"
-#define kDrawToolTitle          @"画画"
-#define kToneCureveToolTitle    @"曲线"
-
 @implementation UpdateImage
 
 - (void)showSelectionWithTitle:(NSString *)actionSheetTitle
@@ -69,41 +60,7 @@
     
     CLImageEditor *imageEditor = [[CLImageEditor alloc]initWithImage:image];
     imageEditor.delegate = self;
-    [self setImageEditorToolsWithImageEditor:imageEditor];
-//    NSLog(@"%@",imageEditor.toolInfo.toolTreeDescription);
     [picker pushViewController:imageEditor animated:YES];
-}
-
-#pragma mark - Private methods
-
-- (void)setImageEditorToolsWithImageEditor:(CLImageEditor *)imageEditor
-{
-    CLImageToolInfo *adjustToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLAdjustmentTool" recursive:NO];
-    adjustToolInfo.available = NO;
-    
-    CLImageToolInfo *toneCurveToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLToneCurveTool" recursive:NO];
-    toneCurveToolInfo.title = kToneCureveToolTitle;
-    toneCurveToolInfo.available = NO;
-    
-    CLImageToolInfo *filterToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLFilterTool" recursive:NO];
-    filterToolInfo.title = kFilterToolTitle;
-
-    CLImageToolInfo *effectToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLEffectTool" recursive:NO];
-    effectToolInfo.title = kEffectToolTitle;
-
-    CLImageToolInfo *blurToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLBlurTool" recursive:NO];
-    blurToolInfo.title = kBlurToolTitle;
-
-    CLImageToolInfo *rotateToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLRotateTool" recursive:NO];
-    rotateToolInfo.title = kRotateToolTitle;
-    rotateToolInfo.dockedNumber = 1;
-    
-    CLImageToolInfo *clippingToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLClippingTool" recursive:NO];
-    clippingToolInfo.title = kClippingToolTitle;
-    clippingToolInfo.dockedNumber = -1;
-    
-    CLImageToolInfo *drawToolInfo = [imageEditor.toolInfo subToolInfoWithToolName:@"CLDrawTool" recursive:NO];
-    drawToolInfo.title = kDrawToolTitle;
 }
 
 #pragma mark - Utils

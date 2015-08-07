@@ -77,11 +77,6 @@ const CGFloat strokeSize = 0.1f;
     [self loadEditButton];
 }
 
-- (void)loadData
-{
-    [super loadData];
-}
-
 #pragma mark - Private methods
 
 - (void)loadNavigationBar
